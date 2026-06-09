@@ -4,13 +4,15 @@
     <!-- Google tag (gtag.js) — lazy-loaded after page load -->
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-3K51DFTX3J');
-      window.addEventListener('load', function() {
-        var s = document.createElement('script');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-3K51DFTX3J");
+      window.addEventListener("load", function () {
+        var s = document.createElement("script");
         s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J';
+        s.src = "https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J";
         document.head.appendChild(s);
       });
     </script>
@@ -38,11 +40,7 @@
     <meta name="geo.region" content="BR-PR" />
     <meta name="geo.placename" content="Curitiba, Paraná" />
     <link rel="canonical" href="https://7mmstudio.com/" />
-    <link
-      rel="alternate"
-      hreflang="pt-BR"
-      href="https://7mmstudio.com/"
-    />
+    <link rel="alternate" hreflang="pt-BR" href="https://7mmstudio.com/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -85,10 +83,23 @@
     <!-- Fonts: non-blocking load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" /></noscript>
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    /></noscript>
 
     <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="images/hero/h1.webp" fetchpriority="high" type="image/webp" />
     <link rel="preload" as="image" href="images/logo_site2.png" />
     <link rel="preload" as="image" href="images/seq_arch/seq_teste_000.webp" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
@@ -310,8 +321,6 @@
       .hero-slide {
         position: absolute;
         inset: 0;
-        background-size: cover;
-        background-position: center;
         opacity: 0;
         transform: scale(1.06);
         transition:
@@ -322,6 +331,16 @@
         opacity: 1;
         transform: scale(1);
       }
+      .hero-slide picture { display: contents; }
+      .hero-slide img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+      .svc-bg picture { display: contents; }
 
       .hero-overlay {
         position: absolute;
@@ -363,8 +382,8 @@
         gap: 10px;
         padding: 16px 13px;
         border-radius: 14px;
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,255,255,0.22);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.22);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         text-decoration: none;
@@ -372,16 +391,19 @@
         position: relative;
         overflow: hidden;
         cursor: pointer;
-        transition: background 0.3s, border-color 0.3s, transform 0.3s;
+        transition:
+          background 0.3s,
+          border-color 0.3s,
+          transform 0.3s;
       }
       .hero-nav-block:hover {
-        background: rgba(255,255,255,0.18);
-        border-color: rgba(255,255,255,0.4);
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.4);
         transform: translateY(-3px);
       }
       .hero-nav-block.active {
-        background: rgba(255,255,255,0.1);
-        border-color: rgba(255,255,255,0.22);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.22);
       }
 
       .hero-nav-icon {
@@ -394,14 +416,19 @@
         justify-content: center;
         flex-shrink: 0;
         color: #000;
-        transition: transform 0.35s var(--ease), background 0.3s;
+        transition:
+          transform 0.35s var(--ease),
+          background 0.3s;
       }
       .hero-nav-block:hover .hero-nav-icon {
         transform: rotate(12deg) scale(1.12);
         background: var(--gold-d);
       }
 
-      .hero-nav-text { flex: 1; min-width: 0; }
+      .hero-nav-text {
+        flex: 1;
+        min-width: 0;
+      }
 
       .hero-nav-title {
         font-size: 13px;
@@ -414,14 +441,17 @@
       .hero-nav-sub {
         font-size: 10px;
         font-weight: 400;
-        color: rgba(255,255,255,0.5);
+        color: rgba(255, 255, 255, 0.5);
         margin-top: 3px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         max-height: 0;
         opacity: 0;
-        transition: max-height 0.35s ease, opacity 0.35s ease, margin 0.35s ease;
+        transition:
+          max-height 0.35s ease,
+          opacity 0.35s ease,
+          margin 0.35s ease;
       }
       .hero-nav-block.active .hero-nav-sub {
         max-height: 20px;
@@ -436,21 +466,41 @@
         font-size: 9px;
         font-weight: 600;
         letter-spacing: 0.18em;
-        color: rgba(255,255,255,0.3);
+        color: rgba(255, 255, 255, 0.3);
       }
 
-      .hero-nav-bar { display: none; }
+      .hero-nav-bar {
+        display: none;
+      }
 
       @media (max-width: 860px) {
-        .hero-nav { width: auto; right: 20px; gap: 6px; }
-        .hero-nav-sub { display: none; }
-        .hero-nav-block { padding: 14px 14px; gap: 10px; }
-        .hero-nav-icon { width: 34px; height: 34px; }
-        .hero-nav-title { font-size: 13px; }
+        .hero-nav {
+          width: auto;
+          right: 20px;
+          gap: 6px;
+        }
+        .hero-nav-sub {
+          display: none;
+        }
+        .hero-nav-block {
+          padding: 14px 14px;
+          gap: 10px;
+        }
+        .hero-nav-icon {
+          width: 34px;
+          height: 34px;
+        }
+        .hero-nav-title {
+          font-size: 13px;
+        }
       }
       @media (max-width: 540px) {
-        .hero-nav { display: none; }
-        .hero { padding-bottom: 80px; }
+        .hero-nav {
+          display: none;
+        }
+        .hero {
+          padding-bottom: 80px;
+        }
       }
 
       .hero h1 {
@@ -488,7 +538,6 @@
           transform: translateY(0);
         }
       }
-
 
       /* ── WEB STATEMENT ── */
       .web-statement {
@@ -557,7 +606,7 @@
       /* Bento grid */
       .services-bento {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         grid-template-rows: 340px 340px;
         gap: 0;
         overflow: hidden;
@@ -573,27 +622,27 @@
 
       /* posições individuais */
       .svc-web {
-        grid-column: 1 / 3;
+        grid-column: 1 / 2;
         grid-row: 1 / 3;
       }
       .svc-ai {
-        grid-column: 3 / 4;
+        grid-column: 2 / 3;
         grid-row: 1 / 2;
       }
       .svc-arch {
-        grid-column: 3 / 4;
+        grid-column: 2 / 3;
         grid-row: 2 / 3;
       }
       .svc-real {
-        grid-column: 4 / 5;
+        grid-column: 3 / 4;
         grid-row: 1 / 3;
       }
       .svc-vr {
-        grid-column: 5 / 6;
+        grid-column: 4 / 5;
         grid-row: 1 / 2;
       }
       .svc-voz {
-        grid-column: 5 / 6;
+        grid-column: 4 / 5;
         grid-row: 2 / 3;
       }
 
@@ -675,29 +724,6 @@
         max-width: 340px;
       }
 
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 7px;
-      }
-
-      .tag {
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 100px;
-        padding: 5px 11px;
-        font-size: 0.74rem;
-        color: rgba(255, 255, 255, 0.55);
-        letter-spacing: 0.04em;
-        transition:
-          border-color 0.25s,
-          color 0.25s;
-      }
-
-      .svc-card:hover .tag {
-        border-color: rgba(184, 156, 110, 0.35);
-        color: rgba(255, 255, 255, 0.75);
-      }
-
       /* Cards especiais — fundo dourado sólido */
       .svc-card--special {
         background: var(--gold);
@@ -741,17 +767,7 @@
         font-weight: 400;
         color: rgba(26, 18, 0, 0.62);
         line-height: 1.8;
-        margin-bottom: 16px;
-      }
-
-      .tag.tag-special {
-        border-color: rgba(26, 18, 0, 0.16);
-        color: rgba(26, 18, 0, 0.55);
-      }
-
-      .svc-card--special:hover .tag.tag-special {
-        border-color: rgba(26, 18, 0, 0.3);
-        color: rgba(26, 18, 0, 0.75);
+        margin-bottom: 0;
       }
 
       /* ── PORTFÓLIO 2×2 ── */
@@ -1404,37 +1420,50 @@
     <!-- ── HERO ── -->
     <section class="hero" id="hero" aria-label="Início">
       <div class="hero-bg" id="heroBg">
-        <div
-          class="hero-slide active"
-          style="background-image: url(&quot;images/hero/h1.jpg&quot;)"
-        ></div>
-        <div
-          class="hero-slide"
-          style="background-image: url(&quot;images/hero/h2.jpg&quot;)"
-        ></div>
-        <div
-          class="hero-slide"
-          style="background-image: url(&quot;images/hero/h3.jpg&quot;)"
-        ></div>
-        <div
-          class="hero-slide"
-          style="background-image: url(&quot;images/hero/h4.jpg&quot;)"
-        ></div>
-        <div
-          class="hero-slide"
-          style="background-image: url(&quot;images/hero/h5.jpg&quot;)"
-        ></div>
-        <div
-          class="hero-slide"
-          style="background-image: url(&quot;images/hero/h6.jpg&quot;)"
-        ></div>
-        <div
-          class="hero-slide"
-          style="background-image: url(&quot;images/hero/h7.jpg&quot;)"
-        ></div>
+        <div class="hero-slide active">
+          <picture>
+            <source srcset="images/hero/h1.webp" type="image/webp" />
+            <img src="images/hero/h1.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" width="1920" height="1072" />
+          </picture>
+        </div>
+        <div class="hero-slide">
+          <picture>
+            <source srcset="images/hero/h2.webp" type="image/webp" />
+            <img src="images/hero/h2.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1072" />
+          </picture>
+        </div>
+        <div class="hero-slide">
+          <picture>
+            <source srcset="images/hero/h3.webp" type="image/webp" />
+            <img src="images/hero/h3.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1072" />
+          </picture>
+        </div>
+        <div class="hero-slide">
+          <picture>
+            <source srcset="images/hero/h4.webp" type="image/webp" />
+            <img src="images/hero/h4.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1072" />
+          </picture>
+        </div>
+        <div class="hero-slide">
+          <picture>
+            <source srcset="images/hero/h5.webp" type="image/webp" />
+            <img src="images/hero/h5.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1072" />
+          </picture>
+        </div>
+        <div class="hero-slide">
+          <picture>
+            <source srcset="images/hero/h6.webp" type="image/webp" />
+            <img src="images/hero/h6.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1072" />
+          </picture>
+        </div>
+        <div class="hero-slide">
+          <picture>
+            <source srcset="images/hero/h7.webp" type="image/webp" />
+            <img src="images/hero/h7.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1072" />
+          </picture>
+        </div>
       </div>
       <div class="hero-overlay"></div>
-
 
       <div class="hero-tr">
         <a
@@ -1472,9 +1501,22 @@
           aria-label="Ver demonstração do produto"
         >
           <span class="btn-demo-icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/>
-              <polygon fill="white" stroke="none" points="10,8.5 17,12 10,15.5"/>
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <polygon
+                fill="white"
+                stroke="none"
+                points="10,8.5 17,12 10,15.5"
+              />
             </svg>
           </span>
           Testar Demos
@@ -1503,6 +1545,8 @@
         src="images/logo_site2.png"
         alt="7mm creative Studio"
         class="hero-logo"
+        width="502"
+        height="102"
       />
 
       <h1 data-i18n="hero-h1">
@@ -1532,9 +1576,19 @@
       <nav class="hero-nav" aria-label="Navegação rápida">
         <a class="hero-nav-block active" href="#services" data-nav="0">
           <div class="hero-nav-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-              <path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
             </svg>
           </div>
           <div class="hero-nav-text">
@@ -1547,8 +1601,19 @@
 
         <a class="hero-nav-block" href="#contact" data-nav="2">
           <div class="hero-nav-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+              />
             </svg>
           </div>
           <div class="hero-nav-text">
@@ -1572,12 +1637,10 @@
         <!-- Websites — card grande (2×2) -->
         <article class="svc-card svc-web reveal">
           <div class="svc-bg">
-            <img
-              src="images/hero/h3.jpg"
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-            />
+            <picture>
+              <source srcset="images/capa_website.webp" type="image/webp" />
+              <img src="images/capa_website.jpg" alt="" aria-hidden="true" loading="lazy" />
+            </picture>
           </div>
           <div class="svc-content">
             <span class="svc-num">01</span>
@@ -1587,10 +1650,6 @@
                 Sites, landing pages e launching pages com alto impacto visual,
                 feitos para converter.
               </p>
-              <div class="tags">
-                <span class="tag">Landing pages</span>
-                <span class="tag">Websites</span>
-              </div>
             </div>
           </div>
         </article>
@@ -1603,23 +1662,19 @@
           <div>
             <h3 data-i18n="svc-ai-h3">AI Creative Interface</h3>
             <p data-i18n="svc-ai-p">
-              IA integrada ao site. Gera imagens, responde perguntas e
+              IA integrada ao seu site. Gera imagens, responde perguntas e
               personaliza a experiência em tempo real.
             </p>
-            <div class="tags">
-              <span class="tag tag-special">Generative AI</span>
-            </div>
           </div>
         </article>
 
         <!-- Archviz -->
         <article class="svc-card svc-arch reveal reveal-delay-2">
           <div class="svc-bg">
-            <img
-              src="images/hero/h5.jpg"
-              alt="Archviz interativo para projetos de arquitetura"
-              loading="lazy"
-            />
+            <picture>
+              <source srcset="images/hero/h5.webp" type="image/webp" />
+              <img src="images/hero/h5.jpg" alt="Archviz interativo para projetos de arquitetura" loading="lazy" />
+            </picture>
           </div>
           <div class="svc-content">
             <span class="svc-num">02</span>
@@ -1629,10 +1684,6 @@
                 Maquete interativa navegável no navegador, ideal para
                 arquitetos, incorporadoras e construtoras.
               </p>
-              <div class="tags">
-                <span class="tag">Walkthroughs</span>
-                <span class="tag">360 Viewer</span>
-              </div>
             </div>
           </div>
         </article>
@@ -1640,12 +1691,10 @@
         <!-- Realtime — card alto (1×2) -->
         <article class="svc-card svc-real reveal reveal-delay-1">
           <div class="svc-bg">
-            <img
-              src="images/hero/h7.jpg"
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-            />
+            <picture>
+              <source srcset="images/hero/h7.webp" type="image/webp" />
+              <img src="images/hero/h7.jpg" alt="" aria-hidden="true" loading="lazy" />
+            </picture>
           </div>
           <div class="svc-content">
             <span class="svc-num"></span>
@@ -1654,10 +1703,6 @@
               <p data-i18n="svc-real-p">
                 Visualização interativa com qualidade de cinema, em tempo real.
               </p>
-              <div class="tags">
-                <span class="tag">Unreal Engine</span>
-                <span class="tag">Interactive</span>
-              </div>
             </div>
           </div>
         </article>
@@ -1665,11 +1710,10 @@
         <!-- VR & AR -->
         <article class="svc-card svc-vr reveal reveal-delay-2">
           <div class="svc-bg">
-            <img
-              src="images/Portfolio_004.jpg"
-              alt="VR e AR para experiências virtuais imersivas"
-              loading="lazy"
-            />
+            <picture>
+              <source srcset="images/Portfolio_004.webp" type="image/webp" />
+              <img src="images/Portfolio_004.jpg" alt="VR e AR para experiências virtuais imersivas" loading="lazy" width="1920" height="1071" />
+            </picture>
           </div>
           <div class="svc-content">
             <span class="svc-num"></span>
@@ -1679,11 +1723,6 @@
                 O cliente visita o projeto antes de ser construído, com imersão
                 total em VR ou AR.
               </p>
-              <div class="tags">
-                <span class="tag">VR/AR</span>
-                <span class="tag">Imersive</span>
-                <span class="tag">Interactive</span>
-              </div>
             </div>
           </div>
         </article>
@@ -1699,14 +1738,10 @@
               Navegação por voz em quiosques, eventos e experiências
               presenciais.
             </p>
-            <div class="tags">
-              <span class="tag tag-special">AI Voice Agent</span>
-            </div>
           </div>
         </article>
       </div>
     </section>
-
 
     <!-- ── WEB-FIRST STATEMENT ── -->
     <section class="web-statement reveal" aria-label="Tecnologia web">
@@ -1897,7 +1932,7 @@
               sideNav.style.opacity = entry.isIntersecting ? "0" : "";
               sideNav.style.pointerEvents = entry.isIntersecting ? "none" : "";
             },
-            { threshold: 0.1 }
+            { threshold: 0.1 },
           ).observe(heroSection);
         }
 
@@ -1937,10 +1972,10 @@
             "svc-arch-p":
               "Maquete interativa direto no navegador. Sem app, sem plugin.",
             "svc-real-h3": "Realtime & Unreal Engine",
-            "svc-real-p":
-              "Qualidade de cinema, em tempo real.",
+            "svc-real-p": "Qualidade de cinema, em tempo real.",
             "svc-vr-h3": "VR & AR",
-            "svc-vr-p": "Visite o projeto antes de construir. VR ou AR, imersão total.",
+            "svc-vr-p":
+              "Visite o projeto antes de construir. VR ou AR, imersão total.",
             "svc-voz-badge": "VOZ",
             "svc-voz-h3": "Voice Interfaces",
             "svc-voz-p":
@@ -1949,15 +1984,15 @@
             "seq-btn-aerial": "Aéreo",
             "seq-btn-living": "Living",
             "cta-label": "Iniciar Projeto",
-            "cta-h2":
-              "Tem um projeto em mente? A gente entrega.",
+            "cta-h2": "Tem um projeto em mente? A gente entrega.",
             "cta-p":
               "Arquitetura, incorporação, produto. A experiência digital certa.",
             "nav-inicio": "Início",
             "nav-servicos": "Serviços",
             "nav-interatividade": "Interatividade",
             "nav-contato": "Contato",
-            footer: "7mm creative Studio © 2026 · Todos os direitos reservados.",
+            footer:
+              "7mm creative Studio © 2026 · Todos os direitos reservados.",
             "poi-aerial-0-title": "Torre Residencial",
             "poi-aerial-0-desc":
               "Rooftop com piscina. Vista 360° da baía e da cidade.",
@@ -1995,13 +2030,12 @@
             "svc-ai-p":
               "AI on your site. Generates images, answers questions, personalizes in real time.",
             "svc-arch-h3": "Interactive Archviz",
-            "svc-arch-p":
-              "Browser-based interactive model. No app, no plugin.",
+            "svc-arch-p": "Browser-based interactive model. No app, no plugin.",
             "svc-real-h3": "Realtime & Unreal Engine",
-            "svc-real-p":
-              "Cinematic quality, in real time.",
+            "svc-real-p": "Cinematic quality, in real time.",
             "svc-vr-h3": "VR & AR",
-            "svc-vr-p": "Walk through the project before it's built. Full immersion in VR or AR.",
+            "svc-vr-p":
+              "Walk through the project before it's built. Full immersion in VR or AR.",
             "svc-voz-badge": "VOICE",
             "svc-voz-h3": "Voice Interfaces",
             "svc-voz-p":
@@ -2010,8 +2044,7 @@
             "seq-btn-aerial": "Aerial",
             "seq-btn-living": "Living",
             "cta-label": "Start a Project",
-            "cta-h2":
-              "Have a project in mind? Let's build it.",
+            "cta-h2": "Have a project in mind? Let's build it.",
             "cta-p":
               "Architecture, real estate, product. The right digital experience.",
             "nav-inicio": "Home",
@@ -2080,7 +2113,8 @@
             "nav-servicos": "Servicios",
             "nav-interatividade": "Interactividad",
             "nav-contato": "Contacto",
-            footer: "7mm creative Studio © 2026 · Todos los derechos reservados.",
+            footer:
+              "7mm creative Studio © 2026 · Todos los derechos reservados.",
             "poi-aerial-0-title": "Torre Residencial",
             "poi-aerial-0-desc":
               "Desarrollo de alto estándar con piscina en el rooftop y vista 360° de la bahía y la ciudad.",
@@ -2225,8 +2259,8 @@
       const SLIDE_DURATION = 5000;
 
       const navBlocks = document.querySelectorAll(".hero-nav-block");
-      const navBars   = document.querySelectorAll(".hero-nav-bar");
-      let activeNav   = 0;
+      const navBars = document.querySelectorAll(".hero-nav-bar");
+      let activeNav = 0;
 
       function activateNav(idx) {
         navBlocks.forEach((b, i) => {
@@ -2266,24 +2300,42 @@
 
     <!-- ── GA Event Tracking ──────────────────────────────── -->
     <script>
-      function track(name, params) { window.gtag && gtag('event', name, params || {}); }
+      function track(name, params) {
+        window.gtag && gtag("event", name, params || {});
+      }
 
       // WhatsApp
-      document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
-        a.addEventListener('click', function() {
-          track('whatsapp_click', { local: (a.closest('section,div') || {}).className || '' });
+      document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
+        a.addEventListener("click", function () {
+          track("whatsapp_click", {
+            local: (a.closest("section,div") || {}).className || "",
+          });
         });
       });
 
       // Scroll depth
-      (function() {
+      (function () {
         var f = {};
-        window.addEventListener('scroll', function() {
-          var d = document.documentElement;
-          var p = Math.round((d.scrollTop || window.scrollY) / (d.scrollHeight - d.clientHeight) * 100);
-          if (p >= 50 && !f[50]) { f[50] = 1; track('scroll_50'); }
-          if (p >= 90 && !f[90]) { f[90] = 1; track('scroll_90'); }
-        }, { passive: true });
+        window.addEventListener(
+          "scroll",
+          function () {
+            var d = document.documentElement;
+            var p = Math.round(
+              ((d.scrollTop || window.scrollY) /
+                (d.scrollHeight - d.clientHeight)) *
+                100,
+            );
+            if (p >= 50 && !f[50]) {
+              f[50] = 1;
+              track("scroll_50");
+            }
+            if (p >= 90 && !f[90]) {
+              f[90] = 1;
+              track("scroll_90");
+            }
+          },
+          { passive: true },
+        );
       })();
     </script>
   </body>
