@@ -23,19 +23,25 @@
     <meta name="twitter:title" content="Tour Exterior Interativo — 7mm creative Studio" />
     <meta name="twitter:description" content="Navegue pelo empreendimento antes da visita ao estande — tour archviz imersivo com vistas aérea, piscina, living e jardim." />
     <meta name="twitter:image" content="https://7mmstudio.com/images/og_firstperson.jpg" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"></script>
+    <!-- Google tag (gtag.js) — lazy-loaded after page load -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag("js", new Date());
       gtag("config", "G-3K51DFTX3J");
+      window.addEventListener('load', function() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J';
+        document.head.appendChild(s);
+      });
     </script>
     <link rel="preload" href="images/seq_arch/aereo_to_piscina_00.jpg" as="image" />
     <link rel="preload" href="images/1.webm" as="video" type="video/webm" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" /></noscript>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
