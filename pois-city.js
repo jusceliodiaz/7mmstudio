@@ -13,8 +13,7 @@ if (isCityTouch) {
     #city-m-modal {
       display: none; position: fixed; inset: 0; z-index: 9000;
       align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.45); backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px); padding: 24px;
+      padding: 24px; pointer-events: none;
     }
     #city-m-modal.open { display: flex; }
     #city-m-card {
@@ -22,6 +21,7 @@ if (isCityTouch) {
       background: rgba(235,235,232,0.97); border: 1px solid rgba(255,255,255,0.45);
       box-shadow: 0 0 0 0.5px rgba(255,255,255,0.5) inset, 0 20px 60px rgba(0,0,0,0.35);
       max-height: 80vh; overflow-y: auto; overscroll-behavior: contain;
+      pointer-events: auto;
     }
     #city-m-card .popup-img-wrap { cursor: default; height: 180px; }
     @keyframes cityMIn { from { opacity:0; transform: translateY(14px) scale(0.97); } to { opacity:1; transform:none; } }
@@ -85,32 +85,51 @@ function buildCityPopup(poi) {
   const popup = document.createElement('div');
   popup.className = 'city-popup';
   popup.id = 'city-popup-' + poi.id;
-  const imgSrc  = poi.img  || 'images/POI_001.jpg';
-  const panoSrc = poi.panorama360 || null;
 
-  popup.innerHTML = `
-    <div class="popup-img-wrap" data-drag="true">
-      <img class="popup-img" src="${imgSrc}" alt="${poi.title}" draggable="false">
-      <button class="popup-close-btn" onclick="cityClosePopup('${poi.id}')">
-        <svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-          <line x1="1" y1="1" x2="7" y2="7"/><line x1="7" y1="1" x2="1" y2="7"/>
-        </svg>
-      </button>
-    </div>
-    <div class="popup-body">
-      <div class="popup-tag">${poi.tag || ''}</div>
-      <div class="popup-title">${poi.title}</div>
-      <div class="popup-desc">${poi.desc || ''}</div>
-      ${panoSrc ? `
-      <button class="popup-360-btn" onclick="cityOpenPano('${panoSrc}')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
-          <path d="M3.6 9h16.8M3.6 15h16.8M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/>
-        </svg>
-        View 360°
-      </button>` : ''}
-    </div>
-  `;
+  const closeSvg = `<svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="7" y2="7"/><line x1="7" y1="1" x2="1" y2="7"/></svg>`;
+  const isLobby = poi.label === 'Lobby';
+
+  if (isLobby) {
+    const imgSrc  = poi.img || 'images/POI_001.jpg';
+    const panoSrc = poi.panorama360 || null;
+    popup.innerHTML = `
+      <div class="popup-img-wrap" data-drag="true">
+        <img class="popup-img" src="${imgSrc}" alt="${poi.title}" draggable="false">
+        <button class="popup-close-btn" onclick="cityClosePopup('${poi.id}')">${closeSvg}</button>
+      </div>
+      <div class="popup-body">
+        <div class="popup-tag">${poi.tag || ''}</div>
+        <div class="popup-title">${poi.title}</div>
+        <div class="popup-desc">${poi.desc || ''}</div>
+        ${panoSrc ? `
+        <button class="popup-360-btn" onclick="cityOpenPano('${panoSrc}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+            <path d="M3.6 9h16.8M3.6 15h16.8M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/>
+          </svg>
+          View 360°
+        </button>` : ''}
+      </div>
+    `;
+  } else {
+    const svgCar  = `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.92 6C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-6zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>`;
+    const svgWalk = `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L7.3 6.8v4.7h2V8.1l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg>`;
+    popup.classList.add('city-popup--simple');
+    const times = (poi.carTime || poi.walkTime) ? `
+      <div class="popup-times">
+        ${poi.carTime  ? `<div class="popup-time-item">${svgCar}  ${poi.carTime}</div>`  : ''}
+        ${poi.walkTime ? `<div class="popup-time-item">${svgWalk} ${poi.walkTime}</div>` : ''}
+      </div>` : '';
+    popup.innerHTML = `
+      <div class="city-popup-simple-body" data-drag="true">
+        <button class="popup-close-btn" onclick="cityClosePopup('${poi.id}')">${closeSvg}</button>
+        <div class="popup-tag">${poi.tag || ''}</div>
+        <div class="popup-title">${poi.title}</div>
+        <div class="popup-desc">${poi.desc || ''}</div>
+        ${times}
+      </div>
+    `;
+  }
 
   document.body.appendChild(popup);
   makeCityDraggable(popup);

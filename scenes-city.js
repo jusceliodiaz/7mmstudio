@@ -34,16 +34,16 @@ const CONFIG = {
     aereo: {
       video: "images/dia_low.webm",
       pois: [
-        { id: "pan-1", label: "Parking",  x: 51.4, y: 37.9, tag: "Infrastructure · Basement",    title: "Parking",       desc: "Covered underground parking with spaces for residents and visitors, with automatic gate and license plate recognition.", panorama360: "images/XP_NPL_360_2.jpeg" },
-        { id: "pan-2", label: "Park",     x: 13.8, y: 65.2, tag: "Leisure · Park",               title: "Park",          desc: "Gathering space with playground, courts and picnic area integrated into the landscaping.", panorama360: "images/XP_NPL_360_2.jpeg" },
-        { id: "pan-3", label: "Building", x: 59.1, y: 57.1, tag: "Residential · Main Block",     title: "Building",      desc: "Residential tower with 28 floors and panoramic views. Units from 68m² to 220m² with floor-to-ceiling glazing.", panorama360: "images/XP_NPL_360_2.jpeg" },
+        { id: "pan-1", label: "Parking",  x: 51.4, y: 37.9, tag: "Infrastructure · Basement",    title: "Parking",       desc: "Covered underground parking with spaces for residents and visitors, with automatic gate and license plate recognition.", carTime: "2 min", walkTime: "3 min" },
+        { id: "pan-2", label: "Park",     x: 13.8, y: 65.2, tag: "Leisure · Park",               title: "Park",          desc: "Gathering space with playground, courts and picnic area integrated into the landscaping.", carTime: "3 min", walkTime: "5 min" },
+        { id: "pan-3", label: "Building", x: 59.1, y: 57.1, tag: "Residential · Main Block",     title: "Building",      desc: "Residential tower with 28 floors and panoramic views. Units from 68m² to 220m² with floor-to-ceiling glazing.", carTime: "5 min", walkTime: "8 min" },
         { id: "pan-4", label: "Lobby",    x: 64.6, y: 71.0, tag: "Access · Entrance",            title: "Lobby",         desc: "24h access-controlled lobby with glazed hall and integrated biometric system.", panorama360: "images/XP_NPL_360_2.jpeg" },
       ],
     },
     pool: {
       video: "images/estacionamento.webm",
       pois: [
-        { id: "est-1", label: "Parking", x: 48.7, y: 59.7, tag: "Infrastructure · Basement", title: "Vehicle Access", desc: "Dedicated entrance with automatic gate and app-based license plate recognition.", panorama360: "images/XP_NPL_360_2.jpeg" },
+        { id: "est-1", label: "Parking", x: 48.7, y: 59.7, tag: "Infrastructure · Basement", title: "Vehicle Access", desc: "Dedicated entrance with automatic gate and app-based license plate recognition.", carTime: "2 min", walkTime: "3 min" },
       ],
     },
     living: {
@@ -61,7 +61,7 @@ const CONFIG = {
     kitchen: {
       video: "images/parque.webm",
       pois: [
-        { id: "parq-1", label: "Park", x: 53.6, y: 58.6, tag: "Leisure · Park", title: "Park", desc: "Gathering space with playground, courts and picnic area integrated into the landscaping.", panorama360: "images/XP_NPL_360_2.jpeg" },
+        { id: "parq-1", label: "Park", x: 53.6, y: 58.6, tag: "Leisure · Park", title: "Park", desc: "Gathering space with playground, courts and picnic area integrated into the landscaping.", carTime: "3 min", walkTime: "5 min" },
       ],
     },
   },

@@ -303,31 +303,31 @@ html, body {
     left: 50%;
     right: auto;
     transform: translateX(-50%);
-    border-radius: 14px;
-    padding: 6px 3px;
+    border-radius: 18px;
+    padding: 8px 4px;
   }
   #track-pts {
     flex-direction: row;
-    gap: 1px;
+    gap: 2px;
   }
   .t-pt {
     cursor: pointer;
-    min-width: 32px;
-    max-width: 32px;
-    height: 32px;
-    min-height: 32px;
-    padding: 0 .15rem;
+    min-width: 42px;
+    max-width: 42px;
+    height: 42px;
+    min-height: 42px;
+    padding: 0 .2rem;
     flex-shrink: 0;
-    border-radius: 9px;
+    border-radius: 12px;
   }
-  .t-pt svg { width: 15px; height: 15px; }
-  .t-label { font-size: 10px; }
+  .t-pt svg { width: 20px; height: 20px; }
+  .t-label { font-size: 13px; }
   .t-pt.active {
-    max-width: 115px;
-    padding: 0 .4rem;
+    max-width: 150px;
+    padding: 0 .5rem;
   }
   .poi { cursor: pointer; }
-  .poi-btn { width: 40px; height: 40px; }
+  .poi-btn { width: 28px; height: 28px; }
   /* Expande área de toque do POI sem alterar visual */
   .poi::before {
     content: '';
