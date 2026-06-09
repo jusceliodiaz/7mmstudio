@@ -1319,9 +1319,26 @@
       }
       /* touch targets maiores no mobile */
       @media (hover: none) {
+        .seq-scrub {
+          top: 80px;
+        }
+        .seq-pins {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          isolation: isolate;
+        }
+        .poi-pin {
+          isolation: isolate;
+        }
         .poi-dot {
           width: 44px;
           height: 44px;
+          background-color: #fff;
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+        }
+        .poi-pin.active .poi-dot {
+          background-color: var(--gold);
         }
       }
 
@@ -1359,24 +1376,6 @@
     </style>
   </head>
   <body>
-    <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
-      <button
-        class="lang-btn active"
-        data-lang="pt"
-        aria-label="Português (Brasil)"
-        title="Português"
-      >
-        PT
-      </button>
-      <button
-        class="lang-btn"
-        data-lang="en"
-        aria-label="English (US)"
-        title="English"
-      >
-        EN
-      </button>
-    </div>
 
     <a href="fi-preview.html#admin" class="back-btn">
       <svg
@@ -1765,7 +1764,7 @@
         if (!canvas || !video) return;
         const ctx = canvas.getContext("2d", { alpha: false });
 
-        const SEQ_FOLDER = MOBILE ? "images/seq_arch_m/" : "images/seq_arch/";
+        const SEQ_FOLDER = "images/seq_arch/";
         const LP_SEQ = {
           "aereo-to-living": {
             prefix: "launch_",
