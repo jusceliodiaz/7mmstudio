@@ -1326,23 +1326,14 @@
         .back-btn span {
           display: none;
         }
-        .seq-pins {
-          -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-          isolation: isolate;
-        }
-        .poi-pin {
-          isolation: isolate;
+        .seq-sticky {
+          overflow: visible;
+          -webkit-clip-path: inset(0);
+          clip-path: inset(0);
         }
         .poi-dot {
           width: 44px;
           height: 44px;
-          background-color: #fff;
-          -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-        }
-        .poi-pin.active .poi-dot {
-          background-color: var(--gold);
         }
       }
 
