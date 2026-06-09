@@ -1288,9 +1288,7 @@
         z-index: 9000;
         align-items: center;
         justify-content: center;
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
+        background: rgba(0, 0, 0, 0.55);
         padding: 24px;
         touch-action: manipulation;
       }
@@ -1301,10 +1299,8 @@
         width: min(90vw, 340px);
         border-radius: 20px;
         overflow: hidden;
-        background: rgba(195, 195, 195, 0.32);
-        border: 1px solid rgba(255, 255, 255, 0.45);
-        backdrop-filter: blur(40px) saturate(1.8);
-        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        background: #ebebea;
+        border: 1px solid rgba(0, 0, 0, 0.06);
         box-shadow:
           0 0 0 0.5px rgba(255, 255, 255, 0.5) inset,
           0 20px 60px rgba(0, 0, 0, 0.35);
@@ -1331,13 +1327,6 @@
         }
         .back-btn span {
           display: none;
-        }
-        .seq-sticky {
-          overflow: visible;
-        }
-        .seq-pins {
-          position: fixed;
-          z-index: 100;
         }
         .poi-dot {
           width: 44px;
@@ -1767,6 +1756,11 @@
         if (!canvas || !video) return;
         const ctx = canvas.getContext("2d", { alpha: false });
 
+        if (MOBILE) {
+          const pins = document.querySelector(".seq-pins");
+          if (pins) { pins.style.position = "fixed"; pins.style.zIndex = "100"; }
+        }
+
         const SEQ_FOLDER = "images/seq_arch/";
         const LP_SEQ = {
           "aereo-to-living": {
@@ -2151,8 +2145,23 @@
           poiMModal.id = "poi-m-modal";
           poiMModal.innerHTML = '<div id="poi-m-card"></div>';
           document.body.appendChild(poiMModal);
+          const seqCanvas = document.querySelector(".seq-canvas");
+          const seqPins  = document.querySelector(".seq-pins");
+          function openMModal() {
+            poiMModal.classList.add("open");
+            if (seqCanvas) seqCanvas.style.visibility = "hidden";
+            if (seqPins)   seqPins.style.visibility   = "hidden";
+          }
+          function closeMModal() {
+            poiMModal.classList.remove("open");
+            if (seqCanvas) seqCanvas.style.visibility = "";
+            if (seqPins)   seqPins.style.visibility   = "";
+          }
           poiMModal.addEventListener("click", (e) => {
-            if (e.target === poiMModal) poiMModal.classList.remove("open");
+            if (e.target === poiMModal) closeMModal();
+          });
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeMModal();
           });
         }
 
@@ -2167,9 +2176,9 @@
               card
                 .querySelector(".poi-popup-close")
                 ?.addEventListener("click", () => {
-                  poiMModal.classList.remove("open");
+                  closeMModal();
                 });
-              poiMModal.classList.add("open");
+              openMModal();
               return;
             }
             const pin = btn.closest(".poi-pin");
@@ -2233,6 +2242,13 @@
       };
       function openPanoModal(roomKey) {
         if (!TOUR[roomKey]) return;
+        // Fechar modal mobile de POI e esconder pins/canvas antes de abrir o panorama
+        const poiMM = document.getElementById("poi-m-modal");
+        if (poiMM) poiMM.classList.remove("open");
+        const seqPins = document.querySelector(".seq-pins");
+        const seqCanvas = document.querySelector(".seq-canvas");
+        if (seqPins)  seqPins.style.visibility  = "hidden";
+        if (seqCanvas) seqCanvas.style.visibility = "hidden";
         const modal = document.getElementById("pano-modal");
         const loading = document.getElementById("pano-loading");
         const hint = document.getElementById("pano-hint");
@@ -2533,6 +2549,11 @@
         const modal = document.getElementById("pano-modal");
         modal.classList.remove("open");
         modal.setAttribute("aria-hidden", "true");
+        // Restaurar pins e canvas ao fechar o panorama
+        const seqPins = document.querySelector(".seq-pins");
+        const seqCanvas = document.querySelector(".seq-canvas");
+        if (seqPins)   seqPins.style.visibility   = "";
+        if (seqCanvas) seqCanvas.style.visibility = "";
         if (panoFrame) {
           cancelAnimationFrame(panoFrame);
           panoFrame = null;
