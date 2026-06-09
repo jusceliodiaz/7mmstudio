@@ -527,6 +527,14 @@
         font-style: normal;
         color: #c9a84c;
       }
+      .ws-cursor {
+        display: inline-block;
+        margin-left: 3px;
+        color: var(--gold);
+        font-weight: 300;
+        transition: opacity 0.075s;
+      }
+      .ws-cursor.blink-off { opacity: 0; }
       .ws-sub {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1526,6 +1534,13 @@
       </nav>
     </section>
 
+    <!-- ── WEB-FIRST STATEMENT ── -->
+    <section class="web-statement reveal" aria-label="Tecnologia web">
+      <p class="ws-text">
+        <span id="ws-typewriter"></span><span class="ws-cursor">|</span>
+      </p>
+    </section>
+
     <!-- ── SERVIÇOS ── -->
     <section
       class="section-services"
@@ -1659,14 +1674,6 @@
           </div>
         </article>
       </div>
-    </section>
-
-    <!-- ── WEB-FIRST STATEMENT ── -->
-    <section class="web-statement reveal" aria-label="Tecnologia web">
-      <p class="ws-text">
-        Experiências que rodam <em>direto no navegador</em>.<br />
-        O cliente recebe <em>um link</em> — e já está dentro.
-      </p>
     </section>
 
     <!-- ── CTA ── -->
@@ -2228,6 +2235,52 @@
           }
         });
       });
+    </script>
+
+    <!-- ── TYPEWRITER ── -->
+    <script>
+      (function () {
+        const el = document.getElementById("ws-typewriter");
+        const cursor = document.querySelector(".ws-cursor");
+        if (!el) return;
+
+        const words = [
+          "Experiências que rodam direto no navegador.",
+          "O cliente recebe um link — e já está dentro.",
+        ];
+        const SPEED = 60;
+        const DELETE_SPEED = 30;
+        const PAUSE = 2500;
+
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
+
+        function tick() {
+          const word = words[wordIndex];
+          if (!isDeleting) {
+            if (charIndex < word.length) {
+              el.textContent = word.substring(0, ++charIndex);
+              setTimeout(tick, SPEED);
+            } else {
+              setTimeout(function () { isDeleting = true; tick(); }, PAUSE);
+            }
+          } else {
+            if (charIndex > 0) {
+              el.textContent = word.substring(0, --charIndex);
+              setTimeout(tick, DELETE_SPEED);
+            } else {
+              isDeleting = false;
+              wordIndex = (wordIndex + 1) % words.length;
+              setTimeout(tick, 300);
+            }
+          }
+        }
+
+        setInterval(function () {
+          cursor && cursor.classList.toggle("blink-off");
+        }, 500);
+
+        tick();
+      })();
     </script>
 
     <!-- ── GA Event Tracking ──────────────────────────────── -->
