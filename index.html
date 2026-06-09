@@ -534,7 +534,9 @@
         font-weight: 300;
         transition: opacity 0.075s;
       }
-      .ws-cursor.blink-off { opacity: 0; }
+      .ws-cursor.blink-off {
+        opacity: 0;
+      }
       .ws-sub {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1206,18 +1208,25 @@
         font-size: 1rem;
         cursor: pointer;
         white-space: nowrap;
-        transition: background 0.3s, border-color 0.3s, transform 0.15s;
+        transition:
+          background 0.3s,
+          border-color 0.3s,
+          transform 0.15s;
       }
       .btn-demo:hover {
         background: rgba(255, 255, 255, 0.15);
         border-color: rgba(255, 255, 255, 0.35);
       }
-      .btn-demo:active { transform: scale(0.96); }
+      .btn-demo:active {
+        transform: scale(0.96);
+      }
       .btn-demo-text {
         margin-right: 36px;
         transition: opacity 0.5s;
       }
-      .btn-demo:hover .btn-demo-text { opacity: 0; }
+      .btn-demo:hover .btn-demo-text {
+        opacity: 0;
+      }
       .btn-demo-chevron {
         position: absolute;
         right: 4px;
@@ -1424,7 +1433,16 @@
         >
           <span class="btn-demo-text" data-i18n="btn-demo">Testar Demos</span>
           <i class="btn-demo-chevron" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </i>
@@ -1563,7 +1581,7 @@
             </picture>
           </div>
           <div class="svc-content">
-            <span class="svc-num">01</span>
+            <span class="svc-num"></span>
             <div class="svc-bottom">
               <h3 data-i18n="svc-web-h3">Webdesign</h3>
               <p data-i18n="svc-web-p">
@@ -1600,11 +1618,12 @@
             </picture>
           </div>
           <div class="svc-content">
-            <span class="svc-num">02</span>
+            <span class="svc-num"></span>
             <div class="svc-bottom">
-              <h3 data-i18n="svc-arch-h3">Interactive Archviz</h3>
+              <h3 data-i18n="svc-arch-h3">Launching Page</h3>
               <p data-i18n="svc-arch-p">
-                Maquete interativa direto no navegador. Sem app, sem plugin.
+                Web page navegável, ideal para arquitetos, incorporadoras e
+                construtoras.
               </p>
             </div>
           </div>
@@ -1626,10 +1645,8 @@
           <div class="svc-content">
             <span class="svc-num"></span>
             <div class="svc-bottom">
-              <h3 data-i18n="svc-real-h3">Realtime & Unreal Engine</h3>
-              <p data-i18n="svc-real-p">
-                Qualidade de cinema, em tempo real.
-              </p>
+              <h3 data-i18n="svc-real-h3">City Explorer</h3>
+              <p data-i18n="svc-real-p">Qualidade de cinema, em tempo real.</p>
             </div>
           </div>
         </article>
@@ -1668,8 +1685,8 @@
           <div>
             <h3 data-i18n="svc-voz-h3">Voice Interfaces</h3>
             <p data-i18n="svc-voz-p">
-              Controle por voz para quiosques, eventos e experiências
-              presenciais.
+              Navegação por voz, você controla as ações nos projetos que
+              desenvolvemos.
             </p>
           </div>
         </article>
@@ -1761,7 +1778,9 @@
             ></textarea>
           </div>
 
-          <button type="submit" class="sub-btn" data-i18n="sub-btn">Enviar Mensagem</button>
+          <button type="submit" class="sub-btn" data-i18n="sub-btn">
+            Enviar Mensagem
+          </button>
         </form>
       </div>
     </section>
@@ -1890,8 +1909,8 @@
             "hero-h1": "Sites que vendem. Experiências que impressionam.",
             "hero-p":
               "Para arquitetos, incorporadoras e empreendimentos premium. Tudo entregue como um link.",
-            "svc-web-h3": "Webdesign",
-            "svc-web-p": "Sites e landing pages. Feitos para converter.",
+            "svc-web-h3": "Landing Pages",
+            "svc-web-p": "Sites, launching pages. Feitos para converter.",
             "svc-ai-badge": "IA",
             "svc-ai-h3": "AI Creative Interface",
             "svc-ai-p":
@@ -1907,9 +1926,10 @@
             "svc-voz-badge": "VOZ",
             "svc-voz-h3": "Voice Interfaces",
             "svc-voz-p":
-              "Controle por voz para quiosques, eventos e experiências presenciais.",
+              "Navegação por voz, você controla as ações nos projetos que desenvolvemos.",
             "btn-demo": "Testar Demos",
-            "ws-words": "Experiências que rodam direto no navegador.|O cliente recebe um link — e já está dentro.",
+            "ws-words":
+              "Experiências que rodam direto no navegador.|O cliente recebe um link — e já está dentro.",
             "f-nome-label": "Nome",
             "f-nome-ph": "Seu nome",
             "f-tel-label": "Telefone",
@@ -1930,7 +1950,8 @@
             "nav-servicos": "Serviços",
             "nav-interatividade": "Interatividade",
             "nav-contato": "Contato",
-            footer: "7mm creative Studio © 2026 · Todos os direitos reservados.",
+            footer:
+              "7mm creative Studio © 2026 · Todos os direitos reservados.",
             "poi-aerial-0-title": "Torre Residencial",
             "poi-aerial-0-desc":
               "Rooftop com piscina. Vista 360° da baía e da cidade.",
@@ -1961,7 +1982,8 @@
             "hero-p":
               "For architects, developers and high-end properties. All delivered as a link.",
             "svc-web-h3": "Websites & Landing Pages",
-            "svc-web-p": "Websites and landing pages. Built to convert.",
+            "svc-web-p":
+              "Websites, landing pages and launching pages. Built to convert.",
             "svc-ai-badge": "AI",
             "svc-ai-h3": "AI Creative Interface",
             "svc-ai-p":
@@ -1976,9 +1998,10 @@
             "svc-voz-badge": "VOICE",
             "svc-voz-h3": "Voice Interfaces",
             "svc-voz-p":
-              "Voice navigation for kiosks, events and on-site experiences.",
+              "Voice navigation, you control the actions in the projects we develop.",
             "btn-demo": "Try Demos",
-            "ws-words": "Experiences that run directly in the browser.|The client gets a link — and they're already inside.",
+            "ws-words":
+              "Experiences that run directly in the browser.|The client gets a link — and they're already inside.",
             "f-nome-label": "Name",
             "f-nome-ph": "Your name",
             "f-tel-label": "Phone",
@@ -2108,10 +2131,12 @@
           });
 
           // Placeholders
-          document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
-            var val = dict[el.getAttribute("data-i18n-placeholder")];
-            if (val !== undefined) el.placeholder = val;
-          });
+          document
+            .querySelectorAll("[data-i18n-placeholder]")
+            .forEach(function (el) {
+              var val = dict[el.getAttribute("data-i18n-placeholder")];
+              if (val !== undefined) el.placeholder = val;
+            });
 
           // Typewriter words
           if (dict["ws-words"] && typeof window._twUpdate === "function") {
@@ -2281,12 +2306,17 @@
         const cursor = document.querySelector(".ws-cursor");
         if (!el) return;
 
-        const SPEED = 60, DELETE_SPEED = 30, PAUSE = 2500;
+        const SPEED = 60,
+          DELETE_SPEED = 30,
+          PAUSE = 2500;
         let words = [
           "Experiências que rodam direto no navegador.",
           "O cliente recebe um link — e já está dentro.",
         ];
-        let wordIndex = 0, charIndex = 0, isDeleting = false, timer = null;
+        let wordIndex = 0,
+          charIndex = 0,
+          isDeleting = false,
+          timer = null;
 
         function tick() {
           const word = words[wordIndex];
@@ -2295,7 +2325,10 @@
               el.textContent = word.substring(0, ++charIndex);
               timer = setTimeout(tick, SPEED);
             } else {
-              timer = setTimeout(function () { isDeleting = true; tick(); }, PAUSE);
+              timer = setTimeout(function () {
+                isDeleting = true;
+                tick();
+              }, PAUSE);
             }
           } else {
             if (charIndex > 0) {
@@ -2312,7 +2345,9 @@
         window._twUpdate = function (newWords) {
           clearTimeout(timer);
           words = newWords;
-          wordIndex = 0; charIndex = 0; isDeleting = false;
+          wordIndex = 0;
+          charIndex = 0;
+          isDeleting = false;
           el.textContent = "";
           tick();
         };
