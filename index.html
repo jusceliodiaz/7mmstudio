@@ -1422,7 +1422,7 @@
           id="btn-demo"
           aria-label="Ver demonstração do produto"
         >
-          <span class="btn-demo-text">Testar Demos</span>
+          <span class="btn-demo-text" data-i18n="btn-demo">Testar Demos</span>
           <i class="btn-demo-chevron" aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="9 18 15 12 9 6" />
@@ -1712,52 +1712,56 @@
 
           <div class="cf-row">
             <div>
-              <label for="f-nome">Nome</label>
+              <label for="f-nome" data-i18n="f-nome-label">Nome</label>
               <input
                 type="text"
                 id="f-nome"
                 name="nome"
                 autocomplete="name"
                 placeholder="Seu nome"
+                data-i18n-placeholder="f-nome-ph"
                 required
               />
             </div>
             <div>
-              <label for="f-tel">Telefone</label>
+              <label for="f-tel" data-i18n="f-tel-label">Telefone</label>
               <input
                 type="tel"
                 id="f-tel"
                 name="telefone"
                 autocomplete="tel"
                 placeholder="(41) 99999-9999"
+                data-i18n-placeholder="f-tel-ph"
               />
             </div>
           </div>
 
           <div>
-            <label for="f-email">E-mail</label>
+            <label for="f-email" data-i18n="f-email-label">E-mail</label>
             <input
               type="email"
               id="f-email"
               name="email"
               autocomplete="email"
               placeholder="seu@email.com"
+              data-i18n-placeholder="f-email-ph"
               required
             />
           </div>
 
           <div>
-            <label for="f-projeto">Mensagem</label>
+            <label for="f-projeto" data-i18n="f-msg-label">Mensagem</label>
             <textarea
               id="f-projeto"
               name="projeto"
               rows="5"
               placeholder="Sua mensagem..."
+              data-i18n-placeholder="f-msg-ph"
               required
             ></textarea>
           </div>
 
-          <button type="submit" class="sub-btn">Enviar Mensagem</button>
+          <button type="submit" class="sub-btn" data-i18n="sub-btn">Enviar Mensagem</button>
         </form>
       </div>
     </section>
@@ -1904,6 +1908,17 @@
             "svc-voz-h3": "Voice Interfaces",
             "svc-voz-p":
               "Controle por voz para quiosques, eventos e experiências presenciais.",
+            "btn-demo": "Testar Demos",
+            "ws-words": "Experiências que rodam direto no navegador.|O cliente recebe um link — e já está dentro.",
+            "f-nome-label": "Nome",
+            "f-nome-ph": "Seu nome",
+            "f-tel-label": "Telefone",
+            "f-tel-ph": "(41) 99999-9999",
+            "f-email-label": "E-mail",
+            "f-email-ph": "seu@email.com",
+            "f-msg-label": "Mensagem",
+            "f-msg-ph": "Sua mensagem...",
+            "sub-btn": "Enviar Mensagem",
             "seq-title": "Interatividade<br><em>levada a sério.</em>",
             "seq-btn-aerial": "Aéreo",
             "seq-btn-living": "Living",
@@ -1962,6 +1977,17 @@
             "svc-voz-h3": "Voice Interfaces",
             "svc-voz-p":
               "Voice navigation for kiosks, events and on-site experiences.",
+            "btn-demo": "Try Demos",
+            "ws-words": "Experiences that run directly in the browser.|The client gets a link — and they're already inside.",
+            "f-nome-label": "Name",
+            "f-nome-ph": "Your name",
+            "f-tel-label": "Phone",
+            "f-tel-ph": "+1 (555) 000-0000",
+            "f-email-label": "Email",
+            "f-email-ph": "your@email.com",
+            "f-msg-label": "Message",
+            "f-msg-ph": "Your message...",
+            "sub-btn": "Send Message",
             "seq-title": "Interactivity<br><em>taken seriously.</em>",
             "seq-btn-aerial": "Aerial",
             "seq-btn-living": "Living",
@@ -2080,6 +2106,17 @@
               el.textContent = val;
             }
           });
+
+          // Placeholders
+          document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+            var val = dict[el.getAttribute("data-i18n-placeholder")];
+            if (val !== undefined) el.placeholder = val;
+          });
+
+          // Typewriter words
+          if (dict["ws-words"] && typeof window._twUpdate === "function") {
+            window._twUpdate(dict["ws-words"].split("|"));
+          }
 
           // Globals usados pelo panorama
           window._panoLoadingText = dict["pano-loading"] || "Carregando...";
@@ -2244,36 +2281,41 @@
         const cursor = document.querySelector(".ws-cursor");
         if (!el) return;
 
-        const words = [
+        const SPEED = 60, DELETE_SPEED = 30, PAUSE = 2500;
+        let words = [
           "Experiências que rodam direto no navegador.",
           "O cliente recebe um link — e já está dentro.",
         ];
-        const SPEED = 60;
-        const DELETE_SPEED = 30;
-        const PAUSE = 2500;
-
-        let wordIndex = 0, charIndex = 0, isDeleting = false;
+        let wordIndex = 0, charIndex = 0, isDeleting = false, timer = null;
 
         function tick() {
           const word = words[wordIndex];
           if (!isDeleting) {
             if (charIndex < word.length) {
               el.textContent = word.substring(0, ++charIndex);
-              setTimeout(tick, SPEED);
+              timer = setTimeout(tick, SPEED);
             } else {
-              setTimeout(function () { isDeleting = true; tick(); }, PAUSE);
+              timer = setTimeout(function () { isDeleting = true; tick(); }, PAUSE);
             }
           } else {
             if (charIndex > 0) {
               el.textContent = word.substring(0, --charIndex);
-              setTimeout(tick, DELETE_SPEED);
+              timer = setTimeout(tick, DELETE_SPEED);
             } else {
               isDeleting = false;
               wordIndex = (wordIndex + 1) % words.length;
-              setTimeout(tick, 300);
+              timer = setTimeout(tick, 300);
             }
           }
         }
+
+        window._twUpdate = function (newWords) {
+          clearTimeout(timer);
+          words = newWords;
+          wordIndex = 0; charIndex = 0; isDeleting = false;
+          el.textContent = "";
+          tick();
+        };
 
         setInterval(function () {
           cursor && cursor.classList.toggle("blink-off");
