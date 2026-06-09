@@ -1,0 +1,1559 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juscélio Schmidt — Realtime Artist & Front-End Developer</title>
+
+    <meta name="description" content="Juscélio Schmidt — Senior Tech Artist crafting high-end real-time experiences in Unreal Engine, pixel streaming, virtual production and browser-based 3D." />
+    <meta name="theme-color" content="#070a0f" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Juscélio Schmidt — Realtime Artist & Front-End Developer" />
+    <meta property="og:description" content="High-end real-time experiences for architecture, pixel streaming and virtual production. Unreal Engine · UI/UX · Front-End." />
+    <meta property="og:image" content="images/me.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #070a0f;
+        --bg-soft: #0c1118;
+        --card: #11161f;
+        --card-2: #141b26;
+        --line: rgba(255, 255, 255, 0.08);
+        --line-strong: rgba(255, 255, 255, 0.16);
+        --text: #f2f5fa;
+        --muted: #9aa4b5;
+        --accent: #ffde21;
+        --accent-2: #ffe066;
+        --accent-3: #33d6c7;
+        --glow: rgba(255, 222, 33, 0.35);
+        --maxw: 1180px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ====== ANIMATED BACKGROUND ====== */
+      .bg-fx {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background:
+          radial-gradient(
+            60% 50% at 80% 0%,
+            rgba(155, 107, 255, 0.18),
+            transparent 60%
+          ),
+          radial-gradient(
+            50% 50% at 10% 20%,
+            rgba(94, 163, 255, 0.2),
+            transparent 60%
+          ),
+          radial-gradient(
+            60% 60% at 50% 100%,
+            rgba(51, 214, 199, 0.1),
+            transparent 60%
+          ),
+          var(--bg);
+      }
+      .bg-grid {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          );
+        background-size: 54px 54px;
+        mask-image: radial-gradient(
+          ellipse 80% 60% at 50% 30%,
+          #000 40%,
+          transparent 100%
+        );
+      }
+
+      .container {
+        width: 90%;
+        max-width: var(--maxw);
+        margin: auto;
+      }
+
+      section {
+        padding: 110px 0;
+        position: relative;
+      }
+      #projects {
+        padding-top: 32px;
+      }
+
+      /* ====== TYPOGRAPHY ====== */
+      h1,
+      h2,
+      h3 {
+        font-family: "Space Grotesk", sans-serif;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .section-head {
+        margin-bottom: 54px;
+      }
+      .eyebrow {
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .eyebrow::before {
+        display: none;
+      }
+      h2 {
+        font-size: clamp(1.9rem, 4vw, 2.8rem);
+        font-weight: 600;
+      }
+      p {
+        color: var(--muted);
+      }
+
+      /* ====== NAV ====== */
+      .nav {
+        position: fixed;
+        top: 20px;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5%;
+        background: none;
+        border: none;
+        backdrop-filter: none;
+        pointer-events: none;
+      }
+      .nav > * {
+        pointer-events: auto;
+      }
+      .nav.scrolled {
+        background: none;
+        border: none;
+      }
+
+      /* glass pill mixin shared by brand, nav-links, lang-sw */
+      .brand,
+      .nav-links,
+      .lang-sw {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(18px) saturate(1.8);
+        -webkit-backdrop-filter: blur(18px) saturate(1.8);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        padding: 10px 18px;
+      }
+
+      .brand {
+        font-family: "Space Grotesk";
+        font-weight: 700;
+        font-size: 1.05rem;
+        letter-spacing: -0.01em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text);
+        text-decoration: none;
+      }
+      .brand .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 14px var(--glow);
+        animation: pulse 2.4s infinite;
+        flex-shrink: 0;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(0.8);
+        }
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 5px 12px;
+        border-radius: 999px;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .nav-links a:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .nav-links a::after {
+        display: none;
+      }
+
+      .nav-cta {
+        background: transparent !important;
+        color: rgba(255, 255, 255, 0.75) !important;
+        border: none !important;
+        font-weight: 500;
+      }
+      .nav-cta:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #fff !important;
+      }
+      .nav-cta::after {
+        display: none !important;
+      }
+
+      .nav-toggle {
+        display: none;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 12px;
+        color: var(--text);
+        font-size: 1.4rem;
+        cursor: pointer;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .lang-sw {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: 0;
+      }
+      .lang-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.6);
+        padding: 3px 6px;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .lang-btn.active {
+        color: #fff;
+        border-bottom-color: var(--accent);
+      }
+      .lang-btn:hover:not(.active) {
+        color: #fff;
+      }
+      .lang-sep {
+        color: rgba(255, 255, 255, 0.25);
+        font-size: 0.8rem;
+      }
+
+      /* ====== HERO ====== */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 90px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        z-index: -2;
+      }
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transform: scale(1.06);
+        transition:
+          opacity 1.5s ease,
+          transform 9s ease;
+      }
+      .hero-slide.active {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(7, 10, 15, 0.97),
+          rgba(7, 10, 15, 0.52)
+        );
+        z-index: -1;
+      }
+      .hero-content {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 64px;
+        align-items: center;
+      }
+
+      .profile-wrap {
+        position: relative;
+        width: 300px;
+        height: 360px;
+        margin: auto;
+      }
+      .profile-image {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 26px;
+        overflow: hidden;
+        border: 1px solid var(--line-strong);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        z-index: 2;
+      }
+      .profile-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .profile-image .fallback {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Space Grotesk";
+        font-size: 5rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.85);
+        background: linear-gradient(135deg, #1a2333, #2a1a3d 60%, #10202a);
+      }
+      .profile-wrap::before {
+        display: none;
+      }
+      .profile-badge {
+        position: absolute;
+        bottom: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        white-space: nowrap;
+        background: rgba(12, 17, 24, 0.92);
+        border: 1px solid var(--line-strong);
+        backdrop-filter: blur(8px);
+        font-size: 0.82rem;
+        font-weight: 500;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+      .profile-badge .live {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent-3);
+        box-shadow: 0 0 10px var(--accent-3);
+        animation: pulse 2s infinite;
+      }
+
+      .hero-text h1 {
+        font-size: clamp(2.6rem, 6vw, 4.6rem);
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+      .hero-text h1 .grad {
+        color: var(--accent);
+      }
+      .role {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+      .role span {
+        font-size: 0.84rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.88);
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px) saturate(1.6);
+        -webkit-backdrop-filter: blur(12px) saturate(1.6);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+      }
+      .hero-text .lead {
+        max-width: 620px;
+        font-size: 1.06rem;
+      }
+      .buttons {
+        margin-top: 34px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 14px 26px;
+        border-radius: 13px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: 0.25s;
+        border: 1px solid transparent;
+      }
+      .btn.primary {
+        background: transparent;
+        color: rgba(255, 222, 33, 0.95);
+        border-color: rgba(255, 222, 33, 0.6);
+      }
+      .btn.primary:hover {
+        background: rgba(255, 222, 33, 0.08);
+        border-color: rgba(255, 222, 33, 0.9);
+        color: #ffde21;
+        transform: translateY(-3px);
+      }
+      .btn.secondary {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.7);
+        border-color: rgba(255, 255, 255, 0.28);
+      }
+      .btn.secondary:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.55);
+        color: #fff;
+        transform: translateY(-3px);
+      }
+
+      .stats {
+        display: flex;
+        gap: 42px;
+        margin-top: 52px;
+        flex-wrap: wrap;
+      }
+      .stat .num {
+        font-family: "Space Grotesk";
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .stat .lbl {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      /* ====== PROJECTS ====== */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        gap: 28px;
+      }
+      .project-card {
+        background: linear-gradient(180deg, var(--card), var(--bg-soft));
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        transition: 0.35s;
+        position: relative;
+      }
+      .project-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--line-strong);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+      }
+      .thumb {
+        position: relative;
+        height: 240px;
+        overflow: hidden;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.6s;
+      }
+      .project-card:hover .thumb img {
+        transform: scale(1.06);
+      }
+      .project-card-solo {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        align-items: center;
+      }
+      .project-card-solo .thumb {
+        height: 100%;
+        min-height: 200px;
+        border-radius: 0;
+      }
+      @media (max-width: 900px) {
+        .project-card-solo {
+          grid-template-columns: 1fr;
+        }
+        .project-card-solo .thumb {
+          min-height: 160px;
+        }
+      }
+      .thumb .fallback {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Space Grotesk";
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        background: linear-gradient(135deg, #16202e, #241836);
+      }
+      .thumb::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          transparent 50%,
+          rgba(7, 10, 15, 0.85)
+        );
+      }
+      .tag {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 2;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: #fff;
+        background: rgba(7, 10, 15, 0.7);
+        border: 1px solid var(--line-strong);
+        backdrop-filter: blur(6px);
+      }
+      .project-info {
+        padding: 26px;
+      }
+      .project-info h3 {
+        font-size: 1.35rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .project-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 18px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.92rem;
+        transition: 0.2s;
+      }
+      .project-link:hover {
+        gap: 12px;
+        color: var(--accent-2);
+      }
+
+      /* ====== GALLERY ====== */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .gallery-grid .g-item {
+        position: relative;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        aspect-ratio: 4/3;
+        background: linear-gradient(135deg, #141b26, #1d1530);
+      }
+      .gallery-grid img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: 0.5s;
+      }
+      .g-item:hover img {
+        transform: scale(1.08);
+      }
+      .g-item .ph {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.35);
+        font-family: "Space Grotesk";
+        font-size: 0.9rem;
+      }
+
+      /* ====== VIDEO ====== */
+      .video-container {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid var(--line-strong);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+        aspect-ratio: 16/9;
+      }
+      .video-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+
+      /* ====== CONTACT ====== */
+      .contact {
+        text-align: center;
+      }
+      .contact-card {
+        max-width: 760px;
+        margin: auto;
+        padding: 60px 40px;
+        border-radius: 28px;
+        background: linear-gradient(180deg, var(--card), var(--bg-soft));
+        border: 1px solid var(--line);
+        position: relative;
+        overflow: hidden;
+      }
+      .contact-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(circle, var(--glow), transparent 60%);
+        opacity: 0.4;
+      }
+      .contact-card * {
+        position: relative;
+        z-index: 1;
+      }
+      .contact h2 {
+        margin-bottom: 16px;
+      }
+      .contact p {
+        max-width: 480px;
+        margin: 0 auto 30px;
+      }
+      .contact-links {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* ====== FOOTER ====== */
+      footer {
+        padding: 40px 5%;
+        text-align: center;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      /* ====== REVEAL ====== */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ====== RESPONSIVE ====== */
+      @media (max-width: 900px) {
+        .nav-links {
+          position: fixed;
+          top: 66px;
+          right: 5%;
+          left: 5%;
+          flex-direction: column;
+          gap: 18px;
+          padding: 24px;
+          border-radius: 18px;
+          background: rgba(12, 17, 24, 0.97);
+          border: 1px solid var(--line);
+          backdrop-filter: blur(14px);
+          transform: translateY(-12px);
+          opacity: 0;
+          pointer-events: none;
+          transition: 0.25s;
+        }
+        .nav-links.open {
+          transform: none;
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .nav-toggle {
+          display: block;
+        }
+        .hero-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 48px;
+        }
+        .profile-wrap {
+          margin: auto;
+        }
+        .role,
+        .buttons,
+        .stats {
+          justify-content: center;
+        }
+        .hero-text .lead {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        section {
+          padding: 80px 0;
+        }
+        .gallery-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      /* ====== REDUCED MOTION ====== */
+      @media (prefers-reduced-motion: reduce) {
+        * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+        .reveal { opacity: 1; transform: none; }
+        .hero-slide { transition: opacity 0.4s ease; transform: none; }
+      }
+
+      @media (max-width: 560px) {
+        .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .stats {
+          gap: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-fx"></div>
+    <div class="bg-grid"></div>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+      <div class="brand"><span class="dot"></span>Juscélio Schmidt</div>
+      <div class="nav-links" id="navLinks">
+        <a href="#projects" data-en="Projects" data-nl="Projecten">Projects</a>
+        <a href="#gallery" data-en="Gallery" data-nl="Galerij">Gallery</a>
+        <a href="#showreel">Showreel</a>
+        <a href="#contact" class="nav-cta" data-en="Contact" data-nl="Contact"
+          >Contact</a
+        >
+      </div>
+      <div class="lang-sw">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" data-lang="nl">NL</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg" id="heroBg">
+        <div
+          class="hero-slide active"
+          style="background-image: url(&quot;images/hero/h1.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h2.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h3.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h4.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h5.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h6.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h7.jpg&quot;)"
+        ></div>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="profile-wrap reveal">
+            <div class="profile-image">
+              <img
+                src="images/me.jpg"
+                alt="Juscélio Schmidt"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="fallback" style="display: none">JS</div>
+            </div>
+            <div class="profile-badge">
+              <span class="live"></span
+              ><span
+                data-en="Available for projects"
+                data-nl="Beschikbaar voor projecten"
+                >Available for projects</span
+              >
+            </div>
+          </div>
+
+          <div class="hero-text">
+            <div class="eyebrow reveal">
+              Senior Tech Artist & Junior Developer
+            </div>
+            <h1 class="reveal">
+              <span data-en="Hi, I'm" data-nl="Hoi, ik ben">Hi, I'm</span>
+              <span class="grad">Juscélio Schmidt</span>
+            </h1>
+            <div class="role reveal">
+              <span>Unreal Engine Tech Artist</span>
+              <span>Realtime Dev</span>
+              <span>UI/UX Design</span>
+              <span>3D Artist</span>
+              <span>DataPrep</span>
+              <span>3ds Max</span>
+              <span>Unreal Engine 4</span>
+              <span>VS Code</span>
+              <span>Python</span>
+              <span>Optimization</span>
+              <span>Profiling</span>
+              <span>VR / AR</span>
+              <span>Corona Render</span>
+            </div>
+            <p
+              class="lead reveal"
+              data-en="I craft high-end real-time experiences for architecture, pixel streaming and virtual production, developing production tools and browser-based 3D applications focused on performance, optimization and cinematic quality. Based in Brazil, shaped by Berlin."
+              data-nl="Ik maak hoogwaardige realtime ervaringen voor architectuur, pixel streaming en virtuele productie, van productietools tot browser-gebaseerde 3D-applicaties, gericht op performance, optimalisatie en cinematische kwaliteit. Gevestigd in Brazilië, gevormd door Berlijn."
+            >
+              I craft high-end real-time experiences for architecture, pixel
+              streaming and virtual production, developing production tools and
+              browser-based 3D applications focused on performance, optimization
+              and cinematic quality. Based in Brazil, shaped by Berlin.
+            </p>
+            <div class="buttons reveal">
+              <a
+                href="#projects"
+                class="btn primary"
+                data-en="View projects →"
+                data-nl="Bekijk projecten →"
+                >View projects →</a
+              >
+              <a
+                href="https://www.linkedin.com/in/typeforjd"
+                target="_blank"
+                class="btn secondary"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                  />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" /></svg
+                >LinkedIn</a
+              >
+              <a
+                href="https://www.instagram.com/jdworkviz/"
+                target="_blank"
+                class="btn secondary"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="1"
+                    fill="currentColor"
+                    stroke="none"
+                  /></svg
+                >Instagram</a
+              >
+              <a
+                href="https://www.artstation.com/typeforjd"
+                target="_blank"
+                class="btn secondary"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M0 17.723l2.027 3.505h.001a2.424 2.424 0 0 0 2.164 1.333h13.457l-2.792-4.838H0zm24 .025c0-.484-.143-.935-.388-1.314L15.728 2.728a2.424 2.424 0 0 0-2.164-1.333H9.419L21.598 22.54l1.92-3.325c.378-.637.482-.919.482-1.467zm-11.129-3.462L7.428 4.858l-5.444 9.428h10.887z"
+                  /></svg
+                >ArtStation</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <div
+            class="eyebrow"
+            data-en="Featured work"
+            data-nl="Uitgelicht werk"
+          >
+            Featured work
+          </div>
+          <h2 data-en="Selected projects" data-nl="Geselecteerde projecten">
+            Selected projects
+          </h2>
+        </div>
+        <div class="projects-grid">
+          <div class="project-card reveal">
+            <div class="thumb">
+              <span class="tag">ArchViz</span>
+              <img
+                src="images/hero/h7.jpg"
+                alt="City Explorer"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="fallback" style="display: none">City Explorer</div>
+            </div>
+            <div class="project-info">
+              <h3>City Explorer</h3>
+              <p>
+                <span
+                  data-en="Interactive browser-based architectural visualization platform built for real estate marketing and client engagement."
+                  data-nl="Interactief browser-gebaseerd architectuurvisualisatieplatform voor vastgoedmarketing en klantbetrokkenheid."
+                  >Interactive browser-based architectural visualization
+                  platform built for real estate marketing and client
+                  engagement.</span
+                >
+              </p>
+              <a
+                href="https://archviz-poket.vercel.app/#cena=aereo"
+                class="project-link"
+                target="_blank"
+                ><span data-en="Visit project →" data-nl="Bekijk project →"
+                  >Visit project →</span
+                ></a
+              >
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <div class="thumb">
+              <span class="tag">Walkthrough</span>
+              <img
+                src="images/hero/h4.jpg"
+                alt="Walkthrough"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="fallback" style="display: none">Walkthrough</div>
+            </div>
+            <div class="project-info">
+              <h3>Walkthrough</h3>
+              <p>
+                <span
+                  data-en="High-end interactive property showcase combining realtime rendering, UI/UX design and immersive storytelling."
+                  data-nl="Hoogwaardig interactief vastgoedportaal met realtime rendering, UI/UX design en meeslepend storytelling."
+                  >High-end interactive property showcase combining realtime
+                  rendering, UI/UX design and immersive storytelling.</span
+                >
+              </p>
+              <a
+                href="https://first-person-self.vercel.app/#cena=aereo"
+                class="project-link"
+                target="_blank"
+                ><span data-en="Visit project →" data-nl="Bekijk project →"
+                  >Visit project →</span
+                ></a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Solo tool card -->
+        <div
+          class="project-card project-card-solo reveal"
+          style="margin-top: 30px"
+        >
+          <div class="thumb">
+            <span class="tag">Python Tool</span>
+            <img
+              src="images/5a.png"
+              alt="Scene Validator"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <div
+              class="fallback"
+              style="display: none; font-size: 1.6rem; letter-spacing: -0.01em"
+            >
+              Scene Validator
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>Scene Validator for Archviz</h3>
+            <p>
+              <span
+                data-en="Python tool built for Unreal Engine archviz pipelines: validates scenes, catches common errors and enforces production-ready standards before render."
+                data-nl="Python-tool gebouwd voor Unreal Engine archviz-pipelines: valideert scènes, detecteert veelvoorkomende fouten en handhaaft productiestandaarden vóór het renderen."
+                >Python tool built for Unreal Engine archviz pipelines —
+                validates scenes, catches common errors and enforces
+                production-ready standards before render.</span
+              >
+            </p>
+            <a
+              href="https://jdworks.gumroad.com/l/SceneValidatorArchviz"
+              class="project-link"
+              target="_blank"
+              ><span
+                data-en="Get it on Gumroad →"
+                data-nl="Verkrijgbaar op Gumroad →"
+                >Get it on Gumroad →</span
+              ></a
+            >
+          </div>
+        </div>
+
+        <!-- Solo tool card — Beach House UE5 -->
+        <div
+          class="project-card project-card-solo reveal"
+          style="margin-top: 30px"
+        >
+          <div class="thumb">
+            <span class="tag">Unreal Engine 5</span>
+            <img
+              src="images/ue1.png"
+              alt="Beach House UE5"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <div
+              class="fallback"
+              style="display: none; font-size: 1.6rem; letter-spacing: -0.01em"
+            >
+              Beach House
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>Beach House, Unreal Engine 5</h3>
+            <p>
+              <span
+                data-en="Full Unreal Engine 5 environment featuring a beach house scene with high-fidelity lighting, materials and cinematic-ready production setup."
+                data-nl="Volledig Unreal Engine 5-omgeving met een strandhuisscène met hoogwaardige belichting, materialen en cinematische productieopzet."
+                >Full Unreal Engine 5 environment featuring a beach house scene
+                with high-fidelity lighting, materials and cinematic-ready
+                production setup.</span
+              >
+            </p>
+            <a
+              href="https://jdworks.gumroad.com/l/hhhoc"
+              class="project-link"
+              target="_blank"
+              ><span
+                data-en="Get it on Gumroad →"
+                data-nl="Verkrijgbaar op Gumroad →"
+                >Get it on Gumroad →</span
+              ></a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <div class="container">
+        <div class="section-head reveal">
+          <div
+            class="eyebrow"
+            data-en="Visual portfolio"
+            data-nl="Visueel portfolio"
+          >
+            Visual portfolio
+          </div>
+          <h2 data-en="Recent work" data-nl="Recent werk">Recent work</h2>
+        </div>
+        <div class="gallery-grid">
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/2.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/3.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/4.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/5.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/7.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/10.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/11.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/12.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/14.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/16.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/17.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/19.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/20.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/21.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/22.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/23.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/24.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/25.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/26.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/27.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/28.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/29.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/30.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/31.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div class="g-item reveal">
+            <img
+              src="images/portfolio/32.jpg"
+              alt=""
+              loading="lazy" decoding="async" onerror="this.style.display = 'none'"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOWREEL -->
+    <section id="showreel">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow" data-en="In motion" data-nl="In beweging">
+            In motion
+          </div>
+          <h2>Showreel</h2>
+        </div>
+        <div class="video-container reveal">
+          <iframe
+            src="https://player.vimeo.com/video/1187806891"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="contact-card reveal">
+          <div
+            class="eyebrow"
+            style="justify-content: center"
+            data-en="Let's talk"
+            data-nl="Laten we praten"
+          >
+            Let's talk
+          </div>
+          <h2
+            data-en="Got a project in mind?"
+            data-nl="Heb je een project in gedachten?"
+          >
+            Got a project in mind?
+          </h2>
+          <p
+            data-en="Open to collaborations in realtime, visualization and front-end development. Based in Amsterdam. Let's build something extraordinary."
+            data-nl="Open voor samenwerkingen in realtime, visualisatie en front-end development. Gevestigd in Amsterdam. Laten we iets buitengewoons bouwen."
+          >
+            Open to collaborations in realtime, visualization and front-end
+            development. Based in Amsterdam. Let's build something
+            extraordinary.
+          </p>
+          <div class="contact-links">
+            <a
+              href="mailto:escrevaparajd@gmail.com"
+              class="btn primary"
+              data-en="Send email"
+              data-nl="Stuur e-mail"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg
+              >Send email</a
+            >
+            <a
+              href="https://www.linkedin.com/in/typeforjd"
+              target="_blank"
+              class="btn secondary"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" /></svg
+              >LinkedIn</a
+            >
+            <a
+              href="https://www.instagram.com/jdworkviz/"
+              target="_blank"
+              class="btn secondary"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle
+                  cx="17.5"
+                  cy="6.5"
+                  r="1"
+                  fill="currentColor"
+                  stroke="none"
+                /></svg
+              >Instagram</a
+            >
+            <a
+              href="https://www.artstation.com/typeforjd"
+              target="_blank"
+              class="btn secondary"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M0 17.723l2.027 3.505h.001a2.424 2.424 0 0 0 2.164 1.333h13.457l-2.792-4.838H0zm24 .025c0-.484-.143-.935-.388-1.314L15.728 2.728a2.424 2.424 0 0 0-2.164-1.333H9.419L21.598 22.54l1.92-3.325c.378-.637.482-.919.482-1.467zm-11.129-3.462L7.428 4.858l-5.444 9.428h10.887z"
+                /></svg
+              >ArtStation</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p
+        data-en="© 2026 Juscélio Schmidt · Senior Tech Artist & Junior Developer
+"
+        data-nl="© 2026 Juscélio Schmidt · Senior Tech Artist & Junior Developer
+"
+      >
+        © 2026 Juscélio Schmidt · Senior Tech Artist & Junior Developer
+      </p>
+    </footer>
+
+    <script>
+      // Nav scroll state
+      const nav = document.getElementById("nav");
+      addEventListener("scroll", () =>
+        nav.classList.toggle("scrolled", scrollY > 30),
+      );
+
+      // Mobile menu
+      const links = document.getElementById("navLinks"),
+        toggle = document.getElementById("navToggle");
+      toggle.addEventListener("click", () => { const open = links.classList.toggle("open"); toggle.setAttribute("aria-expanded", open); });
+      links
+        .querySelectorAll("a")
+        .forEach((a) =>
+          a.addEventListener("click", () => links.classList.remove("open")),
+        );
+
+      // Language switcher
+      const langBtns = document.querySelectorAll(".lang-btn");
+      function applyLang(lang) {
+        document.querySelectorAll("[data-en]").forEach((el) => {
+          el.textContent = el.getAttribute("data-" + lang);
+        });
+        langBtns.forEach((b) =>
+          b.classList.toggle("active", b.dataset.lang === lang),
+        );
+        document.documentElement.lang = lang; localStorage.setItem("cv-lang", lang);
+      }
+      langBtns.forEach((b) =>
+        b.addEventListener("click", () => applyLang(b.dataset.lang)),
+      );
+      applyLang(localStorage.getItem("cv-lang") || "en");
+
+      // Scroll reveal
+      const io = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document.querySelectorAll(".reveal").forEach((el, i) => {
+        el.style.transitionDelay = (i % 4) * 0.08 + "s";
+        io.observe(el);
+      });
+    </script>
+    <script>
+      (function () {
+        const slides = document.querySelectorAll(".hero-slide");
+        if (!slides.length) return;
+        let cur = 0;
+        setInterval(() => {
+          slides[cur].classList.remove("active");
+          cur = (cur + 1) % slides.length;
+          slides[cur].classList.add("active");
+        }, 5000);
+      })();
+    </script>
+  </body>
+</html>
+

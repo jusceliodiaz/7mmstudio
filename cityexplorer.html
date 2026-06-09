@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>City Explorer — Factory Interactive</title>
+  <meta name="description" content="Veja o empreendimento no contexto urbano com pontos de interesse georreferenciados, vistas 360° e localização interativa." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="City Explorer — Factory Interactive" />
+  <meta property="og:description" content="O empreendimento no contexto da cidade. POIs interativos, panoramas 360° e mapa do entorno." />
+  <meta property="og:image" content="https://factorystudio.works/images/og_city.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://factorystudio.works/cityexplorer.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="City Explorer — Factory Interactive" />
+  <meta name="twitter:description" content="O empreendimento no contexto da cidade. POIs interativos, panoramas 360° e mapa do entorno." />
+  <meta name="twitter:image" content="https://factorystudio.works/images/og_city.jpg" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", "G-3K51DFTX3J");
+  </script>
+  <link rel="preload" href="images/seq_arch/est_00.jpg" as="image" />
+  <link rel="preload" href="images/dia_low.webm" as="video" type="video/webm" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    /* ── POI Popup ── */
+    .city-popup {
+      position: fixed;
+      z-index: 300;
+      width: 300px;
+      background: #ebebea;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.10);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px) scale(0.96);
+      transition: opacity 220ms ease, transform 220ms ease;
+      user-select: none;
+    }
+    .city-popup.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+    }
+    .popup-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+    }
+    .popup-img-wrap:active { cursor: grabbing; }
+    .popup-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .popup-close-btn {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.65);
+      border: 1px solid rgba(255,255,255,0.5);
+      backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 200ms ease;
+      z-index: 2;
+    }
+    .popup-close-btn:hover { background: rgba(255,255,255,0.9); }
+    .popup-close-btn svg { width: 9px; height: 9px; }
+    .popup-body { padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 8px; }
+    .popup-tag  { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; color: rgba(80,80,80,0.7); text-transform: uppercase; }
+    .popup-title{ font-size: 24px; font-weight: 300; color: rgba(20,20,20,0.92); line-height: 1.15; letter-spacing: -0.02em; }
+    .popup-desc { font-size: 12px; font-weight: 400; line-height: 1.65; color: rgba(40,40,40,0.6); }
+    .popup-360-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 11px;
+      border-radius: 999px; border: 1px solid rgba(0,0,0,0.1);
+      background: rgba(255,255,255,0.55);
+      font-size: 11px; font-weight: 500; letter-spacing: 0.12em; color: rgba(20,20,20,0.75);
+      text-transform: uppercase; cursor: pointer;
+      transition: background 200ms ease, border-color 200ms ease;
+    }
+    .popup-360-btn:hover { background: rgba(255,255,255,0.85); border-color: rgba(0,0,0,0.15); }
+    .popup-360-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ── Panorama Modal ── */
+    #pano-modal {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    #pano-modal.open { opacity: 1; pointer-events: auto; }
+    #pano-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(5,5,4,0.78);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+    #pano-modal-box {
+      position: relative;
+      width: min(98vw, 1440px); height: min(94vh, 980px);
+      border-radius: 16px; overflow: hidden;
+      background: #0c0c0a;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 40px 120px rgba(0,0,0,0.75);
+      transform: scale(0.93);
+      transition: transform 280ms ease;
+    }
+    #pano-modal.open #pano-modal-box { transform: scale(1); }
+    #pano-modal-close {
+      position: absolute; top: 16px; right: 16px; z-index: 10;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: rgba(255,255,255,0.85);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    #pano-modal-close:hover { background: rgba(0,0,0,0.72); border-color: rgba(255,255,255,0.35); }
+    #pano-modal-badge {
+      position: absolute; top: 16px; left: 16px; z-index: 10;
+      padding: 4px 12px;
+      background: rgba(0,0,0,0.52); backdrop-filter: blur(10px);
+      border: 1px solid rgba(200,169,110,0.35); border-radius: 20px;
+      font-size: 9px; font-weight: 500; letter-spacing: 0.2em;
+      color: #c8a96e; text-transform: uppercase; pointer-events: none;
+    }
+    #pano-canvas { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+    #pano-canvas:active { cursor: grabbing; }
+    #pano-hint {
+      position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 7px;
+      padding: 6px 14px;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+      font-size: 10px; letter-spacing: 0.12em; color: rgba(255,255,255,0.55);
+      text-transform: uppercase; pointer-events: none; white-space: nowrap;
+      transition: opacity 0.5s;
+    }
+    #pano-hint.hidden { opacity: 0; }
+    #pano-loading {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
+      background: #0c0c0a;
+      font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; transition: opacity 0.4s; pointer-events: none;
+    }
+    #pano-loading.hidden { opacity: 0; pointer-events: none; }
+    #pano-spinner {
+      width: 28px; height: 28px;
+      border: 2px solid rgba(255,255,255,0.08); border-top-color: #c8a96e;
+      border-radius: 50%; animation: panoSpin 0.8s linear infinite;
+    }
+    @keyframes panoSpin { to { transform: rotate(360deg); } }
+    @media (hover: none) {
+      .city-popup { background: #ebebea; }
+    }
+    #btn-back {
+      display: none !important;
+      position: fixed;
+      top: max(20px, env(safe-area-inset-top, 20px));
+      left: 20px;
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: rgba(255,255,255,0.85);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    #btn-back:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateX(-2px);
+    }
+    #btn-back svg { flex-shrink: 0; opacity: 0.75; }
+    .lang-switcher {
+      position: fixed;
+      top: 28px;
+      right: 32px;
+      z-index: 200;
+      display: flex;
+      gap: 16px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      padding: 2px 0 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .lang-btn.active { color: #fff; border-bottom-color: #c8a96e; }
+    .lang-btn:hover:not(.active) { color: rgba(255,255,255,0.65); }
+  </style>
+  <style>
+    /* ── MAP MODAL — light mode ───────────────────────────── */
+    #map-modal {
+      position: fixed; top: 20px; right: 20px; z-index: 80;
+      display: flex; align-items: flex-start; justify-content: flex-end;
+      background: none;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    #map-modal.open { opacity: 1; pointer-events: auto; }
+    #map-modal-box {
+      width: 420px;
+      max-height: min(90vh, 660px);
+      background: #f8f7f5; border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.22);
+      animation: mapBoxIn 0.32s cubic-bezier(0.34,1.4,0.64,1) both;
+    }
+    @keyframes mapBoxIn {
+      from { transform: translateX(16px) scale(0.97); opacity: 0; }
+      to   { transform: none; opacity: 1; }
+    }
+    #map-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 18px 10px; flex-shrink: 0;
+    }
+    #map-modal-title {
+      font-size: 17px; font-weight: 600; color: #1a1a1a; letter-spacing: -0.01em;
+    }
+    #map-modal-close {
+      width: 28px; height: 28px; border-radius: 50%; font-size: 0; flex-shrink: 0;
+      background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.1);
+      color: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s;
+    }
+    #map-modal-close:hover { background: rgba(0,0,0,0.11); }
+    #map-filter-bar {
+      display: flex; flex-wrap: wrap; gap: 7px;
+      padding: 0 18px 14px; flex-shrink: 0;
+    }
+    .map-filter {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 13px; border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.14); background: transparent;
+      font-family: inherit; color: rgba(0,0,0,0.45); font-size: 12px; font-weight: 500;
+      cursor: pointer; transition: all 0.18s;
+    }
+    .map-filter.active  { background: #1a1a1a; border-color: transparent; color: #fff; }
+    .map-filter:hover:not(.active) { border-color: rgba(0,0,0,0.3); color: rgba(0,0,0,0.75); }
+    .map-filter svg { flex-shrink: 0; }
+    #map-container { flex: 0 0 auto; height: 260px; position: relative; }
+    #map-container::after {
+      content: ""; position: absolute; inset: 0; z-index: 650; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(240,237,232,0.5) 100%);
+    }
+    #map-poi-list {
+      flex: 1; overflow-y: auto; min-height: 0; max-height: 260px;
+      border-top: 1px solid rgba(0,0,0,0.07);
+    }
+    .map-list-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 13px 18px; border-bottom: 1px solid rgba(0,0,0,0.055);
+      cursor: pointer; transition: background 0.14s;
+    }
+    .map-list-item:hover { background: rgba(0,0,0,0.04); }
+    .map-list-item:last-child { border-bottom: none; }
+    .map-list-icon {
+      width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; color: #fff;
+    }
+    .map-list-info { flex: 1; min-width: 0; }
+    .map-list-name { font-size: 13px; font-weight: 500; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .map-list-cat  { font-size: 10px; color: rgba(0,0,0,0.35); margin-top: 2px; }
+    .map-list-time { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(0,0,0,0.38); flex-shrink: 0; }
+    /* ── Schematic Mini-Map ─────────────────────────────── */
+    #mini-map {
+      position: absolute; inset: 0;
+      background: #ede9e2; overflow: hidden;
+    }
+    .street { position: absolute; background: rgba(0,0,0,0.09); }
+    .street.sh { left: 0; right: 0; height: 1px; transform: translateY(-50%); }
+    .street.sv { top: 0; bottom: 0; width: 1px; transform: translateX(-50%); }
+    .ring {
+      position: absolute; border-radius: 50%;
+      border: 1.5px dashed rgba(0,0,0,0.18);
+      left: 50%; top: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+    .ring-out { width: 55%; aspect-ratio: 1; }
+    .ring-in  { width: 34%; aspect-ratio: 1; }
+    .ring-label {
+      position: absolute; top: 8px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px; font-weight: 500; color: rgba(0,0,0,0.32);
+      white-space: nowrap; pointer-events: none;
+    }
+    .center {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      z-index: 10; pointer-events: none;
+    }
+    .center-dot {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #1a1a1a; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.22);
+    }
+    .center-label {
+      background: #1a1a1a; color: #fff;
+      font-size: 10px; font-weight: 600;
+      padding: 3px 9px; border-radius: 999px;
+      white-space: nowrap;
+    }
+    .pin {
+      position: absolute; z-index: 5;
+      transform: translate(-50%,-50%);
+      cursor: pointer;
+    }
+    .pin-dot {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; border: 2px solid rgba(255,255,255,0.88);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: transform 0.18s;
+    }
+    .pin:hover .pin-dot { transform: scale(1.12); }
+    .pin-pop {
+      display: none; position: absolute;
+      bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+      background: #fff; border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 10px; padding: 8px 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+      min-width: 140px; z-index: 20; pointer-events: none;
+    }
+    .pin-pop.open { display: block; }
+    .pp-cat  { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .pp-name { font-size: 12px; font-weight: 600; color: #1a1a1a; margin-top: 2px; }
+    .pp-time { font-size: 10px; color: rgba(0,0,0,0.38); margin-top: 1px; }
+    /* Separador visual entre nav e botão Entorno no track */
+    #track-map-sep {
+      width: 1px; background: rgba(0,0,0,0.12); margin: 6px 2px; align-self: stretch;
+    }
+    @media (max-width: 600px) {
+      /* bottom sheet */
+      #map-modal { align-items: flex-end; padding: 0; background: rgba(0,0,0,0.25); }
+      #map-modal-box {
+        width: 100%; border-radius: 16px 16px 0 0;
+        height: 88vh; max-height: 88vh;
+      }
+      #map-container { height: 42vh; flex: 0 0 42vh; }
+
+      /* lista: ocupa o resto do sheet */
+      #map-poi-list { max-height: none; flex: 1; }
+
+      /* filtros: rola horizontal em vez de quebrar linha */
+      #map-filter-bar {
+        flex-wrap: nowrap; overflow-x: auto;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      }
+      #map-filter-bar::-webkit-scrollbar { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <a id="btn-back" href="fi-preview.html">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 3L5 8l5 5"/>
+    </svg>
+    <span data-i18n="back">Voltar</span>
+  </a>
+  <div id="cursor"></div>
+  <div id="ring"></div>
+  <div id="noise"></div>
+
+  <div id="stage">
+    <video id="main-video" muted loop playsinline preload="auto"></video>
+    <canvas id="seq-canvas"></canvas>
+    <div id="poi-layer"></div>
+  </div>
+
+  <div id="scene-tag"></div>
+  <div id="track"></div>
+
+  <div id="loader"><span></span><span></span><span></span></div>
+
+  <div id="debug-hud" hidden>
+    <span id="debug-mode">DEBUG ON — clique para coordenadas</span>
+    <span id="debug-coords">—</span>
+  </div>
+
+  <!-- MAP MODAL -->
+  <div id="map-modal" aria-hidden="true" onclick="if(event.target===this)closeMapModal()">
+    <div id="map-modal-box">
+      <div id="map-modal-header">
+        <div id="map-modal-title">O entorno</div>
+        <button id="map-modal-close" onclick="closeMapModal()" aria-label="Fechar">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
+          </svg>
+        </button>
+      </div>
+      <div id="map-filter-bar">
+        <button class="map-filter active" data-cat="all" onclick="setMapFilter('all')">Tudo</button>
+        <button class="map-filter" data-cat="educacao" onclick="setMapFilter('educacao')">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+          Educação
+        </button>
+        <button class="map-filter" data-cat="saude" onclick="setMapFilter('saude')">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          Saúde
+        </button>
+        <button class="map-filter" data-cat="lazer" onclick="setMapFilter('lazer')">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Lazer
+        </button>
+        <button class="map-filter" data-cat="transporte" onclick="setMapFilter('transporte')">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+          Transporte
+        </button>
+      </div>
+      <div id="map-container">
+        <div id="mini-map">
+          <div class="street sh" style="top:50%"></div>
+          <div class="street sv" style="left:50%"></div>
+          <div class="street sh" style="top:24%"></div>
+          <div class="street sv" style="left:72%"></div>
+          <div class="ring ring-out"></div>
+          <div class="ring ring-in"></div>
+          <div class="ring-label">15 min a pé</div>
+          <div class="center">
+            <div class="center-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22V12h6v10"/></svg></div>
+            <div class="center-label">Residencial Batel</div>
+          </div>
+        </div>
+      </div>
+      <div id="map-poi-list"></div>
+    </div>
+  </div>
+
+  <!-- 360° Panorama Modal -->
+  <div id="pano-modal" aria-hidden="true">
+    <div id="pano-modal-backdrop" onclick="cityClosePano()"></div>
+    <div id="pano-modal-box">
+      <button id="pano-modal-close" onclick="cityClosePano()">
+        <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="10" height="10">
+          <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
+        </svg>
+      </button>
+      <div id="pano-modal-badge">360°</div>
+      <canvas id="pano-canvas"></canvas>
+      <div id="pano-hint">Arraste para explorar · Scroll para zoom</div>
+      <div id="pano-loading"><div id="pano-spinner"></div>Carregando...</div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="scenes-city.js"></script>
+  <script src="script.js"></script>
+  <script src="pois-city.js"></script>
+  <script>
+    (function () {
+      var T = { pt: { "back": "Voltar" }, en: { "back": "Back" } };
+      function applyLang(lang) {
+        var dict = T[lang]; if (!dict) return;
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+          var key = el.getAttribute("data-i18n");
+          var val = dict[key]; if (val === undefined) return;
+          el.textContent = val;
+        });
+        document.documentElement.lang = lang === "en" ? "en-US" : "pt-BR";
+        localStorage.setItem("fi-lang", lang);
+      }
+      document.querySelectorAll(".lang-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var lang = btn.getAttribute("data-lang");
+          document.querySelectorAll(".lang-btn").forEach(function (b) { b.classList.toggle("active", b === btn); });
+          applyLang(lang);
+        });
+      });
+      var saved = localStorage.getItem("fi-lang");
+      if (saved && T[saved] && saved !== "pt") applyLang(saved);
+    })();
+  </script>
+
+  <!-- ── GA Event Tracking ──────────────────────────────── -->
+  <script>
+    function track(name, params) { window.gtag && gtag('event', name, params || {}); }
+
+    // Panorama 360°
+    if (typeof cityOpenPano === 'function') {
+      var _origPano = cityOpenPano;
+      window.cityOpenPano = cityOpenPano = function(src) {
+        track('pano_open', { produto: 'city_explorer' });
+        return _origPano(src);
+      };
+    }
+  </script>
+
+  <!-- ── Mapa do Entorno — schematic ─────────────────────── -->
+  <script>
+    var MAP_CATS = {
+      lazer:      { color: '#639922', label: 'Lazer'      },
+      educacao:   { color: '#378ADD', label: 'Educação'   },
+      saude:      { color: '#1D9E75', label: 'Saúde'      },
+      transporte: { color: '#BA7517', label: 'Transporte' },
+    };
+    var MAP_ICONS = {
+      lazer:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22V12"/><circle cx="12" cy="7" r="5"/><path d="M5 22h14"/></svg>',
+      educacao:   '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>',
+      saude:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14"><path d="M3 12h4l2 5 4-12 2 7h6"/></svg>',
+      transporte: '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>',
+    };
+    var SVG_WALK = '<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L7.3 6.8v4.7h2V8.1l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg>';
+    var SVG_CAR  = '<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.92 6C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-6zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>';
+
+    var POIS = [
+      { cat: 'educacao',   nome: 'Colégio Bilíngue Internacional', tempo: '8 min a pé',      x: 33, y: 35 },
+      { cat: 'saude',      nome: 'Hospital Santa Luzia',           tempo: '6 min de carro',  x: 65, y: 27 },
+      { cat: 'lazer',      nome: 'Parque das Araucárias',          tempo: '5 min a pé',      x: 27, y: 72 },
+      { cat: 'transporte', nome: 'Aeroporto Afonso Pena',          tempo: '22 min de carro', x: 74, y: 74 },
+    ];
+
+    var miniMapInited = false;
+    var activePin = null;
+
+    function initMiniMap() {
+      if (miniMapInited) return;
+      miniMapInited = true;
+      var map = document.getElementById('mini-map');
+      if (!map) return;
+      POIS.forEach(function(poi) {
+        var c = MAP_CATS[poi.cat];
+        var pin = document.createElement('div');
+        pin.className = 'pin';
+        pin.dataset.cat = poi.cat;
+        pin.style.left = poi.x + '%';
+        pin.style.top  = poi.y + '%';
+        pin.innerHTML =
+          '<div class="pin-dot" style="background:' + c.color + '">' + MAP_ICONS[poi.cat] + '</div>' +
+          '<div class="pin-pop">' +
+            '<div class="pp-cat" style="color:' + c.color + '">' + c.label + '</div>' +
+            '<div class="pp-name">' + poi.nome + '</div>' +
+            '<div class="pp-time">' + poi.tempo + '</div>' +
+          '</div>';
+        pin.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var pop = pin.querySelector('.pin-pop');
+          var isOpen = pop.classList.contains('open');
+          if (activePin) activePin.querySelector('.pin-pop').classList.remove('open');
+          if (!isOpen) { pop.classList.add('open'); activePin = pin; }
+          else { activePin = null; }
+        });
+        map.appendChild(pin);
+      });
+      document.addEventListener('click', function() {
+        if (activePin) { activePin.querySelector('.pin-pop').classList.remove('open'); activePin = null; }
+      });
+      buildMapPoiList('all');
+    }
+
+    function filtrarMapa(cat) {
+      document.querySelectorAll('#mini-map .pin').forEach(function(pin) {
+        pin.style.display = (cat === 'all' || pin.dataset.cat === cat) ? '' : 'none';
+      });
+    }
+
+    function openMapModal() {
+      var modal = document.getElementById('map-modal');
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.querySelectorAll('.map-filter').forEach(function(b) {
+        b.classList.toggle('active', b.dataset.cat === 'all');
+      });
+      if (!miniMapInited) {
+        initMiniMap();
+      } else {
+        filtrarMapa('all');
+        buildMapPoiList('all');
+      }
+      if (typeof track === 'function') track('map_open', { produto: 'city_explorer' });
+    }
+
+    function closeMapModal() {
+      var modal = document.getElementById('map-modal');
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    function buildMapPoiList(cat) {
+      var list = document.getElementById('map-poi-list');
+      if (!list) return;
+      var visible = cat === 'all'
+        ? POIS
+        : POIS.filter(function(p) { return p.cat === cat; });
+      list.innerHTML = visible.map(function(poi) {
+        var c = MAP_CATS[poi.cat];
+        var timeNum = (poi.tempo.match(/\d+/) || [''])[0];
+        var isWalk = poi.tempo.indexOf('a pé') !== -1;
+        return '<div class="map-list-item">' +
+          '<div class="map-list-icon" style="background:' + c.color + '">' + MAP_ICONS[poi.cat] + '</div>' +
+          '<div class="map-list-info">' +
+            '<div class="map-list-name">' + poi.nome + '</div>' +
+            '<div class="map-list-cat">' + c.label + '</div>' +
+          '</div>' +
+          '<div class="map-list-time">' + (isWalk ? SVG_WALK : SVG_CAR) + '<span>' + timeNum + ' min</span></div>' +
+          '</div>';
+      }).join('');
+    }
+
+    function setMapFilter(cat) {
+      document.querySelectorAll('.map-filter').forEach(function(b) {
+        b.classList.toggle('active', b.dataset.cat === cat);
+      });
+      filtrarMapa(cat);
+      buildMapPoiList(cat);
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('map-modal').classList.contains('open')) closeMapModal();
+    });
+  </script>
+</body>
+</html>

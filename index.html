@@ -1,0 +1,2283 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-3K51DFTX3J');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Primary -->
+    <title>
+      Factory Interactive — Experiências Digitais para Arquitetura e Mercado
+      Imobiliário
+    </title>
+    <meta
+      name="description"
+      content="Studio criativo especializado em websites premium, archviz interativo, experiências realtime e conteúdo visual para arquitetos, incorporadoras e empreendimentos premium."
+    />
+    <meta
+      name="keywords"
+      content="archviz interativo, website premium, arquitetura digital, experiência imersiva, realtime, unreal engine, VR AR, mercado imobiliário digital, landing page imobiliária"
+    />
+    <meta name="author" content="Factory Interactive" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#080808" />
+    <meta name="copyright" content="Factory Interactive" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="geo.region" content="BR-PR" />
+    <meta name="geo.placename" content="Curitiba, Paraná" />
+    <link rel="canonical" href="https://factorystudio.works/" />
+    <link
+      rel="alternate"
+      hreflang="pt-BR"
+      href="https://factorystudio.works/"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://factorystudio.works/" />
+    <meta
+      property="og:title"
+      content="Factory Interactive — Experiências Digitais Premium"
+    />
+    <meta
+      property="og:description"
+      content="Websites, archviz interativo, realtime e experiências imersivas para arquitetura e mercado imobiliário."
+    />
+    <meta
+      property="og:image"
+      content="https://factorystudio.works/images/og-image.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Factory Interactive" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Factory Interactive — Experiências Digitais Premium"
+    />
+    <meta
+      name="twitter:description"
+      content="Websites, archviz interativo, realtime e experiências imersivas para arquitetura e mercado imobiliário."
+    />
+    <meta
+      name="twitter:image"
+      content="https://factorystudio.works/images/og-image.jpg"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo_site.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="images/logo_site2.png" />
+    <link rel="preload" as="image" href="images/seq_arch/seq_teste_000.webp" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Factory Interactive",
+        "description": "Studio criativo especializado em experiências digitais interativas para arquitetura, real estate e lançamentos imobiliários.",
+        "url": "https://factorystudio-one.vercel.app",
+        "telephone": "+5541992272317",
+        "email": "escrevaparajd@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Curitiba",
+          "addressRegion": "PR",
+          "addressCountry": "BR"
+        },
+        "image": "https://factorystudio.works/images/og-image.jpg",
+        "priceRange": "$$",
+        "areaServed": [
+          { "@type": "City", "name": "Curitiba" },
+          { "@type": "Country", "name": "Brasil" }
+        ],
+        "sameAs": [
+          "https://www.instagram.com/jdworkviz/",
+          "https://www.behance.net/firsightstudio"
+        ]
+      }
+    </script>
+
+    <style>
+      /* ── RESET & TOKENS ── */
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      *,
+      *:focus,
+      *:focus-visible {
+        outline: none !important;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      :root {
+        --gold: #b89c6e;
+        --gold-d: #a08860;
+        --bg: #080808;
+        --bg-alt: #1e1e1e;
+        --text: #f5f5f5;
+        --muted: rgba(255, 255, 255, 0.45);
+        --border: rgba(255, 255, 255, 0.08);
+        --pad: 10%;
+        --radius: 24px;
+        --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+        -webkit-user-drag: none;
+        user-select: none;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      section {
+        padding: 120px var(--pad);
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* ── TIPOGRAFIA ── */
+      .section-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: clamp(2.16rem, 5.04vw, 5.04rem);
+        line-height: 0.92;
+        letter-spacing: -0.05em;
+        max-width: 1100px;
+        margin-bottom: 28px;
+        font-weight: 800;
+      }
+
+      h2 {
+        font-size: clamp(2rem, 5vw, 4.5rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        margin-bottom: 28px;
+        max-width: 900px;
+      }
+
+      /* ── SCROLL REVEAL ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.75s var(--ease),
+          transform 0.75s var(--ease);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 {
+        transition-delay: 0.1s;
+      }
+      .reveal-delay-2 {
+        transition-delay: 0.22s;
+      }
+      .reveal-delay-3 {
+        transition-delay: 0.34s;
+      }
+
+      /* ── BOTÃO WHATSAPP ── */
+      .btn-wa {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 24px 10px 10px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 16px;
+        color: #fff;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        width: fit-content;
+        transition:
+          background 0.3s,
+          border-color 0.3s,
+          transform 0.3s;
+      }
+
+      .btn-wa:hover {
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-3px);
+      }
+
+      .btn-wa-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background: var(--gold);
+        border-radius: 10px;
+        color: #000;
+        flex-shrink: 0;
+        transition:
+          transform 0.35s var(--ease),
+          background 0.3s;
+      }
+
+      .btn-wa:hover .btn-wa-icon {
+        transform: rotate(12deg) scale(1.12);
+        background: var(--gold-d);
+      }
+
+      /* ── HERO ── */
+      .hero {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 var(--pad) 168px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        z-index: -2;
+      }
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transform: scale(1.06);
+        transition:
+          opacity 1.5s ease,
+          transform 9s ease;
+      }
+      .hero-slide.active {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.92),
+          rgba(0, 0, 0, 0.32)
+        );
+        z-index: -1;
+      }
+
+      /* Animações de entrada do hero */
+      .hero-logo {
+        height: 36px;
+        width: auto;
+        align-self: flex-start;
+        margin-bottom: 28px;
+        opacity: 0;
+        transform: translateY(14px);
+        animation: heroFadeUp 0.8s var(--ease) 0.25s forwards;
+      }
+
+      /* ── HERO NAV BLOCKS ── */
+      .hero-nav {
+        position: absolute;
+        bottom: 36px;
+        right: var(--pad);
+        display: flex;
+        gap: 7px;
+        z-index: 2;
+        width: min(532px, 50vw);
+      }
+
+      .hero-nav-block {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 13px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.22);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        text-decoration: none;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: background 0.3s, border-color 0.3s, transform 0.3s;
+      }
+      .hero-nav-block:hover {
+        background: rgba(255,255,255,0.18);
+        border-color: rgba(255,255,255,0.4);
+        transform: translateY(-3px);
+      }
+      .hero-nav-block.active {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.22);
+      }
+
+      .hero-nav-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        background: var(--gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #000;
+        transition: transform 0.35s var(--ease), background 0.3s;
+      }
+      .hero-nav-block:hover .hero-nav-icon {
+        transform: rotate(12deg) scale(1.12);
+        background: var(--gold-d);
+      }
+
+      .hero-nav-text { flex: 1; min-width: 0; }
+
+      .hero-nav-title {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #fff;
+        white-space: nowrap;
+      }
+
+      .hero-nav-sub {
+        font-size: 10px;
+        font-weight: 400;
+        color: rgba(255,255,255,0.5);
+        margin-top: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 0;
+        opacity: 0;
+        transition: max-height 0.35s ease, opacity 0.35s ease, margin 0.35s ease;
+      }
+      .hero-nav-block.active .hero-nav-sub {
+        max-height: 20px;
+        opacity: 1;
+        margin-top: 4px;
+      }
+
+      .hero-nav-num {
+        position: absolute;
+        bottom: 10px;
+        right: 11px;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        color: rgba(255,255,255,0.3);
+      }
+
+      .hero-nav-bar { display: none; }
+
+      @media (max-width: 860px) {
+        .hero-nav { width: auto; right: 20px; gap: 6px; }
+        .hero-nav-sub { display: none; }
+        .hero-nav-block { padding: 14px 14px; gap: 10px; }
+        .hero-nav-icon { width: 34px; height: 34px; }
+        .hero-nav-title { font-size: 13px; }
+      }
+      @media (max-width: 540px) {
+        .hero-nav { display: none; }
+        .hero { padding-bottom: 80px; }
+      }
+
+      .hero h1 {
+        opacity: 0;
+        transform: translateY(22px);
+        animation: heroFadeUp 0.9s var(--ease) 0.45s forwards;
+      }
+
+      .hero p {
+        max-width: 680px;
+        font-size: 0.95rem;
+        font-weight: 400;
+        line-height: 1.85;
+        color: rgba(255, 255, 255, 0.65);
+        margin-bottom: 40px;
+        opacity: 0;
+        transform: translateY(18px);
+        animation: heroFadeUp 0.9s var(--ease) 0.65s forwards;
+      }
+
+      .hero .btn-wa {
+        opacity: 0;
+        animation: heroFadeUp 0.8s var(--ease) 0.85s forwards;
+      }
+
+      @keyframes heroFadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes heroFadeDown {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+
+      /* ── WEB STATEMENT ── */
+      .web-statement {
+        padding: 120px var(--pad);
+        background: var(--bg-alt);
+      }
+      .ws-text {
+        font-size: clamp(2rem, 3.6vw, 3.2rem);
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.025em;
+        color: var(--text);
+        max-width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .ws-text em {
+        font-style: normal;
+        color: #c9a84c;
+      }
+      .ws-sub {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-top: 64px;
+        padding-top: 48px;
+        border-top: 1px solid var(--border);
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .ws-sub-item {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .ws-sub-icon {
+        width: 38px;
+        height: 38px;
+        background: var(--gold);
+        border-radius: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #111;
+      }
+      .ws-sub-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+      .ws-sub-p {
+        font-size: 0.95rem;
+        color: var(--muted);
+        line-height: 1.7;
+        font-weight: 400;
+      }
+
+      /* ── SERVIÇOS ── */
+      .section-services {
+        background: #000;
+        padding: 0;
+        border: none;
+      }
+
+      /* Bento grid */
+      .services-bento {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 340px 340px;
+        gap: 0;
+        overflow: hidden;
+        transform: translateZ(0);
+      }
+
+      .svc-card {
+        margin: -0.5px;
+        position: relative;
+        overflow: hidden;
+        cursor: default;
+      }
+
+      /* posições individuais */
+      .svc-web {
+        grid-column: 1 / 3;
+        grid-row: 1 / 3;
+      }
+      .svc-ai {
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+      }
+      .svc-arch {
+        grid-column: 3 / 4;
+        grid-row: 2 / 3;
+      }
+      .svc-real {
+        grid-column: 4 / 5;
+        grid-row: 1 / 3;
+      }
+      .svc-vr {
+        grid-column: 5 / 6;
+        grid-row: 1 / 2;
+      }
+      .svc-voz {
+        grid-column: 5 / 6;
+        grid-row: 2 / 3;
+      }
+
+      /* imagem de fundo */
+      .svc-bg {
+        position: absolute;
+        inset: 0;
+      }
+
+      .svc-bg img,
+      .svc-bg video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.9s var(--ease);
+      }
+
+      .svc-card:hover .svc-bg img {
+        transform: scale(1.07);
+      }
+
+      /* overlay e conteúdo */
+      .svc-content {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.9) 0%,
+          rgba(0, 0, 0, 0.28) 45%,
+          transparent 72%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 32px 36px;
+        transition: background 0.45s;
+      }
+
+      .svc-card:hover .svc-content {
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.96) 0%,
+          rgba(0, 0, 0, 0.4) 50%,
+          transparent 78%
+        );
+      }
+
+      .svc-num {
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        color: var(--gold);
+        opacity: 0.72;
+        font-weight: 500;
+      }
+
+      .svc-bottom {
+        transform: translateY(10px);
+        transition: transform 0.45s var(--ease);
+      }
+
+      .svc-card:hover .svc-bottom {
+        transform: translateY(0);
+      }
+
+      .svc-card h3 {
+        font-size: clamp(1.1rem, 1.8vw, 1.7rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+        line-height: 1.15;
+      }
+
+      .svc-card p {
+        font-size: 0.95rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.58);
+        line-height: 1.8;
+        margin-bottom: 16px;
+        max-width: 340px;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+
+      .tag {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 100px;
+        padding: 5px 11px;
+        font-size: 0.74rem;
+        color: rgba(255, 255, 255, 0.55);
+        letter-spacing: 0.04em;
+        transition:
+          border-color 0.25s,
+          color 0.25s;
+      }
+
+      .svc-card:hover .tag {
+        border-color: rgba(184, 156, 110, 0.35);
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      /* Cards especiais — fundo dourado sólido */
+      .svc-card--special {
+        background: var(--gold);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 32px 36px;
+        color: #1a1200;
+        transition: background 0.3s;
+      }
+
+      .svc-card--special:hover {
+        background: var(--gold-d);
+      }
+
+      .svc-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(0, 0, 0, 0.14);
+        color: rgba(26, 18, 0, 0.72);
+        font-size: 0.58rem;
+        font-weight: 700;
+        letter-spacing: 0.26em;
+        padding: 5px 12px;
+        border-radius: 100px;
+        width: fit-content;
+      }
+
+      .svc-card--special h3 {
+        font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+        color: #1a1200;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+        line-height: 1.15;
+      }
+
+      .svc-card--special p {
+        font-size: 0.95rem;
+        font-weight: 400;
+        color: rgba(26, 18, 0, 0.62);
+        line-height: 1.8;
+        margin-bottom: 16px;
+      }
+
+      .tag.tag-special {
+        border-color: rgba(26, 18, 0, 0.16);
+        color: rgba(26, 18, 0, 0.55);
+      }
+
+      .svc-card--special:hover .tag.tag-special {
+        border-color: rgba(26, 18, 0, 0.3);
+        color: rgba(26, 18, 0, 0.75);
+      }
+
+      /* ── PORTFÓLIO 2×2 ── */
+      .section-portfolio {
+        padding: 0;
+        border-bottom: none;
+      }
+
+      .portfolio-fw-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 60vh 60vh;
+        gap: 3px;
+      }
+
+      .portfolio-fw-card {
+        position: relative;
+        overflow: hidden;
+        background: #111;
+      }
+
+      .portfolio-fw-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.85s var(--ease);
+      }
+
+      .portfolio-fw-card:hover img {
+        transform: scale(1.05);
+      }
+
+      .portfolio-fw-info {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.82) 0%,
+          transparent 52%
+        );
+        display: flex;
+        align-items: flex-end;
+        padding: 36px 40px;
+        transition: background 0.4s;
+      }
+
+      .portfolio-fw-card:hover .portfolio-fw-info {
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.92) 0%,
+          transparent 58%
+        );
+      }
+
+      .portfolio-fw-info > div {
+        transform: translateY(8px);
+        transition: transform 0.45s var(--ease);
+      }
+
+      .portfolio-fw-card:hover .portfolio-fw-info > div {
+        transform: translateY(0);
+      }
+
+      .portfolio-fw-label {
+        font-size: 0.58rem;
+        letter-spacing: 0.22em;
+        color: rgba(255, 255, 255, 0.4);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      .portfolio-fw-info h3 {
+        font-size: clamp(1.3rem, 2vw, 2rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+        line-height: 1;
+      }
+
+      .portfolio-fw-info span {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.46);
+        letter-spacing: 0.04em;
+      }
+
+      /* ── CTA ── */
+      .cta {
+        text-align: center;
+        background: var(--bg-alt);
+      }
+
+      .cta h2 {
+        margin: 0 auto 24px;
+      }
+
+      .cta p {
+        max-width: 580px;
+        margin: 0 auto 40px;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.9;
+        font-size: 0.95rem;
+        font-weight: 400;
+      }
+
+      .cta .btn-wa {
+        margin: 0 auto;
+      }
+
+      /* ── CONTACT FORM ── */
+      .cf-wrap {
+        margin-top: 52px;
+        width: 100%;
+        max-width: 640px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+      }
+
+      .cf-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 36px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .cf-divider::before,
+      .cf-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .cf label {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .cf input,
+      .cf textarea {
+        width: 100%;
+        background: #121212;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s var(--ease);
+        box-sizing: border-box;
+      }
+
+      .cf input:focus,
+      .cf textarea:focus {
+        border-color: var(--gold);
+      }
+
+      .cf input::placeholder,
+      .cf textarea::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+      }
+
+      .cf textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .cf .cf-row {
+        display: flex;
+        gap: 16px;
+      }
+
+      .cf .cf-row > div {
+        flex: 1;
+      }
+
+      .cf > div,
+      .cf .cf-row {
+        margin-bottom: 20px;
+      }
+
+      .sub-btn {
+        width: 100%;
+        padding: 16px;
+        background: var(--gold);
+        color: #1a1200;
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition:
+          background 0.2s var(--ease),
+          transform 0.2s var(--ease);
+        letter-spacing: 0.04em;
+        margin-top: 4px;
+      }
+
+      .sub-btn:hover:not(:disabled) {
+        background: var(--gold-d);
+        transform: translateY(-2px);
+      }
+
+      .sub-btn:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        padding: 40px var(--pad);
+        display: flex;
+        justify-content: center;
+        color: var(--muted);
+        font-size: 0.82rem;
+        border-top: 1px solid var(--border);
+        letter-spacing: 0.03em;
+      }
+
+      /* ── RESPONSIVE ── */
+
+      /* Touch devices: info always visible (sem hover) */
+      @media (hover: none) {
+        .svc-bottom {
+          transform: none !important;
+        }
+        .portfolio-fw-info > div {
+          transform: none !important;
+        }
+        .ph-slide:hover img {
+          transform: none;
+        }
+        .ph-slide:hover .ph-arrow {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.28);
+          color: #fff;
+        }
+      }
+
+      /* 4K / Ultra-wide (≥1921px) */
+      @media (min-width: 1921px) {
+        :root {
+          --pad: 15%;
+        }
+        .hero-logo {
+          height: 82px;
+        }
+        .services-bento {
+          grid-template-rows: 400px 400px;
+        }
+      }
+
+      /* Tablet / iPad (769px – 1024px) */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        :root {
+          --pad: 8%;
+        }
+
+        .hero-logo {
+          height: 56px;
+        }
+
+        .services-bento {
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-rows: 300px 300px 180px;
+        }
+        .svc-web {
+          grid-column: 1 / 3;
+          grid-row: 1 / 2;
+        }
+        .svc-ai {
+          grid-column: 3 / 4;
+          grid-row: 1 / 2;
+        }
+        .svc-arch {
+          grid-column: 1 / 2;
+          grid-row: 2 / 3;
+        }
+        .svc-real {
+          grid-column: 2 / 3;
+          grid-row: 2 / 3;
+        }
+        .svc-vr {
+          grid-column: 3 / 4;
+          grid-row: 2 / 3;
+        }
+        .svc-voz {
+          grid-column: 1 / 4;
+          grid-row: 3 / 4;
+        }
+
+        .ph-slide-text {
+          width: 52vw !important;
+        }
+        .ph-slide {
+          width: 60vw;
+        }
+        .ph-slide-end {
+          width: 60vw !important;
+        }
+      }
+
+      /* Mobile / iPad mini portrait (≤768px) */
+      @media (max-width: 768px) {
+        :root {
+          --pad: 7%;
+        }
+
+        section {
+          padding: 80px var(--pad);
+        }
+
+        .hero-logo {
+          height: 45px;
+        }
+
+        .services-bento {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: repeat(4, 260px);
+        }
+        .svc-web {
+          grid-column: 1 / 3;
+          grid-row: 1 / 2;
+        }
+        .svc-ai {
+          grid-column: 1 / 2;
+          grid-row: 2 / 3;
+        }
+        .svc-arch {
+          grid-column: 2 / 3;
+          grid-row: 2 / 3;
+        }
+        .svc-real {
+          grid-column: 1 / 2;
+          grid-row: 3 / 4;
+        }
+        .svc-vr {
+          grid-column: 2 / 3;
+          grid-row: 3 / 4;
+        }
+        .svc-voz {
+          grid-column: 1 / 3;
+          grid-row: 4 / 5;
+        }
+
+        .svc-content,
+        .svc-card--special {
+          padding: 24px;
+        }
+        .svc-card p,
+        .svc-card--special p,
+        .hero p,
+        .ws-sub-p,
+        .cta p {
+          font-size: 0.86rem;
+        }
+
+        .portfolio-fw-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(4, 50vh);
+        }
+
+        .side-nav {
+          display: none;
+        }
+      }
+
+      /* Small phones — iPhone SE, 16, 16 Pro (≤430px) */
+      @media (max-width: 430px) {
+        :root {
+          --pad: 6%;
+        }
+
+        section {
+          padding: 64px var(--pad);
+        }
+
+        .hero-logo {
+          height: 35px;
+        }
+        .hero p {
+          font-size: 0.86rem;
+        }
+
+        .btn-wa {
+          font-size: 0.88rem;
+          padding: 8px 18px 8px 8px;
+        }
+        .btn-wa-icon {
+          width: 40px;
+          height: 40px;
+        }
+
+        .services-bento {
+          grid-template-rows: repeat(4, 220px);
+        }
+        .svc-content,
+        .svc-card--special {
+          padding: 18px;
+        }
+
+        .ph-slide-text {
+          width: 88vw !important;
+        }
+        .ph-slide {
+          width: 86vw;
+        }
+        .ph-slide-end {
+          width: 86vw !important;
+        }
+      }
+
+      /* ── SIDE NAV ── */
+      .side-nav {
+        position: fixed;
+        right: 28px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 500;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        transition: opacity 0.4s ease;
+      }
+
+      .side-nav ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        align-items: flex-end;
+        background: rgba(20, 20, 20, 0.55);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 20px;
+        padding: 16px 14px;
+      }
+
+      .side-nav li {
+        display: flex;
+        align-items: center;
+      }
+
+      .side-dot {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        position: relative;
+      }
+
+      .side-dot-label {
+        position: absolute;
+        right: calc(100% + 20px);
+        top: 50%;
+        font-size: 0.62rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.38);
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateY(-50%) translateX(6px);
+        transition:
+          opacity 0.25s var(--ease),
+          transform 0.25s var(--ease),
+          color 0.25s;
+        pointer-events: none;
+      }
+
+      .side-nav:hover .side-dot-label {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+      }
+
+      .side-dot.active .side-dot-label,
+      .side-dot:hover .side-dot-label {
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      .side-dot.active .side-dot-label {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+        color: var(--gold);
+      }
+
+      .side-dot-pip {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        transition:
+          background 0.3s,
+          transform 0.3s var(--ease),
+          border-color 0.3s;
+        flex-shrink: 0;
+      }
+
+      .side-dot.active .side-dot-pip {
+        background: var(--gold);
+        border-color: var(--gold);
+        transform: scale(1.55);
+      }
+
+      .side-dot:hover .side-dot-pip {
+        background: rgba(255, 255, 255, 0.55);
+        border-color: rgba(255, 255, 255, 0.55);
+      }
+
+      /* ── HERO TOP-RIGHT ── */
+      .hero-tl {
+        position: absolute;
+        top: 28px;
+        left: var(--pad);
+        display: flex;
+        align-items: center;
+        z-index: 10;
+      }
+
+      .hero-tl img {
+        height: 48px;
+        width: auto;
+      }
+
+      .hero-tr {
+        position: absolute;
+        top: 28px;
+        right: var(--pad);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        z-index: 10;
+      }
+      .btn-demo {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 24px 10px 10px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 16px;
+        color: #fff;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background 0.3s,
+          border-color 0.3s,
+          transform 0.3s;
+      }
+      .btn-demo:hover {
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-3px);
+      }
+      .btn-demo-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background: var(--gold);
+        border-radius: 10px;
+        color: #1a1200;
+        flex-shrink: 0;
+        transition: transform 0.35s var(--ease);
+      }
+      .btn-demo:hover .btn-demo-icon {
+        transform: rotate(12deg) scale(1.12);
+      }
+      .ig-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        transition:
+          color 0.25s,
+          border-color 0.25s,
+          transform 0.25s;
+        flex-shrink: 0;
+      }
+      .ig-link:hover {
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.45);
+        transform: scale(1.08);
+      }
+      /* ── LANG SWITCHER ── */
+      .lang-switcher {
+        display: flex;
+        gap: 16px;
+      }
+      .lang-btn {
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        padding: 2px 0 4px;
+        line-height: 1;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.35);
+        transition:
+          color 0.2s ease,
+          border-color 0.2s ease;
+        display: flex;
+        align-items: center;
+      }
+      .lang-btn.active {
+        color: #fff;
+        border-bottom-color: var(--gold);
+      }
+      .lang-btn:hover:not(.active) {
+        color: rgba(255, 255, 255, 0.65);
+      }
+    </style>
+  </head>
+
+  <body>
+    <svg style="display: none" aria-hidden="true">
+      <symbol id="icon-wa" viewBox="0 0 24 24">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+        />
+      </symbol>
+    </svg>
+
+    <!-- ── HERO ── -->
+    <section class="hero" id="hero" aria-label="Início">
+      <div class="hero-bg" id="heroBg">
+        <div
+          class="hero-slide active"
+          style="background-image: url(&quot;images/hero/h1.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h2.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h3.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h4.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h5.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h6.jpg&quot;)"
+        ></div>
+        <div
+          class="hero-slide"
+          style="background-image: url(&quot;images/hero/h7.jpg&quot;)"
+        ></div>
+      </div>
+      <div class="hero-overlay"></div>
+
+
+      <div class="hero-tr">
+        <a
+          href="https://www.instagram.com/jdworkviz/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram 7mm creative Studio"
+          class="ig-link"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="22"
+            height="22"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle
+              cx="17.5"
+              cy="6.5"
+              r="0.5"
+              fill="currentColor"
+              stroke="none"
+            />
+          </svg>
+        </a>
+        <button
+          class="btn-demo"
+          id="btn-demo"
+          aria-label="Ver demonstração do produto"
+        >
+          <span class="btn-demo-icon" aria-hidden="true">▶</span>
+          Testar Demos
+        </button>
+        <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
+          <button
+            class="lang-btn active"
+            data-lang="pt"
+            aria-label="Português (Brasil)"
+            title="Português"
+          >
+            PT
+          </button>
+          <button
+            class="lang-btn"
+            data-lang="en"
+            aria-label="English (US)"
+            title="English"
+          >
+            EN
+          </button>
+        </div>
+      </div>
+
+      <img
+        src="images/logo_site2.png"
+        alt="Factory Interactive"
+        class="hero-logo"
+      />
+
+      <h1 data-i18n="hero-h1">
+        Sites que vendem.<br />Experiências que impressionam.
+      </h1>
+
+      <p data-i18n="hero-p">
+        Para arquitetos, incorporadoras e empreendimentos premium.<br />
+        Tudo entregue como um link.
+      </p>
+
+      <a
+        href="https://wa.me/5541992272317"
+        rel="noopener noreferrer"
+        class="btn-wa"
+        aria-label="Falar com a Factory Interactive pelo WhatsApp"
+      >
+        <span class="btn-wa-icon" aria-hidden="true">
+          <svg width="22" height="22" fill="currentColor">
+            <use href="#icon-wa" />
+          </svg>
+        </span>
+        Whatsapp
+      </a>
+
+      <!-- ── HERO NAV BLOCKS ── -->
+      <nav class="hero-nav" aria-label="Navegação rápida">
+        <a class="hero-nav-block active" href="#services" data-nav="0">
+          <div class="hero-nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="hero-nav-text">
+            <div class="hero-nav-title">Serviços</div>
+            <div class="hero-nav-sub">O que fazemos</div>
+          </div>
+          <span class="hero-nav-num">02</span>
+          <div class="hero-nav-bar"></div>
+        </a>
+
+        <a class="hero-nav-block" href="#contact" data-nav="2">
+          <div class="hero-nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="hero-nav-text">
+            <div class="hero-nav-title">Contato</div>
+            <div class="hero-nav-sub">Iniciar um projeto</div>
+          </div>
+          <span class="hero-nav-num">03</span>
+          <div class="hero-nav-bar"></div>
+        </a>
+      </nav>
+    </section>
+
+    <!-- ── SERVIÇOS ── -->
+    <section
+      class="section-services"
+      id="services"
+      aria-labelledby="services-heading"
+    >
+      <h2 id="services-heading" class="sr-only">Serviços</h2>
+      <div class="services-bento">
+        <!-- Websites — card grande (2×2) -->
+        <article class="svc-card svc-web reveal">
+          <div class="svc-bg">
+            <img
+              src="images/hero/h3.jpg"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+            />
+          </div>
+          <div class="svc-content">
+            <span class="svc-num">01</span>
+            <div class="svc-bottom">
+              <h3 data-i18n="svc-web-h3">Websites & Landing Pages</h3>
+              <p data-i18n="svc-web-p">
+                Sites, landing pages e launching pages com alto impacto visual,
+                feitos para converter.
+              </p>
+              <div class="tags">
+                <span class="tag">Landing pages</span>
+                <span class="tag">Websites</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- AI — card especial dourado -->
+        <article
+          class="svc-card svc-card--special svc-ai reveal reveal-delay-1"
+        >
+          <div class="svc-badge" data-i18n="svc-ai-badge">IA</div>
+          <div>
+            <h3 data-i18n="svc-ai-h3">AI Creative Interface</h3>
+            <p data-i18n="svc-ai-p">
+              IA integrada ao site. Gera imagens, responde perguntas e
+              personaliza a experiência em tempo real.
+            </p>
+            <div class="tags">
+              <span class="tag tag-special">Generative AI</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Archviz -->
+        <article class="svc-card svc-arch reveal reveal-delay-2">
+          <div class="svc-bg">
+            <img
+              src="images/hero/h5.jpg"
+              alt="Archviz interativo para projetos de arquitetura"
+              loading="lazy"
+            />
+          </div>
+          <div class="svc-content">
+            <span class="svc-num">02</span>
+            <div class="svc-bottom">
+              <h3 data-i18n="svc-arch-h3">Interactive Archviz</h3>
+              <p data-i18n="svc-arch-p">
+                Maquete interativa navegável no navegador, ideal para
+                arquitetos, incorporadoras e construtoras.
+              </p>
+              <div class="tags">
+                <span class="tag">Walkthroughs</span>
+                <span class="tag">360 Viewer</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Realtime — card alto (1×2) -->
+        <article class="svc-card svc-real reveal reveal-delay-1">
+          <div class="svc-bg">
+            <img
+              src="images/hero/h7.jpg"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+            />
+          </div>
+          <div class="svc-content">
+            <span class="svc-num"></span>
+            <div class="svc-bottom">
+              <h3 data-i18n="svc-real-h3">Realtime & Unreal Engine</h3>
+              <p data-i18n="svc-real-p">
+                Visualização interativa com qualidade de cinema, em tempo real.
+              </p>
+              <div class="tags">
+                <span class="tag">Unreal Engine</span>
+                <span class="tag">Interactive</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- VR & AR -->
+        <article class="svc-card svc-vr reveal reveal-delay-2">
+          <div class="svc-bg">
+            <img
+              src="images/Portfolio_004.jpg"
+              alt="VR e AR para experiências virtuais imersivas"
+              loading="lazy"
+            />
+          </div>
+          <div class="svc-content">
+            <span class="svc-num"></span>
+            <div class="svc-bottom">
+              <h3 data-i18n="svc-vr-h3">VR & AR</h3>
+              <p data-i18n="svc-vr-p">
+                O cliente visita o projeto antes de ser construído, com imersão
+                total em VR ou AR.
+              </p>
+              <div class="tags">
+                <span class="tag">VR/AR</span>
+                <span class="tag">Imersive</span>
+                <span class="tag">Interactive</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Voz — card especial dourado -->
+        <article
+          class="svc-card svc-card--special svc-voz reveal reveal-delay-3"
+        >
+          <div class="svc-badge" data-i18n="svc-voz-badge">VOZ</div>
+          <div>
+            <h3 data-i18n="svc-voz-h3">Voice Interfaces</h3>
+            <p data-i18n="svc-voz-p">
+              Navegação por voz em quiosques, eventos e experiências
+              presenciais.
+            </p>
+            <div class="tags">
+              <span class="tag tag-special">AI Voice Agent</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- ── WEB-FIRST STATEMENT ── -->
+    <section class="web-statement reveal" aria-label="Tecnologia web">
+      <p class="ws-text">
+        Experiências que rodam <em>direto no navegador</em>.<br />
+        O cliente recebe <em>um link</em> — e já está dentro.
+      </p>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="cta reveal" id="contact" aria-labelledby="cta-heading">
+      <div class="section-label" data-i18n="cta-label">Iniciar Projeto</div>
+      <h2 id="cta-heading" data-i18n="cta-h2">
+        Tem um projeto em mente? A gente entrega.
+      </h2>
+      <p data-i18n="cta-p">
+        Arquitetura, incorporação, produto. A experiência digital certa.
+      </p>
+      <a
+        href="https://wa.me/5541992272317"
+        rel="noopener noreferrer"
+        class="btn-wa"
+        aria-label="Iniciar projeto pelo WhatsApp"
+      >
+        <span class="btn-wa-icon" aria-hidden="true">
+          <svg width="22" height="22" fill="currentColor">
+            <use href="#icon-wa" />
+          </svg>
+        </span>
+        Whatsapp
+      </a>
+
+      <div class="cf-wrap">
+        <div class="cf-divider">ou envie uma mensagem</div>
+        <form class="cf" onsubmit="submitForm(event)" novalidate>
+          <input
+            type="text"
+            name="_gotcha"
+            style="display: none"
+            tabindex="-1"
+            autocomplete="off"
+          />
+
+          <div class="cf-row">
+            <div>
+              <label for="f-nome">Nome</label>
+              <input
+                type="text"
+                id="f-nome"
+                name="nome"
+                autocomplete="name"
+                placeholder="Seu nome"
+                required
+              />
+            </div>
+            <div>
+              <label for="f-tel">Telefone</label>
+              <input
+                type="tel"
+                id="f-tel"
+                name="telefone"
+                autocomplete="tel"
+                placeholder="(41) 99999-9999"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="f-email">E-mail</label>
+            <input
+              type="email"
+              id="f-email"
+              name="email"
+              autocomplete="email"
+              placeholder="seu@email.com"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="f-projeto">Mensagem</label>
+            <textarea
+              id="f-projeto"
+              name="projeto"
+              rows="5"
+              placeholder="Sua mensagem..."
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="sub-btn">Enviar Mensagem</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ── SIDE NAV ── -->
+    <nav class="side-nav" aria-label="Navegação por seção">
+      <ul>
+        <li>
+          <a class="side-dot active" href="#hero" data-target="hero">
+            <span class="side-dot-label" data-i18n="nav-inicio">Início</span>
+            <span class="side-dot-pip"></span>
+          </a>
+        </li>
+        <li>
+          <a class="side-dot" href="#services" data-target="services">
+            <span class="side-dot-label" data-i18n="nav-servicos"
+              >Serviços</span
+            >
+            <span class="side-dot-pip"></span>
+          </a>
+        </li>
+        <li>
+          <a class="side-dot" href="#contact" data-target="contact">
+            <span class="side-dot-label" data-i18n="nav-contato">Contato</span>
+            <span class="side-dot-pip"></span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      <small data-i18n="footer"
+        >7mm creative Studio © 2026 · Todos os direitos reservados.</small
+      >
+    </footer>
+
+    <script>
+      (function () {
+        "use strict";
+
+        /* ── SCROLL REVEAL ── */
+        const revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0 },
+        );
+
+        document
+          .querySelectorAll(".reveal")
+          .forEach((el) => revealObserver.observe(el));
+
+        /* ── SIDE NAV ACTIVE STATE ── */
+        const sideTargets = ["hero", "services", "contact"];
+        const sideDots = document.querySelectorAll(".side-dot");
+
+        const navObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const id = entry.target.id;
+                sideDots.forEach((d) => d.classList.remove("active"));
+                const match = document.querySelector(
+                  `.side-dot[data-target="${id}"]`,
+                );
+                if (match) match.classList.add("active");
+              }
+            });
+          },
+          { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
+        );
+
+        sideTargets.forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) navObserver.observe(el);
+        });
+
+        sideDots.forEach((dot) => {
+          dot.addEventListener("click", (e) => {
+            e.preventDefault();
+            const target = document.getElementById(dot.dataset.target);
+            if (target) target.scrollIntoView({ behavior: "smooth" });
+          });
+        });
+
+        const sideNav = document.querySelector(".side-nav");
+        const heroSection = document.getElementById("hero");
+        if (sideNav && heroSection) {
+          new IntersectionObserver(
+            ([entry]) => {
+              sideNav.style.opacity = entry.isIntersecting ? "0" : "";
+              sideNav.style.pointerEvents = entry.isIntersecting ? "none" : "";
+            },
+            { threshold: 0.1 }
+          ).observe(heroSection);
+        }
+
+        /* ── Proteção de conteúdo ── */
+        document.addEventListener("contextmenu", (e) => {
+          if (e.target.closest("img, canvas")) e.preventDefault();
+        });
+        document.addEventListener("dragstart", (e) => {
+          if (e.target.tagName === "IMG") e.preventDefault();
+        });
+
+        /* ── Copyright watermark ── */
+        console.log(
+          "%c Factory Interactive ",
+          "background:#b89c6e;color:#1a1200;font-weight:700;font-size:14px;padding:4px 12px;border-radius:4px",
+          "\n© 2026 Factory Interactive — Todos os direitos reservados.\nContato: escrevaparajd@gmail.com",
+        );
+      })();
+    </script>
+
+    <!-- ── I18N ── -->
+    <script>
+      (function () {
+        const T = {
+          pt: {
+            "hero-h1": "Sites que vendem. Experiências que impressionam.",
+            "hero-p":
+              "Para arquitetos, incorporadoras e empreendimentos premium. Tudo entregue como um link.",
+            "svc-web-h3": "Websites & Landing Pages",
+            "svc-web-p":
+              "Sites, landing pages e launching pages. Feitos para converter.",
+            "svc-ai-badge": "IA",
+            "svc-ai-h3": "AI Creative Interface",
+            "svc-ai-p":
+              "IA integrada ao site. Gera imagens, responde perguntas, personaliza em tempo real.",
+            "svc-arch-h3": "Interactive Archviz",
+            "svc-arch-p":
+              "Maquete interativa direto no navegador. Sem app, sem plugin.",
+            "svc-real-h3": "Realtime & Unreal Engine",
+            "svc-real-p":
+              "Qualidade de cinema, em tempo real.",
+            "svc-vr-h3": "VR & AR",
+            "svc-vr-p": "Visite o projeto antes de construir. VR ou AR, imersão total.",
+            "svc-voz-badge": "VOZ",
+            "svc-voz-h3": "Voice Interfaces",
+            "svc-voz-p":
+              "Navegação por voz em quiosques, eventos e experiências presenciais.",
+            "seq-title": "Interatividade<br><em>levada a sério.</em>",
+            "seq-btn-aerial": "Aéreo",
+            "seq-btn-living": "Living",
+            "cta-label": "Iniciar Projeto",
+            "cta-h2":
+              "Tem um projeto em mente? A gente entrega.",
+            "cta-p":
+              "Arquitetura, incorporação, produto. A experiência digital certa.",
+            "nav-inicio": "Início",
+            "nav-servicos": "Serviços",
+            "nav-interatividade": "Interatividade",
+            "nav-contato": "Contato",
+            footer: "7mm creative Studio © 2026 · Todos os direitos reservados.",
+            "poi-aerial-0-title": "Torre Residencial",
+            "poi-aerial-0-desc":
+              "Rooftop com piscina. Vista 360° da baía e da cidade.",
+            "poi-aerial-1-title": "Baía Norte",
+            "poi-aerial-1-desc":
+              "Baía, ilhas e horizonte. A vista mais privilegiada da capital.",
+            "poi-aerial-2-title": "Ponte Hercílio Luz",
+            "poi-aerial-2-desc":
+              "Ícone de Florianópolis. A ponte que conecta a ilha ao continente.",
+            "poi-aerial-3-title": "Morro da Cruz",
+            "poi-aerial-3-desc":
+              "O ponto mais alto da ilha. Vista do oceano Atlântico e da cidade.",
+            "poi-living-0-title": "Living",
+            "poi-living-0-desc":
+              "Design italiano. Acabamento premium. Integrado à varanda.",
+            "pano-btn-360": "Ver 360°",
+            "pano-hint": "Arraste para explorar · Scroll para zoom",
+            "pano-room-quarto": "Quarto",
+            "pano-room-living": "Living",
+            "pano-room-sacada": "Sacada",
+            "pano-loading": "Carregando...",
+            "pano-rl-quarto": "Quarto",
+            "pano-rl-living": "Living",
+            "pano-rl-sacada": "Sacada",
+          },
+          en: {
+            "hero-h1": "Sites that sell. Experiences that impress.",
+            "hero-p":
+              "For architects, developers and high-end properties. All delivered as a link.",
+            "svc-web-h3": "Websites & Landing Pages",
+            "svc-web-p":
+              "Websites, landing pages and launching pages. Built to convert.",
+            "svc-ai-badge": "AI",
+            "svc-ai-h3": "AI Creative Interface",
+            "svc-ai-p":
+              "AI on your site. Generates images, answers questions, personalizes in real time.",
+            "svc-arch-h3": "Interactive Archviz",
+            "svc-arch-p":
+              "Browser-based interactive model. No app, no plugin.",
+            "svc-real-h3": "Realtime & Unreal Engine",
+            "svc-real-p":
+              "Cinematic quality, in real time.",
+            "svc-vr-h3": "VR & AR",
+            "svc-vr-p": "Walk through the project before it's built. Full immersion in VR or AR.",
+            "svc-voz-badge": "VOICE",
+            "svc-voz-h3": "Voice Interfaces",
+            "svc-voz-p":
+              "Voice navigation for kiosks, events and on-site experiences.",
+            "seq-title": "Interactivity<br><em>taken seriously.</em>",
+            "seq-btn-aerial": "Aerial",
+            "seq-btn-living": "Living",
+            "cta-label": "Start a Project",
+            "cta-h2":
+              "Have a project in mind? Let's build it.",
+            "cta-p":
+              "Architecture, real estate, product. The right digital experience.",
+            "nav-inicio": "Home",
+            "nav-servicos": "Services",
+            "nav-interatividade": "Interactivity",
+            "nav-contato": "Contact",
+            footer: "7mm creative Studio © 2026 · All rights reserved.",
+            "poi-aerial-0-title": "Residential Tower",
+            "poi-aerial-0-desc":
+              "Rooftop pool. 360° views of the bay and the city.",
+            "poi-aerial-1-title": "North Bay",
+            "poi-aerial-1-desc":
+              "Bay, islands and skyline. The most privileged view in the capital.",
+            "poi-aerial-2-title": "Hercílio Luz Bridge",
+            "poi-aerial-2-desc":
+              "Florianópolis landmark. The bridge connecting island to mainland.",
+            "poi-aerial-3-title": "Morro da Cruz",
+            "poi-aerial-3-desc":
+              "The island's highest point. Views of the Atlantic Ocean and the city.",
+            "poi-living-0-title": "Living",
+            "poi-living-0-desc":
+              "Italian design. Premium finishes. Fully integrated with the balcony.",
+            "pano-btn-360": "View 360°",
+            "pano-hint": "Drag to explore · Scroll to zoom",
+            "pano-room-quarto": "Bedroom",
+            "pano-room-living": "Living",
+            "pano-room-sacada": "Balcony",
+            "pano-loading": "Loading...",
+            "pano-rl-quarto": "Bedroom",
+            "pano-rl-living": "Living",
+            "pano-rl-sacada": "Balcony",
+          },
+          es: {
+            "hero-h1": "Interactividad, Diseño y Experiencias Digitales.",
+            "hero-p":
+              "Creamos interfaces, sitios web, experiencias interactivas y soluciones visuales para marcas, productos y empresas contemporáneas.",
+            "svc-web-h3": "Websites & Digital Experiences",
+            "svc-web-p":
+              "Sitios y experiencias web de alto impacto visual para marcas y productos.",
+            "svc-ai-badge": "IA",
+            "svc-ai-h3": "AI Creative Interface",
+            "svc-ai-p":
+              "IA para generar imágenes, conceptos e iteraciones creativas en segundos.",
+            "svc-arch-h3": "Interactive Archviz",
+            "svc-arch-p":
+              "Navegación cinematográfica por el proyecto antes de ser construido.",
+            "svc-real-h3": "Realtime & Unreal Engine",
+            "svc-real-p":
+              "Visualización interactiva con calidad cinematográfica, en tiempo real.",
+            "svc-vr-h3": "VR & AR",
+            "svc-vr-p":
+              "El proyecto en vivo — para sentirlo antes de construirlo.",
+            "svc-voz-badge": "VOZ",
+            "svc-voz-h3": "Interfaces de Voz",
+            "svc-voz-p":
+              "Control por voz integrado en espacios y experiencias digitales.",
+            "seq-title": "Interactividad<br><em>tomada en serio.</em>",
+            "seq-btn-aerial": "Aéreo",
+            "seq-btn-living": "Living",
+            "cta-label": "Iniciar Proyecto",
+            "cta-h2":
+              "Transformamos ideas en experiencias digitales de alto impacto.",
+            "cta-p":
+              "Interfaces, soluciones interactivas y herramientas visuales desarrolladas para marcas, productos y empresas modernas.",
+            "nav-inicio": "Inicio",
+            "nav-servicos": "Servicios",
+            "nav-interatividade": "Interactividad",
+            "nav-contato": "Contacto",
+            footer: "7mm creative Studio © 2026 · Todos los derechos reservados.",
+            "poi-aerial-0-title": "Torre Residencial",
+            "poi-aerial-0-desc":
+              "Desarrollo de alto estándar con piscina en el rooftop y vista 360° de la bahía y la ciudad.",
+            "poi-aerial-1-title": "Bahía Norte",
+            "poi-aerial-1-desc":
+              "Vista privilegiada de la bahía y las islas naturales alrededor de la capital catarinense.",
+            "poi-aerial-2-title": "Puente Hercílio Luz",
+            "poi-aerial-2-desc":
+              "Ícono histórico y postal de Florianópolis, conectando la isla con el continente.",
+            "poi-aerial-3-title": "Morro da Cruz",
+            "poi-aerial-3-desc":
+              "Punto más alto de la isla, con vista panorámica de toda la ciudad y del océano Atlántico.",
+            "poi-living-0-title": "Área de Estar",
+            "poi-living-0-desc":
+              "Sofás de diseño italiano con acabados premium e integración total con la terraza.",
+            "pano-btn-360": "Ver 360°",
+            "pano-hint": "Arrastra para explorar · Scroll para zoom",
+            "pano-room-quarto": "Habitación",
+            "pano-room-living": "Living",
+            "pano-room-sacada": "Terraza",
+            "pano-loading": "Cargando...",
+            "pano-rl-quarto": "Habitación",
+            "pano-rl-living": "Living",
+            "pano-rl-sacada": "Terraza",
+          },
+        };
+
+        const LANG_MAP = { pt: "pt-BR", en: "en-US", es: "es-ES" };
+
+        function applyLang(lang) {
+          const dict = T[lang];
+          if (!dict) return;
+
+          document.querySelectorAll("[data-i18n]").forEach(function (el) {
+            const key = el.getAttribute("data-i18n");
+            const val = dict[key];
+            if (val === undefined) return;
+            if (el.getAttribute("data-i18n-html") === "true") {
+              el.innerHTML = val;
+            } else {
+              el.textContent = val;
+            }
+          });
+
+          // Globals usados pelo panorama
+          window._panoLoadingText = dict["pano-loading"] || "Carregando...";
+          window._panoRoomLabels = {
+            quarto: dict["pano-rl-quarto"] || "Quarto",
+            living: dict["pano-rl-living"] || "Living",
+            sacada: dict["pano-rl-sacada"] || "Sacada",
+          };
+
+          // Re-renderiza o quarto atual se o modal estiver aberto
+          if (
+            window._panoCurrentRoom &&
+            typeof window._setRoomUI === "function"
+          ) {
+            window._setRoomUI(window._panoCurrentRoom);
+          }
+
+          document.documentElement.lang = LANG_MAP[lang] || lang;
+          localStorage.setItem("fi-lang", lang);
+        }
+
+        document.querySelectorAll(".lang-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            const lang = btn.getAttribute("data-lang");
+            document.querySelectorAll(".lang-btn").forEach(function (b) {
+              b.classList.toggle("active", b === btn);
+            });
+            applyLang(lang);
+          });
+        });
+
+        // Restaura idioma salvo
+        const saved = localStorage.getItem("fi-lang");
+        if (saved && T[saved] && saved !== "pt") {
+          const btn = document.querySelector(
+            '.lang-btn[data-lang="' + saved + '"]',
+          );
+          if (btn) {
+            document.querySelectorAll(".lang-btn").forEach(function (b) {
+              b.classList.toggle("active", b === btn);
+            });
+            applyLang(saved);
+          }
+        }
+      })();
+    </script>
+    <script>
+      (function () {
+        var b = document.getElementById("btn-demo");
+        if (b)
+          b.addEventListener("click", function () {
+            window.open("fi-preview.html", "_blank");
+          });
+      })();
+    </script>
+
+    <script>
+      async function submitForm(e) {
+        e.preventDefault();
+        const form = e.target;
+        const btn = form.querySelector(".sub-btn");
+        btn.textContent = "Enviando...";
+        btn.disabled = true;
+        const data = {
+          nome: form.querySelector("[name=nome]").value.trim(),
+          telefone: form.querySelector("[name=telefone]").value.trim(),
+          email: form.querySelector("[name=email]").value.trim(),
+          projeto: form.querySelector("[name=projeto]").value.trim(),
+        };
+        try {
+          const res = await fetch("https://formspree.io/f/xeedjkjo", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+          if (res.ok) {
+            btn.textContent = "Mensagem Enviada ✓";
+            form.reset();
+            setTimeout(() => {
+              btn.textContent = "Enviar Mensagem";
+              btn.disabled = false;
+            }, 4000);
+          } else {
+            btn.textContent = "Erro ao enviar. Tente novamente.";
+            btn.disabled = false;
+          }
+        } catch {
+          btn.textContent = "Erro ao enviar. Tente novamente.";
+          btn.disabled = false;
+        }
+      }
+    </script>
+    <script>
+      const heroSlides = document.querySelectorAll(".hero-slide");
+      let curHeroSlide = 0;
+      const SLIDE_DURATION = 5000;
+
+      const navBlocks = document.querySelectorAll(".hero-nav-block");
+      const navBars   = document.querySelectorAll(".hero-nav-bar");
+      let activeNav   = 0;
+
+      function activateNav(idx) {
+        navBlocks.forEach((b, i) => {
+          b.classList.toggle("active", i === idx);
+          navBars[i].style.transition = "none";
+          navBars[i].style.width = "0%";
+        });
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            navBars[idx].style.transition = `width ${SLIDE_DURATION}ms linear`;
+            navBars[idx].style.width = "100%";
+          });
+        });
+        activeNav = idx;
+      }
+
+      activateNav(0);
+
+      setInterval(() => {
+        heroSlides[curHeroSlide].classList.remove("active");
+        curHeroSlide = (curHeroSlide + 1) % heroSlides.length;
+        heroSlides[curHeroSlide].classList.add("active");
+        activateNav(curHeroSlide % navBlocks.length);
+      }, SLIDE_DURATION);
+
+      navBlocks.forEach((block, i) => {
+        block.addEventListener("click", (e) => {
+          const href = block.getAttribute("href");
+          if (href && href.startsWith("#")) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) target.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    </script>
+
+    <!-- ── GA Event Tracking ──────────────────────────────── -->
+    <script>
+      function track(name, params) { window.gtag && gtag('event', name, params || {}); }
+
+      // WhatsApp
+      document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
+        a.addEventListener('click', function() {
+          track('whatsapp_click', { local: (a.closest('section,div') || {}).className || '' });
+        });
+      });
+
+      // Scroll depth
+      (function() {
+        var f = {};
+        window.addEventListener('scroll', function() {
+          var d = document.documentElement;
+          var p = Math.round((d.scrollTop || window.scrollY) / (d.scrollHeight - d.clientHeight) * 100);
+          if (p >= 50 && !f[50]) { f[50] = 1; track('scroll_50'); }
+          if (p >= 90 && !f[90]) { f[90] = 1; track('scroll_90'); }
+        }, { passive: true });
+      })();
+    </script>
+  </body>
+</html>

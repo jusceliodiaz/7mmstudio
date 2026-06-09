@@ -1,0 +1,2726 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-3K51DFTX3J");
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lançamento — Factory Interactive</title>
+    <meta
+      name="description"
+      content="Experiência imersiva de lançamento imobiliário — tour interativo, vistas 360° e galeria archviz. Tudo num link."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Venda antes de construir — Factory Interactive"
+    />
+    <meta
+      property="og:description"
+      content="Tour virtual imersivo para o seu lançamento. O cliente entra no imóvel pelo link, antes do stand."
+    />
+    <meta
+      property="og:image"
+      content="https://factorystudio.works/images/hero/h5.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:url"
+      content="https://factorystudio.works/launching-page.html"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Venda antes de construir — Factory Interactive"
+    />
+    <meta
+      name="twitter:description"
+      content="Tour virtual imersivo para o seu lançamento. O cliente entra no imóvel pelo link, antes do stand."
+    />
+    <meta
+      name="twitter:image"
+      content="https://factorystudio.works/images/hero/h5.jpg"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="images/hero/h5.jpg"
+      fetchpriority="high"
+    />
+    <link rel="icon" type="image/png" href="images/logo_site.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --gold: #b89c6e;
+        --gold-d: #a08860;
+        --bg: #080808;
+        --text: #f5f5f5;
+        --muted: rgba(255, 255, 255, 0.45);
+        --border: rgba(255, 255, 255, 0.08);
+        --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+
+      /* ── BACK BUTTON ── */
+      .back-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: 20px;
+        z-index: 100;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px 10px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        color: rgba(255, 255, 255, 0.85);
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.35);
+        transform: translateX(-2px);
+      }
+      .back-btn svg {
+        flex-shrink: 0;
+        opacity: 0.75;
+      }
+
+      /* ── HERO ── */
+      .lp-hero {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 10% 10vh;
+        overflow: hidden;
+      }
+
+      .lp-hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .lp-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.88) 0%,
+          rgba(0, 0, 0, 0.28) 60%,
+          transparent 100%
+        );
+      }
+
+      .lp-hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 820px;
+      }
+
+      .lp-badge {
+        display: inline-block;
+        padding: 5px 14px;
+        border-radius: 100px;
+        border: 1px solid rgba(184, 156, 110, 0.45);
+        background: rgba(184, 156, 110, 0.1);
+        color: var(--gold);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+      }
+
+      .lp-hero h1 {
+        font-size: clamp(3rem, 6vw, 6rem);
+        font-weight: 800;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        color: #fff;
+        margin-bottom: 24px;
+      }
+
+      .lp-hero h1 em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--gold);
+      }
+
+      .lp-hero-meta {
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+      }
+
+      .lp-meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .lp-meta-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .lp-meta-value {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .lp-hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 28px;
+        border-radius: 16px;
+        background: var(--gold);
+        border: none;
+        color: #1a1200;
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.3s,
+          transform 0.3s;
+      }
+      .btn-primary:hover {
+        background: var(--gold-d);
+        transform: translateY(-3px);
+      }
+
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 28px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        color: #fff;
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.3s,
+          transform 0.3s;
+      }
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-3px);
+      }
+
+      /* ── SCROLL INDICATOR ── */
+      .scroll-hint {
+        position: absolute;
+        bottom: 32px;
+        right: 10%;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .scroll-hint-line {
+        width: 40px;
+        height: 1px;
+        background: var(--muted);
+      }
+
+      /* ── SECTION BASE ── */
+      .lp-section {
+        padding: 120px 10%;
+      }
+
+      .lp-section-label {
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 20px;
+      }
+
+      .lp-section h2 {
+        font-size: clamp(2rem, 4vw, 3.8rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        color: #fff;
+        margin-bottom: 16px;
+      }
+
+      .lp-section h2 em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--gold);
+      }
+
+      .lp-section p {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--muted);
+        max-width: 560px;
+      }
+
+      /* ── MID CTA ── */
+      .lp-midcta {
+        background: #f7f7f7;
+        padding: 100px 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .lp-midcta-text {
+        font-size: clamp(1.8rem, 4vw, 3.2rem);
+        font-weight: 800;
+        color: #111;
+        text-align: center;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        max-width: 720px;
+      }
+      .lp-midcta-text em {
+        font-style: normal;
+        color: var(--gold);
+      }
+
+      /* ── GALLERY GRID ── */
+      .gallery-section {
+        padding: 0;
+        background: #0d0d0d;
+      }
+
+      .gallery-header {
+        padding: 0 10% 48px;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 56vh 56vh;
+        gap: 0;
+      }
+
+      .gallery-card {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .gallery-card:first-child {
+        grid-column: 1;
+        grid-row: 1 / 3;
+      }
+
+      .gallery-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s var(--ease);
+        display: block;
+      }
+
+      .gallery-card:hover img {
+        transform: scale(1.05);
+      }
+
+      .gallery-card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.7) 0%,
+          transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.4s;
+        display: flex;
+        align-items: flex-end;
+        padding: 28px;
+      }
+
+      .gallery-card:hover .gallery-card-overlay {
+        opacity: 1;
+      }
+
+      .gallery-card-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* ── FEATURES ── */
+      .features-section {
+        padding: 120px 10%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+      }
+
+      .features-list {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        margin-top: 48px;
+      }
+
+      .feature-item {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .feature-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .feature-num {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        padding-top: 4px;
+        flex-shrink: 0;
+        width: 24px;
+      }
+
+      .feature-text h4 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 6px;
+      }
+
+      .feature-text p {
+        font-size: 0.85rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .features-img-wrap {
+        border-radius: 24px;
+        overflow: hidden;
+        aspect-ratio: 4/5;
+      }
+
+      .features-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .features-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .features-copy .lp-section-label {
+        margin-bottom: 20px;
+      }
+
+      .features-copy h2 {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        color: #fff;
+        margin-bottom: 20px;
+      }
+
+      .features-copy h2 em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--gold);
+      }
+
+      .features-copy > p {
+        font-size: 1rem;
+        color: var(--muted);
+        line-height: 1.7;
+        max-width: 420px;
+        margin-bottom: 48px;
+      }
+
+      .gallery-header {
+        padding: 72px 10% 56px;
+      }
+
+      .gallery-header .lp-section-label {
+        margin-bottom: 16px;
+      }
+
+      .gallery-header h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #fff;
+        line-height: 1.1;
+      }
+
+      /* ── CTA ── */
+      .lp-cta {
+        padding: 120px 10%;
+        text-align: center;
+        background: #111;
+        border-top: 1px solid var(--border);
+      }
+
+      .lp-cta h2 {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 16px;
+      }
+
+      .lp-cta p {
+        font-size: 1rem;
+        color: var(--muted);
+        max-width: 480px;
+        margin: 0 auto 40px;
+        line-height: 1.7;
+      }
+
+      .lp-cta-actions {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      /* ── FOOTER ── */
+      .lp-footer {
+        padding: 28px 10%;
+        display: flex;
+        justify-content: center;
+        border-top: 1px solid var(--border);
+      }
+
+      .lp-footer p {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      /* ── IMAGE SEQUENCER ── */
+      .seq-wrap {
+        height: 100vh;
+        position: relative;
+      }
+      .seq-sticky {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+        background: #000;
+      }
+      #lp-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 300ms ease;
+        z-index: 1;
+      }
+      .seq-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
+      .seq-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 10% 10vh;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.72) 0%,
+          transparent 55%
+        );
+        pointer-events: none;
+      }
+      .seq-content {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        pointer-events: auto;
+      }
+      .seq-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.45);
+      }
+      .seq-title {
+        font-size: clamp(3rem, 7vw, 7.5rem);
+        font-weight: 800;
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+        color: #fff;
+        max-width: 900px;
+      }
+      .seq-title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--gold);
+      }
+
+      /* ── POI PINS ── */
+      .seq-pins {
+        position: absolute;
+        inset: 0;
+        z-index: 15;
+        pointer-events: none;
+      }
+      .poi-pin {
+        position: absolute;
+        left: var(--px);
+        top: var(--py);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.35s var(--ease);
+      }
+      .seq-pins.show-aerial .poi-pin[data-group="aerial"],
+      .seq-pins.show-living .poi-pin[data-group="living"] {
+        pointer-events: auto;
+        opacity: 1;
+      }
+      .poi-dot {
+        position: relative;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #fff;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.2s,
+          transform 0.2s var(--ease);
+      }
+      .poi-dot::before {
+        content: "+";
+        font-size: 1.3rem;
+        font-weight: 300;
+        line-height: 1;
+        color: #000;
+        pointer-events: none;
+      }
+      .poi-dot::after {
+        content: "";
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255, 255, 255, 0.5);
+        animation: poi-pulse 2.4s ease-out infinite;
+      }
+      .poi-dot:hover {
+        background: var(--gold);
+        transform: scale(1.12);
+      }
+      .poi-dot:hover::before {
+        color: #1a1200;
+      }
+      @keyframes poi-pulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+      .poi-pin.active .poi-dot {
+        background: var(--gold);
+        transform: scale(1.12);
+      }
+      .poi-pin.active .poi-dot::before {
+        color: #1a1200;
+      }
+      .poi-popup {
+        position: absolute;
+        bottom: calc(100% + 18px);
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.28s var(--ease),
+          transform 0.28s var(--ease);
+        background: #ebebea;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+        overflow: hidden;
+        width: 280px;
+        white-space: normal;
+        box-shadow:
+          0 8px 40px rgba(0, 0, 0, 0.22),
+          0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .poi-pin.active .poi-popup {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
+      .poi-popup-img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+        display: block;
+        position: relative;
+      }
+      .poi-popup-img-wrap {
+        position: relative;
+        width: 100%;
+        height: 170px;
+        overflow: hidden;
+      }
+      .poi-popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        z-index: 2;
+        transition: background 200ms ease;
+      }
+      .poi-popup-close:hover {
+        background: rgba(255, 255, 255, 0.9);
+      }
+      .poi-popup-close svg {
+        width: 9px;
+        height: 9px;
+        stroke: rgba(20, 20, 20, 0.7);
+        stroke-width: 1.8;
+        fill: none;
+        stroke-linecap: round;
+      }
+      .poi-popup-body {
+        padding: 20px 20px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .poi-popup-tag {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        color: rgba(80, 80, 80, 0.7);
+        text-transform: uppercase;
+      }
+      .poi-popup-title {
+        font-size: 1.4rem;
+        font-weight: 300;
+        color: rgba(20, 20, 20, 0.92);
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+      .poi-popup-desc {
+        font-size: 0.72rem;
+        color: rgba(40, 40, 40, 0.6);
+        line-height: 1.65;
+      }
+
+      /* ── Aerial POI — popup simplificado sem imagem ── */
+      .poi-popup--simple {
+        width: 220px;
+      }
+      .poi-popup-simple-body {
+        position: relative;
+        padding: 20px 20px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .poi-popup--simple .poi-popup-close {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(0, 0, 0, 0.07);
+        border-color: rgba(0, 0, 0, 0.1);
+      }
+      .poi-popup--simple .poi-popup-close:hover {
+        background: rgba(0, 0, 0, 0.14);
+      }
+      .poi-popup--simple .poi-popup-close svg {
+        stroke: rgba(20, 20, 20, 0.55);
+      }
+      .poi-popup-times {
+        display: flex;
+        gap: 14px;
+        margin-top: 6px;
+      }
+      .poi-popup-time-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.45);
+      }
+
+      /* ── POI 360° BUTTON (living only) ── */
+      .poi-pano-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 4px;
+        padding: 11px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.55);
+        color: rgba(20, 20, 20, 0.75);
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        cursor: pointer;
+        width: 100%;
+        transition:
+          background 200ms ease,
+          border-color 200ms ease;
+      }
+      .poi-pano-btn svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+      .poi-pano-btn:hover {
+        background: rgba(255, 255, 255, 0.85);
+        border-color: rgba(0, 0, 0, 0.15);
+      }
+
+      /* ── SEQ SCRUB BUTTONS ── */
+      .seq-scrub {
+        position: absolute;
+        left: 50%;
+        bottom: 32px;
+        top: auto;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        z-index: 20;
+      }
+      .seq-btns {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+        background: rgba(195, 195, 195, 0.32);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        border-radius: 20px;
+        padding: 10px 12px;
+        box-shadow:
+          0 0 0 0.5px rgba(255, 255, 255, 0.5) inset,
+          0 20px 60px rgba(0, 0, 0, 0.25);
+      }
+      .seq-scrub-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.22);
+        color: rgba(20, 20, 20, 0.65);
+        font-family: inherit;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition:
+          background 220ms ease,
+          border-color 220ms ease,
+          color 220ms ease,
+          transform 220ms ease;
+        white-space: nowrap;
+      }
+      .seq-scrub-btn svg {
+        flex-shrink: 0;
+      }
+      .seq-scrub-btn:hover {
+        border-color: rgba(0, 0, 0, 0.15);
+        color: rgba(20, 20, 20, 0.9);
+        background: rgba(255, 255, 255, 0.45);
+      }
+      .seq-scrub-btn:active {
+        transform: scale(0.96);
+      }
+      .seq-scrub-btn.btn-on {
+        background: rgba(20, 20, 20, 0.85);
+        border-color: transparent;
+        color: #fff;
+      }
+
+      /* ── POI CARDS BAR ── */
+      #poi-cards {
+        display: none;
+      }
+      #poi-cards.visible {
+        display: none;
+      }
+      .poi-card {
+        display: none;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        background: rgba(10, 10, 10, 0.78);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.82);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        cursor: default;
+      }
+      .poi-card.poi-card-visible {
+        display: inline-flex;
+      }
+      .poi-card-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--gold);
+        flex-shrink: 0;
+      }
+
+      /* ── MODAL PANORAMA 360° ── */
+      #pano-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.35s ease;
+      }
+      #pano-modal.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #pano-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(8px);
+        cursor: pointer;
+      }
+      #pano-modal-box {
+        position: relative;
+        width: min(98vw, 1440px);
+        height: min(94vh, 980px);
+        border-radius: 16px;
+        overflow: hidden;
+        background: #f0eeea;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
+        transform: scale(0.93);
+        transition: transform 0.4s ease;
+      }
+      #pano-modal.open #pano-modal-box {
+        transform: scale(1);
+      }
+      #pano-modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 10;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.22);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        color: rgba(20, 20, 20, 0.7);
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      #pano-modal-close:hover {
+        background: rgba(255, 255, 255, 0.45);
+      }
+      #pano-modal-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        z-index: 10;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.22);
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        color: rgba(20, 20, 20, 0.55);
+        text-transform: uppercase;
+        pointer-events: none;
+      }
+      #pano-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: grab;
+        touch-action: none;
+      }
+      #pano-canvas:active {
+        cursor: grabbing;
+      }
+      #pano-hint {
+        position: absolute;
+        bottom: 72px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 14px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.22);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        color: rgba(20, 20, 20, 0.6);
+        text-transform: uppercase;
+        pointer-events: none;
+        white-space: nowrap;
+        transition: opacity 0.5s;
+      }
+      #pano-hint.hidden {
+        opacity: 0;
+      }
+      #pano-loading {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
+        background: #f0eeea;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        color: rgba(20, 20, 20, 0.35);
+        text-transform: uppercase;
+        transition: opacity 0.4s;
+      }
+      #pano-loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #pano-spinner {
+        width: 28px;
+        height: 28px;
+        border: 2px solid rgba(0, 0, 0, 0.08);
+        border-top-color: var(--gold);
+        border-radius: 50%;
+        animation: panoSpin 0.8s linear infinite;
+      }
+      @keyframes panoSpin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      #pano-room-label {
+        position: absolute;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.22);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        color: rgba(20, 20, 20, 0.7);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 6px 18px;
+        border-radius: 20px;
+        pointer-events: none;
+        z-index: 10;
+        white-space: nowrap;
+      }
+      #pano-hotspots {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 5;
+      }
+      .pano-hotspot {
+        position: absolute;
+        pointer-events: auto;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+      .pano-hotspot-dot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--gold);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1a1200;
+        animation: panoPulse 2.2s ease-in-out infinite;
+        transition: transform 0.2s ease;
+      }
+      .pano-hotspot:hover .pano-hotspot-dot {
+        transform: scale(1.15);
+      }
+      .pano-hotspot-label {
+        background: rgba(255, 255, 255, 0.22);
+        color: rgba(20, 20, 20, 0.75);
+        font-size: 0.6rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      @keyframes panoPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(184, 156, 110, 0.6);
+        }
+        50% {
+          box-shadow: 0 0 0 10px rgba(184, 156, 110, 0);
+        }
+      }
+      #pano-rooms {
+        position: absolute;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 4px;
+        background: rgba(255, 255, 255, 0.22);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 50px;
+        padding: 5px 6px;
+        z-index: 10;
+      }
+      .pano-room-btn {
+        background: transparent;
+        border: none;
+        color: rgba(20, 20, 20, 0.5);
+        font-family: inherit;
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 6px 18px;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+      }
+      .pano-room-btn:hover {
+        color: rgba(20, 20, 20, 0.85);
+        background: rgba(255, 255, 255, 0.35);
+      }
+      .pano-room-btn.active {
+        background: var(--gold);
+        color: #1a1200;
+        font-weight: 600;
+      }
+
+      /* ── ANIMATIONS ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.75s var(--ease),
+          transform 0.75s var(--ease);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+      .reveal-delay-1 {
+        transition-delay: 0.1s;
+      }
+      .reveal-delay-2 {
+        transition-delay: 0.22s;
+      }
+      .reveal-delay-3 {
+        transition-delay: 0.34s;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        .lp-hero {
+          padding: 0 6% 10vh;
+        }
+        .features-section {
+          grid-template-columns: 1fr;
+          gap: 48px;
+        }
+        .features-img-wrap {
+          order: -1;
+          aspect-ratio: 16/9;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: 56vw 56vw 56vw;
+        }
+        .gallery-card:first-child {
+          grid-column: 1;
+          grid-row: 1;
+        }
+        .lp-section {
+          padding: 80px 6%;
+        }
+        .gallery-header {
+          padding: 0 6% 36px;
+        }
+        .lp-cta {
+          padding: 80px 6%;
+        }
+      }
+
+      /* ── POI MOBILE MODAL (body-level, escapa overflow:hidden) ── */
+      #poi-m-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        padding: 24px;
+        touch-action: manipulation;
+      }
+      #poi-m-modal.open {
+        display: flex;
+      }
+      #poi-m-card {
+        width: min(90vw, 340px);
+        border-radius: 20px;
+        overflow: hidden;
+        background: rgba(195, 195, 195, 0.32);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        box-shadow:
+          0 0 0 0.5px rgba(255, 255, 255, 0.5) inset,
+          0 20px 60px rgba(0, 0, 0, 0.35);
+        max-height: 80vh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        animation: poiModalIn 0.25s ease both;
+      }
+      @keyframes poiModalIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      /* touch targets maiores no mobile */
+      @media (hover: none) {
+        .poi-dot {
+          width: 44px;
+          height: 44px;
+        }
+      }
+
+      /* ── LANG SWITCHER ── */
+      .lang-switcher {
+        position: fixed;
+        top: 28px;
+        right: 32px;
+        z-index: 200;
+        display: flex;
+        gap: 16px;
+      }
+      .lang-btn {
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        padding: 2px 0 4px;
+        font-family: "Inter", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.35);
+        transition:
+          color 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .lang-btn.active {
+        color: #fff;
+        border-bottom-color: var(--gold);
+      }
+      .lang-btn:hover:not(.active) {
+        color: rgba(255, 255, 255, 0.65);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
+      <button
+        class="lang-btn active"
+        data-lang="pt"
+        aria-label="Português (Brasil)"
+        title="Português"
+      >
+        PT
+      </button>
+      <button
+        class="lang-btn"
+        data-lang="en"
+        aria-label="English (US)"
+        title="English"
+      >
+        EN
+      </button>
+    </div>
+
+    <a href="fi-preview.html#admin" class="back-btn">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M10 3L5 8l5 5" />
+      </svg>
+      <span data-i18n="back">Voltar</span>
+    </a>
+
+    <!-- HERO -->
+    <section class="lp-hero">
+      <img
+        class="lp-hero-bg"
+        src="images/hero/h5.jpg"
+        alt="Lançamento"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <div class="lp-hero-overlay"></div>
+      <div class="lp-hero-content">
+        <span class="lp-badge" data-i18n="badge">Lançamento Imobiliário</span>
+        <h1 data-i18n-html="true" data-i18n="hero-h1">
+          Venda antes de <em>construir</em>.
+        </h1>
+        <div class="lp-hero-meta">
+          <div class="lp-meta-item">
+            <span class="lp-meta-label" data-i18n="meta-tipo-label"
+              >Tipologia</span
+            >
+            <span class="lp-meta-value" data-i18n="meta-tipo-val"
+              >Alto Padrão</span
+            >
+          </div>
+          <div class="lp-meta-item">
+            <span class="lp-meta-label" data-i18n="meta-entrega-label"
+              >Entrega</span
+            >
+            <span class="lp-meta-value">2026</span>
+          </div>
+          <div class="lp-meta-item">
+            <span class="lp-meta-label" data-i18n="meta-local-label"
+              >Localização</span
+            >
+            <span class="lp-meta-value">Curitiba — PR</span>
+          </div>
+        </div>
+        <div class="lp-hero-actions">
+          <a
+            href="https://wa.me/5541992272317"
+            rel="noopener"
+            class="btn-primary"
+            data-i18n="btn-wa"
+            >Quero saber mais</a
+          >
+          <a href="#galeria" class="btn-ghost" data-i18n="btn-gallery"
+            >Ver galeria</a
+          >
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <div class="scroll-hint-line"></div>
+        <span data-i18n="scroll-hint">Rolar para explorar</span>
+      </div>
+    </section>
+
+    <!-- SEQUENCER -->
+    <div
+      class="seq-wrap"
+      id="sequencer"
+      role="region"
+      aria-label="Animação interativa"
+    >
+      <div class="seq-sticky">
+        <video id="lp-video" muted loop playsinline preload="auto"></video>
+        <canvas class="seq-canvas" aria-hidden="true"></canvas>
+        <div class="seq-pins"></div>
+        <div class="seq-scrub" aria-label="Navegar sequência">
+          <div class="seq-btns">
+            <button
+              class="seq-scrub-btn"
+              id="seqBtnFirst"
+              aria-label="Ver primeiro frame"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="2.5" />
+                <path
+                  d="M5 5l3.5 3.5M19 5l-3.5 3.5M5 19l3.5-3.5M19 19l-3.5-3.5"
+                />
+                <circle
+                  cx="4"
+                  cy="4"
+                  r="1.5"
+                  fill="currentColor"
+                  stroke="none"
+                />
+                <circle
+                  cx="20"
+                  cy="4"
+                  r="1.5"
+                  fill="currentColor"
+                  stroke="none"
+                />
+                <circle
+                  cx="4"
+                  cy="20"
+                  r="1.5"
+                  fill="currentColor"
+                  stroke="none"
+                />
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="1.5"
+                  fill="currentColor"
+                  stroke="none"
+                />
+              </svg>
+              <span data-i18n="btn-aerial">Aéreo</span>
+            </button>
+            <button
+              class="seq-scrub-btn"
+              id="seqBtnLast"
+              aria-label="Ver último frame"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 13a2 2 0 012-2h14a2 2 0 012 2v3H3v-3z" />
+                <path d="M5 11V9a2 2 0 012-2h10a2 2 0 012 2v2" />
+                <path d="M3 13v-1a1 1 0 011-1h0a1 1 0 011 1v1" />
+                <path d="M21 13v-1a1 1 0 00-1-1h0a1 1 0 00-1 1v1" />
+                <line x1="7" y1="16" x2="7" y2="19" />
+                <line x1="17" y1="16" x2="17" y2="19" />
+              </svg>
+              Living
+            </button>
+          </div>
+          <div id="poi-cards"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MIDCTA -->
+    <div class="lp-midcta">
+      <p class="lp-midcta-text reveal">
+        Tudo num link.<br />
+        <em>Pronto para lançar.</em>
+      </p>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="gallery-section" id="galeria">
+      <div class="gallery-header">
+        <p class="lp-section-label reveal" data-i18n="gallery-label">
+          — Galeria
+        </p>
+        <h2
+          class="reveal reveal-delay-1"
+          data-i18n="gallery-h2"
+          data-i18n-html="true"
+        >
+          Exterior e interior.
+          <em style="font-style: italic; font-weight: 300; color: var(--gold)"
+            >Cada ângulo.</em
+          >
+        </h2>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-card reveal">
+          <img
+            src="images/hero/h5.jpg"
+            alt="Vista externa"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="gallery-card-overlay">
+            <span class="gallery-card-label" data-i18n="gallery-img-1"
+              >Vista Externa</span
+            >
+          </div>
+        </div>
+        <div class="gallery-card reveal reveal-delay-1">
+          <img
+            src="images/hero/h6.jpg"
+            alt="Sala de estar"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="gallery-card-overlay">
+            <span class="gallery-card-label" data-i18n="gallery-img-2"
+              >Sala de Estar</span
+            >
+          </div>
+        </div>
+        <div class="gallery-card reveal reveal-delay-2">
+          <img
+            src="images/hero/h8.jpg"
+            alt="Suíte master"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="gallery-card-overlay">
+            <span class="gallery-card-label" data-i18n="gallery-img-3"
+              >Suíte Master</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES / DIFERENCIAIS -->
+    <section class="features-section">
+      <div class="features-copy">
+        <p class="lp-section-label reveal" data-i18n="feat-label">
+          — Diferenciais
+        </p>
+        <h2
+          class="reveal reveal-delay-1"
+          data-i18n="feat-h2"
+          data-i18n-html="true"
+        >
+          Tudo que converte.<br /><em>Num link.</em>
+        </h2>
+        <p class="reveal reveal-delay-2" data-i18n="feat-desc">
+          O cliente entra no imóvel pelo link. Antes do stand. Antes da visita.
+        </p>
+        <div class="features-list">
+          <div class="feature-item reveal reveal-delay-1">
+            <span class="feature-num">01</span>
+            <div class="feature-text">
+              <h4 data-i18n="feat-1-h4">Archviz fotorrealista</h4>
+              <p data-i18n="feat-1-p">
+                Fotorrealismo que vende. Fluido em qualquer tela.
+              </p>
+            </div>
+          </div>
+          <div class="feature-item reveal reveal-delay-2">
+            <span class="feature-num">02</span>
+            <div class="feature-text">
+              <h4 data-i18n="feat-2-h4">Tour por ambientes</h4>
+              <p data-i18n="feat-2-p">
+                Cada espaço na sequência certa. A narrativa de venda ideal.
+              </p>
+            </div>
+          </div>
+          <div class="feature-item reveal reveal-delay-3">
+            <span class="feature-num">03</span>
+            <div class="feature-text">
+              <h4 data-i18n="feat-3-h4">Contato direto. Rastreável.</h4>
+              <p data-i18n="feat-3-p">
+                WhatsApp com mensagem pré-configurada. Zero atrito.
+              </p>
+            </div>
+          </div>
+          <div class="feature-item reveal reveal-delay-3">
+            <span class="feature-num">04</span>
+            <div class="feature-text">
+              <h4 data-i18n="feat-4-h4">Um link. Qualquer dispositivo.</h4>
+              <p data-i18n="feat-4-p">
+                Abre no celular, tablet, notebook. Sem app, sem plugin.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="features-img-wrap reveal">
+        <img src="images/hero/h6.jpg" alt="Experiência archviz interativa" />
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="lp-cta">
+      <div
+        class="lp-section-label reveal"
+        style="text-align: center"
+        data-i18n="cta-label"
+      >
+        — Iniciar Projeto
+      </div>
+      <h2
+        class="reveal reveal-delay-1"
+        data-i18n="cta-h2"
+        data-i18n-html="true"
+      >
+        Pronto para lançar
+        <em style="font-style: italic; font-weight: 300; color: var(--gold)"
+          >diferente</em
+        >?
+      </h2>
+      <p class="reveal reveal-delay-2" data-i18n="cta-p">
+        Desenvolvemos para incorporadoras e empreendimentos de alto padrão.
+      </p>
+      <div class="lp-cta-actions reveal reveal-delay-3">
+        <a
+          href="https://wa.me/5541992272317"
+          rel="noopener"
+          class="btn-primary"
+          data-i18n="cta-btn-wa"
+          >Falar pelo WhatsApp</a
+        >
+        <a
+          href="fi-preview.html#admin"
+          class="btn-ghost"
+          data-i18n="cta-btn-demos"
+          >Ver outros demos</a
+        >
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="lp-footer">
+      <p data-i18n="footer">
+        Factory Interactive © 2026 · Todos os direitos reservados.
+      </p>
+    </footer>
+
+    <!-- MODAL PANORAMA 360° -->
+    <div id="pano-modal" aria-hidden="true">
+      <div id="pano-modal-backdrop"></div>
+      <div id="pano-modal-box">
+        <button id="pano-modal-close" onclick="closePanoModal()">✕</button>
+        <div id="pano-modal-badge">360°</div>
+        <div id="pano-room-label"></div>
+        <canvas id="pano-canvas"></canvas>
+        <div id="pano-hotspots"></div>
+        <div id="pano-hint">Arraste para explorar · Scroll para zoom</div>
+        <div id="pano-rooms">
+          <button class="pano-room-btn" data-room="quarto">Quarto</button>
+          <button class="pano-room-btn" data-room="living">Living</button>
+          <button class="pano-room-btn" data-room="sacada">Sacada</button>
+        </div>
+        <div id="pano-loading">
+          <div id="pano-spinner"></div>
+          Carregando...
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* ── SCROLL REVEAL ── */
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              revealObserver.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => revealObserver.observe(el));
+
+      /* ── IMAGE SEQUENCER ── */
+      (function () {
+        const MOBILE =
+          window.matchMedia("(hover: none)").matches || innerWidth < 768;
+        const canvas = document.querySelector(".seq-canvas");
+        const video = document.getElementById("lp-video");
+        if (!canvas || !video) return;
+        const ctx = canvas.getContext("2d", { alpha: false });
+
+        const SEQ_FOLDER = MOBILE ? "images/seq_arch_m/" : "images/seq_arch/";
+        const LP_SEQ = {
+          "aereo-to-living": {
+            prefix: "launch_",
+            from: 0,
+            to: 47,
+            pad: 2,
+            ext: "jpg",
+            fps: 45,
+            step: 2,
+          },
+          "living-to-aereo": {
+            prefix: "launch_",
+            from: 0,
+            to: 47,
+            pad: 2,
+            ext: "jpg",
+            fps: 45,
+            step: 2,
+            reverse: true,
+          },
+        };
+        const LP_VIDEOS = {
+          aereo: "images/predio_loop.webm",
+          living: "images/living_loop.webm",
+        };
+        const LP_TRANS = {
+          aereo: { living: "aereo-to-living" },
+          living: { aereo: "living-to-aereo" },
+        };
+
+        let currentScene = null,
+          activeGroup = null,
+          busy = false,
+          navGen = 0,
+          lastDrawn = null;
+        const seqCache = new Map(),
+          videoBlobs = new Map();
+
+        function resizeCanvas() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = innerWidth * dpr;
+          canvas.height = innerHeight * dpr;
+          canvas.style.width = innerWidth + "px";
+          canvas.style.height = innerHeight + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          if (lastDrawn) drawCover(lastDrawn);
+        }
+
+        function drawCover(img) {
+          const cw = innerWidth,
+            ch = innerHeight;
+          const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+          const dw = Math.round(img.naturalWidth * scale);
+          const dh = Math.round(img.naturalHeight * scale);
+          const dx = Math.round((cw - dw) / 2);
+          const dy = Math.round((ch - dh) / 2);
+          ctx.clearRect(0, 0, cw, ch);
+          ctx.drawImage(img, dx, dy, dw, dh);
+          lastDrawn = img;
+        }
+        const POI_DATA = {
+          aerial: [
+            {
+              px: 49.8,
+              py: 29.2,
+              title: "Torre Residencial",
+              tag: "Residencial · Rooftop",
+              walk: 0,
+              car: 0,
+            },
+            {
+              px: 28.7,
+              py: 36.0,
+              title: "Baía Norte",
+              tag: "Vista · Entorno",
+              walk: 12,
+              car: 4,
+            },
+            {
+              px: 87.9,
+              py: 62.6,
+              title: "Ponte Hercílio Luz",
+              tag: "Cartão-postal · Ícone",
+              walk: 30,
+              car: 10,
+            },
+            {
+              px: 57.2,
+              py: 14.1,
+              title: "Morro da Cruz",
+              tag: "Paisagem · 360°",
+              walk: 25,
+              car: 8,
+            },
+          ],
+          living: [
+            {
+              px: 55.6,
+              py: 46.4,
+              title: "Living",
+              tag: "Interior · Alto Padrão",
+              desc: "Design italiano. Acabamento premium. Integrado à varanda.",
+              img: "images/seq_arch/launch_47.jpg",
+              pano: "living",
+            },
+          ],
+        };
+        const seqPinsEl = document.querySelector(".seq-pins");
+        const poiCardsEl = document.getElementById("poi-cards");
+        const SVG_WALK = `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L7.3 6.8v4.7h2V8.1l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg>`;
+        const SVG_CAR = `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.92 6C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-6zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>`;
+        const CLOSE_BTN = `<button class="poi-popup-close" onclick="event.stopPropagation();this.closest('.poi-pin').classList.remove('active')"><svg viewBox="0 0 8 8"><line x1="1" y1="1" x2="7" y2="7"/><line x1="7" y1="1" x2="1" y2="7"/></svg></button>`;
+
+        Object.entries(POI_DATA).forEach(([group, pins]) => {
+          pins.forEach(({ px, py, title, tag, desc, img, pano, walk, car }) => {
+            const tagHtml = tag
+              ? `<div class="poi-popup-tag">${tag}</div>`
+              : "";
+
+            let popupInner;
+            if (group === "aerial") {
+              const timesHtml =
+                (walk != null && walk > 0) || (car != null && car > 0)
+                  ? `
+                <div class="poi-popup-times">
+                  ${walk > 0 ? `<div class="poi-popup-time-item">${SVG_WALK}<span>${walk} min</span></div>` : ""}
+                  ${car > 0 ? `<div class="poi-popup-time-item">${SVG_CAR}<span>${car} min</span></div>` : ""}
+                </div>`
+                  : "";
+              popupInner = `
+                <div class="poi-popup poi-popup--simple">
+                  <div class="poi-popup-simple-body">
+                    ${CLOSE_BTN}
+                    ${tagHtml}
+                    <div class="poi-popup-title">${title}</div>
+                    ${timesHtml}
+                  </div>
+                </div>`;
+            } else {
+              const imgSrc = img || "images/POI_001.jpg";
+              const panoSrc = pano || "images/XP_NPL_360_2.jpg";
+              const panoBtn = `
+                <button class="poi-pano-btn" onclick="openPanoModal('${panoSrc}')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12c3-4 5-6 10-6s7 2 10 6"/><path d="M2 12c3 4 5 6 10 6s7-2 10-6"/></svg>
+                  Ver 360°
+                </button>`;
+              popupInner = `
+                <div class="poi-popup">
+                  <div class="poi-popup-img-wrap">
+                    <img class="poi-popup-img" src="${imgSrc}" alt="${title}">
+                    ${CLOSE_BTN}
+                  </div>
+                  <div class="poi-popup-body">
+                    ${tagHtml}
+                    <div class="poi-popup-title">${title}</div>
+                    ${desc ? `<div class="poi-popup-desc">${desc}</div>` : ""}
+                    ${panoBtn}
+                  </div>
+                </div>`;
+            }
+
+            seqPinsEl.insertAdjacentHTML(
+              "beforeend",
+              `<div class="poi-pin" data-group="${group}" style="--px:${px}%;--py:${py}%">
+                <button class="poi-dot" aria-label="${title}"></button>
+                ${popupInner}
+              </div>`,
+            );
+            poiCardsEl.insertAdjacentHTML(
+              "beforeend",
+              `<div class="poi-card" data-group="${group}"><span class="poi-card-dot"></span>${title}</div>`,
+            );
+          });
+        });
+        function showPoiCards(group) {
+          document.querySelectorAll(".poi-card").forEach((c) => {
+            c.classList.toggle("poi-card-visible", c.dataset.group === group);
+          });
+          poiCardsEl.classList.toggle("visible", !!group);
+        }
+        function closePinPopups() {
+          document
+            .querySelectorAll(".poi-pin")
+            .forEach((p) => p.classList.remove("active"));
+        }
+        function showPins(group) {
+          seqPinsEl.classList.remove("show-aerial", "show-living");
+          if (group) seqPinsEl.classList.add("show-" + group);
+        }
+        // ── Video + sequence navigation (firstperson pattern) ──────────────────
+
+        function loadVideo(src) {
+          if (!src || videoBlobs.has(src)) return Promise.resolve();
+          return fetch(src)
+            .then((r) => r.blob())
+            .then((blob) => {
+              videoBlobs.set(src, URL.createObjectURL(blob));
+            })
+            .catch(() => {});
+        }
+
+        function preloadSeq(seqId) {
+          if (seqCache.has(seqId)) return seqCache.get(seqId);
+          const seq = LP_SEQ[seqId];
+          const step = seq.step ? (MOBILE ? seq.step * 2 : seq.step) : (MOBILE ? 2 : 1);
+          const indices = [];
+          for (let i = seq.from; i <= seq.to; i += step) indices.push(i);
+          const frames = new Array(indices.length);
+          let loaded = 0,
+            nextLoad = 0;
+          const SLOTS = MOBILE ? 4 : indices.length;
+          const promise = new Promise((resolve, reject) => {
+            const loadNext = () => {
+              if (nextLoad >= indices.length) return;
+              const slot = nextLoad++;
+              const num = String(indices[slot]).padStart(seq.pad, "0");
+              const img = new Image();
+              img.src = `${SEQ_FOLDER}${seq.prefix}${num}.${seq.ext}`;
+              img.onload = () => {
+                const p = img.decode
+                  ? img.decode().catch(() => {})
+                  : Promise.resolve();
+                p.then(() => {
+                  frames[slot] = img;
+                  loadNext();
+                  if (++loaded === indices.length) resolve(frames);
+                });
+              };
+              img.onerror = () => reject(new Error("Frame failed: " + img.src));
+            };
+            for (let k = 0; k < Math.min(SLOTS, indices.length); k++)
+              loadNext();
+          });
+          seqCache.set(seqId, promise);
+          return promise;
+        }
+
+        function playSeq(frames, reverse, gen, fps) {
+          return new Promise((resolve) => {
+            canvas.style.opacity = "1";
+            video.style.opacity = "0";
+            let index = reverse ? frames.length - 1 : 0;
+            let last = 0;
+            const ms = 1000 / fps;
+            function loop(now) {
+              if (gen !== navGen) return resolve();
+              if (now - last >= ms) {
+                last = now;
+                if (frames[index]) drawCover(frames[index]);
+                index += reverse ? -1 : 1;
+                if (reverse ? index < 0 : index >= frames.length)
+                  return resolve();
+              }
+              requestAnimationFrame(loop);
+            }
+            requestAnimationFrame(loop);
+          });
+        }
+
+        function startScene(sceneId) {
+          currentScene = sceneId;
+          const src = videoBlobs.get(LP_VIDEOS[sceneId]) || LP_VIDEOS[sceneId];
+          video.src = src;
+          video.load();
+          const gen = navGen;
+          const doFade = () => {
+            if (gen !== navGen) return;
+            video.style.transition = "none";
+            video.style.opacity = "1";
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                if (gen !== navGen) return;
+                video.style.transition = "";
+                canvas.style.transition = "opacity 300ms ease";
+                canvas.style.opacity = "0";
+                setTimeout(() => { canvas.style.transition = ""; }, 300);
+              });
+            });
+          };
+          video.addEventListener("playing", doFade, { once: true });
+          video.addEventListener("timeupdate", doFade, { once: true });
+          video.play().catch(doFade);
+          setTimeout(doFade, 600);
+        }
+
+        async function navigateTo(targetId) {
+          if (busy || targetId === currentScene) return;
+          const seqId = LP_TRANS[currentScene]?.[targetId];
+          busy = true;
+          const gen = ++navGen;
+          closePinPopups();
+          showPins(null);
+          video.style.opacity = "0";
+          try {
+            if (seqId) {
+              const frames = await preloadSeq(seqId);
+              if (gen !== navGen) return;
+              const seq = LP_SEQ[seqId];
+              await playSeq(
+                frames,
+                seq.reverse === true,
+                gen,
+                (seq.fps || 30) / (MOBILE ? 2 : 1),
+              );
+              if (gen !== navGen) return;
+            }
+            startScene(targetId);
+          } finally {
+            if (gen === navGen)
+              setTimeout(() => {
+                if (gen === navGen) busy = false;
+              }, 350);
+          }
+        }
+
+        // ── Init ──────────────────────────────────────────────────────────────
+        resizeCanvas();
+        let _rw = innerWidth;
+        window.addEventListener("resize", () => {
+          if (innerWidth === _rw) return;
+          _rw = innerWidth;
+          resizeCanvas();
+        });
+
+        const btnFirst = document.getElementById("seqBtnFirst");
+        const btnLast = document.getElementById("seqBtnLast");
+
+        // Poster frame 0 → start aerial video
+        const poster = new Image();
+        poster.onload = () => drawCover(poster);
+        poster.src = SEQ_FOLDER + "launch_00.jpg";
+
+        currentScene = "aereo";
+        activeGroup = "aerial";
+        if (btnFirst) btnFirst.classList.add("btn-on");
+        startScene("aereo");
+        showPoiCards("aerial");
+        setTimeout(() => showPins("aerial"), 500);
+
+        preloadSeq("aereo-to-living");
+        Object.values(LP_VIDEOS).forEach(loadVideo);
+
+        if (btnFirst)
+          btnFirst.addEventListener("click", () => {
+            if (activeGroup === "aerial") return;
+            activeGroup = "aerial";
+            btnFirst.classList.add("btn-on");
+            if (btnLast) btnLast.classList.remove("btn-on");
+            showPoiCards("aerial");
+            navigateTo("aereo").then(() => {
+              if (currentScene === "aereo") showPins("aerial");
+            });
+          });
+        if (btnLast)
+          btnLast.addEventListener("click", () => {
+            if (activeGroup === "living") return;
+            activeGroup = "living";
+            btnLast.classList.add("btn-on");
+            if (btnFirst) btnFirst.classList.remove("btn-on");
+            showPoiCards("living");
+            navigateTo("living").then(() => {
+              if (currentScene === "living") showPins("living");
+            });
+          });
+        const isTouchDevice =
+          "ontouchstart" in window ||
+          window.matchMedia("(hover: none)").matches;
+
+        // Modal body-level para mobile (evita clip de overflow:hidden no seq-sticky)
+        let poiMModal = null;
+        if (isTouchDevice) {
+          poiMModal = document.createElement("div");
+          poiMModal.id = "poi-m-modal";
+          poiMModal.innerHTML = '<div id="poi-m-card"></div>';
+          document.body.appendChild(poiMModal);
+          poiMModal.addEventListener("click", (e) => {
+            if (e.target === poiMModal) poiMModal.classList.remove("open");
+          });
+        }
+
+        document.querySelectorAll(".poi-dot").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (isTouchDevice && poiMModal) {
+              const popup = btn.closest(".poi-pin").querySelector(".poi-popup");
+              if (!popup) return;
+              const card = document.getElementById("poi-m-card");
+              card.innerHTML = popup.innerHTML;
+              card
+                .querySelector(".poi-popup-close")
+                ?.addEventListener("click", () => {
+                  poiMModal.classList.remove("open");
+                });
+              poiMModal.classList.add("open");
+              return;
+            }
+            const pin = btn.closest(".poi-pin");
+            const wasActive = pin.classList.contains("active");
+            closePinPopups();
+            if (!wasActive) pin.classList.add("active");
+          });
+        });
+        document.addEventListener("click", (e) => {
+          if (!e.target.closest(".poi-pin")) closePinPopups();
+        });
+      })();
+    </script>
+
+    <script>
+      /* ── PANORAMA VIRTUAL TOUR ── */
+      let panoRenderer = null,
+        panoFrame = null;
+      let _panoScene = null,
+        _panoCamera = null,
+        _panoMesh = null;
+      let _panoLon = 180,
+        _panoLat = 0,
+        _panoVelLon = 0,
+        _panoVelLat = 0;
+      let _panoDragging = false,
+        _panoPX = 0,
+        _panoPY = 0;
+      let _panoCurrentRoom = null,
+        _panoTransitioning = false;
+      const TOUR = {
+        aerial: {
+          label: "Aéreo 360°",
+          src: "images/XP_NPL_360_2.jpg",
+          hotspots: [],
+        },
+        quarto: {
+          label: "Quarto",
+          src: "images/pano_quarto.jpg",
+          hotspots: [
+            { lon: 45, lat: 5, label: "Living", leadsTo: "living" },
+            { lon: 200, lat: -5, label: "Sacada", leadsTo: "sacada" },
+          ],
+        },
+        living: {
+          label: "Living",
+          src: "images/pano_living.jpg",
+          hotspots: [
+            { lon: 180, lat: 0, label: "Quarto", leadsTo: "quarto" },
+            { lon: 60, lat: -10, label: "Sacada", leadsTo: "sacada" },
+          ],
+        },
+        sacada: {
+          label: "Sacada",
+          src: "images/pano_sacada.jpg",
+          hotspots: [
+            { lon: 200, lat: 5, label: "Living", leadsTo: "living" },
+            { lon: 300, lat: 0, label: "Quarto", leadsTo: "quarto" },
+          ],
+        },
+      };
+      function openPanoModal(roomKey) {
+        if (!TOUR[roomKey]) return;
+        const modal = document.getElementById("pano-modal");
+        const loading = document.getElementById("pano-loading");
+        const hint = document.getElementById("pano-hint");
+        loading.classList.remove("hidden");
+        loading.innerHTML = '<div id="pano-spinner"></div>Carregando...';
+        hint.classList.remove("hidden");
+        modal.setAttribute("aria-hidden", "false");
+        modal.classList.add("open");
+        if (panoFrame) {
+          cancelAnimationFrame(panoFrame);
+          panoFrame = null;
+        }
+        if (panoRenderer) {
+          panoRenderer.dispose();
+          panoRenderer = null;
+        }
+        _panoScene = _panoCamera = _panoMesh = null;
+        _panoCurrentRoom = null;
+        _panoLon = 180;
+        _panoLat = 0;
+        _panoVelLon = _panoVelLat = 0;
+        _panoTransitioning = false;
+        document.getElementById("pano-canvas").style.opacity = "1";
+        document.getElementById("pano-hotspots").style.opacity = "1";
+        if (typeof THREE === "undefined") {
+          const s = document.createElement("script");
+          s.src =
+            "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js";
+          s.onload = () => _initPanoViewer(roomKey);
+          document.head.appendChild(s);
+        } else {
+          _initPanoViewer(roomKey);
+        }
+      }
+      window._setRoomUI = function (roomKey) {
+        _panoCurrentRoom = roomKey;
+        window._panoCurrentRoom = roomKey;
+        document.getElementById("pano-room-label").textContent =
+          TOUR[roomKey].label;
+        document
+          .querySelectorAll(".pano-room-btn")
+          .forEach((b) =>
+            b.classList.toggle("active", b.dataset.room === roomKey),
+          );
+        // Esconde seletor de salas quando não há hotspots (360° simples)
+        const hasRooms =
+          TOUR[roomKey].hotspots && TOUR[roomKey].hotspots.length > 0;
+        document.getElementById("pano-rooms").style.display = hasRooms
+          ? ""
+          : "none";
+        const container = document.getElementById("pano-hotspots");
+        container.innerHTML = "";
+        TOUR[roomKey].hotspots.forEach((h) => {
+          const el = document.createElement("div");
+          el.className = "pano-hotspot";
+          el.innerHTML = `<div class="pano-hotspot-dot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div><div class="pano-hotspot-label">${h.label}</div>`;
+          el.addEventListener("click", () => _navigateToPano(h.leadsTo));
+          container.appendChild(el);
+        });
+      };
+      function _updateHotspotPositions(w, h) {
+        if (!_panoCamera || !_panoCurrentRoom) return;
+        const room = TOUR[_panoCurrentRoom];
+        const els = document.querySelectorAll(".pano-hotspot");
+        const phi_c = THREE.MathUtils.degToRad(90 - _panoLat);
+        const theta_c = THREE.MathUtils.degToRad(_panoLon);
+        const camDir = new THREE.Vector3(
+          Math.sin(phi_c) * Math.cos(theta_c),
+          Math.cos(phi_c),
+          Math.sin(phi_c) * Math.sin(theta_c),
+        );
+        room.hotspots.forEach((hs, i) => {
+          const el = els[i];
+          if (!el) return;
+          const phi_h = THREE.MathUtils.degToRad(90 - hs.lat);
+          const theta_h = THREE.MathUtils.degToRad(hs.lon);
+          const hDir = new THREE.Vector3(
+            Math.sin(phi_h) * Math.cos(theta_h),
+            Math.cos(phi_h),
+            Math.sin(phi_h) * Math.sin(theta_h),
+          );
+          const dot = camDir.dot(hDir);
+          if (dot < 0.08) {
+            el.style.opacity = "0";
+            el.style.pointerEvents = "none";
+            return;
+          }
+          const worldPos = hDir.clone().multiplyScalar(90);
+          worldPos.project(_panoCamera);
+          const sx = (worldPos.x * 0.5 + 0.5) * w,
+            sy = (-worldPos.y * 0.5 + 0.5) * h;
+          el.style.opacity = Math.min(1, (dot - 0.08) / 0.25).toFixed(2);
+          el.style.pointerEvents = dot > 0.2 ? "auto" : "none";
+          el.style.left = sx + "px";
+          el.style.top = sy + "px";
+        });
+      }
+      function _navigateToPano(roomKey) {
+        if (
+          !TOUR[roomKey] ||
+          _panoTransitioning ||
+          roomKey === _panoCurrentRoom
+        )
+          return;
+        _panoTransitioning = true;
+        const canvas = document.getElementById("pano-canvas");
+        const loading = document.getElementById("pano-loading");
+        const hotspotsEl = document.getElementById("pano-hotspots");
+        canvas.style.transition = hotspotsEl.style.transition =
+          "opacity 0.3s ease";
+        canvas.style.opacity = hotspotsEl.style.opacity = "0";
+        setTimeout(() => {
+          loading.innerHTML = '<div id="pano-spinner"></div>Carregando...';
+          loading.classList.remove("hidden");
+          new THREE.TextureLoader().load(
+            TOUR[roomKey].src,
+            (tex) => {
+              tex.colorSpace = THREE.LinearSRGBColorSpace;
+              if (_panoMesh) {
+                const old = _panoMesh.material.map;
+                _panoMesh.material.map = tex;
+                _panoMesh.material.needsUpdate = true;
+                if (old) old.dispose();
+              }
+              _panoLon = 180;
+              _panoLat = 0;
+              _panoVelLon = _panoVelLat = 0;
+              _setRoomUI(roomKey);
+              loading.classList.add("hidden");
+              canvas.style.opacity = hotspotsEl.style.opacity = "1";
+              _panoTransitioning = false;
+            },
+            undefined,
+            () => {
+              loading.innerHTML = "<span>Imagem não encontrada</span>";
+              _panoTransitioning = false;
+            },
+          );
+        }, 320);
+      }
+      function _initPanoViewer(roomKey) {
+        const canvas = document.getElementById("pano-canvas");
+        const box = document.getElementById("pano-modal-box");
+        const loading = document.getElementById("pano-loading");
+        const hint = document.getElementById("pano-hint");
+        requestAnimationFrame(() => {
+          const w = box.clientWidth,
+            h = box.clientHeight;
+          const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+          renderer.setSize(w, h);
+          renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+          renderer.toneMapping = THREE.NoToneMapping;
+          renderer.outputColorSpace = THREE.SRGBColorSpace;
+          panoRenderer = renderer;
+
+          function onPanoResize() {
+            const W = box.clientWidth,
+              H = box.clientHeight;
+            renderer.setSize(W, H);
+            camera.aspect = W / H;
+            camera.updateProjectionMatrix();
+          }
+          window.addEventListener("resize", onPanoResize);
+          const scene = new THREE.Scene();
+          _panoScene = scene;
+          const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 200);
+          _panoCamera = camera;
+          const geo = new THREE.SphereGeometry(100, 64, 32);
+          geo.scale(-1, 1, 1);
+          const mat = new THREE.MeshBasicMaterial();
+          const mesh = new THREE.Mesh(geo, mat);
+          _panoMesh = mesh;
+          scene.add(mesh);
+          new THREE.TextureLoader().load(
+            TOUR[roomKey].src,
+            (tex) => {
+              tex.colorSpace = THREE.SRGBColorSpace;
+              tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+              mat.map = tex;
+              mat.needsUpdate = true;
+              loading.classList.add("hidden");
+              _setRoomUI(roomKey);
+            },
+            undefined,
+            () => {
+              loading.innerHTML = "<span>Imagem não encontrada</span>";
+            },
+          );
+          function onDown(x, y) {
+            _panoDragging = true;
+            _panoPX = x;
+            _panoPY = y;
+            _panoVelLon = _panoVelLat = 0;
+          }
+          function onMove(x, y) {
+            if (!_panoDragging) return;
+            const dLon = (x - _panoPX) * 0.12,
+              dLat = (_panoPY - y) * 0.12;
+            _panoLon += dLon;
+            _panoLat = Math.max(-80, Math.min(80, _panoLat + dLat));
+            _panoVelLon = dLon;
+            _panoVelLat = dLat;
+            _panoPX = x;
+            _panoPY = y;
+            hint.classList.add("hidden");
+          }
+          function onUp() {
+            _panoDragging = false;
+          }
+          canvas.addEventListener("mousedown", (e) =>
+            onDown(e.clientX, e.clientY),
+          );
+          window.addEventListener("mouseup", onUp);
+          canvas.addEventListener("mousemove", (e) =>
+            onMove(e.clientX, e.clientY),
+          );
+          canvas.addEventListener(
+            "touchstart",
+            (e) => {
+              const t = e.touches[0];
+              onDown(t.clientX, t.clientY);
+            },
+            { passive: true },
+          );
+          canvas.addEventListener(
+            "touchmove",
+            (e) => {
+              e.preventDefault();
+              const t = e.touches[0];
+              onMove(t.clientX, t.clientY);
+            },
+            { passive: false },
+          );
+          canvas.addEventListener("touchend", onUp);
+          let lastPinch = 0;
+          canvas.addEventListener(
+            "touchstart",
+            (e) => {
+              if (e.touches.length === 2)
+                lastPinch = Math.hypot(
+                  e.touches[0].clientX - e.touches[1].clientX,
+                  e.touches[0].clientY - e.touches[1].clientY,
+                );
+            },
+            { passive: true },
+          );
+          canvas.addEventListener(
+            "touchmove",
+            (e) => {
+              if (e.touches.length !== 2) return;
+              const d = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY,
+              );
+              camera.fov = Math.max(
+                30,
+                Math.min(100, camera.fov - (d - lastPinch) * 0.1),
+              );
+              camera.updateProjectionMatrix();
+              lastPinch = d;
+            },
+            { passive: true },
+          );
+          canvas.addEventListener(
+            "wheel",
+            (e) => {
+              e.preventDefault();
+              camera.fov = Math.max(
+                30,
+                Math.min(100, camera.fov + e.deltaY * 0.04),
+              );
+              camera.updateProjectionMatrix();
+            },
+            { passive: false },
+          );
+          function renderFrame() {
+            panoFrame = requestAnimationFrame(renderFrame);
+            if (!_panoDragging) {
+              _panoLon += _panoVelLon;
+              _panoLat = Math.max(-80, Math.min(80, _panoLat + _panoVelLat));
+              _panoVelLon *= 0.88;
+              _panoVelLat *= 0.88;
+            }
+            const phi = THREE.MathUtils.degToRad(90 - _panoLat),
+              theta = THREE.MathUtils.degToRad(_panoLon);
+            camera.lookAt(
+              Math.sin(phi) * Math.cos(theta),
+              Math.cos(phi),
+              Math.sin(phi) * Math.sin(theta),
+            );
+            renderer.render(scene, camera);
+            _updateHotspotPositions(box.clientWidth, box.clientHeight);
+          }
+          renderFrame();
+        });
+      }
+      function closePanoModal() {
+        const modal = document.getElementById("pano-modal");
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        if (panoFrame) {
+          cancelAnimationFrame(panoFrame);
+          panoFrame = null;
+        }
+        if (panoRenderer) {
+          panoRenderer.dispose();
+          panoRenderer = null;
+        }
+        _panoScene = _panoCamera = _panoMesh = null;
+        _panoCurrentRoom = null;
+        document.getElementById("pano-canvas").style.opacity = "1";
+        const hs = document.getElementById("pano-hotspots");
+        hs.style.opacity = "1";
+        hs.style.transition = "";
+        document.getElementById("pano-canvas").style.transition = "";
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closePanoModal();
+      });
+      document
+        .querySelectorAll(".pano-room-btn")
+        .forEach((btn) =>
+          btn.addEventListener("click", () =>
+            _navigateToPano(btn.dataset.room),
+          ),
+        );
+      document
+        .getElementById("pano-modal-backdrop")
+        .addEventListener("click", closePanoModal);
+    </script>
+
+    <!-- I18N -->
+    <script>
+      (function () {
+        var T = {
+          pt: {
+            back: "Voltar",
+            badge: "Lançamento Exclusivo",
+            "hero-h1": "Venda antes de <em>construir</em>.",
+            "meta-tipo-label": "Tipologia",
+            "meta-tipo-val": "Alto Padrão",
+            "meta-entrega-label": "Entrega",
+            "meta-local-label": "Localização",
+            "btn-wa": "Falar com a equipe",
+            "btn-gallery": "Ver galeria",
+            "scroll-hint": "Role para explorar",
+            "seq-title": "Interatividade<br /><em>redefinida.</em>",
+            "btn-aerial": "Aéreo",
+            "gallery-label": "— Galeria",
+            "gallery-h2":
+              'Exterior e interior. <em style="font-style:italic;font-weight:300;color:var(--gold)">Cada ângulo.</em>',
+            "gallery-img-1": "Exterior",
+            "gallery-img-2": "Living",
+            "gallery-img-3": "Suíte Master",
+            "feat-label": "— Por que funciona",
+            "feat-h2": "Tudo que converte.<br><em>Num link.</em>",
+            "feat-desc":
+              "O cliente entra no imóvel pelo link. Antes do stand. Antes da visita.",
+            "feat-1-h4": "Archviz fotorrealista",
+            "feat-1-p": "Fotorrealismo que vende. Fluido em qualquer tela.",
+            "feat-2-h4": "Tour por ambientes",
+            "feat-2-p":
+              "Cada espaço na sequência certa. A narrativa de venda ideal.",
+            "feat-3-h4": "Contato direto. Rastreável.",
+            "feat-3-p": "WhatsApp com mensagem pré-configurada. Zero atrito.",
+            "feat-4-h4": "Um link. Qualquer dispositivo.",
+            "feat-4-p":
+              "Abre no celular, tablet, notebook. Sem app, sem plugin.",
+            "cta-label": "— Iniciar Projeto",
+            "cta-h2":
+              'Pronto para lançar <em style="font-style:italic;font-weight:300;color:var(--gold)">diferente</em>?',
+            "cta-p":
+              "Desenvolvemos para incorporadoras e empreendimentos de alto padrão.",
+            "cta-btn-wa": "Falar pelo WhatsApp",
+            "cta-btn-demos": "Ver outros demos",
+            footer:
+              "Factory Interactive © 2026 · Todos os direitos reservados.",
+          },
+          en: {
+            back: "Back",
+            badge: "Exclusive Launch",
+            "hero-h1": "Sell before you <em>build</em>.",
+            "meta-tipo-label": "Typology",
+            "meta-tipo-val": "High-End",
+            "meta-entrega-label": "Delivery",
+            "meta-local-label": "Location",
+            "btn-wa": "Talk to the team",
+            "btn-gallery": "View gallery",
+            "scroll-hint": "Scroll to explore",
+            "seq-title": "Interactivity.<br /><em>Redefined.</em>",
+            "btn-aerial": "Aerial",
+            "gallery-label": "— Gallery",
+            "gallery-h2":
+              'Exterior and interior. <em style="font-style:italic;font-weight:300;color:var(--gold)">Every angle.</em>',
+            "gallery-img-1": "Exterior",
+            "gallery-img-2": "Living",
+            "gallery-img-3": "Master Suite",
+            "feat-label": "— Why it works",
+            "feat-h2": "Everything that converts.<br><em>One link.</em>",
+            "feat-desc": "The client steps inside before visiting the stand.",
+            "feat-1-h4": "Photorealistic archviz",
+            "feat-1-p": "Visuals that sell. Smooth on any screen.",
+            "feat-2-h4": "Spaces on demand",
+            "feat-2-p":
+              "Every space in sequence. The sales narrative you've always wanted.",
+            "feat-3-h4": "Direct contact. Trackable.",
+            "feat-3-p":
+              "WhatsApp at the right moment. Pre-set message. Zero friction.",
+            "feat-4-h4": "One link. Any device.",
+            "feat-4-p": "Opens on mobile, tablet, laptop. No app, no plugin.",
+            "cta-label": "— Start a Project",
+            "cta-h2":
+              'Ready to launch <em style="font-style:italic;font-weight:300;color:var(--gold)">differently</em>?',
+            "cta-p": "Built for developers and high-end properties.",
+            "cta-btn-wa": "Talk on WhatsApp",
+            "cta-btn-demos": "See other demos",
+            footer: "Factory Interactive © 2026 · All rights reserved.",
+          },
+        };
+
+        function applyLang(lang) {
+          document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
+          localStorage.setItem("fi-lang", lang);
+          document.querySelectorAll("[data-i18n]").forEach(function (el) {
+            var key = el.getAttribute("data-i18n");
+            var val = T[lang][key];
+            if (val === undefined) return;
+            if (el.getAttribute("data-i18n-html") === "true")
+              el.innerHTML = val;
+            else el.textContent = val;
+          });
+          document.querySelectorAll(".lang-btn").forEach(function (btn) {
+            btn.classList.toggle("active", btn.dataset.lang === lang);
+          });
+        }
+
+        document.querySelectorAll(".lang-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            applyLang(btn.dataset.lang);
+          });
+        });
+
+        var saved = localStorage.getItem("fi-lang") || "pt";
+        applyLang(saved);
+      })();
+    </script>
+
+    <!-- ── GA Event Tracking ──────────────────────────────── -->
+    <script>
+      function track(name, params) {
+        window.gtag && gtag("event", name, params || {});
+      }
+
+      // WhatsApp
+      document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
+        a.addEventListener("click", function () {
+          track("whatsapp_click", {
+            local: (a.closest("section,div") || {}).className || "",
+          });
+        });
+      });
+
+      // Panorama 360°
+      if (typeof openPanoModal === "function") {
+        var _origPano = openPanoModal;
+        openPanoModal = function (src) {
+          track("pano_open", { produto: "launching_page" });
+          return _origPano(src);
+        };
+      }
+    </script>
+  </body>
+</html>
