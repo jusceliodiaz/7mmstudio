@@ -117,6 +117,28 @@ const CONFIG = {
       from: 0, to: 72, pad: 2, ext: "jpg",
       reverse: true,
     },
+    "jardim-to-living": {
+      folder: "images/seq_arch/",
+      prefix: "jardim_to_living_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+    },
+    "living-to-jardim": {
+      folder: "images/seq_arch/",
+      prefix: "jardim_to_living_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+      reverse: true,
+    },
+    "jardim-to-kitchen": {
+      folder: "images/seq_arch/",
+      prefix: "jardim_to_kitchen_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+    },
+    "kitchen-to-jardim": {
+      folder: "images/seq_arch/",
+      prefix: "jardim_to_kitchen_",
+      from: 0, to: 47, pad: 2, ext: "jpg",
+      reverse: true,
+    },
   },
 
   transitions: {
@@ -130,11 +152,15 @@ const CONFIG = {
                jardim:  "pool-to-jardim"   },
     living:  { pool:    "living-to-pool",
                kitchen: "living-to-kitchen",
-               aereo:   "living-to-aereo"   },
+               aereo:   "living-to-aereo",
+               jardim:  "living-to-jardim"  },
     kitchen: { pool:    "kitchen-to-pool",
                living:  "kitchen-to-living",
-               aereo:   "kitchen-to-aereo"  },
+               aereo:   "kitchen-to-aereo",
+               jardim:  "kitchen-to-jardim" },
     jardim:  { pool:    "jardim-to-pool",
-               aereo:   "jardim-to-aereo"  },
+               aereo:   "jardim-to-aereo",
+               living:  "jardim-to-living",
+               kitchen: "jardim-to-kitchen" },
   },
 };
