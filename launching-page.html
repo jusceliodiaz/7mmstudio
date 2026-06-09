@@ -1596,6 +1596,255 @@
       </div>
     </div>
 
+    <!-- NÚMEROS / PROVA -->
+    <section class="pf" id="pf-numeros">
+      <style>
+        .pf {
+          position: relative;
+          padding: 120px 10%;
+          background:
+            radial-gradient(ellipse at 50% -10%, rgba(184, 156, 110, 0.07), transparent 55%),
+            #0a0a0a;
+          border-top: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+          overflow: hidden;
+        }
+        .pf-head { max-width: 640px; margin-bottom: 64px; }
+        .pf-label {
+          font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+          color: var(--gold, #b89c6e); margin-bottom: 20px;
+        }
+        .pf-head h2 {
+          font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 800; line-height: 1.05;
+          letter-spacing: -0.03em; color: #fff; margin-bottom: 18px;
+        }
+        .pf-head h2 em { font-style: italic; font-weight: 300; color: var(--gold, #b89c6e); }
+        .pf-head p {
+          font-size: 1rem; line-height: 1.7; color: var(--muted, rgba(255,255,255,0.45));
+          max-width: 560px;
+        }
+        .pf-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1px;
+          background: var(--border, rgba(255, 255, 255, 0.08));
+          border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+          border-radius: 24px;
+          overflow: hidden;
+        }
+        .pf-card {
+          background: #0c0c0c;
+          padding: 40px 34px;
+          display: flex; flex-direction: column; gap: 10px;
+          transition: background 0.4s var(--ease, ease), transform 0.4s var(--ease, ease);
+        }
+        .pf-card:hover { background: #101010; transform: translateY(-4px); }
+        .pf-num {
+          font-size: clamp(2.6rem, 5vw, 3.6rem); font-weight: 800; line-height: 1;
+          letter-spacing: -0.04em; color: var(--gold, #b89c6e);
+          font-variant-numeric: tabular-nums;
+        }
+        .pf-unit {
+          font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em;
+          text-transform: uppercase; color: #fff; margin-top: 2px;
+        }
+        .pf-desc {
+          font-size: 0.85rem; line-height: 1.6;
+          color: var(--muted, rgba(255, 255, 255, 0.45)); margin-top: 4px;
+        }
+        .pf-src {
+          font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.3); margin-top: auto; padding-top: 18px;
+        }
+        .pf-strip {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          gap: 48px; margin-top: 64px;
+          padding: 40px 0; border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+          border-bottom: 1px solid var(--border, rgba(255,255,255,0.08));
+        }
+        .pf-strip-item { text-align: center; }
+        .pf-strip .pf-num { font-size: clamp(2.2rem, 4vw, 3rem); }
+        .pf-strip-cap {
+          font-size: 0.8rem; line-height: 1.5; color: var(--muted, rgba(255,255,255,0.45));
+          margin-top: 8px; max-width: 220px; margin-inline: auto;
+        }
+        .pf-compare {
+          display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 64px;
+        }
+        .pf-panel {
+          border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+          border-radius: 20px; padding: 32px;
+        }
+        .pf-panel.is-old { background: rgba(255, 255, 255, 0.015); }
+        .pf-panel.is-new {
+          background: linear-gradient(160deg, rgba(184, 156, 110, 0.1), rgba(184, 156, 110, 0.02));
+          border-color: rgba(184, 156, 110, 0.4);
+        }
+        .pf-panel-title {
+          font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em;
+          text-transform: uppercase; margin-bottom: 22px;
+        }
+        .pf-panel.is-old .pf-panel-title { color: var(--muted, rgba(255,255,255,0.45)); }
+        .pf-panel.is-new .pf-panel-title { color: var(--gold, #b89c6e); }
+        .pf-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+        .pf-list li {
+          display: flex; gap: 12px; align-items: flex-start;
+          font-size: 0.9rem; line-height: 1.5;
+        }
+        .pf-list .ic { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; }
+        .is-old .pf-list li { color: rgba(255, 255, 255, 0.4); }
+        .is-old .ic { color: rgba(255, 255, 255, 0.28); }
+        .is-new .pf-list li { color: #f0f0f0; }
+        .is-new .ic { color: var(--gold, #b89c6e); }
+        .pf-note {
+          margin-top: 40px; font-size: 0.72rem; line-height: 1.6;
+          color: rgba(255, 255, 255, 0.3); max-width: 760px;
+        }
+        @media (max-width: 920px) {
+          .pf-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+          .pf { padding: 80px 6%; }
+          .pf-grid { grid-template-columns: 1fr; }
+          .pf-strip { grid-template-columns: 1fr; gap: 32px; }
+          .pf-compare { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .pf-card { transition: none; }
+        }
+      </style>
+
+      <div class="pf-head">
+        <div class="pf-label">— Por que isso converte</div>
+        <h2>Não é só bonito.<br /><em>É mais venda.</em></h2>
+        <p>
+          Quando o cliente entra no empreendimento pelo link — antes do stand,
+          antes da visita — o comportamento muda. Estes são os números de
+          mercado de tours imersivos e de performance web:
+        </p>
+      </div>
+
+      <div class="pf-grid">
+        <div class="pf-card">
+          <div class="pf-num" data-count="31" data-suffix="%">31%</div>
+          <div class="pf-unit">venda mais rápida</div>
+          <p class="pf-desc">Imóveis com tour 3D vendem até 31% mais rápido do que anúncios só com fotos.</p>
+          <span class="pf-src">Matterport · análise de dados MLS</span>
+        </div>
+        <div class="pf-card">
+          <div class="pf-num" data-count="87" data-prefix="+" data-suffix="%">+87%</div>
+          <div class="pf-unit">mais visualizações</div>
+          <p class="pf-desc">O anúncio com tour recebe muito mais visitas do que o tradicional — mais olhos no seu lançamento.</p>
+          <span class="pf-src">Matterport / Zillow</span>
+        </div>
+        <div class="pf-card">
+          <div class="pf-num" data-count="95" data-prefix="+" data-suffix="%">+95%</div>
+          <div class="pf-unit">mais contatos</div>
+          <p class="pf-desc">Listagens interativas geram quase o dobro de ligações e pedidos de contato.</p>
+          <span class="pf-src">Matterport, 2024</span>
+        </div>
+        <div class="pf-card">
+          <div class="pf-num" data-count="90" data-suffix="%">90%</div>
+          <div class="pf-unit">querem comprar</div>
+          <p class="pf-desc">9 em cada 10 compradores dizem ter mais propensão a fechar quando há tour virtual.</p>
+          <span class="pf-src">Pesquisas NAR / Redfin</span>
+        </div>
+        <div class="pf-card">
+          <div class="pf-num" data-count="9" data-prefix="+" data-suffix="%">+9%</div>
+          <div class="pf-unit">no preço final</div>
+          <p class="pf-desc">O mesmo imóvel fecha por um valor mais alto quando apresentado em 3D.</p>
+          <span class="pf-src">Estudo acadêmico (MLS, EUA)</span>
+        </div>
+        <div class="pf-card">
+          <div class="pf-num" data-count="80" data-prefix="+" data-suffix="%">+80%</div>
+          <div class="pf-unit">em conversão</div>
+          <p class="pf-desc">Elementos interativos chegam a elevar a taxa de conversão em até 80%.</p>
+          <span class="pf-src">Relatórios de mercado (HomeJab)</span>
+        </div>
+      </div>
+
+      <div class="pf-strip">
+        <div class="pf-strip-item">
+          <div class="pf-num" data-count="60" data-suffix="%">60%</div>
+          <p class="pf-strip-cap">do tráfego de busca por imóveis vem do celular.</p>
+        </div>
+        <div class="pf-strip-item">
+          <div class="pf-num" data-count="3" data-suffix="×">3×</div>
+          <p class="pf-strip-cap">mais conversão: página que abre em 1s vs. 5s.</p>
+        </div>
+        <div class="pf-strip-item">
+          <div class="pf-num" data-count="7" data-prefix="−" data-suffix="%">−7%</div>
+          <p class="pf-strip-cap">de conversão a cada 1 segundo de espera no carregamento.</p>
+        </div>
+      </div>
+
+      <div class="pf-compare">
+        <div class="pf-panel is-old">
+          <div class="pf-panel-title">Anúncio tradicional · PDF + fotos</div>
+          <ul class="pf-list">
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>O cliente precisa imaginar o espaço sozinho.</li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Mesma apresentação estática para todo mundo.</li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Depende do deslocamento até o stand.</li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Difícil medir quem é interesse real.</li>
+          </ul>
+        </div>
+        <div class="pf-panel is-new">
+          <div class="pf-panel-title">Launching page interativa</div>
+          <ul class="pf-list">
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m20 6-11 11L4 12"/></svg>O cliente entra e explora cada ambiente.</li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m20 6-11 11L4 12"/></svg>Experiência guiada na ordem que vende.</li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m20 6-11 11L4 12"/></svg>Acessível 24/7, em qualquer dispositivo.</li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m20 6-11 11L4 12"/></svg>Cada clique rastreado — lead qualificado.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="pf-note">
+        Benchmarks de mercado para tours imersivos 3D/360° e performance web
+        (Matterport, Zillow/Redfin, NAR, Portent). Os resultados variam conforme
+        empreendimento, praça e campanha — os números são referência do setor,
+        não garantia de desempenho.
+      </p>
+
+      <script>
+        (function () {
+          var sec = document.getElementById("pf-numeros");
+          if (!sec) return;
+          var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          var nums = sec.querySelectorAll("[data-count]");
+          nums.forEach(function (el) {
+            var pre = el.getAttribute("data-prefix") || "";
+            var suf = el.getAttribute("data-suffix") || "";
+            if (!reduce) el.textContent = pre + "0" + suf;
+          });
+          function animate(el) {
+            var target = parseFloat(el.getAttribute("data-count"));
+            var pre = el.getAttribute("data-prefix") || "";
+            var suf = el.getAttribute("data-suffix") || "";
+            var dur = 1500, start = null;
+            if (reduce) { el.textContent = pre + target + suf; return; }
+            function step(ts) {
+              if (!start) start = ts;
+              var p = Math.min((ts - start) / dur, 1);
+              var eased = 1 - Math.pow(1 - p, 3);
+              el.textContent = pre + Math.round(target * eased) + suf;
+              if (p < 1) requestAnimationFrame(step);
+              else el.textContent = pre + target + suf;
+            }
+            requestAnimationFrame(step);
+          }
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); }
+              });
+            },
+            { threshold: 0.5 }
+          );
+          nums.forEach(function (n) { io.observe(n); });
+        })();
+      </script>
+    </section>
+
     <!-- CTA -->
     <section class="lp-cta">
       <div
@@ -2037,6 +2286,14 @@
 
         preloadSeq("aereo-to-living");
         Object.values(LP_VIDEOS).forEach(loadVideo);
+
+        // Hide pins when sequencer section is out of view
+        new IntersectionObserver(
+          (entries) => {
+            seqPinsEl.style.visibility = entries[0].isIntersecting ? "" : "hidden";
+          },
+          { threshold: 0 }
+        ).observe(document.getElementById("sequencer"));
 
         if (btnFirst)
           btnFirst.addEventListener("click", () => {
