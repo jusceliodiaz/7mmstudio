@@ -107,7 +107,7 @@ function buildCityPopup(poi) {
           <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
           <path d="M3.6 9h16.8M3.6 15h16.8M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/>
         </svg>
-        Ver 360°
+        View 360°
       </button>` : ''}
     </div>
   `;
@@ -129,7 +129,7 @@ function cityTogglePopup(poi) {
     card.style.animation = 'none';
     requestAnimationFrame(() => { card.style.animation = 'cityMIn 0.28s cubic-bezier(0.34,1.4,0.64,1) both'; });
     cityMModal.classList.add('open');
-    if (typeof track === 'function') track('poi_open', { poi: poi.id, cena: typeof currentScene !== 'undefined' ? currentScene : '' });
+    if (typeof track === 'function') track('poi_open', { poi: poi.id, scene: typeof currentScene !== 'undefined' ? currentScene : '' });
     return;
   }
 
@@ -143,7 +143,7 @@ function cityTogglePopup(poi) {
     popup.style.top  = Math.max(10, Math.round((window.innerHeight - popH) / 2)) + 'px';
     popup.classList.add('open');
     cityActivePopup = popup;
-    if (typeof track === 'function') track('poi_open', { poi: poi.id, cena: typeof currentScene !== 'undefined' ? currentScene : '' });
+    if (typeof track === 'function') track('poi_open', { poi: poi.id, scene: typeof currentScene !== 'undefined' ? currentScene : '' });
   }
 }
 

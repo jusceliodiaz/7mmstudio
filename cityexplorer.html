@@ -1,20 +1,20 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+﻿<!DOCTYPE html>
+<html lang="en-US">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>City Explorer — Factory Interactive</title>
-  <meta name="description" content="Veja o empreendimento no contexto urbano com pontos de interesse georreferenciados, vistas 360° e localização interativa." />
+  <title>City Explorer</title>
+  <meta name="description" content="Explore the development in its urban context with georeferenced points of interest, 360° views and interactive location." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="City Explorer — Factory Interactive" />
-  <meta property="og:description" content="O empreendimento no contexto da cidade. POIs interativos, panoramas 360° e mapa do entorno." />
+  <meta property="og:title" content="City Explorer" />
+  <meta property="og:description" content="The development in its urban context. Interactive POIs, 360° panoramas and surroundings map." />
   <meta property="og:image" content="https://factorystudio.works/images/og_city.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:url" content="https://factorystudio.works/cityexplorer.html" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="City Explorer — Factory Interactive" />
-  <meta name="twitter:description" content="O empreendimento no contexto da cidade. POIs interativos, panoramas 360° e mapa do entorno." />
+  <meta name="twitter:title" content="City Explorer" />
+  <meta name="twitter:description" content="The development in its urban context. Interactive POIs, 360° panoramas and surroundings map." />
   <meta name="twitter:image" content="https://factorystudio.works/images/og_city.jpg" />
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"></script>
@@ -167,58 +167,6 @@
     @media (hover: none) {
       .city-popup { background: #ebebea; }
     }
-    #btn-back {
-      display: none !important;
-      position: fixed;
-      top: max(20px, env(safe-area-inset-top, 20px));
-      left: 20px;
-      z-index: 50;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.10);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      color: rgba(255,255,255,0.85);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      text-decoration: none;
-      transition: background 0.2s, border-color 0.2s, transform 0.2s;
-    }
-    #btn-back:hover {
-      background: rgba(255,255,255,0.18);
-      border-color: rgba(255,255,255,0.35);
-      transform: translateX(-2px);
-    }
-    #btn-back svg { flex-shrink: 0; opacity: 0.75; }
-    .lang-switcher {
-      position: fixed;
-      top: 28px;
-      right: 32px;
-      z-index: 200;
-      display: flex;
-      gap: 16px;
-    }
-    .lang-btn {
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      padding: 2px 0 4px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.35);
-      transition: color 0.2s ease, border-color 0.2s ease;
-    }
-    .lang-btn.active { color: #fff; border-bottom-color: #c8a96e; }
-    .lang-btn:hover:not(.active) { color: rgba(255,255,255,0.65); }
   </style>
   <style>
     /* ── MAP MODAL — light mode ───────────────────────────── */
@@ -358,7 +306,7 @@
     .pp-cat  { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
     .pp-name { font-size: 12px; font-weight: 600; color: #1a1a1a; margin-top: 2px; }
     .pp-time { font-size: 10px; color: rgba(0,0,0,0.38); margin-top: 1px; }
-    /* Separador visual entre nav e botão Entorno no track */
+    /* Visual divider between nav buttons and the Surroundings button */
     #track-map-sep {
       width: 1px; background: rgba(0,0,0,0.12); margin: 6px 2px; align-self: stretch;
     }
@@ -374,7 +322,7 @@
       /* lista: ocupa o resto do sheet */
       #map-poi-list { max-height: none; flex: 1; }
 
-      /* filtros: rola horizontal em vez de quebrar linha */
+      /* filters: scroll horizontally instead of wrapping */
       #map-filter-bar {
         flex-wrap: nowrap; overflow-x: auto;
         -webkit-overflow-scrolling: touch; scrollbar-width: none;
@@ -384,13 +332,7 @@
   </style>
 </head>
 <body>
-  <a id="btn-back" href="fi-preview.html">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10 3L5 8l5 5"/>
-    </svg>
-    <span data-i18n="back">Voltar</span>
-  </a>
-  <div id="cursor"></div>
+<div id="cursor"></div>
   <div id="ring"></div>
   <div id="noise"></div>
 
@@ -406,7 +348,7 @@
   <div id="loader"><span></span><span></span><span></span></div>
 
   <div id="debug-hud" hidden>
-    <span id="debug-mode">DEBUG ON — clique para coordenadas</span>
+    <span id="debug-mode">DEBUG ON — click for coordinates</span>
     <span id="debug-coords">—</span>
   </div>
 
@@ -414,30 +356,30 @@
   <div id="map-modal" aria-hidden="true" onclick="if(event.target===this)closeMapModal()">
     <div id="map-modal-box">
       <div id="map-modal-header">
-        <div id="map-modal-title">O entorno</div>
-        <button id="map-modal-close" onclick="closeMapModal()" aria-label="Fechar">
+        <div id="map-modal-title">Surroundings</div>
+        <button id="map-modal-close" onclick="closeMapModal()" aria-label="Close">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
           </svg>
         </button>
       </div>
       <div id="map-filter-bar">
-        <button class="map-filter active" data-cat="all" onclick="setMapFilter('all')">Tudo</button>
+        <button class="map-filter active" data-cat="all" onclick="setMapFilter('all')">All</button>
         <button class="map-filter" data-cat="educacao" onclick="setMapFilter('educacao')">
           <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
-          Educação
+          Education
         </button>
         <button class="map-filter" data-cat="saude" onclick="setMapFilter('saude')">
           <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          Saúde
+          Health
         </button>
         <button class="map-filter" data-cat="lazer" onclick="setMapFilter('lazer')">
           <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          Lazer
+          Leisure
         </button>
         <button class="map-filter" data-cat="transporte" onclick="setMapFilter('transporte')">
           <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
-          Transporte
+          Transport
         </button>
       </div>
       <div id="map-container">
@@ -448,7 +390,7 @@
           <div class="street sv" style="left:72%"></div>
           <div class="ring ring-out"></div>
           <div class="ring ring-in"></div>
-          <div class="ring-label">15 min a pé</div>
+          <div class="ring-label">15 min walk</div>
           <div class="center">
             <div class="center-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22V12h6v10"/></svg></div>
             <div class="center-label">Residencial Batel</div>
@@ -470,8 +412,8 @@
       </button>
       <div id="pano-modal-badge">360°</div>
       <canvas id="pano-canvas"></canvas>
-      <div id="pano-hint">Arraste para explorar · Scroll para zoom</div>
-      <div id="pano-loading"><div id="pano-spinner"></div>Carregando...</div>
+      <div id="pano-hint">Drag to explore · Scroll to zoom</div>
+      <div id="pano-loading"><div id="pano-spinner"></div>Loading...</div>
     </div>
   </div>
 
@@ -480,30 +422,6 @@
   <script src="scenes-city.js"></script>
   <script src="script.js"></script>
   <script src="pois-city.js"></script>
-  <script>
-    (function () {
-      var T = { pt: { "back": "Voltar" }, en: { "back": "Back" } };
-      function applyLang(lang) {
-        var dict = T[lang]; if (!dict) return;
-        document.querySelectorAll("[data-i18n]").forEach(function (el) {
-          var key = el.getAttribute("data-i18n");
-          var val = dict[key]; if (val === undefined) return;
-          el.textContent = val;
-        });
-        document.documentElement.lang = lang === "en" ? "en-US" : "pt-BR";
-        localStorage.setItem("fi-lang", lang);
-      }
-      document.querySelectorAll(".lang-btn").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var lang = btn.getAttribute("data-lang");
-          document.querySelectorAll(".lang-btn").forEach(function (b) { b.classList.toggle("active", b === btn); });
-          applyLang(lang);
-        });
-      });
-      var saved = localStorage.getItem("fi-lang");
-      if (saved && T[saved] && saved !== "pt") applyLang(saved);
-    })();
-  </script>
 
   <!-- ── GA Event Tracking ──────────────────────────────── -->
   <script>
@@ -513,19 +431,19 @@
     if (typeof cityOpenPano === 'function') {
       var _origPano = cityOpenPano;
       window.cityOpenPano = cityOpenPano = function(src) {
-        track('pano_open', { produto: 'city_explorer' });
+        track('pano_open', { product: 'city_explorer' });
         return _origPano(src);
       };
     }
   </script>
 
-  <!-- ── Mapa do Entorno — schematic ─────────────────────── -->
+  <!-- ── Surroundings Map — schematic ─────────────────────── -->
   <script>
     var MAP_CATS = {
-      lazer:      { color: '#639922', label: 'Lazer'      },
-      educacao:   { color: '#378ADD', label: 'Educação'   },
-      saude:      { color: '#1D9E75', label: 'Saúde'      },
-      transporte: { color: '#BA7517', label: 'Transporte' },
+      lazer:      { color: '#639922', label: 'Leisure'    },
+      educacao:   { color: '#378ADD', label: 'Education'  },
+      saude:      { color: '#1D9E75', label: 'Health'     },
+      transporte: { color: '#BA7517', label: 'Transport'  },
     };
     var MAP_ICONS = {
       lazer:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22V12"/><circle cx="12" cy="7" r="5"/><path d="M5 22h14"/></svg>',
@@ -537,10 +455,10 @@
     var SVG_CAR  = '<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.92 6C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-6zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>';
 
     var POIS = [
-      { cat: 'educacao',   nome: 'Colégio Bilíngue Internacional', tempo: '8 min a pé',      x: 33, y: 35 },
-      { cat: 'saude',      nome: 'Hospital Santa Luzia',           tempo: '6 min de carro',  x: 65, y: 27 },
-      { cat: 'lazer',      nome: 'Parque das Araucárias',          tempo: '5 min a pé',      x: 27, y: 72 },
-      { cat: 'transporte', nome: 'Aeroporto Afonso Pena',          tempo: '22 min de carro', x: 74, y: 74 },
+      { cat: 'educacao',   name: 'International Bilingual School', time: '8 min walk',      x: 33, y: 35 },
+      { cat: 'saude',      name: 'Santa Luzia Hospital',           time: '6 min by car',    x: 65, y: 27 },
+      { cat: 'lazer',      name: 'Araucárias Park',                time: '5 min walk',      x: 27, y: 72 },
+      { cat: 'transporte', name: 'Afonso Pena Airport',            time: '22 min by car',   x: 74, y: 74 },
     ];
 
     var miniMapInited = false;
@@ -562,8 +480,8 @@
           '<div class="pin-dot" style="background:' + c.color + '">' + MAP_ICONS[poi.cat] + '</div>' +
           '<div class="pin-pop">' +
             '<div class="pp-cat" style="color:' + c.color + '">' + c.label + '</div>' +
-            '<div class="pp-name">' + poi.nome + '</div>' +
-            '<div class="pp-time">' + poi.tempo + '</div>' +
+            '<div class="pp-name">' + poi.name + '</div>' +
+            '<div class="pp-time">' + poi.time + '</div>' +
           '</div>';
         pin.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -581,7 +499,7 @@
       buildMapPoiList('all');
     }
 
-    function filtrarMapa(cat) {
+    function filterMap(cat) {
       document.querySelectorAll('#mini-map .pin').forEach(function(pin) {
         pin.style.display = (cat === 'all' || pin.dataset.cat === cat) ? '' : 'none';
       });
@@ -597,10 +515,10 @@
       if (!miniMapInited) {
         initMiniMap();
       } else {
-        filtrarMapa('all');
+        filterMap('all');
         buildMapPoiList('all');
       }
-      if (typeof track === 'function') track('map_open', { produto: 'city_explorer' });
+      if (typeof track === 'function') track('map_open', { product: 'city_explorer' });
     }
 
     function closeMapModal() {
@@ -617,12 +535,12 @@
         : POIS.filter(function(p) { return p.cat === cat; });
       list.innerHTML = visible.map(function(poi) {
         var c = MAP_CATS[poi.cat];
-        var timeNum = (poi.tempo.match(/\d+/) || [''])[0];
-        var isWalk = poi.tempo.indexOf('a pé') !== -1;
+        var timeNum = (poi.time.match(/\d+/) || [''])[0];
+        var isWalk = poi.time.indexOf('walk') !== -1;
         return '<div class="map-list-item">' +
           '<div class="map-list-icon" style="background:' + c.color + '">' + MAP_ICONS[poi.cat] + '</div>' +
           '<div class="map-list-info">' +
-            '<div class="map-list-name">' + poi.nome + '</div>' +
+            '<div class="map-list-name">' + poi.name + '</div>' +
             '<div class="map-list-cat">' + c.label + '</div>' +
           '</div>' +
           '<div class="map-list-time">' + (isWalk ? SVG_WALK : SVG_CAR) + '<span>' + timeNum + ' min</span></div>' +
@@ -634,7 +552,7 @@
       document.querySelectorAll('.map-filter').forEach(function(b) {
         b.classList.toggle('active', b.dataset.cat === cat);
       });
-      filtrarMapa(cat);
+      filterMap(cat);
       buildMapPoiList(cat);
     }
 

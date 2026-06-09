@@ -9,19 +9,20 @@ const ctx         = seqCanvas.getContext('2d', { alpha: false });
 
 const MOBILE = window.matchMedia('(hover: none)').matches || window.innerWidth < 768;
 
-const MAX_SEQ = 3;  // LRU: máximo de sequências em memória
+// LRU cap — keeps at most this many decoded frame-sets in memory
+const MAX_SEQ = 3;
 let _w = innerWidth, _h = innerHeight, lastFrame = null;
 
 const LEAD = {
-  whatsapp: "5541987831394",
-  empreendimento: "Factory Interactive — Demo",
-  endpoint: "/api/leads",
+  whatsapp:  "5541987831394",
+  project:   "Demo",
+  endpoint:  "/api/leads",
 };
 
 const TOUR_ROUTE = ["aereo", "pool", "living", "kitchen", "jardim"];
 
-let mode         = "dia";
-let currentScene = 'aereo';
+let mode         = "day";
+let currentScene = "aereo";
 let busy         = false;
 let navGen       = 0;
 let poiTimer     = null;
@@ -30,51 +31,51 @@ let touring      = false;
 const cache      = new Map();
 const videoBlobs = new Map();
 
-// ─── Analytics ───────────────────────────────────────────────────────────────
+// ─── Analytics ────────────────────────────────────────────────────────────────
 
 function sessionId() {
-  let s = sessionStorage.getItem('sid');
-  if (!s) { s = crypto.randomUUID(); sessionStorage.setItem('sid', s); }
+  let s = sessionStorage.getItem("sid");
+  if (!s) { s = crypto.randomUUID(); sessionStorage.setItem("sid", s); }
   return s;
 }
 
 function track(event, props = {}) {
   const payload = {
     event, ...props,
-    slug: CONFIG?.slug,
-    ts: Date.now(),
+    slug:    CONFIG?.slug,
+    ts:      Date.now(),
     session: sessionId(),
-    device: MOBILE ? 'mobile' : 'desktop',
+    device:  MOBILE ? "mobile" : "desktop",
   };
-  if (window.gtag) gtag('event', event, props);
-  navigator.sendBeacon?.('/api/track', JSON.stringify(payload));
+  if (window.gtag) gtag("event", event, props);
+  navigator.sendBeacon?.("/api/track", JSON.stringify(payload));
 }
 
 let dwellStart = Date.now();
-let dwellScene = 'aereo';
+let dwellScene = "aereo";
 
 function markDwell(newScene) {
-  track('dwell', { scene: dwellScene, ms: Date.now() - dwellStart });
+  track("dwell", { scene: dwellScene, ms: Date.now() - dwellStart });
   dwellScene = newScene;
   dwellStart = Date.now();
 }
 
-window.addEventListener('pagehide', () => markDwell(dwellScene));
+window.addEventListener("pagehide", () => markDwell(dwellScene));
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
   resizeCanvas();
   if (!MOBILE) initCursor();
   buildTrack();
-  showPoster(CONFIG.poster || 'images/seq_arch/aereo_to_piscina_00.jpg', () => startScene(sceneFromHash()));
-  preloadNeighbors('aereo');
+  showPoster(CONFIG.poster || "images/seq_arch/aereo_to_piscina_00.jpg", () => startScene(sceneFromHash()));
+  preloadNeighbors("aereo");
   (window.requestIdleCallback || setTimeout)(() => preloadAllVideos(), 2500);
   initCTA();
 });
 
-// resize inteligente: ignora variações de altura causadas pela barra de endereço mobile
-window.addEventListener('resize', () => {
+// Ignore height-only changes caused by the mobile address bar collapsing
+window.addEventListener("resize", () => {
   if (innerWidth === _w && Math.abs(innerHeight - _h) < 120) return;
   _w = innerWidth; _h = innerHeight;
   resizeCanvas();
@@ -85,46 +86,47 @@ function resizeCanvas() {
   const dpr = MOBILE ? 1 : Math.min(window.devicePixelRatio || 1, 2);
   seqCanvas.width        = innerWidth  * dpr;
   seqCanvas.height       = innerHeight * dpr;
-  seqCanvas.style.width  = innerWidth  + 'px';
-  seqCanvas.style.height = innerHeight + 'px';
+  seqCanvas.style.width  = innerWidth  + "px";
+  seqCanvas.style.height = innerHeight + "px";
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
 // ─── Deep link ────────────────────────────────────────────────────────────────
 
 function sceneFromHash() {
-  const id = new URLSearchParams(location.hash.slice(1)).get('cena');
-  return CONFIG.scenes[id] ? id : 'aereo';
+  const id = new URLSearchParams(location.hash.slice(1)).get("scene");
+  return CONFIG.scenes[id] ? id : "aereo";
 }
 
 function syncHash(sceneId) {
-  history.replaceState(null, '', `#cena=${sceneId}`);
+  history.replaceState(null, "", `#scene=${sceneId}`);
 }
 
 function copyShare() {
-  const url = `${location.origin}${location.pathname}#cena=${currentScene}`;
+  const url = `${location.origin}${location.pathname}#scene=${currentScene}`;
   navigator.clipboard?.writeText(url);
-  track('share_copy', { scene: currentScene });
+  track("share_copy", { scene: currentScene });
 }
 
-// ─── Video source (com suporte a variantes dia/noite + objeto mp4/webm) ──────
+// ─── Video source ─────────────────────────────────────────────────────────────
+// Supports day/night variants and mp4/webm format objects
 
 function videoSrc(scene) {
   let v = scene.video;
-  if (v && (v.dia || v.noite)) v = v[mode] || v.dia;
+  if (v && (v.day || v.night)) v = v[mode] || v.day;
   if (!v) return null;
-  if (typeof v === 'string') return v;
+  if (typeof v === "string") return v;
   const safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   return (MOBILE || safari) ? (v.mp4 || v.webm) : (v.webm || v.mp4);
 }
 
 function toggleMode() {
-  mode = mode === 'dia' ? 'noite' : 'dia';
-  track('mode_toggle', { mode });
+  mode = mode === "day" ? "night" : "day";
+  track("mode_toggle", { mode });
   startScene(currentScene);
 }
 
-// ─── Video Preload ────────────────────────────────────────────────────────────
+// ─── Video preload ────────────────────────────────────────────────────────────
 
 const loadOne = (src) => {
   if (!src || videoBlobs.has(src)) return Promise.resolve();
@@ -147,10 +149,8 @@ function preloadAllVideos() {
       .map(s => videoSrc(s))
       .filter(Boolean)
   )];
-
-  const firstSrc = videoSrc(CONFIG.scenes['aereo']);
+  const firstSrc = videoSrc(CONFIG.scenes["aereo"]);
   const rest = srcs.filter(s => s !== firstSrc);
-
   const chain = firstSrc ? loadOne(firstSrc) : Promise.resolve();
   chain.then(() => Promise.all(rest.map(loadOne)));
 }
@@ -158,14 +158,14 @@ function preloadAllVideos() {
 // ─── Poster ───────────────────────────────────────────────────────────────────
 
 function showPoster(src, cb) {
-  seqCanvas.classList.add('active');
+  seqCanvas.classList.add("active");
   const img = new Image();
   img.onload  = () => { drawCover(img); cb?.(); };
   img.onerror = () => cb?.();
   img.src = src;
 }
 
-// ─── Cena ─────────────────────────────────────────────────────────────────────
+// ─── Scene ────────────────────────────────────────────────────────────────────
 
 function startScene(sceneId) {
   const scene = CONFIG.scenes[sceneId];
@@ -181,7 +181,7 @@ function startScene(sceneId) {
   Object.values(transitions).forEach(id => preload(id));
 
   const src = videoSrc(scene);
-  if (!src) { seqCanvas.classList.remove('active'); return; }
+  if (!src) { seqCanvas.classList.remove("active"); return; }
 
   const gen = navGen;
   mainVideo.src  = videoBlobs.get(src) || src;
@@ -196,33 +196,33 @@ function startScene(sceneId) {
       faded = true;
       fadeCanvas();
     };
-    // Só faz fade quando o primeiro frame está realmente pintado na tela
-    mainVideo.addEventListener('playing',    doFade, { once: true });
-    mainVideo.addEventListener('timeupdate', doFade, { once: true });
+    // Fade only after the first frame is actually painted
+    mainVideo.addEventListener("playing",    doFade, { once: true });
+    mainVideo.addEventListener("timeupdate", doFade, { once: true });
     mainVideo.play().catch(doFade);
-    setTimeout(doFade, 500); // fallback se os eventos não dispararem
+    setTimeout(doFade, 500); // fallback if events never fire
   };
 
   if (mainVideo.readyState >= 3) {
     onReady();
   } else {
-    const evt = MOBILE ? 'loadeddata' : 'canplay';
+    const evt = MOBILE ? "loadeddata" : "canplay";
     mainVideo.addEventListener(evt, onReady, { once: true });
     setTimeout(onReady, MOBILE ? 3000 : 5000);
   }
 }
 
 function fadeCanvas() {
-  seqCanvas.style.transition = 'opacity 300ms ease';
-  seqCanvas.style.opacity    = '0';
+  seqCanvas.style.transition = "opacity 300ms ease";
+  seqCanvas.style.opacity    = "0";
   setTimeout(() => {
-    seqCanvas.classList.remove('active');
-    seqCanvas.style.opacity    = '';
-    seqCanvas.style.transition = '';
+    seqCanvas.classList.remove("active");
+    seqCanvas.style.opacity    = "";
+    seqCanvas.style.transition = "";
   }, 300);
 }
 
-// ─── Navegação ────────────────────────────────────────────────────────────────
+// ─── Navigation ───────────────────────────────────────────────────────────────
 
 async function navigateTo(targetId) {
   if (busy || targetId === currentScene) return;
@@ -230,7 +230,7 @@ async function navigateTo(targetId) {
   const seqId = CONFIG.transitions?.[currentScene]?.[targetId];
   if (!seqId) return;
 
-  track('scene_change', { de: currentScene, para: targetId });
+  track("scene_change", { from: currentScene, to: targetId });
   busy = true;
   const gen = ++navGen;
   hidePOIs();
@@ -239,7 +239,7 @@ async function navigateTo(targetId) {
     const frames = await loadWithLoader(seqId);
     if (gen !== navGen) return;
 
-    // passa fps correto; no mobile metade dos frames → metade do fps = duração igual
+    // On mobile, half the frames are loaded so halve fps to keep duration consistent
     const seq = CONFIG.sequences[seqId];
     const fps = (seq.fps || 30) / (MOBILE ? 2 : 1);
     await playSequence(frames, seq.reverse === true, gen, fps);
@@ -247,8 +247,8 @@ async function navigateTo(targetId) {
     startScene(targetId);
   } catch (err) {
     if (gen === navGen) {
-      console.error('Erro na sequência:', err);
-      seqCanvas.classList.remove('active');
+      console.error("Sequence error:", err);
+      seqCanvas.classList.remove("active");
     }
   } finally {
     if (gen === navGen) {
@@ -259,13 +259,13 @@ async function navigateTo(targetId) {
 
 function loadWithLoader(seqId) {
   const p     = preload(seqId);
-  const timer = setTimeout(() => loaderEl.classList.add('visible'), 400);
-  return p.finally(() => { clearTimeout(timer); loaderEl.classList.remove('visible'); });
+  const timer = setTimeout(() => loaderEl.classList.add("visible"), 400);
+  return p.finally(() => { clearTimeout(timer); loaderEl.classList.remove("visible"); });
 }
 
-// ─── Pré-carregamento ─────────────────────────────────────────────────────────
+// ─── Preload ──────────────────────────────────────────────────────────────────
 
-// LRU: evita acumular sequências indefinidamente
+// LRU eviction — prevents unbounded cache growth across many navigations
 function rememberSeq(seqId, promise) {
   cache.set(seqId, promise);
   if (cache.size > MAX_SEQ) {
@@ -278,29 +278,30 @@ function preload(seqId) {
   if (cache.has(seqId)) return cache.get(seqId);
 
   const seqBase = CONFIG.sequences[seqId];
-  const seq = MOBILE
-    ? { ...seqBase, folder: seqBase.folder.replace('images/seq_arch/', 'images/seq_arch_m/') }
+  // Mobile uses a lower-res image folder and skips every other frame
+  const seq  = MOBILE
+    ? { ...seqBase, folder: seqBase.folder.replace("images/seq_arch/", "images/seq_arch_m/") }
     : seqBase;
   const step    = MOBILE ? 2 : 1;
   const indices = [];
   for (let i = seq.from; i <= seq.to; i += step) indices.push(i);
 
-  const frames  = new Array(indices.length);
-  let loaded    = 0;
-  let failed    = false;
-  const SLOTS   = MOBILE ? 4 : indices.length;
-  let nextLoad  = 0;
+  const frames = new Array(indices.length);
+  let loaded   = 0;
+  let failed   = false;
+  const SLOTS  = MOBILE ? 4 : indices.length;
+  let nextLoad = 0;
 
   const promise = new Promise((resolve, reject) => {
     const loadNext = () => {
       if (nextLoad >= indices.length) return;
       const slot = nextLoad++;
-      const num  = String(indices[slot]).padStart(seq.pad, '0');
+      const num  = String(indices[slot]).padStart(seq.pad, "0");
       const img  = new Image();
       img.src = `${seq.folder}${seq.prefix}${num}.${seq.ext}`;
 
       img.onload = () => {
-        // pré-decodifica antes de guardar: elimina stutter no primeiro drawImage
+        // Pre-decode before storing to eliminate stutter on first drawImage
         const ready = img.decode ? img.decode().catch(() => {}) : Promise.resolve();
         ready.then(() => {
           frames[slot] = img;
@@ -309,7 +310,7 @@ function preload(seqId) {
         });
       };
       img.onerror = () => {
-        if (!failed) { failed = true; cache.delete(seqId); reject(new Error(`Falha: ${img.src}`)); }
+        if (!failed) { failed = true; cache.delete(seqId); reject(new Error(`Failed: ${img.src}`)); }
       };
     };
     for (let k = 0; k < Math.min(SLOTS, indices.length); k++) loadNext();
@@ -320,11 +321,11 @@ function preload(seqId) {
 }
 
 // ─── Playback ─────────────────────────────────────────────────────────────────
+// Advances by wall-clock time, not rAF ticks — fixes ProMotion 120Hz over-speed
 
-// avança por tempo real, não por frame do rAF (corrige ProMotion 120Hz)
 function playSequence(frames, reverse = false, gen, fps = 30) {
   return new Promise(resolve => {
-    seqCanvas.classList.add('active');
+    seqCanvas.classList.add("active");
     let index = reverse ? frames.length - 1 : 0;
     let last  = 0;
     const step = 1000 / fps;
@@ -353,144 +354,140 @@ function drawCover(img) {
   const dy    = Math.round((ch - dh) / 2);
   ctx.clearRect(0, 0, cw, ch);
   ctx.drawImage(img, dx, dy, dw, dh);
-  lastFrame = img;  // guarda para redesenhar após resize
+  lastFrame = img; // keep reference so resize can redraw
 }
 
-// ─── POIs com suporte a nav + info ───────────────────────────────────────────
+// ─── POI rendering ────────────────────────────────────────────────────────────
 
 function renderPOIs(pois = []) {
-  poiLayer.innerHTML = '';
+  poiLayer.innerHTML = "";
   pois.forEach((poi, i) => {
-    const el = document.createElement('div');
-    el.className = 'poi' + (poi.type === 'info' ? ' poi--info' : '');
-    el.style.left = poi.x + '%';
-    el.style.top  = poi.y + '%';
-    el.style.animationDelay = (i * 80) + 'ms';
+    const el = document.createElement("div");
+    el.className = "poi" + (poi.type === "info" ? " poi--info" : "");
+    el.style.left = poi.x + "%";
+    el.style.top  = poi.y + "%";
+    el.style.animationDelay = (i * 80) + "ms";
     el.innerHTML = `<div class="poi-btn"><span class="poi-pulse"></span></div>
                     <div class="poi-name">${poi.label}</div>`;
 
     const act = () => {
-      if (poi.type === 'nav' && poi.target) {
-        track('poi_nav', { from: currentScene, to: poi.target });
+      if (poi.type === "nav" && poi.target) {
+        track("poi_nav", { from: currentScene, to: poi.target });
         navigateTo(poi.target);
-      } else if (poi.type === 'info' && poi.info) {
-        track('poi_info', { scene: currentScene, label: poi.label });
+      } else if (poi.type === "info" && poi.info) {
+        track("poi_info", { scene: currentScene, label: poi.label });
         openInfo(poi.info);
       } else if (poi.target) {
         navigateTo(poi.target);
       }
     };
 
-    el.addEventListener('click', act);
-    el.addEventListener('touchstart', e => { e.preventDefault(); act(); }, { passive: false });
+    el.addEventListener("click", act);
+    el.addEventListener("touchstart", e => { e.preventDefault(); act(); }, { passive: false });
     poiLayer.appendChild(el);
   });
 }
 
 function hidePOIs() {
   clearTimeout(poiTimer);
-  poiLayer.classList.add('out');
-  poiTimer = setTimeout(() => { poiLayer.innerHTML = ''; poiLayer.classList.remove('out'); }, 300);
+  poiLayer.classList.add("out");
+  poiTimer = setTimeout(() => { poiLayer.innerHTML = ""; poiLayer.classList.remove("out"); }, 300);
 }
 
+// Info panel for type:'info' POIs (not currently used by default config)
 function openInfo(info) {
-  let panel = document.getElementById('info-panel');
+  let panel = document.getElementById("info-panel");
   if (!panel) {
-    panel = document.createElement('div');
-    panel.id = 'info-panel';
+    panel = document.createElement("div");
+    panel.id = "info-panel";
     document.body.appendChild(panel);
-    panel.addEventListener('click', e => {
-      if (e.target === panel || e.target.dataset.close) panel.classList.remove('open');
+    panel.addEventListener("click", e => {
+      if (e.target === panel || e.target.dataset.close) panel.classList.remove("open");
     });
   }
   panel.innerHTML = `
     <div id="info-card">
-      <button data-close aria-label="Fechar">&times;</button>
-      ${info.imagem ? `<img src="${info.imagem}" alt="">` : ''}
-      <h3>${info.titulo}</h3>
-      ${info.area ? `<span class="info-area">${info.area}</span>` : ''}
-      <ul>${(info.itens || []).map(t => `<li>${t}</li>`).join('')}</ul>
+      <button data-close aria-label="Close">&times;</button>
+      ${info.image ? `<img src="${info.image}" alt="">` : ""}
+      <h3>${info.title}</h3>
+      ${info.area ? `<span class="info-area">${info.area}</span>` : ""}
+      <ul>${(info.items || []).map(t => `<li>${t}</li>`).join("")}</ul>
     </div>`;
-  requestAnimationFrame(() => panel.classList.add('open'));
+  requestAnimationFrame(() => panel.classList.add("open"));
 }
 
-// ─── Track ────────────────────────────────────────────────────────────────────
+// ─── Navigation track ─────────────────────────────────────────────────────────
 
 function buildTrack() {
-  const wrap = document.createElement('div');
-  wrap.id = 'track-pts';
+  const wrap = document.createElement("div");
+  wrap.id = "track-pts";
 
   CONFIG.timeline.forEach(item => {
-    const btn = document.createElement('button');
-    btn.className  = 't-pt';
+    const btn = document.createElement("button");
+    btn.className  = "t-pt";
     btn.dataset.id = item.id;
-    btn.setAttribute('aria-label', item.label);
-    btn.setAttribute('data-label', item.label);
-    // Ícone SVG + label inline (expande ao ativar)
-    btn.innerHTML = (item.icon || '') + `<span class="t-label">${item.label}</span>`;
-    btn.addEventListener('click', () => {
+    btn.setAttribute("aria-label", item.label);
+    btn.setAttribute("data-label", item.label);
+    btn.innerHTML = (item.icon || "") + `<span class="t-label">${item.label}</span>`;
+    btn.addEventListener("click", () => {
       selectTab(btn);
       navigateTo(item.id);
     });
     wrap.appendChild(btn);
   });
 
-  // Separador visual
-  const sep = document.createElement('div');
-  sep.id = 'track-map-sep';
+  const sep = document.createElement("div");
+  sep.id = "track-map-sep";
   wrap.appendChild(sep);
 
-  // Botão Entorno — expande label, abre modal, não muda cena
-  const mapBtn = document.createElement('button');
-  mapBtn.className = 't-pt';
-  mapBtn.setAttribute('aria-label', 'Entorno');
-  mapBtn.setAttribute('data-label', 'Entorno');
+  // Surroundings button — opens map modal without changing scene
+  const mapBtn = document.createElement("button");
+  mapBtn.className = "t-pt";
+  mapBtn.setAttribute("aria-label", "Surroundings");
+  mapBtn.setAttribute("data-label", "Surroundings");
   mapBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>'
-    + '<span class="t-label">Entorno</span>';
-  mapBtn.addEventListener('click', () => {
+    + '<span class="t-label">Surroundings</span>';
+  mapBtn.addEventListener("click", () => {
     selectTab(mapBtn);
-    if (typeof openMapModal === 'function') openMapModal();
+    if (typeof openMapModal === "function") openMapModal();
   });
   wrap.appendChild(mapBtn);
 
   trackEl.appendChild(wrap);
-  trackEl.classList.add('show');
+  trackEl.classList.add("show");
 
-  // Colapsa todos ao clicar fora do track
-  document.addEventListener('click', e => {
+  // Collapse all buttons when clicking outside the track bar
+  document.addEventListener("click", e => {
     if (!trackEl.contains(e.target)) collapseTrack();
   });
 }
 
-// Ativa um botão e colapsa os demais
 function selectTab(btn) {
-  document.querySelectorAll('.t-pt').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll(".t-pt").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
 }
 
-// Remove active de todos (clique fora ou Escape)
 function collapseTrack() {
-  document.querySelectorAll('.t-pt').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll(".t-pt").forEach(b => b.classList.remove("active"));
 }
 
 function setActive(id) {
-  // Expande o botão da cena ativa (chamado após navegação completar)
-  document.querySelectorAll('.t-pt').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.id === id);
+  document.querySelectorAll(".t-pt").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.id === id);
   });
   const item = CONFIG.timeline.find(t => t.id === id);
-  const tag  = document.getElementById('scene-tag');
+  const tag  = document.getElementById("scene-tag");
   if (!item || !tag) return;
   tag.textContent = item.label;
-  tag.classList.add('show');
+  tag.classList.add("show");
 }
 
-// ─── Tour autoguiado ──────────────────────────────────────────────────────────
+// ─── Guided tour ──────────────────────────────────────────────────────────────
 
 function startTour() {
   touring = true;
-  document.body.classList.add('touring');
-  track('tour_start', {});
+  document.body.classList.add("touring");
+  track("tour_start", {});
   let i = TOUR_ROUTE.indexOf(currentScene);
   const next = () => {
     if (!touring) return;
@@ -499,107 +496,108 @@ function startTour() {
     tourTimer = setTimeout(next, 6000);
   };
   tourTimer = setTimeout(next, 6000);
-  const btn = document.getElementById('cta-tour');
-  if (btn) { btn.innerHTML = '■ <span>Parar</span>'; btn.onclick = stopTour; }
+  const btn = document.getElementById("cta-tour");
+  if (btn) { btn.innerHTML = "■ <span>Stop</span>"; btn.onclick = stopTour; }
 }
 
 function stopTour() {
   touring = false;
   clearTimeout(tourTimer);
-  document.body.classList.remove('touring');
-  const btn = document.getElementById('cta-tour');
-  if (btn) { btn.innerHTML = '▶ <span>Tour</span>'; btn.onclick = startTour; }
+  document.body.classList.remove("touring");
+  const btn = document.getElementById("cta-tour");
+  if (btn) { btn.innerHTML = "▶ <span>Tour</span>"; btn.onclick = startTour; }
 }
 
-['pointerdown', 'keydown'].forEach(ev =>
+["pointerdown", "keydown"].forEach(ev =>
   document.addEventListener(ev, () => { if (touring) stopTour(); }, { passive: true })
 );
 
-// ─── CTA + Lead modal ─────────────────────────────────────────────────────────
+// ─── CTA / Lead modal ─────────────────────────────────────────────────────────
 
 function initCTA() {
-  const wa = document.getElementById('cta-whats');
+  const wa = document.getElementById("cta-whats");
   if (wa) {
     wa.href = `https://wa.me/${LEAD.whatsapp}?text=` +
-      encodeURIComponent(`Olá! Vi a maquete do ${LEAD.empreendimento} e quero saber mais.`);
-    wa.addEventListener('click', () => track('cta_whatsapp', { scene: currentScene }));
+      encodeURIComponent(`Hi! I saw the ${LEAD.project} showcase and would like to know more.`);
+    wa.addEventListener("click", () => track("cta_whatsapp", { scene: currentScene }));
   }
 
-  const modal = document.getElementById('lead-modal');
+  const modal = document.getElementById("lead-modal");
   if (!modal) return;
 
-  const open  = () => { modal.hidden = false; track('lead_open', { scene: currentScene }); };
+  const open  = () => { modal.hidden = false; track("lead_open", { scene: currentScene }); };
   const close = () => { modal.hidden = true; };
 
-  const visitBtn = document.getElementById('cta-visit');
-  if (visitBtn) visitBtn.addEventListener('click', open);
+  const visitBtn = document.getElementById("cta-visit");
+  if (visitBtn) visitBtn.addEventListener("click", open);
 
-  const closeBtn = document.getElementById('lead-close');
-  if (closeBtn) closeBtn.addEventListener('click', close);
+  const closeBtn = document.getElementById("lead-close");
+  if (closeBtn) closeBtn.addEventListener("click", close);
 
-  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  modal.addEventListener("click", e => { if (e.target === modal) close(); });
 
-  const form = document.getElementById('lead-form');
+  const form = document.getElementById("lead-form");
   if (form) {
-    form.addEventListener('submit', async e => {
+    form.addEventListener("submit", async e => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target));
-      data.empreendimento = LEAD.empreendimento;
-      data.cena = currentScene;
+      data.project = LEAD.project;
+      data.scene   = currentScene;
       try {
         await fetch(LEAD.endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body:    JSON.stringify(data),
         });
       } catch (_) {}
-      track('lead_submit', data);
+      track("lead_submit", data);
       e.target.hidden = true;
-      const ok = document.getElementById('lead-ok');
+      const ok = document.getElementById("lead-ok");
       if (ok) ok.hidden = false;
     });
   }
 }
 
-// ─── Cursor (desktop only) ────────────────────────────────────────────────────
+// ─── Custom cursor (desktop only) ────────────────────────────────────────────
 
 function initCursor() {
-  const cursor = document.getElementById('cursor');
-  const ring   = document.getElementById('ring');
+  const cursor = document.getElementById("cursor");
+  const ring   = document.getElementById("ring");
   if (!cursor) return;
   let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  document.addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; }, { passive: true });
   (function loop() {
-    cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
+    cursor.style.left = mx + "px";
+    cursor.style.top  = my + "px";
     const dx = (mx - rx) * 0.12;
     const dy = (my - ry) * 0.12;
     rx += dx; ry += dy;
     if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
+      ring.style.left = rx + "px";
+      ring.style.top  = ry + "px";
     }
     requestAnimationFrame(loop);
   })();
-  document.addEventListener('mouseover', e => {
-    cursor.classList.toggle('on', !!e.target.closest('button,.t-pt,.poi'));
+  document.addEventListener("mouseover", e => {
+    cursor.classList.toggle("on", !!e.target.closest("button,.t-pt,.poi"));
   });
 }
 
-// ─── Debug (tecla D) ──────────────────────────────────────────────────────────
+// ─── Keyboard shortcuts ───────────────────────────────────────────────────────
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') collapseTrack();
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") collapseTrack();
 });
 
+// Debug mode — press D to toggle coordinate display (for POI placement)
 let debugOn = false;
-document.addEventListener('keydown', e => {
-  if (e.key.toLowerCase() !== 'd') return;
+document.addEventListener("keydown", e => {
+  if (e.key.toLowerCase() !== "d") return;
   debugOn = !debugOn;
   debugHud.hidden = !debugOn;
-  document.body.style.cursor = debugOn ? 'crosshair' : '';
+  document.body.style.cursor = debugOn ? "crosshair" : "";
 });
-document.addEventListener('click', e => {
+document.addEventListener("click", e => {
   if (!debugOn) return;
   const x   = (e.clientX / window.innerWidth  * 100).toFixed(1);
   const y   = (e.clientY / window.innerHeight * 100).toFixed(1);
