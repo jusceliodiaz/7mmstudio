@@ -1,20 +1,21 @@
-# Factory Interactive — Contexto do Projeto
+# 7mm creative Studio — Contexto do Projeto
 
 > Este arquivo serve como contexto para o Claude trabalhar neste projeto sem começar do zero.
 
 ---
 
-## Sobre o Projeto
+## Visão Geral
 
-**Projeto:** Site de portfólio da Factory Interactive — studio criativo especializado em experiências digitais para arquitetura e mercado imobiliário  
-**Arquivo principal:** `factoryinteractive.html` (one-page, HTML/CSS/JS puro, sem build tools, sem frameworks)  
-**Objetivo:** Site dark/premium para atrair arquitetos, incorporadoras e empreendimentos de alto padrão
+**Studio:** 7mm creative Studio — experiências digitais para arquitetura e mercado imobiliário  
+**URL:** https://7mmstudio.com  
+**Stack:** HTML/CSS/JS puro, sem build tools, sem frameworks (exceto Leaflet.js e Three.js via CDN quando necessário)  
+**Google Analytics:** `G-3K51DFTX3J` (lazy-loaded via `window.addEventListener('load', ...)` em todas as páginas)
 
 ---
 
 ## Identidade Visual
 
-### CSS Variables (`:root`)
+### CSS Variables (`:root`) — usadas em `index.html`, `launching-page.html`, `fi-preview.html`
 ```css
 --gold:   #b89c6e;   /* dourado — cor de destaque principal */
 --gold-d: #a08860;   /* hover do gold */
@@ -29,454 +30,327 @@
 ```
 
 ### Tipografia
-- **Tudo:** `Inter` (Google Fonts) — pesos 300, 400, 500, 600, 700, 800
+- `index.html`, `launching-page.html`, `fi-preview.html`: **Inter** (Google Fonts) — pesos 300–800
+- `firstperson.html`, `cityexplorer.html`: **DM Sans** (Google Fonts) — pesos 300–600 — carregado via `styles.css`
 
-### Estética
-- Fundo global: `#080808` — todo o site é dark
-- Seção Serviços: `var(--bg-alt)` = `#1e1e1e`
-- Seção CTA "Iniciar Projeto": `var(--bg-alt)` = `#1e1e1e`
-- Slide de encerramento do portfólio horizontal: `#f7f7f7` (exceção clara)
-- Sem custom cursor, sem scrollbar customizada
-- Logo: `images/logo_site.png` (arquivo local)
+### Estética geral
+- Fundo global: `#080808` — dark em todo o site
+- Favicon: `images/fav-icon.png` (arquivo dedicado, não é a logo)
+- Logo principal: `images/logo_site2.png` (versão atual — `logo_site.png` está obsoleta)
+- Sem `box-shadow` — estética flat
+- Accent é sempre `#b89c6e` (dourado) — nunca verde, azul ou roxo
+
+### Contato e redes
+- WhatsApp: `https://wa.me/5541992272317`
+- E-mail: `escrevaparajd@gmail.com`
+- Instagram: `@jdworkviz` — `https://www.instagram.com/jdworkviz/`
+- Behance: `firsightstudio`
 
 ---
 
-## Estrutura de Seções (ordem no HTML)
+## Mapa de Arquivos
 
-| Seção | Classe/Tag | Notas |
+| Arquivo | Descrição |
+|---|---|
+| `index.html` | Site institucional principal |
+| `fi-preview.html` | Hub de demos — gate de acesso + cards para as experiências |
+| `launching-page.html` | Demo de Launching Page imobiliária com sequencer, POIs, 360° |
+| `firstperson.html` | Tour exterior interativo — archviz com navegação por cenas |
+| `cityexplorer.html` | City Explorer — mapa interativo com Leaflet + cenas 360° |
+| `styles.css` | CSS compartilhado entre `firstperson.html` e `cityexplorer.html` |
+| `script.js` | JS principal do `firstperson.html` |
+| `script2.js` | JS auxiliar (provavelmente cidade ou launching) |
+| `script-fp.js` | JS adicional para firstperson |
+| `scenes.js` | Definição das cenas do firstperson |
+| `scenes-fp.js` | Cenas adicionais do firstperson |
+| `scenes-city.js` | Definição das cenas do cityexplorer |
+| `pois-city.js` | POIs do cityexplorer |
+
+---
+
+# `index.html` — Site Institucional
+
+## Estrutura de Seções
+
+| Seção | ID/Classe | Notas |
 |---|---|---|
-| Hero | `<section class="hero">` | Vídeo full-bleed, logo, h1, parágrafo, botão WA |
-| Portfólio horizontal | `<div class="ph-wrap">` | Scroll horizontal fixo, 300vh de altura |
-| Serviços | `<section class="section-services">` | Grid 6 cards, fundo `--bg-alt` |
-| Portfólio 2×2 | `<section class="section-portfolio">` | Grid full-width sem padding |
-| CTA | `<section class="cta">` | Centralizado, fundo `--bg-alt` |
-| Footer | `<footer>` | Linha única centralizada |
+| Hero | `#hero .hero` | Slideshow de 7 imagens, logo, h1, p, botão WA, hero-nav, hero-tr |
+| Web Statement | `.web-statement` | Typewriter animado, fundo `--bg-alt`, grid 2 colunas embaixo |
+| Serviços | `#services .section-services` | Bento grid 4×2, fundo `#000`, sem padding |
+| CTA + Formulário | `#contact .cta` | Centralizado, fundo `--bg-alt`, botão WA + form Formspree |
+| Side Nav | `.side-nav` | Fixo à direita, dots com labels, oculto em mobile `≤768px` |
+| Footer | `<footer>` | Centralizado, texto `7mm creative Studio © 2026` |
 
----
+## Hero
 
-## Componentes Principais
-
-### Hero
-- `height: 100vh`, `flex-direction: column`, `justify-content: center`
-- Vídeo: `images/SHOWREEL.mp4` — `autoplay muted loop playsinline`
+- `height: 100vh`, `flex-direction: column`, `justify-content: flex-end`
+- `padding: 0 var(--pad) 168px`
+- Slideshow: 7 slides (`.hero-slide`), `h1.webp` carregado com `fetchpriority="high"`, demais lazy com `data-src`
+- Intervalo: `5000ms` — troca automática via `setInterval`
 - Overlay: `linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.32))`
-- Logo: `images/logo_site.png` — `height: 140px; width: auto; align-self: flex-start`
-- Botão WA: `.btn-wa` — borda branca translúcida, ícone dourado `.btn-wa-icon` (`border-radius: 10px`)
-- **Animações de entrada com delays escalonados:**
-  - Logo: `heroFadeDown 0.8s delay 0.25s`
+- Logo: `images/logo_site2.png` — `height: 36px` desktop → `45px` tablet → `35px` mobile
+- Animações de entrada (todos começam `opacity: 0`):
+  - Logo: `heroFadeUp 0.8s delay 0.25s`
   - H1: `heroFadeUp 0.9s delay 0.45s`
   - Parágrafo: `heroFadeUp 0.9s delay 0.65s`
   - Botão WA: `heroFadeUp 0.8s delay 0.85s`
 
-### Botão WhatsApp (`.btn-wa`)
-- `display: inline-flex; align-items: center; gap: 10px`
-- `padding: 10px 24px 10px 10px; border-radius: 16px`
-- `border: 1px solid rgba(255,255,255,0.18)`
+### Hero Top-Right (`.hero-tr`)
+`position: absolute; top: 28px; right: var(--pad)` — contém 3 elementos:
+1. Link Instagram (`.ig-link`) — ícone SVG, `44×44px`, `border-radius: 12px`
+2. Botão "Testar Demos" (`.btn-demo #btn-demo`) — abre `fi-preview.html` em `_blank`
+3. Language switcher (`.lang-switcher`) — botões PT/EN com `active` dourado
+
+### Hero Nav Blocks (`.hero-nav`)
+`position: absolute; bottom: 36px; right: var(--pad)` — 2 blocos glassmorphism:
+- Block 0: link `#services` — "Serviços"
+- Block 1: link `#contact` — "Contato"
+- Cada bloco tem barra de progresso (`.hero-nav-bar`) que anima junto com o slideshow
+- Oculto em `≤540px`
+
+## Botão WhatsApp (`.btn-wa`)
+- `display: inline-flex; gap: 10px; padding: 10px 24px 10px 10px; border-radius: 16px`
+- `background: rgba(255,255,255,0.1); backdrop-filter: blur(12px)`
+- `border: 1px solid rgba(255,255,255,0.22)`
 - Ícone `.btn-wa-icon`: `48×48px; background: var(--gold); border-radius: 10px; color: #000`
-- Hover: icon rotaciona `rotate(12deg) scale(1.12)`, botão sobe `translateY(-3px)`
-- Link: `https://wa.me/5541987831394`
+- Hover: icon `rotate(12deg) scale(1.12)`, botão `translateY(-3px)`
+- SVG do WhatsApp via `<use href="#icon-wa">` — symbol definido no body
 
-### Portfólio Horizontal (`.ph-wrap`)
-- `height: 300vh` — scroll vertical converte em horizontal via JS
-- `.ph-sticky`: `position: sticky; top: 0; height: 100vh; overflow: hidden`
-- `.ph-track`: `display: flex; gap: 16px; will-change: transform`
-- **Slide de texto** (`.ph-slide-text`): `width: 38vw !important; background: var(--gold) !important`
-- **Slides de imagem** (`.ph-slide`): `width: 42vw`
-- **Slide de encerramento** (`.ph-slide-end`): `width: 50vw !important; background: #f7f7f7 !important; color: #111`
-- **Barra de progresso** (`.ph-progress-bar`): criada via JS, `height: 2px; background: var(--gold)` na base
-- **JS:** `maxX = track.scrollWidth - viewport.offsetWidth` (cálculo correto para evitar espaço em branco extra)
-- Projetos: LA TERROIR (Camila Dirani, 2026), ITAPORÃ (Eduardo Rabachini, 2025), MODUS CONSULTING (Miami FL, 2026)
+## Web Statement (`.web-statement`)
+- `background: var(--bg-alt); padding: 120px var(--pad)`
+- Texto principal (`.ws-text`): typewriter animado — `clamp(2rem, 3.6vw, 3.2rem)`, `font-weight: 700`
+  - Cursor piscante (`.ws-cursor`) — `blink-off` via `setInterval(500ms)`
+  - Palavras: controladas por `window._twUpdate(words)` — atualizadas pelo i18n
+- Grid inferior (`.ws-sub`): `grid-template-columns: 1fr 1fr; gap: 40px`
+  - Ícones dourados `38×38px` com SVG inline
+  - Bordas separadas por `border-top: 1px solid var(--border)`
 
-### Serviços (`.section-services`)
-- `background: var(--bg-alt)` — `#1e1e1e`
-- Título H2: `color: var(--gold)`
-- Grid: `grid-template-columns: repeat(6, 1fr); gap: 16px`
-- Cards regulares (`.card`): `background: #121212; border-radius: var(--radius); padding: 36px`
-  - Imagem no topo: `.card-img` — `height: 200px`, crop `object-fit: cover`
-  - Número dourado, H3 branco, parágrafo `rgba(255,255,255,0.56)`, tags com borda
-  - Hover: `translateY(-6px)`, borda dourada, imagem `scale(1.06)`
-- Cards especiais (`.card-special`): `background: var(--gold); color: #1a1200` — **sem imagem**
-  - Badge (`.card-special-badge`): pill escuro com texto "IA" ou "VOZ"
-  - Tags (`.tag.tag-special`): `color: #3a3a3a; border-color: rgba(26,18,0,0.18)`
+## Serviços (`.section-services`)
+- `background: #000; padding: 0; border: none`
+- Bento grid (`.services-bento`): `grid-template-columns: repeat(4, 1fr); grid-template-rows: 340px 340px`
+- Cards com imagem (`.svc-card`): overlay gradiente `rgba(0,0,0,0.9)→transparent`, hover escurece mais
+- Cards especiais dourados (`.svc-card--special`): `background: var(--gold); color: #1a1200`
 
-**Ordem dos 6 cards:**
-1. Websites & Landing Pages (regular, com imagem)
-2. Geração de Imagem por AI (especial dourado, badge "IA")
-3. Archviz (regular, com imagem)
-4. Realtime & Unreal Engine (regular, com imagem)
-5. Navegação por Voz (especial dourado, badge "VOZ")
-6. VR & AR (regular, com imagem)
-
-### Portfólio 2×2 (`.section-portfolio`)
-- `padding: 0; border-bottom: none`
-- Grid: `grid-template-columns: 1fr 1fr; grid-template-rows: 60vh 60vh; gap: 3px`
-- Cada card: `position: relative; overflow: hidden`
-- Overlay: `linear-gradient(to top, rgba(0,0,0,0.82), transparent 52%)`
-- Hover: imagem `scale(1.05)`, info sobe `translateY(0)`
-
-**Projetos:**
-| Projeto | Tipo | Local | Ano |
+**Layout das células (desktop 4 colunas):**
+| Card | Classe | Posição | Conteúdo |
 |---|---|---|---|
-| Modus Consulting | Website | Miami — FL | 2026 |
-| Dancon Empreendimentos | Landing Page | Curitiba — PR | 2025 |
-| Baterias Samuka | Landing Page | Londrina — PR | 2025 |
-| Solicita Licitações | Website | Brasil — Nacional | 2025 |
+| Websites | `.svc-web` | col 1, row 1–2 (alto) | imagem `capa_website.webp/jpg` |
+| AI Creative | `.svc-ai` | col 2, row 1 | dourado, badge "IA" |
+| Launching Page | `.svc-arch` | col 2, row 2 | imagem `hero/h5.webp` |
+| City Explorer | `.svc-real` | col 3, row 1–2 (alto) | imagem `hero/h7.webp` |
+| Walkthrough | `.svc-vr` | col 4, row 1 | imagem `hero/h4.webp` |
+| Voice Interfaces | `.svc-voz` | col 4, row 2 | dourado, badge "VOZ" |
 
-### CTA (`.cta`)
-- Centralizado, `background: var(--bg-alt)`
-- H2 + parágrafo + `.btn-wa` centralizado
+**Breakpoints responsivos do bento:**
+- `769px–1024px`: `repeat(3,1fr)` — `.svc-web` ocupa 2 cols, `.svc-voz` ocupa 3 cols
+- `≤768px`: `1fr 1fr` — `.svc-web` e `.svc-voz` ocupam 2 cols
+- `≤430px`: rows reduzem para `220px`
 
-### Footer
-- `display: flex; justify-content: center`
-- Texto: `Factory Studio © 2026 · Todos os direitos reservados.`
-- `font-size: 0.82rem; color: var(--muted)`
+## CTA + Formulário (`#contact .cta`)
+- `background: var(--bg-alt); text-align: center`
+- Botão WA centralizado
+- Divisor "ou envie uma mensagem" (`.cf-divider`)
+- Form Formspree (`https://formspree.io/f/xeedjkjo`): campos Nome, Telefone, E-mail, Mensagem
+  - Honeypot: `name="_gotcha"` oculto
+  - Submit assíncrono — botão muda para "Enviando..." → "Mensagem Enviada ✓"
+  - Form reset após 4s de sucesso
+
+## Side Nav (`.side-nav`)
+- `position: fixed; right: 28px; top: 50%`
+- Pills glassmorphism: `backdrop-filter: blur(12px)`
+- 3 dots: Início (`#hero`), Serviços (`#services`), Contato (`#contact`)
+- Active dourado via `IntersectionObserver` (`rootMargin: "-45% 0px -45% 0px"`)
+- Oculto (opacity 0) quando hero está visível
+- Oculto (display none) em `≤768px`
+
+## Internacionalização (i18n)
+- 3 idiomas: PT, EN, ES
+- Atributo `data-i18n="chave"` nos elementos
+- `data-i18n-html="true"` para HTML dentro do elemento
+- `data-i18n-placeholder="chave"` para placeholders de input
+- Estado persistido em `localStorage.setItem('fi-lang', lang)`
+- Função global `window._twUpdate(words)` para atualizar o typewriter
+
+## JavaScript inline (`index.html`)
+1. **Scroll reveal** — `IntersectionObserver` threshold `0`, desconecta após revelar
+2. **Side nav active** — `IntersectionObserver` rootMargin "-45% 0px -45% 0px"
+3. **Side nav ocultar no hero** — `IntersectionObserver` threshold `0.1`
+4. **Proteção de conteúdo** — `contextmenu` e `dragstart` bloqueados em `img, canvas`
+5. **i18n** — aplica traduções, atualiza typewriter, labels do panorama
+6. **Btn demo** — `window.open("fi-preview.html", "_blank")`
+7. **Formspree** — `submitForm()` assíncrono
+8. **Hero slideshow** — `setInterval 5000ms`, lazy-load dos slides, barra de progresso nav
+9. **Typewriter** — `window._twUpdate`, cursor piscante, SPEED=60ms, DELETE_SPEED=30ms, PAUSE=2500ms
+10. **GA tracking** — `whatsapp_click`, `scroll_50`, `scroll_90`
 
 ---
 
-## JavaScript (inline no `<body>`)
+# `fi-preview.html` — Hub de Demos
 
-1. **Portfólio horizontal scroll** — converte scroll vertical em `translateX` no `.ph-track`, atualiza `.ph-progress-bar`
-2. **Scroll reveal** — `IntersectionObserver` em `.reveal` → adiciona `.visible` (threshold 0.1), desconecta após revelar
+- **Função:** Gate de acesso + grid de cards para as 4 experiências interativas
+- **Fontes:** Inter
+- **Estado:** `#gate` visível inicialmente (glassmorphism); após clicar "Entrar" → `#main` aparece
+- **Fragmento `#admin`** — rota de volta do `launching-page.html`
+- **Lang switcher:** PT/EN — flutuante no `#gate` e fixo na `#main`
+
+**4 Cards de experiências (grid):**
+1. **Launching Page** → `launching-page.html`
+2. **Tour Exterior** → `firstperson.html`
+3. **City Explorer** → `cityexplorer.html`
+4. **Configurador de Banheiros** (ou similar) — terceiro/quarto card
 
 ---
 
-## Animações
+# `launching-page.html` — Demo Launching Page Imobiliária
 
-### Hero (CSS keyframes)
-```css
-@keyframes heroFadeUp   { to { opacity: 1; transform: translateY(0); } }
-@keyframes heroFadeDown { to { opacity: 1; transform: translateY(0); } }
+- **Função:** Demo de produto para incorporadoras — "Venda antes de construir"
+- **Fontes:** Inter
+- **Back button:** `href="fi-preview.html#admin"` — volta para o hub
+
+## Estrutura de Seções
+
+| Seção | Descrição |
+|---|---|
+| Sequencer (`.seq-wrap`) | `height: 100vh` sticky, canvas + video + POIs, botões Aéreo/Living |
+| Hero (`.lp-hero`) | `100vh`, imagem `hero/h5.jpg`, badge + h1 + meta + CTAs |
+| MidCTA (`.lp-midcta`) | `background: #f7f7f7`, texto grande centralizado |
+| Gallery (`#galeria`) | Grid `1fr 1fr / 56vh 56vh` — 3 imagens, card esquerdo ocupa 2 rows |
+| Prova/Números (`#pf-numeros`) | `background: #f2f2f0` — 6 cards de stats, strip 3 itens, painel comparação |
+| CTA Final (`.lp-cta`) | `background: #111`, centralizado, botão WA + botão ghost |
+| Footer (`.lp-footer`) | Linha única |
+
+## Sequencer (`.seq-wrap`)
+- `height: 100vh; position: relative` — sticky dentro
+- `.seq-sticky`: `position: sticky; top: 0; height: 100vh`
+- `#lp-video`: `position: absolute; inset: 0; opacity: 0` → fade in quando ativo
+- `.seq-canvas`: `z-index: 2` — canvas para frame sequence
+- `.seq-pins`: `z-index: 15` — POIs aéreos e living
+- Botões Aéreo/Living (`.seq-scrub-btn`) — pill glassmorphism no topo
+  - `.btn-on`: fundo escuro quando ativo
+
+## POIs do Sequencer
+- Dois grupos: `data-group="aerial"` e `data-group="living"`
+- Visibilidade via `.seq-pins.show-aerial` / `.seq-pins.show-living`
+- `.poi-dot`: botão circular branco com `+`, hover dourado
+- `.poi-popup`: card `#ebebea` com imagem, título, descrição
+- `.poi-popup--simple`: popup sem imagem (versão simplificada para POIs aéreos)
+- `.poi-popup-times`: ícone + distância/tempo (POIs de localização)
+- **Modal 360°** (`#pano-modal`): abre ao clicar "Ver 360°" no popup do Living
+  - Canvas WebGL, room switcher (Quarto/Living/Sacada), hotspots
+  - Labels e textos controlados pelo i18n
+
+## Seção Números (`#pf-numeros`)
+- CSS injetado inline como `<style>` dentro da `<section>`
+- Grid `repeat(3,1fr)` de cards com counters animados (`data-count`, `data-prefix`, `data-suffix`)
+- Animação: `easeOutCubic` de 1500ms via `requestAnimationFrame` — dispara quando entra no viewport
+- Strip `3×1` de números secundários
+- Painel comparativo "Anúncio tradicional" vs "Launching page interativa"
+
+## i18n (`launching-page.html`)
+- PT/EN inline no body
+- `data-i18n` + `data-i18n-html="true"` nos elementos
+- Globals para panorama: `window._panoLoadingText`, `window._panoRoomLabels`
+
+---
+
+# `firstperson.html` — Tour Exterior Interativo
+
+- **Fontes:** DM Sans (via `styles.css`)
+- **CSS:** `<link rel="stylesheet" href="styles.css" />`
+- **Back button:** `href="index.html"`
+- **Assets preload:** `images/seq_arch/aereo_to_piscina_00.jpg`, `images/1.webm`
+
+## Estrutura HTML
 ```
-Elementos começam `opacity: 0` e animam para visíveis com delays escalonados.
-
-### Scroll Reveal
-```css
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s var(--ease), transform 0.75s var(--ease); }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.22s; }
-.reveal-delay-3 { transition-delay: 0.34s; }
+body
+├── .back-btn          → volta para index.html
+├── #cursor + #ring    → cursor customizado
+├── #noise             → grain texture overlay
+├── #stage
+│   ├── #main-video    → vídeo loop (muted, playsinline)
+│   ├── #seq-canvas    → canvas para frame sequences
+│   └── #poi-layer     → POIs dinâmicos
+├── #scene-tag         → label da cena atual
+├── #track             → barra de navegação (construída pelo JS)
+├── #loader            → 3 spans animados
+├── #debug-hud         → HUD de debug (hidden por padrão)
+└── #cta-dock          → botões "Tour" e "Book a visit"
 ```
 
----
+## JavaScript
+- `script.js` + `script-fp.js` — lógica principal da experiência
+- `scenes.js` + `scenes-fp.js` — definição das cenas (imagens, vídeos, POIs, posições)
+- Sequências de frames em `images/seq_arch/` (JPGs zero-padded)
+- Vídeos: `images/1.webm`, `images/3.webm`, `images/k_loop.webm`, `images/j_loop.webm`, `images/l_loop.webm`
 
-## SEO
-
-- `<title>`, `<meta name="description">`, `<meta name="keywords">`, `<meta name="robots">`, `<link rel="canonical">`
-- Open Graph completo (og:type, og:url, og:title, og:description, og:image, og:locale, og:site_name)
-- Twitter Card (`summary_large_image`)
-- JSON-LD Schema (`ProfessionalService`) com nome, telefone, e-mail, endereço, sameAs
-- Favicon: `images/logo_site.png`
-
----
-
-## Contato
-
-- WhatsApp: `https://wa.me/5541987831394` (+55 41 99227-2317)
-- E-mail: firsightstudio@gmail.com
-- Instagram: @umdesignerchato
-- Behance: firsightstudio
+## Assets de Sequência (`images/seq_arch/`)
+- `aereo_to_piscina_00.jpg` → `_47.jpg` (48 frames)
+- Outros prefixos conforme definido em `scenes.js`
 
 ---
 
-## Como Trabalhar com Este Arquivo
+# `cityexplorer.html` — City Explorer
 
-### Edição via Edit tool (preferencial)
-Usar o Edit tool diretamente. Antes de editar, sempre ler o trecho com Read para pegar a string exata incluindo indentação.
+- **Fontes:** DM Sans (via `styles.css`)
+- **CSS:** `styles.css` + `leaflet.css` (CDN `unpkg.com/leaflet@1.9.4`)
+- **Back button:** similar ao firstperson
+- **Assets preload:** `images/seq_arch/est_00.jpg`, `images/dia_low.webm`
 
-### Injetar CSS novo
-Adicionar como override no final do bloco `<style>`, antes de `</style>`. Usar seletores mais específicos ou `!important` se necessário para vencer a cascata.
+## Dependências extras
+- **Leaflet.js 1.9.4** via CDN — mapa interativo
+- JS: `scenes-city.js` + `pois-city.js`
 
-### Especificidade CSS importante
-- `.card-special` e `.card` têm mesma especificidade → `.card-special` deve vir depois no CSS ou usar seletor mais específico
-- `.tag.tag-special` (dois seletores) supera `.tag` (um seletor) — usar essa forma para overrides de tag
+## Componentes específicos
+- `.city-popup`: card `#ebebea` fixo `position: fixed`, `width: 300px`
+  - `.popup-img-wrap`: `cursor: grab` — imagem arrastável
+  - Fecha com `.popup-close-btn`
+- Mapa Leaflet — tiles, marcadores de POI, integração com cenas
 
 ---
+
+# `styles.css` — Estilos Compartilhados
+
+Usado por `firstperson.html` e `cityexplorer.html`. Contém:
+- Reset e base
+- Cursor customizado (`#cursor`, `#ring`)
+- `#noise` (grain overlay)
+- `#stage`, `#track`, `#scene-tag`, `#loader`
+- `.back-btn`
+- POI layer styles
+- Breakpoints mobile
+
+---
+
+## Padrões a Seguir
+
+- Antes de editar qualquer arquivo, **ler o trecho com Read** para pegar a string exata com indentação
+- Injetar CSS novo no final do bloco `<style>`, antes de `</style>`
+- Usar seletores mais específicos ou `!important` somente quando comprovadamente necessário
+- `--pad: 10%` é o padrão — não alterar sem necessidade
+- Não remover gradientes dos overlays de cards e hero
+- Não usar `box-shadow` — estética flat
+- Não trocar DM Sans por Inter em `firstperson.html` e `cityexplorer.html`
+- Logo é `logo_site2.png` — `logo_site.png` está obsoleta
 
 ## Padrões a Evitar
 
-- Não usar fontes além de Inter
-- Não usar accent verde, azul ou roxo — accent é `#b89c6e` (dourado)
-- Não adicionar `box-shadow` — estética flat
-- Não alterar `--pad: 10%` sem necessidade
-- Não remover o gradiente escuro dos cards de portfólio
-- Não calcular `maxX` como `viewport.offsetWidth * (n-1)` — usar `track.scrollWidth - viewport.offsetWidth`
-- Não usar `!important` desnecessariamente — só em overrides de especificidade igual comprovada
+- Não usar fontes além de Inter (site/preview) ou DM Sans (firstperson/city)
+- Não usar accent verde, azul ou roxo — accent sempre `#b89c6e`
+- Não alterar o `data-lang` / `data-i18n` sem atualizar os 3 dicionários (PT, EN, ES em index; PT, EN em launching e fi-preview)
+- Não usar `factoryinteractive.html` — arquivo não existe mais
+- Não referenciar `logo_site.png` — usar `logo_site2.png`
+- Não referenciar `bath-config.html` — arquivo não existe mais no projeto
 
 ---
 
-## Próximos Passos Possíveis
+## SEO (padrão em todas as páginas)
 
-- [ ] Imagens reais nos cards (mockups dos projetos)
-- [ ] Lightbox nos projetos do portfólio 2×2
-- [ ] Versão mobile revisada (portfólio horizontal, grid de serviços)
-- [ ] Formulário de contato (Formspree)
-- [ ] Favicon dedicado (além da logo)
-
----
-
-*Atualizado em 15/05/2026 — pós refactor completo do `factoryinteractive.html`*
-
----
----
-
-# Configurador de Banheiros — `bath-config.html`
-
-> Página interativa standalone para configuração visual de materiais de banheiro. HTML/CSS/JS puro, sem frameworks, com Three.js via CDN.
+- `<title>`, `<meta description>`, `<meta keywords>`, `<meta robots>`, `<link canonical>`
+- Open Graph completo: type, url, title, description, image (1200×630), locale, site_name
+- Twitter Card: `summary_large_image`
+- Favicon: `images/fav-icon.png`
+- JSON-LD `ProfessionalService` (apenas em `index.html`)
 
 ---
 
-## Sobre o Arquivo
-
-**Arquivo:** `bath-config.html`  
-**Tipo:** SPA one-page, `overflow: hidden`, sem scroll de página  
-**Dependências:** Three.js `0.160.0` (CDN), Inter (Google Fonts), Google Analytics `G-3K51DFTX3J`  
-**Objetivo:** Experiência imersiva de configuração de materiais — o usuário escolhe piso, torneira e pia visualizando as opções via esferas 3D e animações de transição no stage
-
----
-
-## CSS Variables (`:root`)
-
-```css
---ink:   #0d0d0b;   /* fundo global — mais escuro que o --bg do site principal */
---warm:  #c8a96e;   /* dourado — equivale ao --gold do site principal */
---muted: #7a7568;   /* texto secundário */
---ease:  cubic-bezier(0.87, 0, 0.13, 1);  /* ease mais dramático que o do site */
-```
-
-> A paleta é compatível com o site principal mas usa nomes diferentes. `--warm` = `--gold`.
-
----
-
-## Estrutura HTML (camadas z-index)
-
-| Elemento | ID/Classe | z-index | Descrição |
-|---|---|---|---|
-| Stage (fundo) | `#stage` | — | `position: fixed; inset: 0` — imagem de fundo full-viewport |
-| POIs | `.poi` | 9 | Marcadores flutuantes posicionados em `%` da viewport |
-| Track | `#track` | 10 | Barra de navegação inferior em pill, `opacity: 0` → `.show` |
-| Option Panel | `#option-panel` | 30 | Painel flutuante acima do track, `opacity: 0` → `.open` |
-| POI Popups | `.poi-popup` | 50 | Cards de info, aparecem ao clicar nos POIs |
-| Cover | `#cover` | 100 | Tela de entrada, some ao clicar "Explorar" |
-| Cursor | `#cursor`, `#ring` | 9998–9999 | Cursor customizado (oculto em touch) |
-
----
-
-## Fluxo de Estado
-
-```
-cover visível (cur = -1)
-    ↓ clique em "Explorar" → startExperience()
-track aparece + option-panel abre + cur = 0
-    ↓ clique em botão do track → jumpTo(idx) + openPanel(idx)
-troca de cenário: cur atualizado, POIs visíveis trocam, panel atualiza título e esferas
-```
-
-**Estado principal:** `let cur = -1` — índice do cenário ativo (-1 = cover)
-
----
-
-## Cenários (PTS)
-
-```js
-const PTS = [
-  { id: "piso",     label: "Piso",      sub: "Floor Tile"                  },  // idx 0
-  { id: "torneira", label: "Torneira 1", sub: "Wall-mounted Washbasin Taps" },  // idx 1
-  { id: "pia",      label: "Pia",        sub: "Bathroom Sink"               },  // idx 2
-];
-```
-
----
-
-## Option Panel (`#option-panel`)
-
-- `position: fixed; bottom: 130px; left: 50%` — centralizado, flutua acima do track
-- `width: min(520px, 92vw)` — responsivo
-- Background: `rgba(255,255,255,0.18)` + `backdrop-filter: blur(48px) saturate(2) brightness(1.35)` — glass light
-- Estado: `opacity: 0; pointer-events: none` → `.open { opacity: 1; pointer-events: auto }`
-- Transição de entrada: spring `cubic-bezier(0.34,1.4,0.64,1)` com `translateY(24px→0)`
-- **Abre automaticamente** ao iniciar a experiência (`startExperience()` → `openPanel(0)`)
-- Mobile (`≤600px`): `bottom: 110px`, canvas reduz para `140px`
-
-### Estrutura interna do painel
-
-```
-#option-panel
-├── #panel-header
-│   ├── #panel-category  ("Configurador" — fixo, dourado)
-│   └── #panel-title     (nome do cenário atual — atualizado pelo JS)
-│   └── #panel-close     (botão ×)
-├── #panel-canvas-wrap   (170px height)
-│   └── #option-canvas   (canvas Three.js)
-└── #sphere-labels       (grid 3 colunas — rótulos clicáveis)
-    ├── .sphere-label[data-idx="0"]
-    ├── .sphere-label[data-idx="1"]
-    └── .sphere-label[data-idx="2"]
-```
-
----
-
-## Three.js — Esferas de Opção
-
-**Instanciado uma única vez** (`threeReady` flag). Reutilizado entre cenários.
-
-| Elemento | Configuração |
-|---|---|
-| Renderer | `WebGLRenderer`, `alpha: true`, `pixelRatio min(dpr, 2)` |
-| Camera | `PerspectiveCamera(42°)`, `position.z = 7.5` |
-| Tone mapping | `ACESFilmicToneMapping`, exposure `1.2` |
-| Geometry | `SphereGeometry(1, 64, 64)` — compartilhada entre as 3 esferas |
-| Seleção | `TorusGeometry(1.28, 0.045)` dourado ao redor da esfera ativa |
-| Posições X | `[-2.4, 0, 2.4]` — 3 esferas horizontais |
-
-**Luzes:**
-- Ambient `0xffffff` intensity `1.2`
-- Key `0xffffff` intensity `2.8` pos `(3,4,5)`
-- Fill `0xd0e8ff` intensity `0.8` pos `(-4,2,3)`
-- Rim `0xffe8c0` intensity `0.6` pos `(0,-3,-4)`
-
-**Loop de animação (`useFrame` equivalente):**
-- Cada esfera rota `+0.006` rad/frame em Y
-- Esfera selecionada: `scale 1.12` + bob senoidal Y
-- Esfera hover: `scale 1.06`
-- Lerp suave: `mesh.scale.lerp(target, 0.1)`
-- Loop pausa ao fechar o painel (`stopThreeLoop`)
-
----
-
-## OPTIONS — Materiais PBR por Cenário
-
-```js
-const OPTIONS = {
-  0: [ // Piso — Floor Tile
-    { label: "Mármore Branco", color: 0xf0ece4, roughness: 0.12, metalness: 0.04 },
-    { label: "Porcelanato",    color: 0xc4b49a, roughness: 0.28, metalness: 0.02 },
-    { label: "Ardósia",        color: 0x6a6460, roughness: 0.88, metalness: 0.0  },
-  ],
-  1: [ // Torneira — Wall-mounted Taps
-    { label: "Cromado",   color: 0xbecad2, roughness: 0.04, metalness: 0.98 },
-    { label: "Dourado",   color: 0xc8a96e, roughness: 0.08, metalness: 0.90 },
-    { label: "Preto Mat", color: 0x1c1c1c, roughness: 0.88, metalness: 0.12 },
-  ],
-  2: [ // Pia — Bathroom Sink
-    { label: "Louça",    color: 0xfafaf8, roughness: 0.08, metalness: 0.0  },
-    { label: "Pedra",    color: 0x9c9088, roughness: 0.82, metalness: 0.0  },
-    { label: "Concreto", color: 0x706e68, roughness: 0.92, metalness: 0.05 },
-  ],
-};
-```
-
-Cada opção pode receber `texture: "caminho.jpg"` para usar `TextureLoader` em vez de só cor PBR.
-
----
-
-## Animação de Frame Sequence — Stage
-
-Ao selecionar uma opção no cenário **Piso**, o `#stage` (fundo) é animado por uma sequência de imagens pré-carregadas.
-
-### Constantes
-
-```js
-const STAGE_DEFAULT = 'images/conf/capa_config.jpg';  // estado inicial
-const SEQ_PREFIX    = 'images/conf/piso1_to_piso2_';  // prefixo dos frames
-const SEQ_COUNT     = 54;   // frames 00 a 53
-const SEQ_FPS       = 30;   // velocidade de reprodução
-```
-
-### Nomes dos arquivos
-
-`images/conf/piso1_to_piso2_00.jpg` → `images/conf/piso1_to_piso2_53.jpg`  
-Número sempre zero-padded: `padN(n)` → `String(n).padStart(2, '0')`
-
-### Comportamento
-
-| Ação do usuário | Direção da animação |
-|---|---|
-| Clica em **Mármore Branco** (idx 0) | Forward: frame 00 → 53 (piso1 → piso2) |
-| Clica em qualquer outra opção de piso | Reverse: frame 53 → 00 (piso2 → piso1) |
-| Abre o painel Piso pela primeira vez | Preload silencioso dos 54 frames |
-
-**Preload:** feito via `new Image()` lazy (`loadSeq()` — chamado uma vez, resultado cacheado em `seqFrames`)  
-**Render:** `requestAnimationFrame` com controle de tempo por `dur = 1000 / fps`  
-**Stage update:** `stage.style.background = url(...) center/cover no-repeat` (inline sobrescreve CSS)
-
-### Funções principais
-
-| Função | Responsabilidade |
-|---|---|
-| `loadSeq()` | Cria array de `Image` com todos os frames; retorna cache se já carregado |
-| `playStageFrames(frames, fps)` | Cancela animação anterior e inicia nova loop de frames no stage |
-| `selectSphere(idx)` | Atualiza seleção visual + dispara frame animation se `currentPanelConfig === 0` |
-
----
-
-## POIs (Points of Interest)
-
-Marcadores flutuantes posicionados em `%` da viewport. Visíveis apenas no cenário ativo.
-
-- Criados dinamicamente em `buildPOIs()` e appendados ao `<body>`
-- `.hidden`: `opacity: 0; pointer-events: none; scale: 0.5`
-- Clique no `.poi-btn` → abre `.poi-popup` correspondente
-- Fechar: botão ×, clique fora, `Escape`
-
-**Estrutura de dados (`POIS`):**
-```js
-{ id, label, x, y,   // posição em % da viewport
-  tag, title, desc,  // conteúdo do popup
-  img }              // null = placeholder "Imagem em breve"
-```
-
----
-
-## Track (Barra de Navegação)
-
-- Criado dinamicamente em `buildTrack()` a partir do array `PTS`
-- `opacity: 0` por padrão → `.show` após `startExperience()`
-- Botão ativo: `background: #c8a96e; border-color: #c8a96e; color: #1a1200`
-- Mobile `≤600px`: `.t-pt-sub` (`font-size: 9px`) é ocultado
-
----
-
-## Cover (`#cover`)
-
-- Tela inicial com glassmorphism: `backdrop-filter: blur(28px) saturate(1.6)`
-- Animação de entrada: `coverIn 1s` — `translateY(20px) scale(.97) → normal`
-- Botão "Explorar" → `startExperience()` → `display: none` no cover
-- Mobile `≤480px`: padding reduzido (`40px 28px 36px`)
-
----
-
-## Assets do Configurador
-
-| Arquivo | Uso |
-|---|---|
-| `images/conf/capa_config.jpg` | Background inicial do `#stage` |
-| `images/conf/piso1_to_piso2_00.jpg` … `_53.jpg` | Sequência de animação Mármore Branco |
-
-> Extensão dos frames: `.jpg`, zero-padded 2 dígitos, diretório `images/conf/`
-
----
-
-## Padrões a Evitar (bath-config específico)
-
-- Não usar `display: none` para esconder o cover na transição — o código atual usa isso corretamente (sem fade), não "melhorar" para `opacity` sem testar o z-index
-- Não chamar `initThree()` fora de `openPanel()` — a função tem guarda `threeReady` mas o canvas precisa ter dimensões reais para o renderer
-- Não calcular `maxX` para o stage — o stage é `fixed; inset: 0`, sem scroll
-- Não compartilhar o `THREE.BufferGeometry` entre instâncias com `.dispose()` fora do ciclo de vida correto — a geo é shared entre as 3 esferas intencionalmente
-- Não usar `backdrop-filter` em mobile sem o fallback `background: rgba(..., 0.97)` — já está no `@media (hover: none)`
-- Não alterar `SEQ_FPS` acima de 30 sem verificar se os frames existem na taxa correta
-
----
-
-## Próximos Passos Possíveis (bath-config)
-
-- [ ] Sequências de frame para Torneira (cromado ↔ dourado ↔ preto) e Pia
-- [ ] Texturas PBR reais nas esferas (`opt.texture` já suportado)
-- [ ] Imagens reais nos POI popups (`poi.img`)
-- [ ] Conteúdo real dos POIs (label, title, desc dos materiais)
-- [ ] Transição suave do stage ao trocar de cenário (Piso → Torneira → Pia)
-- [ ] Versão mobile revisada do option-panel
-
----
-
-*Atualizado em 02/06/2026 — documentação inicial de `bath-config.html`*
+*Atualizado em 10/06/2026 — refletor completo do estado atual do projeto*
