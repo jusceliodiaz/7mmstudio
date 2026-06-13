@@ -51,7 +51,7 @@
     />
     <meta
       property="og:description"
-      content="Websites, archviz interativo, realtime e experiências imersivas para arquitetura e mercado imobiliário."
+      content="Launching Page, FirstPerson Experience e City Explorer — experiências digitais interativas para arquitetura e mercado imobiliário premium."
     />
     <meta
       property="og:image"
@@ -70,7 +70,7 @@
     />
     <meta
       name="twitter:description"
-      content="Websites, archviz interativo, realtime e experiências imersivas para arquitetura e mercado imobiliário."
+      content="Launching Page, FirstPerson Experience e City Explorer — experiências digitais interativas para arquitetura e mercado imobiliário premium."
     />
     <meta
       name="twitter:image"
@@ -133,7 +133,7 @@
           { "@type": "Country", "name": "Brasil" }
         ],
         "sameAs": [
-          "https://www.instagram.com/jdworkviz/",
+          "https://www.instagram.com/7mmstudio",
           "https://www.behance.net/firsightstudio"
         ]
       }
@@ -353,16 +353,16 @@
         bottom: 36px;
         right: var(--pad);
         display: flex;
-        gap: 7px;
+        gap: 6px;
         z-index: 2;
-        width: min(532px, 50vw);
+        width: min(300px, 30vw);
       }
       .hero-nav-block {
         flex: 1;
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 16px 13px;
+        gap: 8px;
+        padding: 11px 10px;
         border-radius: 14px;
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.22);
@@ -388,9 +388,9 @@
         border-color: rgba(255, 255, 255, 0.22);
       }
       .hero-nav-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 9px;
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
         background: var(--gold);
         display: flex;
         align-items: center;
@@ -581,8 +581,8 @@
       }
       .services-bento {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 340px 340px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 480px;
         gap: 0;
         overflow: hidden;
         transform: translateZ(0);
@@ -591,31 +591,75 @@
         margin: -0.5px;
         position: relative;
         overflow: hidden;
-        cursor: default;
+        cursor: pointer;
       }
-      .svc-web {
-        grid-column: 1 / 2;
-        grid-row: 1 / 3;
+      .svc-card-link {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
       }
-      .svc-ai {
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
+      .svc-includes {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
       }
-      .svc-arch {
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
+      .svc-includes li {
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        background: rgba(184, 156, 110, 0.12);
+        border: 1px solid rgba(184, 156, 110, 0.28);
+        padding: 3px 10px;
+        border-radius: 100px;
       }
-      .svc-real {
-        grid-column: 3 / 4;
-        grid-row: 1 / 3;
+      .svc-card-btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        overflow: hidden;
+        padding: 10px 16px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 12px;
+        color: #fff;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 0.88rem;
+        white-space: nowrap;
+        pointer-events: none;
+        transition: background 0.3s, border-color 0.3s;
       }
-      .svc-vr {
-        grid-column: 4 / 5;
-        grid-row: 1 / 2;
+      .svc-card:hover .svc-card-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.35);
       }
-      .svc-voz {
-        grid-column: 4 / 5;
-        grid-row: 2 / 3;
+      .svc-card-btn-text {
+        margin-right: 32px;
+        transition: opacity 0.5s;
+      }
+      .svc-card:hover .svc-card-btn-text {
+        opacity: 0;
+      }
+      .svc-card-btn-chevron {
+        position: absolute;
+        right: 4px;
+        top: 4px;
+        bottom: 4px;
+        width: 26%;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.14);
+        display: grid;
+        place-items: center;
+        transition: width 0.5s var(--ease);
+      }
+      .svc-card:hover .svc-card-btn-chevron {
+        width: calc(100% - 8px);
       }
       .svc-bg {
         position: absolute;
@@ -940,7 +984,7 @@
           height: 82px;
         }
         .services-bento {
-          grid-template-rows: 400px 400px;
+          grid-template-rows: 560px;
         }
       }
       @media (min-width: 769px) and (max-width: 1024px) {
@@ -952,31 +996,7 @@
         }
         .services-bento {
           grid-template-columns: repeat(3, 1fr);
-          grid-template-rows: 300px 300px 180px;
-        }
-        .svc-web {
-          grid-column: 1 / 3;
-          grid-row: 1 / 2;
-        }
-        .svc-ai {
-          grid-column: 3 / 4;
-          grid-row: 1 / 2;
-        }
-        .svc-arch {
-          grid-column: 1 / 2;
-          grid-row: 2 / 3;
-        }
-        .svc-real {
-          grid-column: 2 / 3;
-          grid-row: 2 / 3;
-        }
-        .svc-vr {
-          grid-column: 3 / 4;
-          grid-row: 2 / 3;
-        }
-        .svc-voz {
-          grid-column: 1 / 4;
-          grid-row: 3 / 4;
+          grid-template-rows: 380px;
         }
         .ph-slide-text {
           width: 52vw !important;
@@ -999,32 +1019,8 @@
           height: 45px;
         }
         .services-bento {
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: repeat(4, 260px);
-        }
-        .svc-web {
-          grid-column: 1 / 3;
-          grid-row: 1 / 2;
-        }
-        .svc-ai {
-          grid-column: 1 / 2;
-          grid-row: 2 / 3;
-        }
-        .svc-arch {
-          grid-column: 2 / 3;
-          grid-row: 2 / 3;
-        }
-        .svc-real {
-          grid-column: 1 / 2;
-          grid-row: 3 / 4;
-        }
-        .svc-vr {
-          grid-column: 2 / 3;
-          grid-row: 3 / 4;
-        }
-        .svc-voz {
-          grid-column: 1 / 3;
-          grid-row: 4 / 5;
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(3, 300px);
         }
         .svc-content,
         .svc-card--special {
@@ -1067,7 +1063,7 @@
           height: 40px;
         }
         .services-bento {
-          grid-template-rows: repeat(4, 220px);
+          grid-template-rows: repeat(3, 260px);
         }
         .svc-content,
         .svc-card--special {
@@ -1398,7 +1394,7 @@
 
       <div class="hero-tr">
         <a
-          href="https://www.instagram.com/jdworkviz/"
+          href="https://www.instagram.com/7mmstudio"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram 7mm creative Studio"
@@ -1426,27 +1422,6 @@
             />
           </svg>
         </a>
-        <button
-          class="btn-demo"
-          id="btn-demo"
-          aria-label="Ver demonstração do produto"
-        >
-          <span class="btn-demo-text" data-i18n="btn-demo">Testar Demos</span>
-          <i class="btn-demo-chevron" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </i>
-        </button>
         <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
           <button
             class="lang-btn active"
@@ -1567,52 +1542,15 @@
     >
       <h2 id="services-heading" class="sr-only">Serviços</h2>
       <div class="services-bento">
-        <!-- Websites — card grande (2×2) -->
-        <article class="svc-card svc-web reveal">
-          <div class="svc-bg">
-            <picture>
-              <source srcset="images/capa_website.webp" type="image/webp" />
-              <img
-                src="images/capa_website.jpg"
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-              />
-            </picture>
-          </div>
-          <div class="svc-content">
-            <span class="svc-num"></span>
-            <div class="svc-bottom">
-              <h3 data-i18n="svc-web-h3">Webdesign</h3>
-              <p data-i18n="svc-web-p">
-                Sites e landing pages. Feitos para converter.
-              </p>
-            </div>
-          </div>
-        </article>
-
-        <!-- AI — card especial dourado -->
-        <article
-          class="svc-card svc-card--special svc-ai reveal reveal-delay-1"
-        >
-          <div class="svc-badge" data-i18n="svc-ai-badge">IA</div>
-          <div>
-            <h3 data-i18n="svc-ai-h3">AI Creative Interface</h3>
-            <p data-i18n="svc-ai-p">
-              IA integrada ao seu site. Gera imagens a partir do seu projeto e
-              personaliza a experiência em tempo real.
-            </p>
-          </div>
-        </article>
-
-        <!-- Archviz -->
-        <article class="svc-card svc-arch reveal reveal-delay-2">
+        <!-- Launching Page -->
+        <article class="svc-card svc-lp reveal">
+          <a href="launching-page.html" target="_blank" rel="noopener" class="svc-card-link" aria-label="Ver demo Launching Page"></a>
           <div class="svc-bg">
             <picture>
               <source srcset="images/hero/h5.webp" type="image/webp" />
               <img
                 src="images/hero/h5.jpg"
-                alt="Archviz interativo para projetos de arquitetura"
+                alt="Launching Page interativa para empreendimentos imobiliários"
                 loading="lazy"
               />
             </picture>
@@ -1620,45 +1558,35 @@
           <div class="svc-content">
             <span class="svc-num"></span>
             <div class="svc-bottom">
-              <h3 data-i18n="svc-arch-h3">Launching Page</h3>
-              <p data-i18n="svc-arch-p">
-                Web page navegável, ideal para arquitetos, incorporadoras e
-                construtoras.
+              <h3 data-i18n="svc-lp-h3">Launching Page</h3>
+              <p data-i18n="svc-lp-p">
+                Venda antes de construir. Experiência navegável com tour 360°, POIs e sequência de frames.
               </p>
+              <ul class="svc-includes">
+                <li data-i18n="svc-lp-i1">Site responsivo</li>
+                <li data-i18n="svc-lp-i2">Conteúdo por IA</li>
+              </ul>
+              <span class="svc-card-btn">
+                <span class="svc-card-btn-text" data-i18n="svc-cta">Ver demo</span>
+                <i class="svc-card-btn-chevron" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </i>
+              </span>
             </div>
           </div>
         </article>
 
-        <!-- Realtime — card alto (1×2) -->
-        <article class="svc-card svc-real reveal reveal-delay-1">
-          <div class="svc-bg">
-            <picture>
-              <source srcset="images/hero/h7.webp" type="image/webp" />
-              <img
-                src="images/hero/h7.jpg"
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-              />
-            </picture>
-          </div>
-          <div class="svc-content">
-            <span class="svc-num"></span>
-            <div class="svc-bottom">
-              <h3 data-i18n="svc-real-h3">City Explorer</h3>
-              <p data-i18n="svc-real-p">Qualidade de cinema, em tempo real.</p>
-            </div>
-          </div>
-        </article>
-
-        <!-- VR & AR -->
-        <article class="svc-card svc-vr reveal reveal-delay-2">
+        <!-- FirstPerson Experience -->
+        <article class="svc-card svc-fp reveal reveal-delay-1">
+          <a href="firstperson.html" target="_blank" rel="noopener" class="svc-card-link" aria-label="Ver demo FirstPerson Experience"></a>
           <div class="svc-bg">
             <picture>
               <source srcset="images/hero/h4.webp" type="image/webp" />
               <img
                 src="images/hero/h4.jpg"
-                alt="VR e AR para experiências virtuais imersivas"
+                alt="Tour exterior interativo FirstPerson Experience"
                 loading="lazy"
                 width="1920"
                 height="1072"
@@ -1668,26 +1596,59 @@
           <div class="svc-content">
             <span class="svc-num"></span>
             <div class="svc-bottom">
-              <h3 data-i18n="svc-vr-h3">Walkthrough</h3>
-              <p data-i18n="svc-vr-p">
-                O cliente visita o projeto antes de ser construído, com imersão
-                total.
+              <h3 data-i18n="svc-fp-h3">FirstPerson Experience</h3>
+              <p data-i18n="svc-fp-p">
+                Tour exterior interativo. O cliente navega pelo projeto como se já estivesse lá.
               </p>
+              <ul class="svc-includes">
+                <li data-i18n="svc-fp-i1">Navegação por voz</li>
+                <li data-i18n="svc-fp-i2">Múltiplas cenas</li>
+              </ul>
+              <span class="svc-card-btn">
+                <span class="svc-card-btn-text" data-i18n="svc-cta">Ver demo</span>
+                <i class="svc-card-btn-chevron" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </i>
+              </span>
             </div>
           </div>
         </article>
 
-        <!-- Voz — card especial dourado -->
-        <article
-          class="svc-card svc-card--special svc-voz reveal reveal-delay-3"
-        >
-          <div class="svc-badge" data-i18n="svc-voz-badge">VOZ</div>
-          <div>
-            <h3 data-i18n="svc-voz-h3">Voice Interfaces</h3>
-            <p data-i18n="svc-voz-p">
-              Navegação por voz, você controla as ações nos projetos que
-              desenvolvemos.
-            </p>
+        <!-- City Explorer -->
+        <article class="svc-card svc-city reveal reveal-delay-2">
+          <a href="cityexplorer.html" target="_blank" rel="noopener" class="svc-card-link" aria-label="Ver demo City Explorer"></a>
+          <div class="svc-bg">
+            <picture>
+              <source srcset="images/hero/h7.webp" type="image/webp" />
+              <img
+                src="images/hero/h7.jpg"
+                alt="City Explorer — mapa interativo com cenas 360°"
+                loading="lazy"
+              />
+            </picture>
+          </div>
+          <div class="svc-content">
+            <span class="svc-num"></span>
+            <div class="svc-bottom">
+              <h3 data-i18n="svc-city-h3">City Explorer</h3>
+              <p data-i18n="svc-city-p">
+                Mapa interativo com POIs e cenas 360° integradas. Contexto urbano do empreendimento.
+              </p>
+              <ul class="svc-includes">
+                <li data-i18n="svc-city-i1">Mapa interativo</li>
+                <li data-i18n="svc-city-i2">Tour 360°</li>
+              </ul>
+              <span class="svc-card-btn">
+                <span class="svc-card-btn-text" data-i18n="svc-cta">Ver demo</span>
+                <i class="svc-card-btn-chevron" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </i>
+              </span>
+            </div>
           </div>
         </article>
       </div>
@@ -1909,24 +1870,19 @@
             "hero-h1": "Sites que vendem. Experiências que impressionam.",
             "hero-p":
               "Para arquitetos, incorporadoras e empreendimentos premium. Tudo entregue como um link.",
-            "svc-web-h3": "Landing Pages",
-            "svc-web-p": "Sites, launching pages. Feitos para converter.",
-            "svc-ai-badge": "IA",
-            "svc-ai-h3": "AI Creative Interface",
-            "svc-ai-p":
-              "IA integrada ao site. Gera imagens, responde perguntas, personaliza em tempo real.",
-            "svc-arch-h3": "Interactive Archviz",
-            "svc-arch-p":
-              "Maquete interativa direto no navegador. Sem app, sem plugin.",
-            "svc-real-h3": "Realtime & Unreal Engine",
-            "svc-real-p": "Qualidade de cinema, em tempo real.",
-            "svc-vr-h3": "VR & AR",
-            "svc-vr-p":
-              "Visite o projeto antes de construir. VR ou AR, imersão total.",
-            "svc-voz-badge": "VOZ",
-            "svc-voz-h3": "Voice Interfaces",
-            "svc-voz-p":
-              "Navegação por voz, você controla as ações nos projetos que desenvolvemos.",
+            "svc-lp-h3": "Launching Page",
+            "svc-lp-p": "Venda antes de construir. Experiência navegável com tour 360°, POIs e sequência de frames.",
+            "svc-lp-i1": "Site responsivo",
+            "svc-lp-i2": "Conteúdo por IA",
+            "svc-fp-h3": "FirstPerson Experience",
+            "svc-fp-p": "Tour exterior interativo. O cliente navega pelo projeto como se já estivesse lá.",
+            "svc-fp-i1": "Navegação por voz",
+            "svc-fp-i2": "Múltiplas cenas",
+            "svc-city-h3": "City Explorer",
+            "svc-city-p": "Mapa interativo com POIs e cenas 360° integradas. Contexto urbano do empreendimento.",
+            "svc-city-i1": "Mapa interativo",
+            "svc-city-i2": "Tour 360°",
+            "svc-cta": "Ver demo",
             "btn-demo": "Testar Demos",
             "ws-words":
               "Experiências que rodam direto no navegador.|O cliente recebe um link — e já está dentro.",
@@ -1981,24 +1937,19 @@
             "hero-h1": "Sites that sell. Experiences that impress.",
             "hero-p":
               "For architects, developers and high-end properties. All delivered as a link.",
-            "svc-web-h3": "Websites & Landing Pages",
-            "svc-web-p":
-              "Websites, landing pages and launching pages. Built to convert.",
-            "svc-ai-badge": "AI",
-            "svc-ai-h3": "AI Creative Interface",
-            "svc-ai-p":
-              "AI on your site. Generates images, answers questions, personalizes in real time.",
-            "svc-arch-h3": "Interactive Archviz",
-            "svc-arch-p": "Browser-based interactive model. No app, no plugin.",
-            "svc-real-h3": "Realtime & Unreal Engine",
-            "svc-real-p": "Cinematic quality, in real time.",
-            "svc-vr-h3": "VR & AR",
-            "svc-vr-p":
-              "Walk through the project before it's built. Full immersion in VR or AR.",
-            "svc-voz-badge": "VOICE",
-            "svc-voz-h3": "Voice Interfaces",
-            "svc-voz-p":
-              "Voice navigation, you control the actions in the projects we develop.",
+            "svc-lp-h3": "Launching Page",
+            "svc-lp-p": "Sell before you build. Navigable experience with frame sequences, 360° tour and interactive POIs.",
+            "svc-lp-i1": "Responsive website",
+            "svc-lp-i2": "AI-enhanced content",
+            "svc-fp-h3": "FirstPerson Experience",
+            "svc-fp-p": "Interactive exterior tour. Clients navigate the project as if they were already there.",
+            "svc-fp-i1": "Voice navigation",
+            "svc-fp-i2": "Multiple scenes",
+            "svc-city-h3": "City Explorer",
+            "svc-city-p": "Interactive map with POIs and integrated 360° scenes. Urban context for the development.",
+            "svc-city-i1": "Interactive map",
+            "svc-city-i2": "360° tour",
+            "svc-cta": "See demo",
             "btn-demo": "Try Demos",
             "ws-words":
               "Experiences that run directly in the browser.|The client gets a link — and they're already inside.",
@@ -2052,26 +2003,19 @@
             "hero-h1": "Interactividad, Diseño y Experiencias Digitales.",
             "hero-p":
               "Creamos interfaces, sitios web, experiencias interactivas y soluciones visuales para marcas, productos y empresas contemporáneas.",
-            "svc-web-h3": "Websites & Digital Experiences",
-            "svc-web-p":
-              "Sitios y experiencias web de alto impacto visual para marcas y productos.",
-            "svc-ai-badge": "IA",
-            "svc-ai-h3": "AI Creative Interface",
-            "svc-ai-p":
-              "IA para generar imágenes, conceptos e iteraciones creativas en segundos.",
-            "svc-arch-h3": "Interactive Archviz",
-            "svc-arch-p":
-              "Navegación cinematográfica por el proyecto antes de ser construido.",
-            "svc-real-h3": "Realtime & Unreal Engine",
-            "svc-real-p":
-              "Visualización interactiva con calidad cinematográfica, en tiempo real.",
-            "svc-vr-h3": "VR & AR",
-            "svc-vr-p":
-              "El proyecto en vivo — para sentirlo antes de construirlo.",
-            "svc-voz-badge": "VOZ",
-            "svc-voz-h3": "Interfaces de Voz",
-            "svc-voz-p":
-              "Control por voz integrado en espacios y experiencias digitales.",
+            "svc-lp-h3": "Launching Page",
+            "svc-lp-p": "Vende antes de construir. Experiencia navegable con secuencia de frames, tour 360° y POIs interactivos.",
+            "svc-lp-i1": "Sitio responsivo",
+            "svc-lp-i2": "Contenido potenciado por IA",
+            "svc-fp-h3": "FirstPerson Experience",
+            "svc-fp-p": "Tour exterior interactivo. El cliente navega por el proyecto como si ya estuviera ahí.",
+            "svc-fp-i1": "Navegación por voz",
+            "svc-fp-i2": "Múltiples escenas",
+            "svc-city-h3": "City Explorer",
+            "svc-city-p": "Mapa interactivo con POIs y escenas 360° integradas. Contexto urbano del desarrollo.",
+            "svc-city-i1": "Mapa interactivo",
+            "svc-city-i2": "Tour 360°",
+            "svc-cta": "Ver demo",
             "seq-title": "Interactividad<br><em>tomada en serio.</em>",
             "seq-btn-aerial": "Aéreo",
             "seq-btn-living": "Living",

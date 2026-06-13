@@ -7,13 +7,7 @@
     <priority>1.0</priority>
   </url>
 
-  <url>
-    <loc>https://7mmstudio.com/fi-preview.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
+<url>
     <loc>https://7mmstudio.com/launching-page.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

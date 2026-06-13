@@ -15,7 +15,7 @@
 
 ## Identidade Visual
 
-### CSS Variables (`:root`) — usadas em `index.html`, `launching-page.html`, `fi-preview.html`
+### CSS Variables (`:root`) — usadas em `index.html`, `launching-page.html`
 ```css
 --gold:   #b89c6e;   /* dourado — cor de destaque principal */
 --gold-d: #a08860;   /* hover do gold */
@@ -30,7 +30,7 @@
 ```
 
 ### Tipografia
-- `index.html`, `launching-page.html`, `fi-preview.html`: **Inter** (Google Fonts) — pesos 300–800
+- `index.html`, `launching-page.html`: **Inter** (Google Fonts) — pesos 300–800
 - `firstperson.html`, `cityexplorer.html`: **DM Sans** (Google Fonts) — pesos 300–600 — carregado via `styles.css`
 
 ### Estética geral
@@ -43,7 +43,7 @@
 ### Contato e redes
 - WhatsApp: `https://wa.me/5541992272317`
 - E-mail: `escrevaparajd@gmail.com`
-- Instagram: `@jdworkviz` — `https://www.instagram.com/jdworkviz/`
+- Instagram: `@7mmstudio` — `https://www.instagram.com/7mmstudio`
 - Behance: `firsightstudio`
 
 ---
@@ -53,7 +53,6 @@
 | Arquivo | Descrição |
 |---|---|
 | `index.html` | Site institucional principal |
-| `fi-preview.html` | Hub de demos — gate de acesso + cards para as experiências |
 | `launching-page.html` | Demo de Launching Page imobiliária com sequencer, POIs, 360° |
 | `firstperson.html` | Tour exterior interativo — archviz com navegação por cenas |
 | `cityexplorer.html` | City Explorer — mapa interativo com Leaflet + cenas 360° |
@@ -76,7 +75,7 @@
 |---|---|---|
 | Hero | `#hero .hero` | Slideshow de 7 imagens, logo, h1, p, botão WA, hero-nav, hero-tr |
 | Web Statement | `.web-statement` | Typewriter animado, fundo `--bg-alt`, grid 2 colunas embaixo |
-| Serviços | `#services .section-services` | Bento grid 4×2, fundo `#000`, sem padding |
+| Serviços | `#services .section-services` | Bento grid 3×1, fundo `#000`, sem padding |
 | CTA + Formulário | `#contact .cta` | Centralizado, fundo `--bg-alt`, botão WA + form Formspree |
 | Side Nav | `.side-nav` | Fixo à direita, dots com labels, oculto em mobile `≤768px` |
 | Footer | `<footer>` | Centralizado, texto `7mm creative Studio © 2026` |
@@ -96,10 +95,9 @@
   - Botão WA: `heroFadeUp 0.8s delay 0.85s`
 
 ### Hero Top-Right (`.hero-tr`)
-`position: absolute; top: 28px; right: var(--pad)` — contém 3 elementos:
+`position: absolute; top: 28px; right: var(--pad)` — contém 2 elementos:
 1. Link Instagram (`.ig-link`) — ícone SVG, `44×44px`, `border-radius: 12px`
-2. Botão "Testar Demos" (`.btn-demo #btn-demo`) — abre `fi-preview.html` em `_blank`
-3. Language switcher (`.lang-switcher`) — botões PT/EN com `active` dourado
+2. Language switcher (`.lang-switcher`) — botões PT/EN com `active` dourado
 
 ### Hero Nav Blocks (`.hero-nav`)
 `position: absolute; bottom: 36px; right: var(--pad)` — 2 blocos glassmorphism:
@@ -127,24 +125,23 @@
 
 ## Serviços (`.section-services`)
 - `background: #000; padding: 0; border: none`
-- Bento grid (`.services-bento`): `grid-template-columns: repeat(4, 1fr); grid-template-rows: 340px 340px`
-- Cards com imagem (`.svc-card`): overlay gradiente `rgba(0,0,0,0.9)→transparent`, hover escurece mais
-- Cards especiais dourados (`.svc-card--special`): `background: var(--gold); color: #1a1200`
+- Bento grid (`.services-bento`): `grid-template-columns: repeat(3, 1fr); grid-template-rows: 480px`
+- Cards com imagem (`.svc-card`): overlay gradiente `rgba(0,0,0,0.9)→transparent`, hover escurece mais + anima `.svc-card-btn`
+- Cada card tem `.svc-card-link` (`position: absolute; inset: 0; z-index: 10`) — card inteiro clicável, links direto para o demo
+- Cada card tem `.svc-includes` (chips dourados com border) e `.svc-card-btn` (botão glassmorphism com chevron que expande no hover)
 
-**Layout das células (desktop 4 colunas):**
-| Card | Classe | Posição | Conteúdo |
+**3 cards (desktop 3 colunas iguais):**
+| Card | Classe | Link | Imagem |
 |---|---|---|---|
-| Websites | `.svc-web` | col 1, row 1–2 (alto) | imagem `capa_website.webp/jpg` |
-| AI Creative | `.svc-ai` | col 2, row 1 | dourado, badge "IA" |
-| Launching Page | `.svc-arch` | col 2, row 2 | imagem `hero/h5.webp` |
-| City Explorer | `.svc-real` | col 3, row 1–2 (alto) | imagem `hero/h7.webp` |
-| Walkthrough | `.svc-vr` | col 4, row 1 | imagem `hero/h4.webp` |
-| Voice Interfaces | `.svc-voz` | col 4, row 2 | dourado, badge "VOZ" |
+| Launching Page | `.svc-lp` | `launching-page.html` | `hero/h5.webp` |
+| FirstPerson Experience | `.svc-fp` | `firstperson.html` | `hero/h4.webp` |
+| City Explorer | `.svc-city` | `cityexplorer.html` | `hero/h7.webp` |
 
 **Breakpoints responsivos do bento:**
-- `769px–1024px`: `repeat(3,1fr)` — `.svc-web` ocupa 2 cols, `.svc-voz` ocupa 3 cols
-- `≤768px`: `1fr 1fr` — `.svc-web` e `.svc-voz` ocupam 2 cols
-- `≤430px`: rows reduzem para `220px`
+- `≥1921px`: row altura `560px`
+- `769px–1024px`: `repeat(3,1fr)` — `380px`
+- `≤768px`: `1fr` — `repeat(3, 300px)` (1 coluna, 3 linhas)
+- `≤430px`: `repeat(3, 260px)`
 
 ## CTA + Formulário (`#contact .cta`)
 - `background: var(--bg-alt); text-align: center`
@@ -177,27 +174,10 @@
 3. **Side nav ocultar no hero** — `IntersectionObserver` threshold `0.1`
 4. **Proteção de conteúdo** — `contextmenu` e `dragstart` bloqueados em `img, canvas`
 5. **i18n** — aplica traduções, atualiza typewriter, labels do panorama
-6. **Btn demo** — `window.open("fi-preview.html", "_blank")`
-7. **Formspree** — `submitForm()` assíncrono
-8. **Hero slideshow** — `setInterval 5000ms`, lazy-load dos slides, barra de progresso nav
-9. **Typewriter** — `window._twUpdate`, cursor piscante, SPEED=60ms, DELETE_SPEED=30ms, PAUSE=2500ms
-10. **GA tracking** — `whatsapp_click`, `scroll_50`, `scroll_90`
-
----
-
-# `fi-preview.html` — Hub de Demos
-
-- **Função:** Gate de acesso + grid de cards para as 4 experiências interativas
-- **Fontes:** Inter
-- **Estado:** `#gate` visível inicialmente (glassmorphism); após clicar "Entrar" → `#main` aparece
-- **Fragmento `#admin`** — rota de volta do `launching-page.html`
-- **Lang switcher:** PT/EN — flutuante no `#gate` e fixo na `#main`
-
-**4 Cards de experiências (grid):**
-1. **Launching Page** → `launching-page.html`
-2. **Tour Exterior** → `firstperson.html`
-3. **City Explorer** → `cityexplorer.html`
-4. **Configurador de Banheiros** (ou similar) — terceiro/quarto card
+6. **Formspree** — `submitForm()` assíncrono
+7. **Hero slideshow** — `setInterval 5000ms`, lazy-load dos slides, barra de progresso nav
+8. **Typewriter** — `window._twUpdate`, cursor piscante, SPEED=60ms, DELETE_SPEED=30ms, PAUSE=2500ms
+9. **GA tracking** — `whatsapp_click`, `scroll_50`, `scroll_90`
 
 ---
 
@@ -205,7 +185,7 @@
 
 - **Função:** Demo de produto para incorporadoras — "Venda antes de construir"
 - **Fontes:** Inter
-- **Back button:** `href="fi-preview.html#admin"` — volta para o hub
+- **Back button:** `href="index.html"` — volta para o site
 
 ## Estrutura de Seções
 
@@ -216,7 +196,7 @@
 | MidCTA (`.lp-midcta`) | `background: #f7f7f7`, texto grande centralizado |
 | Gallery (`#galeria`) | Grid `1fr 1fr / 56vh 56vh` — 3 imagens, card esquerdo ocupa 2 rows |
 | Prova/Números (`#pf-numeros`) | `background: #f2f2f0` — 6 cards de stats, strip 3 itens, painel comparação |
-| CTA Final (`.lp-cta`) | `background: #111`, centralizado, botão WA + botão ghost |
+| CTA Final (`.lp-cta`) | `background: #111`, centralizado, botão WA + botão ghost (`href="index.html"`) |
 | Footer (`.lp-footer`) | Linha única |
 
 ## Sequencer (`.seq-wrap`)
@@ -293,7 +273,7 @@ body
 
 - **Fontes:** DM Sans (via `styles.css`)
 - **CSS:** `styles.css` + `leaflet.css` (CDN `unpkg.com/leaflet@1.9.4`)
-- **Back button:** similar ao firstperson
+- **Back button:** `href="index.html"`
 - **Assets preload:** `images/seq_arch/est_00.jpg`, `images/dia_low.webm`
 
 ## Dependências extras
@@ -334,12 +314,13 @@ Usado por `firstperson.html` e `cityexplorer.html`. Contém:
 
 ## Padrões a Evitar
 
-- Não usar fontes além de Inter (site/preview) ou DM Sans (firstperson/city)
+- Não usar fontes além de Inter (site) ou DM Sans (firstperson/city)
 - Não usar accent verde, azul ou roxo — accent sempre `#b89c6e`
-- Não alterar o `data-lang` / `data-i18n` sem atualizar os 3 dicionários (PT, EN, ES em index; PT, EN em launching e fi-preview)
+- Não alterar o `data-lang` / `data-i18n` sem atualizar os 3 dicionários (PT, EN, ES em index; PT, EN em launching)
 - Não usar `factoryinteractive.html` — arquivo não existe mais
 - Não referenciar `logo_site.png` — usar `logo_site2.png`
 - Não referenciar `bath-config.html` — arquivo não existe mais no projeto
+- Não referenciar `fi-preview.html` — arquivo removido do projeto
 
 ---
 
@@ -353,4 +334,4 @@ Usado por `firstperson.html` e `cityexplorer.html`. Contém:
 
 ---
 
-*Atualizado em 10/06/2026 — refletor completo do estado atual do projeto*
+*Atualizado em 13/06/2026 — refletor completo do estado atual do projeto*
