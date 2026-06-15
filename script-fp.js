@@ -430,10 +430,7 @@ function setActive(id) {
     btn.classList.toggle('active', btn.dataset.id === id);
   });
   const item = CONFIG.timeline.find(t => t.id === id);
-  const tag  = document.getElementById('scene-tag');
-  if (!item || !tag) return;
-  tag.textContent = item.label;
-  tag.classList.add('show');
+  if (!item) return;
 }
 
 // ─── Auto-tour ────────────────────────────────────────────────────────────────
