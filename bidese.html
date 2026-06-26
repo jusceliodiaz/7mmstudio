@@ -139,13 +139,15 @@
       @media (max-width: 600px) {
         #cta-dock {
           top: max(12px, env(safe-area-inset-top, 12px));
-          padding: 8px 4px;
-          border-radius: 18px;
+          padding: 4px;
+          gap: 3px;
+          border-radius: 14px;
         }
+        #cta-dock svg { width: 17px; height: 17px; }
         #cta-whats, #cta-visit, #cta-tour, #cta-bot, #cta-surround {
-          height: 42px;
-          padding: 0 12px;
-          border-radius: 12px;
+          height: 34px;
+          padding: 0 10px;
+          border-radius: 10px;
         }
       }
 
@@ -279,28 +281,28 @@
       }
       #track-credit a:hover { color: rgba(255,255,255,0.85); }
 
-      /* Mobile: coluna vertical compacta, canto inferior direito */
+      /* Mobile: linha horizontal centralizada, botões compactos */
       @media (hover: none) {
         #track {
           bottom: max(44px, calc(env(safe-area-inset-bottom, 0px) + 44px));
-          left: auto;
-          right: 12px;
-          transform: none;
+          left: 50%;
+          right: auto;
+          transform: translateX(-50%);
           width: fit-content;
-          padding: 6px;
+          padding: 5px;
         }
-        #track-pts { flex-direction: column; gap: 4px; }
+        #track-pts { flex-direction: row; gap: 3px; }
         .t-pt {
-          min-width: 40px;
-          max-width: 40px;
-          width: 40px;
-          height: 40px;
-          min-height: 40px;
-          border-radius: 12px;
+          min-width: 36px;
+          max-width: 36px;
+          width: 36px;
+          height: 36px;
+          min-height: 36px;
+          border-radius: 10px;
           padding: 0;
           cursor: pointer;
         }
-        .t-pt.active { max-width: 40px; padding: 0; gap: 0; }
+        .t-pt.active { max-width: 36px; padding: 0; gap: 0; }
         .t-pt.active .t-icon { width: 22px; opacity: 1; }
         .t-label { display: none; }
         #track-credit { bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 14px)); }
