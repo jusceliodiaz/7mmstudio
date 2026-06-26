@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://7mmstudio.com/sitemap.xml
+Sitemap: https://www.factorystudio.works/sitemap.xml
