@@ -310,7 +310,16 @@
       }
       #track-credit a:hover { color: rgba(255,255,255,0.85); }
       @media (hover: none) {
-        #track { bottom: max(44px, calc(env(safe-area-inset-bottom, 0px) + 44px)); }
+        #track {
+          bottom: max(44px, calc(env(safe-area-inset-bottom, 0px) + 44px));
+          left: auto;
+          right: 12px;
+          transform: none;
+          width: fit-content;
+          padding: 6px;
+        }
+        #track-pts { flex-direction: column; gap: 4px; }
+        .t-pt { min-width: 40px; max-width: 40px; width: 40px; height: 40px; min-height: 40px; }
         #track-credit { bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 14px)); }
       }
 
