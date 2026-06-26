@@ -1,0 +1,663 @@
+const mainVideo   = document.getElementById('main-video');
+const seqCanvas   = document.getElementById('seq-canvas');
+const poiLayer    = document.getElementById('poi-layer');
+const trackEl     = document.getElementById('track');
+const loaderEl    = document.getElementById('loader');
+const debugHud    = document.getElementById('debug-hud');
+const debugCoords = document.getElementById('debug-coords');
+
+// alpha:false — cheaper GPU compositing; no transparency needed on the canvas
+const ctx = seqCanvas.getContext('2d', { alpha: false });
+
+// Touch/mobile detection — covers iOS, Android and stylus-only devices
+const MOBILE = window.matchMedia('(hover: none)').matches || window.innerWidth < 768;
+
+// LRU cap: max number of decoded sequences held in memory at once
+const MAX_SEQ = 3;
+let _w = innerWidth, _h = innerHeight, lastFrame = null;
+
+const LEAD = {
+  whatsapp:      "5541988163938",
+  project:       "Bidesse",
+  endpoint:      "/api/leads",
+};
+
+const TOUR_ROUTE = ["aerial", "pool", "garden", "living", "kitchen", "room6", "room7"];
+
+let currentScene = 'aerial';
+let busy         = false;
+let navGen       = 0;
+let poiTimer     = null;
+let tourTimer    = null;
+let touring      = false;
+let mode         = "day"; // reserved for day/night toggle
+const cache      = new Map();
+const videoBlobs = new Map();
+
+// ─── Analytics ───────────────────────────────────────────────────────────────
+
+function sessionId() {
+  let s = sessionStorage.getItem('sid');
+  if (!s) { s = crypto.randomUUID(); sessionStorage.setItem('sid', s); }
+  return s;
+}
+
+function track(event, props = {}) {
+  const payload = {
+    event, ...props,
+    slug:    CONFIG?.slug,
+    ts:      Date.now(),
+    session: sessionId(),
+    device:  MOBILE ? 'mobile' : 'desktop',
+  };
+  if (window.gtag) gtag('event', event, props);
+  try { navigator.sendBeacon?.('/api/track', JSON.stringify(payload)); } catch(_) {}
+}
+
+let dwellStart = Date.now();
+let dwellScene = 'aerial';
+
+function markDwell(newScene) {
+  track('dwell', { scene: dwellScene, ms: Date.now() - dwellStart });
+  dwellScene = newScene;
+  dwellStart = Date.now();
+}
+
+window.addEventListener('pagehide', () => markDwell(dwellScene));
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+window.addEventListener('load', () => {
+  resizeCanvas();
+  if (!MOBILE) initCursor();
+  buildTrack();
+  startScene(sceneFromHash());
+  initCTA();
+  initBotPopup();
+});
+
+// Smart resize: ignores address-bar height jitter on mobile (< 120px height delta)
+window.addEventListener('resize', () => {
+  if (innerWidth === _w && Math.abs(innerHeight - _h) < 120) return;
+  _w = innerWidth; _h = innerHeight;
+  resizeCanvas();
+  if (lastFrame) drawCover(lastFrame);
+});
+
+function resizeCanvas() {
+  const dpr = MOBILE ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+  seqCanvas.width        = innerWidth  * dpr;
+  seqCanvas.height       = innerHeight * dpr;
+  seqCanvas.style.width  = innerWidth  + 'px';
+  seqCanvas.style.height = innerHeight + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+// ─── Deep link ────────────────────────────────────────────────────────────────
+
+function sceneFromHash() {
+  const id = new URLSearchParams(location.hash.slice(1)).get('scene');
+  return CONFIG.scenes[id] ? id : 'aerial';
+}
+
+function syncHash(sceneId) {
+  history.replaceState(null, '', `#scene=${sceneId}`);
+}
+
+// ─── Video source ─────────────────────────────────────────────────────────────
+
+function videoSrc(scene) {
+  let v = scene.video;
+  if (v && (v.day || v.night)) v = v[mode] || v.day;
+  if (!v) return null;
+  if (typeof v === 'string') return v;
+  const safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  return (MOBILE || safari) ? (v.mp4 || v.webm) : (v.webm || v.mp4);
+}
+
+// ─── Video preload ────────────────────────────────────────────────────────────
+
+const loadOne = (src) => {
+  if (!src || videoBlobs.has(src)) return Promise.resolve();
+  return fetch(src)
+    .then(r => r.blob())
+    .then(blob => { videoBlobs.set(src, URL.createObjectURL(blob)); })
+    .catch(() => {});
+};
+
+function preloadNeighbors(sceneId) {
+  const want = new Set([videoSrc(CONFIG.scenes[sceneId])]);
+  Object.keys(CONFIG.transitions[sceneId] || {})
+    .forEach(d => want.add(videoSrc(CONFIG.scenes[d])));
+  [...want].filter(Boolean).forEach(loadOne);
+}
+
+function preloadAllVideos() {
+  const srcs = [...new Set(
+    Object.values(CONFIG.scenes).map(s => videoSrc(s)).filter(Boolean)
+  )];
+  const firstSrc = videoSrc(CONFIG.scenes['aerial']);
+  const rest = srcs.filter(s => s !== firstSrc);
+  const chain = firstSrc ? loadOne(firstSrc) : Promise.resolve();
+  chain.then(() => Promise.all(rest.map(loadOne)));
+}
+
+// ─── Poster ───────────────────────────────────────────────────────────────────
+
+function showPoster(src, cb) {
+  seqCanvas.classList.add('active');
+  const img = new Image();
+  img.onload  = () => { drawCover(img); cb?.(); };
+  img.onerror = () => cb?.();
+  img.src = src;
+}
+
+// ─── Scene ────────────────────────────────────────────────────────────────────
+
+function startScene(sceneId) {
+  const scene = CONFIG.scenes[sceneId];
+  if (!scene) return;
+
+  markDwell(sceneId);
+  currentScene = sceneId;
+  setActive(sceneId);
+  syncHash(sceneId);
+  renderPOIs(scene.pois);
+
+  // Cover image mode — draw to canvas and keep it visible
+  if (scene.cover) {
+    showPoster(MOBILE && scene.cover_m ? scene.cover_m : scene.cover);
+    return;
+  }
+
+  // Video mode (fallback)
+  Object.values(CONFIG.transitions[sceneId] || {}).filter(Boolean).forEach(id => preload(id));
+
+  const src = videoSrc(scene);
+  if (!src) { seqCanvas.classList.remove('active'); return; }
+
+  const gen = navGen;
+  mainVideo.src  = videoBlobs.get(src) || src;
+  mainVideo.loop = true;
+  mainVideo.load();
+
+  const onReady = () => {
+    if (gen !== navGen) return;
+    let faded = false;
+    const doFade = () => {
+      if (faded || gen !== navGen) return;
+      faded = true;
+      fadeCanvas();
+    };
+    mainVideo.addEventListener('playing',    doFade, { once: true });
+    mainVideo.addEventListener('timeupdate', doFade, { once: true });
+    mainVideo.play().catch(doFade);
+    setTimeout(doFade, 500);
+  };
+
+  if (mainVideo.readyState >= 3) {
+    onReady();
+  } else {
+    const evt = MOBILE ? 'loadeddata' : 'canplay';
+    mainVideo.addEventListener(evt, onReady, { once: true });
+    setTimeout(onReady, MOBILE ? 3000 : 5000);
+  }
+}
+
+function fadeCanvas() {
+  seqCanvas.style.transition = 'opacity 300ms ease';
+  seqCanvas.style.opacity    = '0';
+  setTimeout(() => {
+    seqCanvas.classList.remove('active');
+    seqCanvas.style.opacity    = '';
+    seqCanvas.style.transition = '';
+  }, 300);
+}
+
+// ─── Navigation ───────────────────────────────────────────────────────────────
+
+async function navigateTo(targetId) {
+  if (busy || targetId === currentScene) return;
+
+  // Build path: direct transition or chain through timeline
+  const ids      = CONFIG.timeline.map(t => t.id);
+  const fromIdx  = ids.indexOf(currentScene);
+  const toIdx    = ids.indexOf(targetId);
+  const direct   = CONFIG.transitions?.[currentScene]?.[targetId];
+
+  let path;
+  if (direct) {
+    path = [currentScene, targetId];
+  } else if (fromIdx !== -1 && toIdx !== -1) {
+    const step = fromIdx < toIdx ? 1 : -1;
+    path = [];
+    for (let i = fromIdx; step > 0 ? i <= toIdx : i >= toIdx; i += step) path.push(ids[i]);
+  } else {
+    return;
+  }
+
+  busy = true;
+  const gen = ++navGen;
+  hidePOIs();
+
+  try {
+    for (let i = 0; i < path.length - 1; i++) {
+      const seqId = CONFIG.transitions?.[path[i]]?.[path[i + 1]];
+      if (!seqId) { startScene(path[i + 1]); continue; }
+
+      const frames = await loadWithLoader(seqId);
+      if (gen !== navGen) return;
+
+      const seq = CONFIG.sequences[seqId];
+      const fps = (seq.fps || 30) / (MOBILE ? 2 : 1);
+      await playSequence(frames, seq.reverse === true, gen, fps);
+      if (gen !== navGen) return;
+
+      startScene(path[i + 1]);
+    }
+  } catch (err) {
+    if (gen === navGen) {
+      console.error('Sequence error:', err);
+      seqCanvas.classList.remove('active');
+    }
+  } finally {
+    if (gen === navGen) {
+      setTimeout(() => { if (gen === navGen) busy = false; }, 350);
+    }
+  }
+}
+
+function loadWithLoader(seqId) {
+  const p     = preload(seqId);
+  const timer = setTimeout(() => loaderEl.classList.add('visible'), 400);
+  return p.finally(() => { clearTimeout(timer); loaderEl.classList.remove('visible'); });
+}
+
+// ─── Preloading (LRU + img.decode) ────────────────────────────────────────────
+
+function rememberSeq(seqId, promise) {
+  cache.set(seqId, promise);
+  // Evict the oldest entry when over the LRU cap
+  if (cache.size > MAX_SEQ) {
+    const oldest = cache.keys().next().value;
+    if (oldest !== seqId) cache.delete(oldest);
+  }
+}
+
+function preload(seqId) {
+  if (cache.has(seqId)) return cache.get(seqId);
+
+  const seqBase = CONFIG.sequences[seqId];
+  // Mobile: use the half-resolution folder to reduce network load
+  const seq = MOBILE
+    ? { ...seqBase, folder: seqBase.folder.replace('images/seq_arch/', 'images/seq_arch_m/') }
+    : seqBase;
+
+  const step    = MOBILE ? 2 : 1; // skip every other frame on mobile
+  const indices = [];
+  for (let i = seq.from; i <= seq.to; i += step) indices.push(i);
+
+  const frames  = new Array(indices.length);
+  let loaded    = 0;
+  let failed    = false;
+  // Limit parallel downloads on mobile to avoid saturating a slow connection
+  const SLOTS   = MOBILE ? 4 : indices.length;
+  let nextLoad  = 0;
+
+  const promise = new Promise((resolve, reject) => {
+    const loadNext = () => {
+      if (nextLoad >= indices.length) return;
+      const slot = nextLoad++;
+      const num  = String(indices[slot]).padStart(seq.pad, '0');
+      const img  = new Image();
+      const folder = MOBILE && seq.folder_m ? seq.folder_m : seq.folder;
+      img.src = `${folder}${seq.prefix}${num}.${seq.ext}`;
+
+      img.onload = () => {
+        // Pre-decode eliminates stutter on the first drawImage call
+        const ready = img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+        ready.then(() => {
+          frames[slot] = img;
+          loadNext();
+          if (++loaded === indices.length) resolve(frames);
+        });
+      };
+      img.onerror = () => {
+        if (!failed) { failed = true; cache.delete(seqId); reject(new Error(`Failed to load: ${img.src}`)); }
+      };
+    };
+    for (let k = 0; k < Math.min(SLOTS, indices.length); k++) loadNext();
+  });
+
+  rememberSeq(seqId, promise);
+  return promise;
+}
+
+// ─── Playback (real-time throttle, handles 120Hz ProMotion) ───────────────────
+
+function playSequence(frames, reverse = false, gen, fps = 30) {
+  return new Promise(resolve => {
+    seqCanvas.classList.add('active');
+    let index = reverse ? frames.length - 1 : 0;
+    let last  = 0;
+    const step = 1000 / fps;
+
+    function loop(now) {
+      if (gen !== navGen) return resolve();
+      if (now - last >= step) {
+        last = last === 0 ? now : last + step;
+        if (frames[index]) drawCover(frames[index]);
+        index += reverse ? -1 : 1;
+        if (reverse ? index < 0 : index >= frames.length) return resolve();
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  });
+}
+
+function drawCover(img) {
+  const cw    = innerWidth;
+  const ch    = innerHeight;
+  const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+  const dw    = Math.round(img.naturalWidth  * scale);
+  const dh    = Math.round(img.naturalHeight * scale);
+  const dx    = Math.round((cw - dw) / 2);
+  const dy    = Math.round((ch - dh) / 2);
+  ctx.clearRect(0, 0, cw, ch);
+  ctx.drawImage(img, dx, dy, dw, dh);
+  lastFrame = img;
+}
+
+// ─── POIs ─────────────────────────────────────────────────────────────────────
+
+function renderPOIs(pois = []) {
+  poiLayer.innerHTML = '';
+  pois.forEach((poi, i) => {
+    const el = document.createElement('div');
+    el.className = 'poi' + (poi.type === 'info' ? ' poi--info' : '');
+    el.style.left = poi.x + '%';
+    el.style.top  = poi.y + '%';
+    el.style.animationDelay = (i * 80) + 'ms';
+    el.innerHTML = `<div class="poi-btn"><span class="poi-pulse"></span></div>
+                    <div class="poi-name">${poi.label}</div>`;
+
+    const act = () => {
+      if (poi.type === 'nav' && poi.target) {
+        track('poi_nav', { from: currentScene, to: poi.target });
+        navigateTo(poi.target);
+      } else if (poi.type === 'info' && poi.info) {
+        track('poi_info', { scene: currentScene, label: poi.label });
+        openInfo(poi.info);
+      } else if (poi.target) {
+        navigateTo(poi.target);
+      }
+    };
+
+    el.addEventListener('click', act);
+    el.addEventListener('touchstart', e => { e.preventDefault(); act(); }, { passive: false });
+    poiLayer.appendChild(el);
+  });
+}
+
+function hidePOIs() {
+  clearTimeout(poiTimer);
+  poiLayer.classList.add('out');
+  poiTimer = setTimeout(() => { poiLayer.innerHTML = ''; poiLayer.classList.remove('out'); }, 300);
+}
+
+function openInfo(info) {
+  let panel = document.getElementById('info-panel');
+  if (!panel) {
+    panel = document.createElement('div');
+    panel.id = 'info-panel';
+    document.body.appendChild(panel);
+    panel.addEventListener('click', e => {
+      if (e.target === panel || e.target.dataset.close) panel.classList.remove('open');
+    });
+  }
+  panel.innerHTML = `
+    <div id="info-card">
+      <button data-close aria-label="Close">&times;</button>
+      ${info.image ? `<img src="${info.image}" alt="">` : ''}
+      <h3>${info.title}</h3>
+      ${info.area ? `<span class="info-area">${info.area}</span>` : ''}
+      <ul>${(info.items || []).map(t => `<li>${t}</li>`).join('')}</ul>
+    </div>`;
+  requestAnimationFrame(() => panel.classList.add('open'));
+}
+
+// ─── Track (nav dock) ─────────────────────────────────────────────────────────
+
+function buildTrack() {
+  const wrap = document.createElement('div');
+  wrap.id = 'track-pts';
+  CONFIG.timeline.forEach(item => {
+    const btn = document.createElement('button');
+    btn.className  = 't-pt';
+    btn.dataset.id = item.id;
+    btn.setAttribute('aria-label', item.label);
+    btn.setAttribute('data-label', item.label);
+    btn.innerHTML  = `<span class="t-icon">${item.icon || item.label}</span><span class="t-label">${item.label}</span>`;
+    btn.addEventListener('click', () => navigateTo(item.id));
+    wrap.appendChild(btn);
+  });
+  trackEl.appendChild(wrap);
+  trackEl.classList.add('show');
+}
+
+function setActive(id) {
+  document.querySelectorAll('.t-pt').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.id === id);
+  });
+  const item = CONFIG.timeline.find(t => t.id === id);
+  if (!item) return;
+}
+
+// ─── Auto-tour ────────────────────────────────────────────────────────────────
+
+function startTour() {
+  if (touring) return;
+  touring = true;
+  document.body.classList.add('touring');
+  track('tour_start', {});
+
+  const ids = CONFIG.timeline.map(t => t.id);
+  let dir = 1;
+
+  const step = async () => {
+    if (!touring) return;
+    const curIdx = ids.indexOf(currentScene);
+    let nextIdx  = curIdx + dir;
+    if (nextIdx >= ids.length) { dir = -1; nextIdx = curIdx + dir; }
+    if (nextIdx < 0)           { dir =  1; nextIdx = curIdx + dir; }
+    if (nextIdx < 0 || nextIdx >= ids.length) return;
+    await navigateTo(ids[nextIdx]);
+    if (!touring) return;
+    tourTimer = setTimeout(step, 3000);
+  };
+
+  tourTimer = setTimeout(step, 3000);
+  const btn = document.getElementById('cta-tour');
+  if (btn) {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg><span>Stop</span>';
+    btn.classList.add('active');
+    btn.onclick = stopTour;
+  }
+}
+
+function stopTour() {
+  touring = false;
+  clearTimeout(tourTimer);
+  document.body.classList.remove('touring');
+  const btn = document.getElementById('cta-tour');
+  if (btn) {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Tour</span>';
+    btn.classList.remove('active');
+    btn.onclick = startTour;
+  }
+}
+
+// Any user interaction stops an in-progress tour
+['pointerdown', 'keydown'].forEach(ev =>
+  document.addEventListener(ev, () => { if (touring) stopTour(); }, { passive: true })
+);
+
+// ─── CTA + Lead modal ─────────────────────────────────────────────────────────
+
+function initCTA() {
+  const wa = document.getElementById('cta-whats');
+  if (wa) {
+    wa.href = `https://wa.me/${LEAD.whatsapp}?text=` +
+      encodeURIComponent(`Hi! I saw the ${LEAD.project} experience and would like to know more.`);
+    wa.addEventListener('click', () => track('cta_whatsapp', { scene: currentScene }));
+  }
+
+  const modal = document.getElementById('lead-modal');
+  if (!modal) return;
+
+  const open  = () => { modal.hidden = false; track('lead_open', { scene: currentScene }); };
+  const close = () => { modal.hidden = true; };
+
+  const visitBtn = document.getElementById('cta-visit');
+  if (visitBtn) visitBtn.addEventListener('click', open);
+
+  const closeBtn = document.getElementById('lead-close');
+  if (closeBtn) closeBtn.addEventListener('click', close);
+
+  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+
+  const form = document.getElementById('lead-form');
+  if (form) {
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      data.project = LEAD.project;
+      data.scene   = currentScene;
+      try {
+        await fetch(LEAD.endpoint, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(data),
+        });
+      } catch (_) {}
+      track('lead_submit', data);
+      e.target.hidden = true;
+      const ok = document.getElementById('lead-ok');
+      if (ok) ok.hidden = false;
+    });
+  }
+}
+
+// ─── Custom cursor (desktop only) ─────────────────────────────────────────────
+
+function initCursor() {
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('ring');
+  if (!cursor) return;
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  (function loop() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+    const dx = (mx - rx) * 0.12;
+    const dy = (my - ry) * 0.12;
+    rx += dx; ry += dy;
+    if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+    }
+    requestAnimationFrame(loop);
+  })();
+  document.addEventListener('mouseover', e => {
+    cursor.classList.toggle('on', !!e.target.closest('button,.t-pt,.poi'));
+  });
+}
+
+// ─── Debug mode (press D) ─────────────────────────────────────────────────────
+
+let debugOn = false;
+document.addEventListener('keydown', e => {
+  if (e.key.toLowerCase() !== 'd') return;
+  debugOn = !debugOn;
+  debugHud.hidden = !debugOn;
+  document.body.style.cursor = debugOn ? 'crosshair' : '';
+});
+document.addEventListener('click', e => {
+  if (!debugOn) return;
+  const x   = (e.clientX / innerWidth  * 100).toFixed(1);
+  const y   = (e.clientY / innerHeight * 100).toFixed(1);
+  const txt = `x: ${x}, y: ${y}`;
+  debugCoords.textContent = txt;
+  console.log(txt);
+  navigator.clipboard?.writeText(txt);
+});
+
+// ─── Bot popup ────────────────────────────────────────────────────────────────
+
+function initBotPopup() {
+  const popup = document.getElementById('bot-popup');
+  const waBtn = document.getElementById('bot-wa');
+  const closeBtn = popup?.querySelector('.bot-close');
+  if (!popup) return;
+
+  if (waBtn) {
+    waBtn.href = `https://wa.me/${LEAD.whatsapp}?text=` +
+      encodeURIComponent(`Olá! Vi o tour do ${LEAD.project} e gostaria de falar com um corretor.`);
+  }
+
+  let hideTimer, scheduleTimer;
+
+  function isMapOpen() {
+    const m = document.getElementById('map-modal');
+    return m && m.classList.contains('open');
+  }
+
+  function show() {
+    if (isMapOpen()) return;
+    popup.classList.add('bot-show');
+    track('bot_popup_show', { scene: currentScene });
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(hide, 15000);
+    const b = document.getElementById('cta-bot');
+    if (b) b.classList.add('active');
+  }
+
+  function hide() {
+    popup.classList.remove('bot-show');
+    clearTimeout(hideTimer);
+    setTimeout(() => { popup.style.display = ''; }, 400);
+    const b = document.getElementById('cta-bot');
+    if (b) b.classList.remove('active');
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', () => { hide(); track('bot_popup_close', {}); });
+  if (waBtn)    waBtn.addEventListener('click', () => { hide(); track('bot_whatsapp', { scene: currentScene }); });
+
+  const ctaBot = document.getElementById('cta-bot');
+  if (ctaBot) ctaBot.addEventListener('click', e => {
+    e.stopPropagation();
+    show();
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(hide, 15000);
+  });
+
+  // Qualquer clique no dock (exceto cta-bot) reseta o timer automático
+  const dock = document.getElementById('cta-dock');
+  if (dock) dock.addEventListener('click', e => {
+    if (e.target.closest('#cta-bot')) return;
+    clearTimeout(scheduleTimer);
+    scheduleTimer = setTimeout(schedule, 60000);
+  });
+
+  function schedule() {
+    clearTimeout(scheduleTimer);
+    scheduleTimer = setTimeout(() => {
+      show();
+      scheduleTimer = setTimeout(schedule, 15000);
+    }, 60000);
+  }
+
+  // Aparece 6s após load, depois repete a cada 60s
+  scheduleTimer = setTimeout(() => { show(); scheduleTimer = setTimeout(schedule, 15000); }, 6000);
+}
