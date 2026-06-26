@@ -477,7 +477,7 @@ function renderPOIs(pois = []) {
     el.style.left = poi.x + '%';
     el.style.top  = poi.y + '%';
     el.style.animationDelay = (i * 80) + 'ms';
-    el.innerHTML = `<div class="poi-btn"><span class="poi-pulse"></span></div>
+    el.innerHTML = `<div class="poi-btn"></div>
                     <div class="poi-name">${poi.label}</div>`;
 
     const dotEl = el.querySelector('.poi-btn');
