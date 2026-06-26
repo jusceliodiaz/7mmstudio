@@ -1,4 +1,4 @@
-# 7mm creative Studio — Contexto do Projeto
+# Factory Studio — Contexto do Projeto
 
 > Este arquivo serve como contexto para o Claude trabalhar neste projeto sem começar do zero.
 
@@ -6,7 +6,7 @@
 
 ## Visão Geral
 
-**Studio:** 7mm creative Studio — experiências digitais para arquitetura e mercado imobiliário  
+**Studio:** Factory Studio — experiências digitais para arquitetura e mercado imobiliário  
 **URL:** https://7mmstudio.com  
 **Stack:** HTML/CSS/JS puro, sem build tools, sem frameworks (exceto Leaflet.js e Three.js via CDN quando necessário)  
 **Google Analytics:** `G-3K51DFTX3J` (lazy-loaded via `window.addEventListener('load', ...)` em todas as páginas)
@@ -56,6 +56,7 @@
 | `launching-page.html` | Demo de Launching Page imobiliária com sequencer, POIs, 360° |
 | `firstperson.html` | Tour exterior interativo — archviz com navegação por cenas |
 | `cityexplorer.html` | City Explorer — mapa interativo com Leaflet + cenas 360° |
+| `bidesse.html` | Demo de experiência imobiliária — Edifício Lemme |
 | `styles.css` | CSS compartilhado entre `firstperson.html` e `cityexplorer.html` |
 | `script.js` | JS principal do `firstperson.html` |
 | `script2.js` | JS auxiliar (provavelmente cidade ou launching) |
@@ -64,6 +65,8 @@
 | `scenes-fp.js` | Cenas adicionais do firstperson |
 | `scenes-city.js` | Definição das cenas do cityexplorer |
 | `pois-city.js` | POIs do cityexplorer |
+| `script-bidesse-main.js` | JS principal do `bidesse.html` |
+| `scenes-bidesse-main.js` | Definição das cenas e POIs do `bidesse.html` |
 
 ---
 
@@ -78,7 +81,7 @@
 | Serviços | `#services .section-services` | Bento grid 3×1, fundo `#000`, sem padding |
 | CTA + Formulário | `#contact .cta` | Centralizado, fundo `--bg-alt`, botão WA + form Formspree |
 | Side Nav | `.side-nav` | Fixo à direita, dots com labels, oculto em mobile `≤768px` |
-| Footer | `<footer>` | Centralizado, texto `7mm creative Studio © 2026` |
+| Footer | `<footer>` | Centralizado, texto `Factory Studio © 2026` |
 
 ## Hero
 
@@ -301,6 +304,92 @@ Usado por `firstperson.html` e `cityexplorer.html`. Contém:
 
 ---
 
+# `bidesse.html` — Edifício Lemme — Tour Interativo
+
+- **Função:** Demo de experiência imobiliária para o Edifício Lemme
+- **Fontes:** DM Sans (Google Fonts) — pesos 300–600
+- **CSS:** inline `<style>` no próprio arquivo (sem arquivo externo)
+- **Back button:** `href="index.html"`
+- **JS:** `scenes-bidesse-main.js` + `script-bidesse-main.js`
+
+## Estrutura HTML
+
+```
+body
+├── .back-btn                → volta para index.html
+├── #stage
+│   ├── #seq-canvas          → canvas para frame sequences
+│   └── #poi-layer           → POIs dinâmicos
+├── #scene-tag               → label da cena atual
+├── #track                   → barra de navegação inferior
+├── #loader
+├── #cta-dock                → 3 botões: Tour, Entorno, Assistente Bot
+├── #poi-card                → card global de POI (posicionado via JS)
+├── #map-modal               → modal Entorno/Surroundings (Leaflet-like)
+└── #pano-modal              → modal 360° (Three.js WebGL)
+```
+
+## Dock (`#cta-dock`)
+- 3 botões: `#cta-tour`, `#cta-surround`, `#cta-bot`
+- Comportamento: ícone apenas por padrão; quando `.active`, expande com texto via `max-width` transition
+- `#cta-surround` abre o modal de Entorno; adiciona `.active` ao botão
+- `#cta-bot` é o assistente bot; adiciona `.active` quando popup aberto
+- Bot popup (`#bot-popup`) abre automaticamente com delay (6s inicial, 15s ciclo)
+- Guard: bot NÃO abre se modal de Entorno ou Panorama estiver aberto
+
+## POI Cards (2 modelos)
+Definidos em `scenes-bidesse-main.js` com campo `type`:
+
+| Tipo | Campo `type` | Características |
+|---|---|---|
+| Simples | `'card-simple'` | categoria, título, descrição, car/walk times, accent color |
+| Complexo | `'card-complex'` | categoria, título, descrição, imagem, botão VIEW 360° |
+
+- Card é um elemento global `#poi-card` posicionado via JS próximo ao dot clicado
+- Fecha com botão `.poi-card-close` ou tecla Escape
+- Botão VIEW 360° chama `openPanoModal(poi.pano360, poi.title)`
+
+## Modal Entorno (`#map-modal`)
+- Mini-mapa SVG com `#mini-map` (`.street`, `.ring`, `.pin`, `.center`)
+- Filtros por categoria: `all`, `educacao`, `saude`, `lazer`, `transporte`
+- Lista de POIs com ícone, nome, distância/tempo
+- Dados em `POIS[]` e `MAP_CATS{}` no script inline do HTML
+- Abre: `openMapModal()` → adiciona `.active` ao `#cta-surround`
+- Fecha: `closeMapModal()` → remove `.active`
+
+## Modal Panorama 360° (`#pano-modal`)
+- Three.js r160 via CDN — lazy-loaded na primeira abertura
+- `SphereGeometry(100, 64, 32)` com `geo.scale(-1,1,1)` — renderiza de dentro
+- Texture: `renderer.toneMapping = THREE.NoToneMapping`, `tex.colorSpace = THREE.NoColorSpace`
+- **Workaround file://** : imagem pré-convertida para base64 em `images/bidesse/pano_living2_b64.js`
+  - Exporta `window._PANO_LIVING2` = data URL da imagem
+  - `openPanoModal()` usa esse data URL se disponível (evita SecurityError do Chrome em file://)
+  - Para adicionar novas imagens 360°: rodar script Node.js similar ao de geração do `pano_living2_b64.js`
+- Drag/pinch/scroll para navegar; inércia com fator 0.88
+- Fecha com backdrop click, botão X, ou Escape
+
+## Assets (`images/bidesse/`)
+- `COVER_B1.jpg` … `COVER_B7.jpg` — covers das 7 cenas
+- `seq_arch_m/COVER_B1.jpg` … — versões mobile otimizadas
+- Sequências: `BID_C1_00.jpg` … `BID_C6_89.jpg` (6 transições × 90 frames)
+- `pano_living2.jpg` — imagem equiretangular 360° (2752×1536)
+- `pano_living2_b64.js` — versão base64 para uso em file:// (848KB, gerado via Node.js)
+
+## `scenes-bidesse-main.js`
+- `CONFIG.timeline` — 7 cenas: aerial, pool, garden, living, kitchen, room6, room7
+- `CONFIG.scenes[id].pois[]` — array de POIs por cena
+- `CONFIG.sequences` — mapa de transições entre cenas
+- `CONFIG.transitions` — quais cenas conectam a quais
+
+## Padrões a Evitar em `bidesse.html`
+- Não referenciar `bidesse_video.html`, `scenes-bidesse.js`, `script-bidesse.js` — deletados
+- Não usar `THREE.TextureLoader` diretamente — falha em Chrome com `file://` (crossOrigin CORS)
+- Não usar `<img>` + `THREE.Texture(img)` diretamente — `texSubImage2D` SecurityError em Chrome file://
+- Não usar `fetch()` ou `XHR` para carregar imagens locais em file:// — bloqueado pelo Chrome (origin null)
+- Para novas imagens 360°: sempre gerar o arquivo `_b64.js` correspondente
+
+---
+
 ## Padrões a Seguir
 
 - Antes de editar qualquer arquivo, **ler o trecho com Read** para pegar a string exata com indentação
@@ -321,6 +410,9 @@ Usado por `firstperson.html` e `cityexplorer.html`. Contém:
 - Não referenciar `logo_site.png` — usar `logo_site2.png`
 - Não referenciar `bath-config.html` — arquivo não existe mais no projeto
 - Não referenciar `fi-preview.html` — arquivo removido do projeto
+- Não referenciar `bidesse_video.html`, `scenes-bidesse.js`, `script-bidesse.js` — arquivos deletados
+- Não referenciar `bidesse_video.html` — arquivo deletado
+- Não referenciar `scenes-bidesse.js` ou `script-bidesse.js` — arquivos deletados (substituídos por `scenes-bidesse-main.js` e `script-bidesse-main.js`)
 
 ---
 
@@ -334,4 +426,4 @@ Usado por `firstperson.html` e `cityexplorer.html`. Contém:
 
 ---
 
-*Atualizado em 13/06/2026 — refletor completo do estado atual do projeto*
+*Atualizado em 26/06/2026 — adicionado Edifício Lemme (bidesse.html), workaround panorama file://, compressão de imagens*
