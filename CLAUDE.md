@@ -56,7 +56,7 @@
 | `launching-page.html` | Demo de Launching Page imobiliária com sequencer, POIs, 360° |
 | `firstperson.html` | Tour exterior interativo — archviz com navegação por cenas |
 | `cityexplorer.html` | City Explorer — mapa interativo com Leaflet + cenas 360° |
-| `bidesse.html` | Demo de experiência imobiliária — Edifício Lemme |
+| `bidese.html` | Demo de experiência imobiliária — Edifício Lemme |
 | `styles.css` | CSS compartilhado entre `firstperson.html` e `cityexplorer.html` |
 | `script.js` | JS principal do `firstperson.html` |
 | `script2.js` | JS auxiliar (provavelmente cidade ou launching) |
@@ -65,8 +65,8 @@
 | `scenes-fp.js` | Cenas adicionais do firstperson |
 | `scenes-city.js` | Definição das cenas do cityexplorer |
 | `pois-city.js` | POIs do cityexplorer |
-| `script-bidesse-main.js` | JS principal do `bidesse.html` |
-| `scenes-bidesse-main.js` | Definição das cenas e POIs do `bidesse.html` |
+| `script-bidesse-main.js` | JS principal do `bidese.html` |
+| `scenes-bidesse-main.js` | Definição das cenas e POIs do `bidese.html` |
 
 ---
 
@@ -304,7 +304,7 @@ Usado por `firstperson.html` e `cityexplorer.html`. Contém:
 
 ---
 
-# `bidesse.html` — Edifício Lemme — Tour Interativo
+# `bidese.html` — Edifício Lemme — Tour Interativo
 
 - **Função:** Demo de experiência imobiliária para o Edifício Lemme
 - **Fontes:** DM Sans (Google Fonts) — pesos 300–600
@@ -381,7 +381,7 @@ Definidos em `scenes-bidesse-main.js` com campo `type`:
 - `CONFIG.sequences` — mapa de transições entre cenas
 - `CONFIG.transitions` — quais cenas conectam a quais
 
-## Padrões a Evitar em `bidesse.html`
+## Padrões a Evitar em `bidese.html`
 - Não referenciar `bidesse_video.html`, `scenes-bidesse.js`, `script-bidesse.js` — deletados
 - Não usar `THREE.TextureLoader` diretamente — falha em Chrome com `file://` (crossOrigin CORS)
 - Não usar `<img>` + `THREE.Texture(img)` diretamente — `texSubImage2D` SecurityError em Chrome file://
@@ -426,4 +426,4 @@ Definidos em `scenes-bidesse-main.js` com campo `type`:
 
 ---
 
-*Atualizado em 26/06/2026 — adicionado Edifício Lemme (bidesse.html), workaround panorama file://, compressão de imagens*
+*Atualizado em 26/06/2026 — adicionado Edifício Lemme (bidese.html), workaround panorama file://, compressão de imagens*
