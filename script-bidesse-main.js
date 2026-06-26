@@ -73,6 +73,7 @@ window.addEventListener('load', () => {
   buildTrack();
   startScene(sceneFromHash());
   initCTA();
+  initPoiCard();
   initBotPopup();
 });
 
@@ -371,19 +372,105 @@ function drawCover(img) {
 
 // ─── POIs ─────────────────────────────────────────────────────────────────────
 
+const SVG_CAR_POI  = `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M18.92 6C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-6zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>`;
+const SVG_WALK_POI = `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L7.3 6.8v4.7h2V8.1l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg>`;
+const SVG_GLOBE    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`;
+
+let poiCardEl = null;
+
+function initPoiCard() {
+  poiCardEl = document.getElementById('poi-card');
+  if (!poiCardEl) return;
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePoiCard(); });
+}
+
+function showPoiCard(poi, dotEl) {
+  if (!poiCardEl) return;
+  track('poi_card_open', { scene: currentScene, label: poi.label });
+
+  const catText = poi.subcategory ? `${poi.category} · ${poi.subcategory}` : poi.category;
+
+  if (poi.type === 'card-simple') {
+    poiCardEl.className = 'poi-card--simple';
+    poiCardEl.innerHTML = `
+      <button class="poi-card-close" aria-label="Fechar">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg>
+      </button>
+      <div class="poi-card-body">
+        ${poi.accent ? `<div class="poi-card-dot" style="background:${poi.accent}"></div>` : ''}
+        <div class="poi-card-cat">${catText}</div>
+        <div class="poi-card-title">${poi.title}</div>
+        <p class="poi-card-desc">${poi.description}</p>
+        ${(poi.car != null || poi.walk != null) ? `
+        <div class="poi-card-times">
+          ${poi.car  != null ? `<span>${SVG_CAR_POI}  ${poi.car} min</span>` : ''}
+          ${poi.walk != null ? `<span>${SVG_WALK_POI} ${poi.walk} min</span>` : ''}
+        </div>` : ''}
+      </div>`;
+  } else if (poi.type === 'card-complex') {
+    poiCardEl.className = 'poi-card--complex';
+    poiCardEl.innerHTML = `
+      <button class="poi-card-close" aria-label="Fechar">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg>
+      </button>
+      ${poi.image ? `<img class="poi-card-img" src="${poi.image}" alt="${poi.title}" loading="lazy">` : ''}
+      <div class="poi-card-body">
+        <div class="poi-card-cat">${catText}</div>
+        <div class="poi-card-title">${poi.title}</div>
+        <p class="poi-card-desc">${poi.description}</p>
+        ${poi.pano360 ? `<button class="poi-card-360" onclick="openPanoModal('${poi.pano360}','${poi.title}')">${SVG_GLOBE} VIEW 360°</button>` : ''}
+      </div>`;
+  }
+
+  poiCardEl.querySelector('.poi-card-close').addEventListener('click', closePoiCard);
+
+  // Positioning: appear near the dot, clamped to viewport
+  const rect = dotEl.getBoundingClientRect();
+  const cardW = MOBILE ? window.innerWidth - 32 : 280;
+  const cardH = poi.type === 'card-complex' ? 380 : 260;
+  const margin = 16;
+
+  let left = rect.left + rect.width / 2 - cardW / 2;
+  let top  = rect.top - cardH - 14;
+
+  // If not enough space above, put below
+  if (top < margin) top = rect.bottom + 14;
+  // Clamp horizontally
+  left = Math.max(margin, Math.min(left, window.innerWidth - cardW - margin));
+  // Clamp vertically
+  top  = Math.max(margin + 80, Math.min(top, window.innerHeight - cardH - margin));
+
+  poiCardEl.style.left   = left + 'px';
+  poiCardEl.style.top    = top + 'px';
+  poiCardEl.style.width  = cardW + 'px';
+
+  requestAnimationFrame(() => poiCardEl.id = 'poi-card');
+  requestAnimationFrame(() => poiCardEl.classList.add('open'));
+}
+
+function closePoiCard() {
+  if (!poiCardEl) return;
+  poiCardEl.classList.remove('open');
+}
+
 function renderPOIs(pois = []) {
   poiLayer.innerHTML = '';
+  closePoiCard();
   pois.forEach((poi, i) => {
     const el = document.createElement('div');
-    el.className = 'poi' + (poi.type === 'info' ? ' poi--info' : '');
+    el.className = 'poi';
     el.style.left = poi.x + '%';
     el.style.top  = poi.y + '%';
     el.style.animationDelay = (i * 80) + 'ms';
     el.innerHTML = `<div class="poi-btn"><span class="poi-pulse"></span></div>
                     <div class="poi-name">${poi.label}</div>`;
 
+    const dotEl = el.querySelector('.poi-btn');
+
     const act = () => {
-      if (poi.type === 'nav' && poi.target) {
+      if (poi.type === 'card-simple' || poi.type === 'card-complex') {
+        showPoiCard(poi, dotEl);
+      } else if (poi.type === 'nav' && poi.target) {
         track('poi_nav', { from: currentScene, to: poi.target });
         navigateTo(poi.target);
       } else if (poi.type === 'info' && poi.info) {

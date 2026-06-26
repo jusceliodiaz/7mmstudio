@@ -10,7 +10,30 @@ const CONFIG = {
   ],
 
   scenes: {
-    aerial:  { cover: "images/bidesse/COVER_B1.jpg", cover_m: "images/bidesse/seq_arch_m/COVER_B1.jpg", pois: [] },
+    aerial:  { cover: "images/bidesse/COVER_B1.jpg", cover_m: "images/bidesse/seq_arch_m/COVER_B1.jpg", pois: [
+      {
+        type: 'card-simple',
+        label: 'PARKING',
+        x: 68, y: 62,
+        accent: '#b89c6e',
+        category: 'INFRASTRUCTURE',
+        subcategory: 'BASEMENT',
+        title: 'Parking',
+        description: 'Covered underground parking with spaces for residents and visitors, with automatic gate and license plate recognition.',
+        car: 2, walk: 3,
+      },
+      {
+        type: 'card-complex',
+        label: 'LOBBY',
+        x: 35, y: 48,
+        category: 'ACCESS',
+        subcategory: 'ENTRANCE',
+        title: 'Lobby',
+        description: '24h access-controlled lobby with glazed hall and integrated biometric system.',
+        image: 'images/bidesse/COVER_B1.jpg',
+        pano360: 'images/bidesse/pano_living2.jpg',
+      },
+    ] },
     pool:    { cover: "images/bidesse/COVER_B2.jpg", cover_m: "images/bidesse/seq_arch_m/COVER_B2.jpg", pois: [] },
     garden:  { cover: "images/bidesse/COVER_B3.jpg", cover_m: "images/bidesse/seq_arch_m/COVER_B3.jpg", pois: [] },
     living:  { cover: "images/bidesse/COVER_B4.jpg", cover_m: "images/bidesse/seq_arch_m/COVER_B4.jpg", pois: [] },
