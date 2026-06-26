@@ -71,7 +71,13 @@ window.addEventListener('load', () => {
   resizeCanvas();
   if (!MOBILE) initCursor();
   buildTrack();
-  startScene(sceneFromHash());
+  const initial = sceneFromHash();
+  startScene(initial);
+  // Kick off preload for the second scene's neighbors so the second transition is also instant
+  const ids = CONFIG.timeline.map(t => t.id);
+  const idx = ids.indexOf(initial);
+  const next = ids[idx + 1];
+  if (next) Object.values(CONFIG.transitions[next] || {}).filter(Boolean).forEach(id => preload(id));
   initCTA();
   initPoiCard();
   initBotPopup();
@@ -165,6 +171,9 @@ function startScene(sceneId) {
   syncHash(sceneId);
   renderPOIs(scene.pois);
 
+  // Always preload adjacent sequences in the background, regardless of scene type
+  Object.values(CONFIG.transitions[sceneId] || {}).filter(Boolean).forEach(id => preload(id));
+
   // Cover image mode — draw to canvas and keep it visible
   if (scene.cover) {
     showPoster(MOBILE && scene.cover_m ? scene.cover_m : scene.cover);
@@ -172,7 +181,6 @@ function startScene(sceneId) {
   }
 
   // Video mode (fallback)
-  Object.values(CONFIG.transitions[sceneId] || {}).filter(Boolean).forEach(id => preload(id));
 
   const src = videoSrc(scene);
   if (!src) { seqCanvas.classList.remove('active'); return; }
@@ -301,8 +309,8 @@ function preload(seqId) {
   const frames  = new Array(indices.length);
   let loaded    = 0;
   let failed    = false;
-  // Limit parallel downloads on mobile to avoid saturating a slow connection
-  const SLOTS   = MOBILE ? 4 : indices.length;
+  // 8 concurrent on mobile balances speed vs connection saturation; desktop loads all at once
+  const SLOTS   = MOBILE ? 8 : indices.length;
   let nextLoad  = 0;
 
   const promise = new Promise((resolve, reject) => {
@@ -343,14 +351,21 @@ function playSequence(frames, reverse = false, gen, fps = 30) {
     let last  = 0;
     const step = 1000 / fps;
 
+    const dir = reverse ? -1 : 1;
+
     function loop(now) {
       if (gen !== navGen) return resolve();
-      if (now - last >= step) {
-        last = last === 0 ? now : last + step;
-        if (frames[index]) drawCover(frames[index]);
-        index += reverse ? -1 : 1;
-        if (reverse ? index < 0 : index >= frames.length) return resolve();
+      if (last === 0) last = now;
+      // Consume all elapsed frames in one tick so playback honors fps on any refresh rate
+      while (now - last >= step) {
+        last += step;
+        index += dir;
+        if (reverse ? index < 0 : index >= frames.length) {
+          if (frames[reverse ? 0 : frames.length - 1]) drawCover(frames[reverse ? 0 : frames.length - 1]);
+          return resolve();
+        }
       }
+      if (frames[index]) drawCover(frames[index]);
       requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
