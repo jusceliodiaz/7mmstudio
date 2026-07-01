@@ -532,28 +532,45 @@ function openInfo(info) {
 // ─── Track (nav dock) ─────────────────────────────────────────────────────────
 
 function buildTrack() {
-  const wrap = document.createElement('div');
-  wrap.id = 'track-pts';
-  CONFIG.timeline.forEach(item => {
-    const btn = document.createElement('button');
-    btn.className  = 't-pt';
-    btn.dataset.id = item.id;
-    btn.setAttribute('aria-label', item.label);
-    btn.setAttribute('data-label', item.label);
-    btn.innerHTML  = `<span class="t-icon">${item.icon || item.label}</span><span class="t-label">${item.label}</span>`;
-    btn.addEventListener('click', () => navigateTo(item.id));
-    wrap.appendChild(btn);
+  const ids = CONFIG.timeline.map(t => t.id);
+  trackEl.innerHTML = `
+    <button class="t-arrow" id="t-prev" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <div class="t-divider"></div>
+    <span id="track-label">SHOT 1 OF ${ids.length}</span>
+    <div class="t-divider"></div>
+    <button class="t-arrow" id="t-next" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>`;
+  document.getElementById('t-prev').addEventListener('click', () => {
+    const idx = ids.indexOf(currentScene);
+    if (idx > 0) navigateTo(ids[idx - 1]);
   });
-  trackEl.appendChild(wrap);
+  document.getElementById('t-next').addEventListener('click', () => {
+    const idx = ids.indexOf(currentScene);
+    if (idx < ids.length - 1) navigateTo(ids[idx + 1]);
+  });
   trackEl.classList.add('show');
 }
 
 function setActive(id) {
-  document.querySelectorAll('.t-pt').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.id === id);
-  });
-  const item = CONFIG.timeline.find(t => t.id === id);
-  if (!item) return;
+  const ids = CONFIG.timeline.map(t => t.id);
+  const idx = ids.indexOf(id);
+  const label = document.getElementById('track-label');
+  if (label) label.textContent = `SHOT ${idx + 1} OF ${ids.length}`;
+  const prev = document.getElementById('t-prev');
+  const next = document.getElementById('t-next');
+  if (prev) prev.disabled = idx === 0;
+  if (next) next.disabled = idx === ids.length - 1;
+  // floor overlay: visible apenas na cena aerial (botão 1)
+  if (typeof setFloorOverlayVisible === 'function') {
+    setFloorOverlayVisible(id === 'aerial');
+  }
 }
 
 // ─── Auto-tour ────────────────────────────────────────────────────────────────

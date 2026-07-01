@@ -205,37 +205,43 @@
         color: rgba(20, 20, 20, 0.9);
       }
 
-      /* ── Track numerado ── */
-      .t-icon {
-        display: inline-flex;
+      /* ── Track arrow-nav ── */
+      #track {
+        display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        line-height: 1;
-        flex-shrink: 0;
-        width: 22px;
-        overflow: hidden;
-        opacity: 1;
-        transition:
-          width 0.4s cubic-bezier(0.34, 1.4, 0.64, 1),
-          opacity 0.2s ease;
-      }
-      .t-label {
-        display: inline-flex;
-        align-items: center;
-        line-height: 1;
-      }
-      .t-pt svg {
-        display: none;
-      }
-      .t-pt.active .t-icon {
-        width: 0;
-        opacity: 0;
-      }
-      .t-pt.active {
         gap: 0;
+        background: var(--glass);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+        border-radius: 999px;
+        padding: 0;
+        overflow: hidden;
+        height: 44px;
+        min-width: 220px;
+      }
+      #track.show { opacity: 1; pointer-events: auto; }
+      .t-arrow {
+        flex-shrink: 0;
+        width: 44px; height: 44px;
+        display: flex; align-items: center; justify-content: center;
+        background: transparent; border: none;
+        color: rgba(0,0,0,0.5);
+        cursor: pointer; font-size: 18px; line-height: 1;
+        transition: color 0.2s, background 0.2s;
+        user-select: none;
+      }
+      .t-arrow:hover { color: rgba(0,0,0,0.85); background: rgba(0,0,0,0.05); }
+      .t-arrow:disabled { opacity: 0.25; cursor: default; }
+      .t-arrow svg { width: 18px; height: 18px; pointer-events: none; }
+      .t-divider { width: 1px; height: 22px; background: rgba(0,0,0,0.12); flex-shrink: 0; }
+      #track-label {
+        flex: 1; text-align: center;
+        font-size: 11px; font-weight: 600;
+        letter-spacing: 0.12em; text-transform: uppercase;
+        color: rgba(0,0,0,0.55);
+        white-space: nowrap; padding: 0 4px;
       }
 
       /* ── Responsivo mobile ── */
@@ -373,7 +379,14 @@
 
       /* ── Track + credit ── */
       #track {
+        position: fixed;
         bottom: 44px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
       }
       #track-credit {
         position: fixed;
@@ -400,42 +413,15 @@
         color: rgba(255, 255, 255, 0.85);
       }
 
-      /* Mobile: linha horizontal centralizada, botões compactos */
+      /* Mobile: arrow-nav compacto */
       @media (hover: none) {
         #track {
           bottom: max(44px, calc(env(safe-area-inset-bottom, 0px) + 44px));
-          left: 50%;
-          right: auto;
-          transform: translateX(-50%);
-          width: fit-content;
-          padding: 5px;
+          height: 40px;
+          min-width: 180px;
         }
-        #track-pts {
-          flex-direction: row;
-          gap: 3px;
-        }
-        .t-pt {
-          min-width: 36px;
-          max-width: 36px;
-          width: 36px;
-          height: 36px;
-          min-height: 36px;
-          border-radius: 10px;
-          padding: 0;
-          cursor: pointer;
-        }
-        .t-pt.active {
-          max-width: 36px;
-          padding: 0;
-          gap: 0;
-        }
-        .t-pt.active .t-icon {
-          width: 22px;
-          opacity: 1;
-        }
-        .t-label {
-          display: none;
-        }
+        .t-arrow { width: 40px; height: 40px; font-size: 16px; }
+        #track-label { font-size: 10px; }
         #track-credit {
           bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 14px));
           font-size: 8px;
@@ -1106,24 +1092,601 @@
           flex: 1;
         }
       }
+
+      /* ── Floorplan panel ── */
+      #fp-toggle {
+        position: fixed;
+        top: max(16px, env(safe-area-inset-top, 16px));
+        right: 16px;
+        z-index: 300;
+        height: 44px;
+        padding: 0 16px;
+        border-radius: 14px;
+        background: var(--glass);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+        color: rgba(0,0,0,0.65);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.18s, border-color 0.18s;
+      }
+      #fp-toggle:hover { background: rgba(255,255,255,0.5); }
+      #fp-toggle svg { width: 16px; height: 16px; opacity: 0.6; pointer-events: none; }
+
+      #fp-panel {
+        position: fixed;
+        top: max(68px, calc(env(safe-area-inset-top, 16px) + 52px));
+        right: 16px;
+        z-index: 298;
+        width: 230px;
+        background: var(--glass);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+        border-radius: 18px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px) scale(0.97);
+        transform-origin: top right;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+      }
+      #fp-panel.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+      }
+
+      /* tipo selector */
+      .fp-types {
+        display: flex;
+        padding: 10px 10px 0;
+        gap: 5px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .fp-types::-webkit-scrollbar { display: none; }
+      .fp-type-btn {
+        flex-shrink: 0;
+        height: 28px;
+        padding: 0 11px;
+        border-radius: 999px;
+        border: 1px solid rgba(0,0,0,0.12);
+        background: rgba(255,255,255,0.35);
+        color: rgba(0,0,0,0.5);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s, color 0.15s;
+        white-space: nowrap;
+      }
+      .fp-type-btn:hover { background: rgba(255,255,255,0.55); color: rgba(0,0,0,0.75); }
+      .fp-type-btn.active {
+        background: rgba(138,115,82,0.18);
+        border-color: #8a7352;
+        color: #6b5a3e;
+      }
+
+      /* planta */
+      .fp-img-wrap {
+        margin: 10px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(255,255,255,0.25);
+        border: 1px solid rgba(0,0,0,0.08);
+        aspect-ratio: 4/3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .fp-img-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+      .fp-img-placeholder {
+        display: flex; flex-direction: column; align-items: center; gap: 8px;
+        color: rgba(0,0,0,0.2); font-size: 10px;
+        letter-spacing: 0.06em; text-transform: uppercase;
+      }
+      .fp-img-placeholder svg { width: 32px; height: 32px; opacity: 0.2; }
+
+      .fp-info {
+        padding: 0 14px 4px;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      }
+      .fp-info-item { display: flex; flex-direction: column; gap: 2px; }
+      .fp-info-label {
+        font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+        text-transform: uppercase; color: rgba(0,0,0,0.3);
+      }
+      .fp-info-val { font-size: 13px; font-weight: 600; color: rgba(0,0,0,0.75); }
+      .fp-info-item.full { grid-column: 1 / -1; }
+
+      .fp-actions { padding: 10px; display: flex; flex-direction: column; gap: 7px; }
+      .fp-btn {
+        height: 38px; border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.12);
+        background: rgba(255,255,255,0.35);
+        color: rgba(0,0,0,0.65); font-size: 12px; font-weight: 600;
+        letter-spacing: 0.04em; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 7px;
+        text-decoration: none;
+        transition: background 0.15s, border-color 0.15s;
+      }
+      .fp-btn:hover { background: rgba(255,255,255,0.55); }
+      .fp-btn.primary {
+        background: rgba(138,115,82,0.15);
+        border-color: #8a7352; color: #6b5a3e;
+      }
+      .fp-btn.primary:hover { background: rgba(138,115,82,0.28); }
+      .fp-btn svg { width: 15px; height: 15px; opacity: 0.7; pointer-events: none; }
+
+      @media (max-width: 600px) {
+        #fp-panel { right: 10px; width: calc(100vw - 20px); }
+        #fp-toggle { right: 10px; }
+      }
+
+      /* ── Floor overlays ── */
+      #floor-svg {
+        position: fixed;
+        inset: 0;
+        width: 100%; height: 100%;
+        z-index: 5;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      #floor-svg.visible { opacity: 1; pointer-events: auto; }
+      .floor-poly {
+        fill: rgba(184,156,110,0.08);
+        stroke: rgba(184,156,110,0.55);
+        stroke-width: 1;
+        cursor: pointer;
+        transition: fill 0.2s;
+      }
+      .floor-poly:hover { fill: rgba(184,156,110,0.22); }
+      .floor-poly.selected { fill: rgba(184,156,110,0.28); stroke: #b89c6e; stroke-width: 1.5; }
+      .floor-label-text {
+        fill: rgba(255,255,255,0.7);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        pointer-events: none;
+        font-family: 'DM Sans', sans-serif;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+      }
+
+      /* ── Floor info panel (drawer) ── */
+      #floor-panel-backdrop {
+        position: fixed; inset: 0;
+        z-index: 288;
+        background: rgba(0,0,0,0);
+        pointer-events: none;
+        transition: background 0.35s ease;
+      }
+      #floor-panel-backdrop.open {
+        background: rgba(0,0,0,0.35);
+        pointer-events: auto;
+      }
+      #floor-panel {
+        position: fixed;
+        top: 0; right: 0;
+        height: 100dvh;
+        width: 50vw;
+        max-width: 560px;
+        min-width: 320px;
+        z-index: 289;
+        background: var(--glass);
+        backdrop-filter: blur(48px) saturate(2);
+        -webkit-backdrop-filter: blur(48px) saturate(2);
+        border-left: 1px solid var(--glass-border);
+        border-radius: 28px 0 0 28px;
+        box-shadow: -12px 0 60px rgba(0,0,0,0.22);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        overflow: hidden;
+        transform: translateX(100%);
+        pointer-events: none;
+        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #floor-panel.open {
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+      #floor-panel-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 28px 28px 0;
+        flex-shrink: 0;
+      }
+      #floor-panel-close {
+        width: 32px; height: 32px;
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.1);
+        background: rgba(0,0,0,0.06);
+        color: rgba(0,0,0,0.45);
+        font-size: 15px;
+        line-height: 1;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: background 0.15s;
+        flex-shrink: 0;
+      }
+      #floor-panel-close:hover { background: rgba(0,0,0,0.12); }
+      #floor-panel-tag {
+        font-size: 9px; font-weight: 700;
+        letter-spacing: 0.16em; text-transform: uppercase;
+        color: #8a7352;
+        margin-bottom: 6px;
+      }
+      #floor-panel-name {
+        font-size: 26px; font-weight: 700;
+        color: rgba(0,0,0,0.82);
+        line-height: 1.1;
+      }
+      #floor-panel-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 24px 28px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        scrollbar-width: none;
+      }
+      #floor-panel-body::-webkit-scrollbar { display: none; }
+      .fp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .fp-stat { display: flex; flex-direction: column; gap: 3px; }
+      .fp-stat-label {
+        font-size: 9px; font-weight: 700;
+        letter-spacing: 0.12em; text-transform: uppercase;
+        color: rgba(0,0,0,0.3);
+      }
+      .fp-stat-val {
+        font-size: 15px; font-weight: 600;
+        color: rgba(0,0,0,0.78);
+      }
+      .fp-stat.full { grid-column: 1 / -1; }
+      .fp-divider {
+        height: 1px; background: rgba(0,0,0,0.08);
+      }
+      #floor-panel-desc {
+        font-size: 13px; line-height: 1.65;
+        color: rgba(0,0,0,0.45);
+      }
+      #floor-panel-footer {
+        padding: 0 28px 28px;
+        flex-shrink: 0;
+      }
+      .fp-panel-btn {
+        height: 46px; border-radius: 14px;
+        border: 1px solid rgba(0,0,0,0.1);
+        background: rgba(138,115,82,0.12);
+        color: #6b5a3e; font-size: 13px; font-weight: 600;
+        letter-spacing: 0.04em; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        text-decoration: none; width: 100%;
+        transition: background 0.15s;
+      }
+      .fp-panel-btn:hover { background: rgba(138,115,82,0.22); }
+
+      @media (max-width: 600px) {
+        #floor-panel {
+          width: 92vw;
+          border-radius: 24px 0 0 24px;
+        }
+        #floor-panel-header { padding: 22px 20px 0; }
+        #floor-panel-body { padding: 20px 20px 24px; }
+        #floor-panel-footer { padding: 0 20px 24px; }
+        #floor-panel-name { font-size: 20px; }
+      }
+
+      /* ── Overlay editor ── */
+      #ov-edit-btn {
+        position: fixed;
+        bottom: 100px;
+        right: 16px;
+        z-index: 400;
+        height: 36px;
+        padding: 0 14px;
+        border-radius: 10px;
+        background: var(--glass);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+        color: rgba(0,0,0,0.6);
+        font-size: 11px; font-weight: 700;
+        letter-spacing: 0.08em; text-transform: uppercase;
+        cursor: pointer; display: none; align-items: center; gap: 7px;
+        transition: background 0.15s;
+      }
+      #ov-edit-btn.visible { display: flex; }
+      #ov-edit-btn.active { background: rgba(184,156,110,0.22); border-color: #b89c6e; color: #6b5a3e; }
+      #ov-edit-btn svg { width: 14px; height: 14px; }
+
+      /* handles dos vértices */
+      .ov-handle {
+        cursor: grab;
+        transition: r 0.1s;
+      }
+      .ov-handle:hover { r: 8; }
+      .ov-handle:active { cursor: grabbing; }
+      .ov-handle-ring {
+        pointer-events: none;
+      }
+
+      /* painel de export */
+      #ov-export-panel {
+        position: fixed;
+        bottom: 144px;
+        right: 16px;
+        z-index: 400;
+        width: 320px;
+        max-height: 400px;
+        background: var(--glass);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+        border-radius: 16px;
+        padding: 14px;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.2s, transform 0.2s;
+      }
+      #ov-export-panel.open {
+        display: flex; opacity: 1; transform: translateY(0);
+      }
+      #ov-export-panel.visible { display: flex; }
+      .ov-exp-title {
+        font-size: 11px; font-weight: 700;
+        letter-spacing: 0.08em; text-transform: uppercase;
+        color: rgba(0,0,0,0.45);
+      }
+      #ov-floor-select {
+        height: 32px; border-radius: 8px;
+        border: 1px solid rgba(0,0,0,0.12);
+        background: rgba(255,255,255,0.35);
+        color: rgba(0,0,0,0.7); font-size: 12px;
+        font-weight: 500; padding: 0 8px;
+        cursor: pointer; outline: none;
+      }
+      #ov-coords-out {
+        font-family: 'Courier New', monospace;
+        font-size: 10px; line-height: 1.7;
+        color: rgba(0,0,0,0.65);
+        background: rgba(0,0,0,0.05);
+        border-radius: 8px; padding: 10px;
+        white-space: pre; overflow-x: auto;
+        max-height: 180px; overflow-y: auto;
+        border: 1px solid rgba(0,0,0,0.08);
+      }
+      .ov-exp-row { display: flex; gap: 7px; }
+      .ov-exp-btn {
+        flex: 1; height: 30px; border-radius: 8px;
+        border: 1px solid rgba(0,0,0,0.10);
+        background: rgba(255,255,255,0.35);
+        color: rgba(0,0,0,0.6); font-size: 11px;
+        font-weight: 600; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 5px;
+        transition: background 0.15s;
+      }
+      .ov-exp-btn:hover { background: rgba(255,255,255,0.6); }
+      .ov-exp-btn.copy-ok { background: rgba(80,180,100,0.2); color: #2d7a3c; border-color: #3ca050; }
+      #ov-hint {
+        font-size: 10px; color: rgba(0,0,0,0.35);
+        line-height: 1.5; text-align: center;
+      }
+
+      /* ── Top bar ── */
+      #top-bar {
+        position: fixed;
+        top: max(16px, env(safe-area-inset-top, 16px));
+        left: 16px;
+        z-index: 300;
+        display: flex;
+        align-items: center;
+        gap: 0;
+        background: var(--glass);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        border: 1px solid var(--glass-border);
+        border-radius: 14px;
+        padding: 4px;
+        height: 44px;
+        box-shadow: var(--shadow);
+      }
+      #top-back {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 10px 0 8px;
+        border-radius: 10px;
+        background: transparent;
+        border: none;
+        color: rgba(0,0,0,0.75);
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background 0.18s;
+        white-space: nowrap;
+      }
+      #top-back:hover { background: rgba(255,255,255,0.08); }
+      #top-back svg { opacity: 0.75; flex-shrink: 0; }
+      .top-sep {
+        width: 1px;
+        height: 20px;
+        background: rgba(255,255,255,0.14);
+        flex-shrink: 0;
+        margin: 0 2px;
+      }
+      #top-building {
+        padding: 0 12px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(0,0,0,0.45);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      #top-building span { color: #8a7352; margin: 0 4px; }
+      .top-sep { background: rgba(0,0,0,0.12); }
+      #filter-toggle {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: transparent;
+        border: none;
+        color: rgba(0,0,0,0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.18s;
+        flex-shrink: 0;
+      }
+      #filter-toggle:hover { background: rgba(0,0,0,0.06); }
+      #filter-toggle svg { width: 17px; height: 17px; pointer-events: none; }
+      #filter-toggle .fi-dot {
+        position: absolute;
+        top: 6px; right: 6px;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #8a7352;
+        display: none;
+      }
+      #filter-toggle.has-active .fi-dot { display: block; }
+
+      /* ── Filter panel ── */
+      #filter-panel {
+        position: fixed;
+        top: 68px;
+        left: 16px;
+        z-index: 299;
+        width: 240px;
+        background: var(--glass);
+        backdrop-filter: blur(40px) saturate(1.8);
+        -webkit-backdrop-filter: blur(40px) saturate(1.8);
+        border: 1px solid var(--glass-border);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 18px 16px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px) scale(0.97);
+        transform-origin: top left;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+      }
+      #filter-panel.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+      }
+      .fi-title {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: rgba(0,0,0,0.75);
+      }
+      .fi-group { display: flex; flex-direction: column; gap: 8px; }
+      .fi-group-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(0,0,0,0.35);
+      }
+      .fi-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+      .fi-chip {
+        height: 30px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(0,0,0,0.14);
+        background: rgba(255,255,255,0.35);
+        color: rgba(0,0,0,0.6);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s, color 0.15s;
+        white-space: nowrap;
+      }
+      .fi-chip:hover { background: rgba(255,255,255,0.55); color: rgba(0,0,0,0.85); }
+      .fi-chip.active { background: rgba(138,115,82,0.18); border-color: #8a7352; color: #6b5a3e; }
+      .fi-chip.avail-disponivel.active { background: rgba(60,160,80,0.15); border-color: #3ca050; color: #2d7a3c; }
+      .fi-chip.avail-reservado.active  { background: rgba(180,130,20,0.15); border-color: #b48214; color: #8a6410; }
+      .fi-chip.avail-vendido.active    { background: rgba(180,50,50,0.15);  border-color: #b43232; color: #8c2828; }
+
+      .fi-range-wrap { display: flex; flex-direction: column; gap: 6px; }
+      .fi-range-vals { display: flex; justify-content: space-between; font-size: 10px; color: rgba(0,0,0,0.4); }
+      .fi-range-vals span { font-weight: 500; }
+      input[type=range].fi-slider {
+        -webkit-appearance: none; appearance: none;
+        width: 100%; height: 3px; border-radius: 2px;
+        background: rgba(0,0,0,0.15); outline: none; cursor: pointer;
+      }
+      input[type=range].fi-slider::-webkit-slider-thumb {
+        -webkit-appearance: none; width: 16px; height: 16px;
+        border-radius: 50%; background: #8a7352; border: 2px solid #fff; cursor: pointer;
+      }
+      input[type=range].fi-slider::-moz-range-thumb {
+        width: 14px; height: 14px; border-radius: 50%;
+        background: #8a7352; border: 2px solid #fff; cursor: pointer;
+      }
+
+      .fi-clear {
+        height: 32px; border-radius: 8px;
+        border: 1px solid rgba(0,0,0,0.1);
+        background: transparent; color: rgba(0,0,0,0.38);
+        font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+        text-transform: uppercase; cursor: pointer;
+        transition: background 0.15s, color 0.15s; margin-top: 2px;
+      }
+      .fi-clear:hover { background: rgba(0,0,0,0.06); color: rgba(0,0,0,0.65); }
+
+      @media (max-width: 600px) {
+        #top-building { display: none; }
+        #top-bar .top-sep:nth-child(3) { display: none; }
+        #filter-panel { left: 10px; top: 62px; width: calc(100vw - 20px); }
+      }
     </style>
   </head>
   <body>
-    <a href="index.html" class="back-btn">
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M10 3L5 8l5 5" />
-      </svg>
-      <span>Voltar</span>
-    </a>
+    <div id="top-bar">
+      <a href="index.html" id="top-back">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 3L5 8l5 5" />
+        </svg>
+        <span>Voltar</span>
+      </a>
+      <div class="top-sep"></div>
+      <div id="top-building">LEMME <span>·</span> BIDESE</div>
+      <div class="top-sep"></div>
+      <button id="filter-toggle" aria-label="Filtros" onclick="toggleFilterPanel()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+        </svg>
+        <span class="fi-dot"></span>
+      </button>
+    </div>
 
     <div id="cursor"></div>
     <div id="ring"></div>
@@ -1142,6 +1705,179 @@
       <a href="https://www.factorystudio.works" target="_blank" rel="noopener"
         >Factory Studio</a
       >
+    </div>
+
+    <!-- Filter toggle -->
+    <!-- Filter panel -->
+    <div id="filter-panel">
+      <div class="fi-title">Filtros</div>
+
+      <div class="fi-group">
+        <div class="fi-group-label">Disponibilidade</div>
+        <div class="fi-chips">
+          <button class="fi-chip avail-disponivel" data-filter="avail" data-val="disponivel">Disponível</button>
+          <button class="fi-chip avail-reservado"  data-filter="avail" data-val="reservado">Reservado</button>
+          <button class="fi-chip avail-vendido"    data-filter="avail" data-val="vendido">Vendido</button>
+        </div>
+      </div>
+
+      <div class="fi-group">
+        <div class="fi-group-label">Quartos</div>
+        <div class="fi-chips">
+          <button class="fi-chip" data-filter="quartos" data-val="1">1</button>
+          <button class="fi-chip" data-filter="quartos" data-val="2">2</button>
+          <button class="fi-chip" data-filter="quartos" data-val="3">3</button>
+        </div>
+      </div>
+
+      <div class="fi-group">
+        <div class="fi-group-label">Banheiros</div>
+        <div class="fi-chips">
+          <button class="fi-chip" data-filter="banheiros" data-val="1">1</button>
+          <button class="fi-chip" data-filter="banheiros" data-val="2">2</button>
+        </div>
+      </div>
+
+      <div class="fi-group">
+        <div class="fi-group-label">Área útil</div>
+        <div class="fi-range-wrap">
+          <div class="fi-range-vals">
+            <span id="fi-area-min">40 m²</span>
+            <span id="fi-area-max">200 m²</span>
+          </div>
+          <input type="range" class="fi-slider" id="fi-area-slider" min="40" max="200" value="200" step="5">
+        </div>
+      </div>
+
+      <button class="fi-clear" onclick="clearFilters()">Limpar tudo</button>
+    </div>
+
+    <!-- Floor overlays SVG -->
+    <svg id="floor-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <!-- Floor info panel backdrop -->
+    <div id="floor-panel-backdrop" onclick="closeFloorPanel()"></div>
+
+    <!-- Floor info panel drawer -->
+    <div id="floor-panel">
+      <div id="floor-panel-header">
+        <div>
+          <div id="floor-panel-tag">Edifício Lemme</div>
+          <div id="floor-panel-name">—</div>
+        </div>
+        <button id="floor-panel-close" onclick="closeFloorPanel()">✕</button>
+      </div>
+      <div id="floor-panel-body">
+        <div class="fp-row">
+          <div class="fp-stat full">
+            <div class="fp-stat-label">Tipologia</div>
+            <div class="fp-stat-val" id="fl-tipo">—</div>
+          </div>
+          <div class="fp-stat">
+            <div class="fp-stat-label">Área útil</div>
+            <div class="fp-stat-val" id="fl-area">—</div>
+          </div>
+          <div class="fp-stat">
+            <div class="fp-stat-label">Garagem</div>
+            <div class="fp-stat-val" id="fl-vagas">—</div>
+          </div>
+          <div class="fp-stat">
+            <div class="fp-stat-label">Suítes</div>
+            <div class="fp-stat-val" id="fl-suites">—</div>
+          </div>
+          <div class="fp-stat">
+            <div class="fp-stat-label">Status</div>
+            <div class="fp-stat-val" id="fl-status">—</div>
+          </div>
+        </div>
+        <div class="fp-divider"></div>
+        <div id="floor-panel-desc"></div>
+      </div>
+      <div id="floor-panel-footer">
+        <a id="fl-pdf-btn" href="#" class="fp-panel-btn" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Baixar Planta PDF
+        </a>
+      </div>
+    </div>
+
+    <!-- Overlay editor -->
+    <button id="ov-edit-btn" onclick="toggleOverlayEditor()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+      </svg>
+      Editar Overlays
+    </button>
+
+    <div id="ov-export-panel">
+      <div class="ov-exp-title">Editor de Overlays</div>
+      <select id="ov-floor-select" onchange="ovSelectFloor(this.value)"></select>
+      <div id="ov-coords-out"></div>
+      <div id="ov-hint">Arraste os ● handles para reposicionar os vértices de cada andar</div>
+      <button class="ov-exp-btn" id="ov-apply-btn" onclick="ovApply()" style="height:36px;font-size:12px;background:rgba(138,115,82,0.15);border-color:#8a7352;color:#6b5a3e;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Aplicar posições
+      </button>
+      <div class="ov-exp-row">
+        <button class="ov-exp-btn" onclick="ovCopyAll()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar tudo
+        </button>
+        <button class="ov-exp-btn" onclick="ovResetFloor()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset andar
+        </button>
+      </div>
+    </div>
+
+    <!-- Floorplan toggle -->
+    <button id="fp-toggle" onclick="toggleFpPanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+      </svg>
+      Planta
+    </button>
+
+    <!-- Floorplan panel -->
+    <div id="fp-panel">
+      <div class="fp-types">
+        <button class="fp-type-btn active" data-fp="tipo1">134 m²</button>
+        <button class="fp-type-btn" data-fp="tipo2">162 m²</button>
+        <button class="fp-type-btn" data-fp="tipo3">189 m²</button>
+        <button class="fp-type-btn" data-fp="tipo4">Penth.</button>
+        <button class="fp-type-btn" data-fp="tipo5">Garden</button>
+      </div>
+
+      <div class="fp-img-wrap">
+        <div class="fp-img-placeholder" id="fp-img-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
+          Planta Baixa
+        </div>
+        <img id="fp-img" src="" alt="Planta baixa" style="display:none">
+      </div>
+
+      <div class="fp-info">
+        <div class="fp-info-item full">
+          <div class="fp-info-label">Área Útil</div>
+          <div class="fp-info-val" id="fp-area">—</div>
+        </div>
+        <div class="fp-info-item">
+          <div class="fp-info-label">Garagem</div>
+          <div class="fp-info-val" id="fp-vagas">—</div>
+        </div>
+        <div class="fp-info-item">
+          <div class="fp-info-label">Suítes</div>
+          <div class="fp-info-val" id="fp-suite">—</div>
+        </div>
+      </div>
+
+      <div class="fp-actions">
+        <a id="fp-pdf-btn" href="#" class="fp-btn primary" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Baixar Planta PDF
+        </a>
+      </div>
     </div>
 
     <div id="loader"><span></span><span></span><span></span></div>
@@ -1838,6 +2574,612 @@
       document
         .getElementById("pano-modal-backdrop")
         .addEventListener("click", closePanoModal);
+
+      // ── Floor overlay system ──────────────────────────────────────
+      //
+      // Polygons são definidos em coordenadas FRACIONADAS da imagem original
+      // (0,0) = canto superior esquerdo, (1,1) = canto inferior direito
+      // A função imgToScreen() converte para pixels de tela usando o mesmo
+      // algoritmo cover-fit do canvas (scale = Math.max(cw/iw, ch/ih))
+      //
+      var FLOOR_IMG_W = 2920; // largura natural da COVER_B1.jpg
+      var FLOOR_IMG_H = 1643; // altura natural da COVER_B1.jpg
+
+      // Polígonos mapeados sobre a imagem 2920×1643 (close-up aéreo do Lemme)
+      // O edifício ocupa ~25–75% da largura e ~3–96% da altura da imagem
+      // Cobertura é mais estreita; andares 7°–3° são os mais largos
+      var FLOOR_DATA = [
+        {
+          id: 'cobertura',
+          label: 'Cobertura',
+          tipo: 'Penthouse Garden',
+          area: '229 – 312 m²',
+          vagas: '3 vagas',
+          suites: '3–4 suítes',
+          status: 'Entregue',
+          desc: 'Unidades exclusivas no topo com terraço privativo e vistas panorâmicas 360° de Curitiba.',
+          pdf: '',
+          //  topo estreito — apenas o volume da cobertura
+          poly: [[0.381,0.170],[0.619,0.170],[0.616,0.317],[0.385,0.317]],
+        },
+        {
+          id: 'andar6',
+          label: '6° Andar',
+          tipo: 'Apartamento 162 m²',
+          area: '162 m²',
+          vagas: '2 vagas',
+          suites: '2 suítes',
+          status: 'Entregue',
+          desc: 'Terraço integrado à sala de estar com vista para o Água Verde.',
+          pdf: '',
+          poly: [[0.311,0.443],[0.689,0.443],[0.693,0.506],[0.308,0.506]],
+        },
+        {
+          id: 'andar5',
+          label: '5° Andar',
+          tipo: 'Apartamento 134 m²',
+          area: '134 m²',
+          vagas: '2 vagas',
+          suites: '1 suíte',
+          status: 'Entregue',
+          desc: 'Andar intermediário com iluminação Expolux e som ambiente Sonos integrado.',
+          pdf: '',
+          poly: [[0.308,0.506],[0.693,0.506],[0.693,0.565],[0.308,0.565]],
+        },
+        {
+          id: 'andar4',
+          label: '4° Andar',
+          tipo: 'Apartamento 134 m²',
+          area: '134 m²',
+          vagas: '2 vagas',
+          suites: '1 suíte',
+          status: 'Entregue',
+          desc: 'Acesso por elevador privativo com acabamento em laca PU e louças Kohler.',
+          pdf: '',
+          poly: [[0.308,0.565],[0.693,0.565],[0.682,0.621],[0.318,0.621]],
+        },
+        {
+          id: 'andar3',
+          label: '3° Andar',
+          tipo: 'Apartamento 134 m²',
+          area: '134 m²',
+          vagas: '2 vagas',
+          suites: '1 suíte',
+          status: 'Entregue',
+          desc: 'Garden view com privacidade garantida pelo paisagismo exuberante.',
+          pdf: '',
+          poly: [[0.318,0.621],[0.682,0.621],[0.683,0.674],[0.317,0.674]],
+        },
+        {
+          id: 'andar2',
+          label: '2° Andar',
+          tipo: 'Apartamento 134 m²',
+          area: '134 m²',
+          vagas: '2 vagas',
+          suites: '1 suíte',
+          status: 'Entregue',
+          desc: 'Acesso direto ao garden e à piscina aquecida com SPA privativo.',
+          pdf: '',
+          poly: [[0.317,0.674],[0.683,0.674],[0.676,0.723],[0.324,0.723]],
+        },
+        {
+          id: 'andar1',
+          label: '1° Andar',
+          tipo: 'Garden Duplex 335 m²',
+          area: '335 – 435 m²',
+          vagas: '3 vagas',
+          suites: '4 suítes',
+          status: 'Entregue',
+          desc: 'Garden duplex exclusivo com jardim privativo e acesso direto à área de lazer.',
+          pdf: '',
+          poly: [[0.324,0.723],[0.676,0.723],[0.668,0.765],[0.332,0.765]],
+        },
+        {
+          id: 'terreo',
+          label: 'Térreo / Lobby',
+          tipo: 'Área comum',
+          area: '—',
+          vagas: '—',
+          suites: '—',
+          status: 'Entregue',
+          desc: 'Lobby 24h com guarita blindada, central de entregas e acesso biométrico sem chaves.',
+          pdf: '',
+          poly: [[0.332,0.765],[0.668,0.765],[0.658,0.821],[0.343,0.821]],
+        },
+      ];
+
+      function imgToScreen(fx, fy) {
+        var iw = FLOOR_IMG_W, ih = FLOOR_IMG_H;
+        var cw = innerWidth,  ch = innerHeight;
+        var scale = Math.max(cw / iw, ch / ih);
+        var dw = iw * scale, dh = ih * scale;
+        var dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+        return { x: dx + fx * dw, y: dy + fy * dh };
+      }
+
+      function buildFloorSVG() {
+        var svg = document.getElementById('floor-svg');
+        svg.innerHTML = '';
+        var ns = 'http://www.w3.org/2000/svg';
+        FLOOR_DATA.forEach(function(fl) {
+          var pts = fl.poly.map(function(p) {
+            var s = imgToScreen(p[0], p[1]);
+            return s.x.toFixed(1) + ',' + s.y.toFixed(1);
+          }).join(' ');
+          var poly = document.createElementNS(ns, 'polygon');
+          poly.setAttribute('points', pts);
+          poly.setAttribute('class', 'floor-poly');
+          poly.setAttribute('data-id', fl.id);
+          poly.addEventListener('click', function() { openFloorPanel(fl.id); });
+          svg.appendChild(poly);
+
+          // label centrado no polígono
+          var cx = fl.poly.reduce(function(s,p){ return s+p[0]; },0)/fl.poly.length;
+          var cy = fl.poly.reduce(function(s,p){ return s+p[1]; },0)/fl.poly.length;
+          var lp = imgToScreen(cx, cy);
+          var txt = document.createElementNS(ns, 'text');
+          txt.setAttribute('x', lp.x.toFixed(1));
+          txt.setAttribute('y', (lp.y + 4).toFixed(1));
+          txt.setAttribute('text-anchor', 'middle');
+          txt.setAttribute('class', 'floor-label-text');
+          txt.textContent = fl.label;
+          svg.appendChild(txt);
+        });
+      }
+
+      function openFloorPanel(id) {
+        var fl = FLOOR_DATA.find(function(f){ return f.id === id; });
+        if (!fl) return;
+        // deselect all, select clicked
+        document.querySelectorAll('.floor-poly').forEach(function(p){ p.classList.remove('selected'); });
+        var poly = document.querySelector('.floor-poly[data-id="' + id + '"]');
+        if (poly) poly.classList.add('selected');
+        // populate panel
+        document.getElementById('floor-panel-name').textContent = fl.label;
+        document.getElementById('fl-tipo').textContent   = fl.tipo;
+        document.getElementById('fl-area').textContent   = fl.area;
+        document.getElementById('fl-vagas').textContent  = fl.vagas;
+        document.getElementById('fl-suites').textContent = fl.suites;
+        document.getElementById('fl-status').textContent = fl.status;
+        document.getElementById('floor-panel-desc').textContent = fl.desc;
+        var pdfBtn = document.getElementById('fl-pdf-btn');
+        pdfBtn.href = fl.pdf || '#';
+        if (!fl.pdf) pdfBtn.removeAttribute('download');
+        else pdfBtn.setAttribute('download', '');
+        document.getElementById('floor-panel').classList.add('open');
+        document.getElementById('floor-panel-backdrop').classList.add('open');
+        // hide fp-panel if open (avoid overlap)
+        document.getElementById('fp-panel').classList.remove('open');
+      }
+
+      function closeFloorPanel() {
+        document.getElementById('floor-panel').classList.remove('open');
+        document.getElementById('floor-panel-backdrop').classList.remove('open');
+        document.querySelectorAll('.floor-poly').forEach(function(p){ p.classList.remove('selected'); });
+      }
+
+      function setFloorOverlayVisible(visible) {
+        var svg = document.getElementById('floor-svg');
+        if (visible) {
+          buildFloorSVG();
+          if (_ovEditing) ovAddHandles();
+          svg.classList.add('visible');
+        } else {
+          svg.classList.remove('visible');
+          closeFloorPanel();
+        }
+        setFloorEditorBtnVisible(visible);
+      }
+
+      // Rebuild on resize
+      window.addEventListener('resize', function() {
+        if (document.getElementById('floor-svg').classList.contains('visible')) buildFloorSVG();
+      });
+
+      // ── Overlay editor ────────────────────────────────────────────
+      var _ovEditing    = false;
+      var _ovDrag       = null;   // { floorIdx, ptIdx, startX, startY }
+      var _ovOrigData   = null;   // deep-copy original para reset
+      var _ovActiveFloor = 0;
+
+      function screenToImg(sx, sy) {
+        var iw = FLOOR_IMG_W, ih = FLOOR_IMG_H;
+        var cw = innerWidth,  ch = innerHeight;
+        var scale = Math.max(cw / iw, ch / ih);
+        var dw = iw * scale, dh = ih * scale;
+        var dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+        return { x: (sx - dx) / dw, y: (sy - dy) / dh };
+      }
+
+      function toggleOverlayEditor() {
+        _ovEditing = !_ovEditing;
+        var btn = document.getElementById('ov-edit-btn');
+        var panel = document.getElementById('ov-export-panel');
+        btn.classList.toggle('active', _ovEditing);
+        if (_ovEditing) {
+          _ovOrigData = JSON.parse(JSON.stringify(FLOOR_DATA.map(function(f){ return f.poly; })));
+          ovBuildSelect();
+          panel.classList.add('open');
+          setTimeout(function(){ panel.style.display = 'flex'; panel.style.opacity = 1; }, 10);
+          buildFloorSVG();
+          ovAddHandles();
+          ovUpdateCoordsOut();
+        } else {
+          panel.classList.remove('open');
+          panel.style.opacity = 0;
+          setTimeout(function(){ panel.style.display = ''; }, 200);
+          buildFloorSVG(); // rebuild sem handles
+        }
+      }
+
+      function ovBuildSelect() {
+        var sel = document.getElementById('ov-floor-select');
+        sel.innerHTML = '';
+        FLOOR_DATA.forEach(function(fl, i) {
+          var opt = document.createElement('option');
+          opt.value = i; opt.textContent = fl.label;
+          sel.appendChild(opt);
+        });
+        sel.value = _ovActiveFloor;
+      }
+
+      function ovSelectFloor(idx) {
+        _ovActiveFloor = parseInt(idx);
+        ovUpdateCoordsOut();
+        // highlight selected polygon
+        document.querySelectorAll('.floor-poly').forEach(function(p, i){
+          p.style.strokeWidth = i === _ovActiveFloor ? '2' : '1';
+          p.style.stroke = i === _ovActiveFloor ? '#b89c6e' : 'rgba(184,156,110,0.55)';
+        });
+        // pulse handles do andar ativo
+        document.querySelectorAll('.ov-handle').forEach(function(h){
+          var fi = parseInt(h.dataset.fi);
+          h.setAttribute('fill', fi === _ovActiveFloor ? '#b89c6e' : 'rgba(184,156,110,0.5)');
+          h.setAttribute('r', fi === _ovActiveFloor ? '7' : '5');
+        });
+      }
+
+      function ovAddHandles() {
+        var svg = document.getElementById('floor-svg');
+        var ns = 'http://www.w3.org/2000/svg';
+        FLOOR_DATA.forEach(function(fl, fi) {
+          fl.poly.forEach(function(pt, pi) {
+            var sp = imgToScreen(pt[0], pt[1]);
+            // anel externo
+            var ring = document.createElementNS(ns, 'circle');
+            ring.setAttribute('cx', sp.x.toFixed(1));
+            ring.setAttribute('cy', sp.y.toFixed(1));
+            ring.setAttribute('r', '11');
+            ring.setAttribute('fill', 'none');
+            ring.setAttribute('stroke', fi === _ovActiveFloor ? 'rgba(184,156,110,0.4)' : 'rgba(255,255,255,0.2)');
+            ring.setAttribute('stroke-width', '1');
+            ring.classList.add('ov-handle-ring');
+            ring.dataset.fi = fi; ring.dataset.pi = pi;
+            svg.appendChild(ring);
+            // ponto central arrastável
+            var c = document.createElementNS(ns, 'circle');
+            c.setAttribute('cx', sp.x.toFixed(1));
+            c.setAttribute('cy', sp.y.toFixed(1));
+            c.setAttribute('r', fi === _ovActiveFloor ? '7' : '5');
+            c.setAttribute('fill', fi === _ovActiveFloor ? '#b89c6e' : 'rgba(184,156,110,0.5)');
+            c.setAttribute('stroke', '#fff');
+            c.setAttribute('stroke-width', '1.5');
+            c.classList.add('ov-handle');
+            c.dataset.fi = fi; c.dataset.pi = pi;
+            c.addEventListener('mousedown', ovHandleMouseDown);
+            c.addEventListener('touchstart', ovHandleTouchStart, { passive: false });
+            svg.appendChild(c);
+          });
+        });
+      }
+
+      function ovHandleMouseDown(e) {
+        e.preventDefault(); e.stopPropagation();
+        var fi = parseInt(e.target.dataset.fi);
+        var pi = parseInt(e.target.dataset.pi);
+        _ovActiveFloor = fi;
+        document.getElementById('ov-floor-select').value = fi;
+        ovSelectFloor(fi);
+        _ovDrag = { fi: fi, pi: pi };
+        document.addEventListener('mousemove', ovHandleMouseMove);
+        document.addEventListener('mouseup', ovHandleMouseUp);
+      }
+
+      function ovHandleMouseMove(e) {
+        if (!_ovDrag) return;
+        ovMovePt(e.clientX, e.clientY);
+      }
+
+      function ovHandleMouseUp() {
+        _ovDrag = null;
+        ovHideSnapIndicator();
+        document.removeEventListener('mousemove', ovHandleMouseMove);
+        document.removeEventListener('mouseup', ovHandleMouseUp);
+        ovUpdateCoordsOut();
+      }
+
+      function ovHandleTouchStart(e) {
+        e.preventDefault(); e.stopPropagation();
+        var fi = parseInt(e.target.dataset.fi);
+        var pi = parseInt(e.target.dataset.pi);
+        _ovActiveFloor = fi;
+        document.getElementById('ov-floor-select').value = fi;
+        ovSelectFloor(fi);
+        _ovDrag = { fi: fi, pi: pi };
+        document.addEventListener('touchmove', ovHandleTouchMove, { passive: false });
+        document.addEventListener('touchend', ovHandleTouchEnd);
+      }
+
+      function ovHandleTouchMove(e) {
+        e.preventDefault();
+        if (!_ovDrag || !e.touches[0]) return;
+        ovMovePt(e.touches[0].clientX, e.touches[0].clientY);
+      }
+
+      function ovHandleTouchEnd() {
+        _ovDrag = null;
+        ovHideSnapIndicator();
+        document.removeEventListener('touchmove', ovHandleTouchMove);
+        document.removeEventListener('touchend', ovHandleTouchEnd);
+        ovUpdateCoordsOut();
+      }
+
+      var _ovSnapThreshold = 0.012; // image-fraction units (~12px @ typical scale)
+      var _ovSnapIndicator = null;  // circle element showing snap target
+
+      function ovSnapToNearby(fx, fy, excludeFi, excludePi) {
+        var best = null, bestDist = _ovSnapThreshold;
+        FLOOR_DATA.forEach(function(fl, fi) {
+          fl.poly.forEach(function(p, pi) {
+            if (fi === excludeFi && pi === excludePi) return;
+            var dx = p[0] - fx, dy = p[1] - fy;
+            var dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < bestDist) { bestDist = dist; best = p; }
+          });
+        });
+        return best; // null = no snap
+      }
+
+      function ovShowSnapIndicator(fx, fy) {
+        var svg = document.getElementById('floor-svg');
+        if (!_ovSnapIndicator) {
+          _ovSnapIndicator = document.createElementNS('http://www.w3.org/2000/svg','circle');
+          _ovSnapIndicator.setAttribute('r', '9');
+          _ovSnapIndicator.setAttribute('fill', 'none');
+          _ovSnapIndicator.setAttribute('stroke', '#b89c6e');
+          _ovSnapIndicator.setAttribute('stroke-width', '2');
+          _ovSnapIndicator.setAttribute('pointer-events', 'none');
+          _ovSnapIndicator.id = 'ov-snap-ring';
+          svg.appendChild(_ovSnapIndicator);
+        }
+        var sp = imgToScreen(fx, fy);
+        _ovSnapIndicator.setAttribute('cx', sp.x.toFixed(1));
+        _ovSnapIndicator.setAttribute('cy', sp.y.toFixed(1));
+        _ovSnapIndicator.style.display = '';
+      }
+
+      function ovHideSnapIndicator() {
+        if (_ovSnapIndicator) _ovSnapIndicator.style.display = 'none';
+      }
+
+      function ovMovePt(sx, sy) {
+        if (!_ovDrag) return;
+        var fi = _ovDrag.fi, pi = _ovDrag.pi;
+        var imgPt = screenToImg(sx, sy);
+        // clamp 0–1
+        imgPt.x = Math.max(0, Math.min(1, imgPt.x));
+        imgPt.y = Math.max(0, Math.min(1, imgPt.y));
+        // snap to nearby vertex
+        var snap = ovSnapToNearby(imgPt.x, imgPt.y, fi, pi);
+        if (snap) {
+          imgPt.x = snap[0];
+          imgPt.y = snap[1];
+          ovShowSnapIndicator(imgPt.x, imgPt.y);
+        } else {
+          ovHideSnapIndicator();
+        }
+        FLOOR_DATA[fi].poly[pi] = [
+          parseFloat(imgPt.x.toFixed(4)),
+          parseFloat(imgPt.y.toFixed(4))
+        ];
+        // atualiza polygon SVG
+        var poly = document.querySelector('.floor-poly[data-id="' + FLOOR_DATA[fi].id + '"]');
+        if (poly) {
+          var pts = FLOOR_DATA[fi].poly.map(function(p){
+            var s = imgToScreen(p[0], p[1]);
+            return s.x.toFixed(1) + ',' + s.y.toFixed(1);
+          }).join(' ');
+          poly.setAttribute('points', pts);
+        }
+        // atualiza label texto
+        var allTxt = document.querySelectorAll('.floor-label-text');
+        if (allTxt[fi]) {
+          var cx = FLOOR_DATA[fi].poly.reduce(function(s,p){ return s+p[0]; },0)/FLOOR_DATA[fi].poly.length;
+          var cy = FLOOR_DATA[fi].poly.reduce(function(s,p){ return s+p[1]; },0)/FLOOR_DATA[fi].poly.length;
+          var lp = imgToScreen(cx, cy);
+          allTxt[fi].setAttribute('x', lp.x.toFixed(1));
+          allTxt[fi].setAttribute('y', (lp.y+4).toFixed(1));
+        }
+        // atualiza handle e anel
+        var sp = imgToScreen(imgPt.x, imgPt.y);
+        var handles = document.querySelectorAll('.ov-handle[data-fi="' + fi + '"][data-pi="' + pi + '"]');
+        var rings   = document.querySelectorAll('.ov-handle-ring[data-fi="' + fi + '"][data-pi="' + pi + '"]');
+        handles.forEach(function(h){ h.setAttribute('cx', sp.x.toFixed(1)); h.setAttribute('cy', sp.y.toFixed(1)); });
+        rings.forEach(function(r){ r.setAttribute('cx', sp.x.toFixed(1)); r.setAttribute('cy', sp.y.toFixed(1)); });
+      }
+
+      function ovUpdateCoordsOut() {
+        var fl = FLOOR_DATA[_ovActiveFloor];
+        var lines = fl.poly.map(function(p, i){
+          return '  [' + p[0].toFixed(4) + ', ' + p[1].toFixed(4) + ']' + (i < fl.poly.length-1 ? ',' : '');
+        });
+        document.getElementById('ov-coords-out').textContent =
+          '// ' + fl.label + '\npoly: [\n' + lines.join('\n') + '\n]';
+      }
+
+      function ovCopyAll() {
+        var out = 'var FLOOR_DATA = [\n';
+        FLOOR_DATA.forEach(function(fl) {
+          var pts = fl.poly.map(function(p){ return '['+p[0].toFixed(4)+','+p[1].toFixed(4)+']'; }).join(',');
+          out += '  { id:"'+fl.id+'", poly:['+pts+'] },\n';
+        });
+        out += '];';
+        navigator.clipboard.writeText(out).then(function() {
+          var btn = document.querySelector('.ov-exp-btn');
+          btn.classList.add('copy-ok');
+          btn.textContent = '✓ Copiado!';
+          setTimeout(function(){ btn.classList.remove('copy-ok'); btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar tudo'; }, 2000);
+        });
+      }
+
+      function ovResetFloor() {
+        if (!_ovOrigData) return;
+        FLOOR_DATA[_ovActiveFloor].poly = JSON.parse(JSON.stringify(_ovOrigData[_ovActiveFloor]));
+        buildFloorSVG();
+        ovAddHandles();
+        ovSelectFloor(_ovActiveFloor);
+        ovUpdateCoordsOut();
+      }
+
+      function ovApply() {
+        var saved = FLOOR_DATA.map(function(fl) {
+          return { id: fl.id, poly: JSON.parse(JSON.stringify(fl.poly)) };
+        });
+        try {
+          localStorage.setItem('lemme_overlay_polys', JSON.stringify(saved));
+        } catch(e) {}
+        var btn = document.getElementById('ov-apply-btn');
+        btn.style.background = 'rgba(80,180,100,0.2)';
+        btn.style.borderColor = '#3ca050';
+        btn.style.color = '#2d7a3c';
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Posições salvas!';
+        setTimeout(function() {
+          btn.style.background = 'rgba(138,115,82,0.15)';
+          btn.style.borderColor = '#8a7352';
+          btn.style.color = '#6b5a3e';
+          btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Aplicar posições';
+        }, 2500);
+      }
+
+      // carrega posições salvas do localStorage (se existirem)
+      (function ovLoadSaved() {
+        try {
+          var raw = localStorage.getItem('lemme_overlay_polys');
+          if (!raw) return;
+          var saved = JSON.parse(raw);
+          saved.forEach(function(s) {
+            var fl = FLOOR_DATA.find(function(f){ return f.id === s.id; });
+            if (fl && s.poly && s.poly.length === fl.poly.length) fl.poly = s.poly;
+          });
+        } catch(e) {}
+      })();
+
+      // mostra botão de edição apenas quando overlay visível
+      function setFloorEditorBtnVisible(v) {
+        document.getElementById('ov-edit-btn').classList.toggle('visible', v);
+        if (!v && _ovEditing) toggleOverlayEditor();
+      }
+
+      // ── Floorplan panel ───────────────────────────────────────────
+      var FP_DATA = {
+        tipo1: { label: 'Apto 134 m²',  area: '134 m²', vagas: '2 vagas', suite: '1 suíte', img: '', pdf: '' },
+        tipo2: { label: 'Apto 162 m²',  area: '162 m²', vagas: '2 vagas', suite: '2 suítes', img: '', pdf: '' },
+        tipo3: { label: 'Apto 189 m²',  area: '189 m²', vagas: '3 vagas', suite: '3 suítes', img: '', pdf: '' },
+        tipo4: { label: 'Penthouse 229 m²', area: '229 m²', vagas: '3 vagas', suite: '3 suítes', img: '', pdf: '' },
+        tipo5: { label: 'Garden 335 m²', area: '335 m²', vagas: '3 vagas', suite: '4 suítes', img: '', pdf: '' },
+      };
+      var _currentFp = 'tipo1';
+
+      function toggleFpPanel() {
+        var panel = document.getElementById('fp-panel');
+        panel.classList.toggle('open');
+        if (panel.classList.contains('open')) loadFpData(_currentFp);
+      }
+
+      function loadFpData(tipo) {
+        _currentFp = tipo;
+        var d = FP_DATA[tipo];
+        document.getElementById('fp-area').textContent  = d.area;
+        document.getElementById('fp-vagas').textContent = d.vagas;
+        document.getElementById('fp-suite').textContent = d.suite;
+        var img = document.getElementById('fp-img');
+        var ph  = document.getElementById('fp-img-placeholder');
+        if (d.img) {
+          img.src = d.img; img.style.display = ''; ph.style.display = 'none';
+        } else {
+          img.style.display = 'none'; ph.style.display = '';
+        }
+        var pdfBtn = document.getElementById('fp-pdf-btn');
+        pdfBtn.href = d.pdf || '#';
+        if (!d.pdf) pdfBtn.removeAttribute('download');
+        else pdfBtn.setAttribute('download', '');
+      }
+
+      document.querySelectorAll('.fp-type-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.fp-type-btn').forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          loadFpData(btn.dataset.fp);
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        var panel = document.getElementById('fp-panel');
+        var toggle = document.getElementById('fp-toggle');
+        if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== toggle && !toggle.contains(e.target)) {
+          panel.classList.remove('open');
+        }
+      });
+
+      // ── Filter panel ──────────────────────────────────────────────
+      var _filterState = { avail: [], quartos: [], banheiros: [], areaMax: 200 };
+
+      function toggleFilterPanel() {
+        var panel = document.getElementById('filter-panel');
+        panel.classList.toggle('open');
+      }
+
+      function updateFilterDot() {
+        var hasActive = _filterState.avail.length || _filterState.quartos.length ||
+                        _filterState.banheiros.length || _filterState.areaMax < 200;
+        document.getElementById('filter-toggle').classList.toggle('has-active', !!hasActive);
+      }
+
+      document.querySelectorAll('.fi-chip').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+          var f = chip.dataset.filter, v = chip.dataset.val;
+          var arr = _filterState[f];
+          var idx = arr.indexOf(v);
+          if (idx === -1) { arr.push(v); chip.classList.add('active'); }
+          else { arr.splice(idx, 1); chip.classList.remove('active'); }
+          updateFilterDot();
+        });
+      });
+
+      var areaSlider = document.getElementById('fi-area-slider');
+      var areaMax    = document.getElementById('fi-area-max');
+      areaSlider.addEventListener('input', function() {
+        _filterState.areaMax = parseInt(areaSlider.value);
+        areaMax.textContent = areaSlider.value + ' m²';
+        updateFilterDot();
+      });
+
+      function clearFilters() {
+        _filterState = { avail: [], quartos: [], banheiros: [], areaMax: 200 };
+        document.querySelectorAll('.fi-chip').forEach(function(c) { c.classList.remove('active'); });
+        areaSlider.value = 200;
+        areaMax.textContent = '200 m²';
+        updateFilterDot();
+      }
+
+      // fecha painel ao clicar fora
+      document.addEventListener('click', function(e) {
+        var panel = document.getElementById('filter-panel');
+        var toggle = document.getElementById('filter-toggle');
+        if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== toggle && !toggle.contains(e.target)) {
+          panel.classList.remove('open');
+        }
+      });
       document.addEventListener("keydown", function (e) {
         if (
           e.key === "Escape" &&
