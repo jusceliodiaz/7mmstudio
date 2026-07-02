@@ -72,6 +72,23 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Perf: Three.js é lazy-loaded deste CDN quando o 360° abre — preconnect antecipa o handshake -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <!-- Perf: capa da cena inicial (aerial) com prioridade alta — LCP mais rápido -->
+    <link
+      rel="preload"
+      as="image"
+      href="images/bidesse/COVER_B1.jpg"
+      fetchpriority="high"
+      media="(hover: hover) and (min-width: 768px)"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="images/bidesse/seq_arch_m/COVER_B1.jpg"
+      fetchpriority="high"
+      media="(hover: none), (max-width: 767px)"
+    />
     <link
       rel="preload"
       as="style"
@@ -221,27 +238,57 @@
         height: 44px;
         min-width: 220px;
       }
-      #track.show { opacity: 1; pointer-events: auto; }
+      #track.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
       .t-arrow {
         flex-shrink: 0;
-        width: 44px; height: 44px;
-        display: flex; align-items: center; justify-content: center;
-        background: transparent; border: none;
-        color: rgba(0,0,0,0.5);
-        cursor: pointer; font-size: 18px; line-height: 1;
-        transition: color 0.2s, background 0.2s;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+        transition:
+          color 0.2s,
+          background 0.2s;
         user-select: none;
       }
-      .t-arrow:hover { color: rgba(0,0,0,0.85); background: rgba(0,0,0,0.05); }
-      .t-arrow:disabled { opacity: 0.25; cursor: default; }
-      .t-arrow svg { width: 18px; height: 18px; pointer-events: none; }
-      .t-divider { width: 1px; height: 22px; background: rgba(0,0,0,0.12); flex-shrink: 0; }
+      .t-arrow:hover {
+        color: rgba(0, 0, 0, 0.85);
+        background: rgba(0, 0, 0, 0.05);
+      }
+      .t-arrow:disabled {
+        opacity: 0.25;
+        cursor: default;
+      }
+      .t-arrow svg {
+        width: 18px;
+        height: 18px;
+        pointer-events: none;
+      }
+      .t-divider {
+        width: 1px;
+        height: 22px;
+        background: rgba(0, 0, 0, 0.12);
+        flex-shrink: 0;
+      }
       #track-label {
-        flex: 1; text-align: center;
-        font-size: 11px; font-weight: 600;
-        letter-spacing: 0.12em; text-transform: uppercase;
-        color: rgba(0,0,0,0.55);
-        white-space: nowrap; padding: 0 4px;
+        flex: 1;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.55);
+        white-space: nowrap;
+        padding: 0 4px;
       }
 
       /* ── Responsivo mobile ── */
@@ -269,8 +316,14 @@
 
       /* ── Bot popup ── */
       @keyframes botBounce {
-        0%   { opacity: 0; transform: translateX(-50%) translateY(-10px) scale(0.95); }
-        100% { opacity: 1; transform: translateX(-50%) translateY(0)     scale(1);    }
+        0% {
+          opacity: 0;
+          transform: translateX(-50%) translateY(-10px) scale(0.95);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0) scale(1);
+        }
       }
       #bot-popup {
         position: fixed;
@@ -321,7 +374,10 @@
         justify-content: center;
         color: rgba(255, 255, 255, 0.6);
       }
-      .bot-avatar svg { width: 16px; height: 16px; }
+      .bot-avatar svg {
+        width: 16px;
+        height: 16px;
+      }
       .bot-name {
         flex: 1;
         font-size: 10px;
@@ -345,8 +401,14 @@
         padding: 0;
         transition: color 0.2s;
       }
-      .bot-close:hover { color: rgba(255, 255, 255, 0.65); }
-      .bot-close svg { width: 12px; height: 12px; pointer-events: none; }
+      .bot-close:hover {
+        color: rgba(255, 255, 255, 0.65);
+      }
+      .bot-close svg {
+        width: 12px;
+        height: 12px;
+        pointer-events: none;
+      }
       .bot-msg {
         font-size: 13px;
         font-weight: 400;
@@ -367,14 +429,18 @@
         font-size: 13px;
         font-weight: 600;
         text-decoration: none;
-        transition: background 0.2s, border-color 0.2s;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
       }
       .bot-wa-btn:hover {
         background: rgba(255, 255, 255, 0.17);
         border-color: rgba(255, 255, 255, 0.28);
       }
       @media (max-width: 360px) {
-        #bot-popup { width: calc(100vw - 32px); }
+        #bot-popup {
+          width: calc(100vw - 32px);
+        }
       }
 
       /* ── Track + credit ── */
@@ -420,13 +486,21 @@
           height: 40px;
           min-width: 180px;
         }
-        .t-arrow { width: 40px; height: 40px; font-size: 16px; }
-        #track-label { font-size: 10px; }
+        .t-arrow {
+          width: 40px;
+          height: 40px;
+          font-size: 16px;
+        }
+        #track-label {
+          font-size: 10px;
+        }
         #track-credit {
           bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 14px));
           font-size: 8px;
         }
-        #track-credit a { font-size: 10px; }
+        #track-credit a {
+          font-size: 10px;
+        }
       }
 
       /* ── Panorama 360° modal ── */
@@ -1107,7 +1181,7 @@
         -webkit-backdrop-filter: blur(40px) saturate(1.8);
         border: 1px solid var(--glass-border);
         box-shadow: var(--shadow);
-        color: rgba(0,0,0,0.65);
+        color: rgba(0, 0, 0, 0.65);
         font-size: 13px;
         font-weight: 600;
         letter-spacing: 0.04em;
@@ -1115,10 +1189,19 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        transition: background 0.18s, border-color 0.18s;
+        transition:
+          background 0.18s,
+          border-color 0.18s;
       }
-      #fp-toggle:hover { background: rgba(255,255,255,0.5); }
-      #fp-toggle svg { width: 16px; height: 16px; opacity: 0.6; pointer-events: none; }
+      #fp-toggle:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
+      #fp-toggle svg {
+        width: 16px;
+        height: 16px;
+        opacity: 0.6;
+        pointer-events: none;
+      }
 
       #fp-panel {
         position: fixed;
@@ -1139,7 +1222,9 @@
         pointer-events: none;
         transform: translateY(-8px) scale(0.97);
         transform-origin: top right;
-        transition: opacity 0.22s ease, transform 0.22s ease;
+        transition:
+          opacity 0.22s ease,
+          transform 0.22s ease;
       }
       #fp-panel.open {
         opacity: 1;
@@ -1155,24 +1240,32 @@
         overflow-x: auto;
         scrollbar-width: none;
       }
-      .fp-types::-webkit-scrollbar { display: none; }
+      .fp-types::-webkit-scrollbar {
+        display: none;
+      }
       .fp-type-btn {
         flex-shrink: 0;
         height: 28px;
         padding: 0 11px;
         border-radius: 999px;
-        border: 1px solid rgba(0,0,0,0.12);
-        background: rgba(255,255,255,0.35);
-        color: rgba(0,0,0,0.5);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.35);
+        color: rgba(0, 0, 0, 0.5);
         font-size: 11px;
         font-weight: 600;
         cursor: pointer;
-        transition: background 0.15s, border-color 0.15s, color 0.15s;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          color 0.15s;
         white-space: nowrap;
       }
-      .fp-type-btn:hover { background: rgba(255,255,255,0.55); color: rgba(0,0,0,0.75); }
+      .fp-type-btn:hover {
+        background: rgba(255, 255, 255, 0.55);
+        color: rgba(0, 0, 0, 0.75);
+      }
       .fp-type-btn.active {
-        background: rgba(138,115,82,0.18);
+        background: rgba(138, 115, 82, 0.18);
         border-color: #8a7352;
         color: #6b5a3e;
       }
@@ -1182,103 +1275,173 @@
         margin: 10px;
         border-radius: 12px;
         overflow: hidden;
-        background: rgba(255,255,255,0.25);
-        border: 1px solid rgba(0,0,0,0.08);
+        background: rgba(255, 255, 255, 0.25);
+        border: 1px solid rgba(0, 0, 0, 0.08);
         aspect-ratio: 4/3;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      .fp-img-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
-      .fp-img-placeholder {
-        display: flex; flex-direction: column; align-items: center; gap: 8px;
-        color: rgba(0,0,0,0.2); font-size: 10px;
-        letter-spacing: 0.06em; text-transform: uppercase;
+      .fp-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 8px;
       }
-      .fp-img-placeholder svg { width: 32px; height: 32px; opacity: 0.2; }
+      .fp-img-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        color: rgba(0, 0, 0, 0.2);
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .fp-img-placeholder svg {
+        width: 32px;
+        height: 32px;
+        opacity: 0.2;
+      }
 
       .fp-info {
         padding: 0 14px 4px;
-        display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
       }
-      .fp-info-item { display: flex; flex-direction: column; gap: 2px; }
+      .fp-info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
       .fp-info-label {
-        font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
-        text-transform: uppercase; color: rgba(0,0,0,0.3);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.3);
       }
-      .fp-info-val { font-size: 13px; font-weight: 600; color: rgba(0,0,0,0.75); }
-      .fp-info-item.full { grid-column: 1 / -1; }
+      .fp-info-val {
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.75);
+      }
+      .fp-info-item.full {
+        grid-column: 1 / -1;
+      }
 
-      .fp-actions { padding: 10px; display: flex; flex-direction: column; gap: 7px; }
+      .fp-actions {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
       .fp-btn {
-        height: 38px; border-radius: 10px;
-        border: 1px solid rgba(0,0,0,0.12);
-        background: rgba(255,255,255,0.35);
-        color: rgba(0,0,0,0.65); font-size: 12px; font-weight: 600;
-        letter-spacing: 0.04em; cursor: pointer;
-        display: flex; align-items: center; justify-content: center; gap: 7px;
+        height: 38px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.35);
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
         text-decoration: none;
-        transition: background 0.15s, border-color 0.15s;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
       }
-      .fp-btn:hover { background: rgba(255,255,255,0.55); }
+      .fp-btn:hover {
+        background: rgba(255, 255, 255, 0.55);
+      }
       .fp-btn.primary {
-        background: rgba(138,115,82,0.15);
-        border-color: #8a7352; color: #6b5a3e;
+        background: rgba(138, 115, 82, 0.15);
+        border-color: #8a7352;
+        color: #6b5a3e;
       }
-      .fp-btn.primary:hover { background: rgba(138,115,82,0.28); }
-      .fp-btn svg { width: 15px; height: 15px; opacity: 0.7; pointer-events: none; }
+      .fp-btn.primary:hover {
+        background: rgba(138, 115, 82, 0.28);
+      }
+      .fp-btn svg {
+        width: 15px;
+        height: 15px;
+        opacity: 0.7;
+        pointer-events: none;
+      }
 
       @media (max-width: 600px) {
-        #fp-panel { right: 10px; width: calc(100vw - 20px); }
-        #fp-toggle { right: 10px; }
+        #fp-panel {
+          right: 10px;
+          width: calc(100vw - 20px);
+        }
+        #fp-toggle {
+          right: 10px;
+        }
       }
 
       /* ── Floor overlays ── */
       #floor-svg {
         position: fixed;
         inset: 0;
-        width: 100%; height: 100%;
+        width: 100%;
+        height: 100%;
         z-index: 5;
         pointer-events: none;
         opacity: 0;
         transition: opacity 0.4s ease;
       }
-      #floor-svg.visible { opacity: 1; pointer-events: auto; }
+      #floor-svg.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
       .floor-poly {
-        fill: rgba(184,156,110,0.08);
-        stroke: rgba(184,156,110,0.55);
+        fill: rgba(184, 156, 110, 0.08);
+        stroke: rgba(184, 156, 110, 0.55);
         stroke-width: 1;
         cursor: pointer;
         transition: fill 0.2s;
       }
-      .floor-poly:hover { fill: rgba(184,156,110,0.22); }
-      .floor-poly.selected { fill: rgba(184,156,110,0.28); stroke: #b89c6e; stroke-width: 1.5; }
+      .floor-poly:hover {
+        fill: rgba(184, 156, 110, 0.22);
+      }
+      .floor-poly.selected {
+        fill: rgba(184, 156, 110, 0.28);
+        stroke: #b89c6e;
+        stroke-width: 1.5;
+      }
       .floor-label-text {
-        fill: rgba(255,255,255,0.7);
+        fill: rgba(255, 255, 255, 0.7);
         font-size: 10px;
         font-weight: 600;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         pointer-events: none;
-        font-family: 'DM Sans', sans-serif;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+        font-family: "DM Sans", sans-serif;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
       }
 
       /* ── Floor info panel (drawer) ── */
       #floor-panel-backdrop {
-        position: fixed; inset: 0;
+        position: fixed;
+        inset: 0;
         z-index: 288;
-        background: rgba(0,0,0,0);
+        background: rgba(0, 0, 0, 0);
         pointer-events: none;
         transition: background 0.35s ease;
       }
       #floor-panel-backdrop.open {
-        background: rgba(0,0,0,0.35);
+        background: rgba(0, 0, 0, 0.35);
         pointer-events: auto;
       }
       #floor-panel {
         position: fixed;
-        top: 0; right: 0;
+        top: 0;
+        right: 0;
         height: 100dvh;
         width: 50vw;
         max-width: 560px;
@@ -1289,7 +1452,7 @@
         -webkit-backdrop-filter: blur(48px) saturate(2);
         border-left: 1px solid var(--glass-border);
         border-radius: 28px 0 0 28px;
-        box-shadow: -12px 0 60px rgba(0,0,0,0.22);
+        box-shadow: -12px 0 60px rgba(0, 0, 0, 0.22);
         display: flex;
         flex-direction: column;
         gap: 0;
@@ -1310,28 +1473,36 @@
         flex-shrink: 0;
       }
       #floor-panel-close {
-        width: 32px; height: 32px;
+        width: 32px;
+        height: 32px;
         border-radius: 10px;
-        border: 1px solid rgba(0,0,0,0.1);
-        background: rgba(0,0,0,0.06);
-        color: rgba(0,0,0,0.45);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: rgba(0, 0, 0, 0.06);
+        color: rgba(0, 0, 0, 0.45);
         font-size: 15px;
         line-height: 1;
         cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transition: background 0.15s;
         flex-shrink: 0;
       }
-      #floor-panel-close:hover { background: rgba(0,0,0,0.12); }
+      #floor-panel-close:hover {
+        background: rgba(0, 0, 0, 0.12);
+      }
       #floor-panel-tag {
-        font-size: 9px; font-weight: 700;
-        letter-spacing: 0.16em; text-transform: uppercase;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
         color: #8a7352;
         margin-bottom: 6px;
       }
       #floor-panel-name {
-        font-size: 26px; font-weight: 700;
-        color: rgba(0,0,0,0.82);
+        font-size: 26px;
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.82);
         line-height: 1.1;
       }
       #floor-panel-body {
@@ -1343,51 +1514,86 @@
         gap: 22px;
         scrollbar-width: none;
       }
-      #floor-panel-body::-webkit-scrollbar { display: none; }
-      .fp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-      .fp-stat { display: flex; flex-direction: column; gap: 3px; }
+      #floor-panel-body::-webkit-scrollbar {
+        display: none;
+      }
+      .fp-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .fp-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
       .fp-stat-label {
-        font-size: 9px; font-weight: 700;
-        letter-spacing: 0.12em; text-transform: uppercase;
-        color: rgba(0,0,0,0.3);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.3);
       }
       .fp-stat-val {
-        font-size: 15px; font-weight: 600;
-        color: rgba(0,0,0,0.78);
+        font-size: 15px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.78);
       }
-      .fp-stat.full { grid-column: 1 / -1; }
+      .fp-stat.full {
+        grid-column: 1 / -1;
+      }
       .fp-divider {
-        height: 1px; background: rgba(0,0,0,0.08);
+        height: 1px;
+        background: rgba(0, 0, 0, 0.08);
       }
       #floor-panel-desc {
-        font-size: 13px; line-height: 1.65;
-        color: rgba(0,0,0,0.45);
+        font-size: 13px;
+        line-height: 1.65;
+        color: rgba(0, 0, 0, 0.45);
       }
       #floor-panel-footer {
         padding: 0 28px 28px;
         flex-shrink: 0;
       }
       .fp-panel-btn {
-        height: 46px; border-radius: 14px;
-        border: 1px solid rgba(0,0,0,0.1);
-        background: rgba(138,115,82,0.12);
-        color: #6b5a3e; font-size: 13px; font-weight: 600;
-        letter-spacing: 0.04em; cursor: pointer;
-        display: flex; align-items: center; justify-content: center; gap: 8px;
-        text-decoration: none; width: 100%;
+        height: 46px;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: rgba(138, 115, 82, 0.12);
+        color: #6b5a3e;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        width: 100%;
         transition: background 0.15s;
       }
-      .fp-panel-btn:hover { background: rgba(138,115,82,0.22); }
+      .fp-panel-btn:hover {
+        background: rgba(138, 115, 82, 0.22);
+      }
 
       @media (max-width: 600px) {
         #floor-panel {
           width: 92vw;
           border-radius: 24px 0 0 24px;
         }
-        #floor-panel-header { padding: 22px 20px 0; }
-        #floor-panel-body { padding: 20px 20px 24px; }
-        #floor-panel-footer { padding: 0 20px 24px; }
-        #floor-panel-name { font-size: 20px; }
+        #floor-panel-header {
+          padding: 22px 20px 0;
+        }
+        #floor-panel-body {
+          padding: 20px 20px 24px;
+        }
+        #floor-panel-footer {
+          padding: 0 20px 24px;
+        }
+        #floor-panel-name {
+          font-size: 20px;
+        }
       }
 
       /* ── Overlay editor ── */
@@ -1404,23 +1610,41 @@
         -webkit-backdrop-filter: blur(40px) saturate(1.8);
         border: 1px solid var(--glass-border);
         box-shadow: var(--shadow);
-        color: rgba(0,0,0,0.6);
-        font-size: 11px; font-weight: 700;
-        letter-spacing: 0.08em; text-transform: uppercase;
-        cursor: pointer; display: none; align-items: center; gap: 7px;
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        gap: 7px;
         transition: background 0.15s;
       }
-      #ov-edit-btn.visible { display: flex; }
-      #ov-edit-btn.active { background: rgba(184,156,110,0.22); border-color: #b89c6e; color: #6b5a3e; }
-      #ov-edit-btn svg { width: 14px; height: 14px; }
+      #ov-edit-btn.visible {
+        display: flex;
+      }
+      #ov-edit-btn.active {
+        background: rgba(184, 156, 110, 0.22);
+        border-color: #b89c6e;
+        color: #6b5a3e;
+      }
+      #ov-edit-btn svg {
+        width: 14px;
+        height: 14px;
+      }
 
       /* handles dos vértices */
       .ov-handle {
         cursor: grab;
         transition: r 0.1s;
       }
-      .ov-handle:hover { r: 8; }
-      .ov-handle:active { cursor: grabbing; }
+      .ov-handle:hover {
+        r: 8;
+      }
+      .ov-handle:active {
+        cursor: grabbing;
+      }
       .ov-handle-ring {
         pointer-events: none;
       }
@@ -1445,50 +1669,84 @@
         gap: 10px;
         opacity: 0;
         transform: translateY(8px);
-        transition: opacity 0.2s, transform 0.2s;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
       }
       #ov-export-panel.open {
-        display: flex; opacity: 1; transform: translateY(0);
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
       }
-      #ov-export-panel.visible { display: flex; }
+      #ov-export-panel.visible {
+        display: flex;
+      }
       .ov-exp-title {
-        font-size: 11px; font-weight: 700;
-        letter-spacing: 0.08em; text-transform: uppercase;
-        color: rgba(0,0,0,0.45);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.45);
       }
       #ov-floor-select {
-        height: 32px; border-radius: 8px;
-        border: 1px solid rgba(0,0,0,0.12);
-        background: rgba(255,255,255,0.35);
-        color: rgba(0,0,0,0.7); font-size: 12px;
-        font-weight: 500; padding: 0 8px;
-        cursor: pointer; outline: none;
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.35);
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 12px;
+        font-weight: 500;
+        padding: 0 8px;
+        cursor: pointer;
+        outline: none;
       }
       #ov-coords-out {
-        font-family: 'Courier New', monospace;
-        font-size: 10px; line-height: 1.7;
-        color: rgba(0,0,0,0.65);
-        background: rgba(0,0,0,0.05);
-        border-radius: 8px; padding: 10px;
-        white-space: pre; overflow-x: auto;
-        max-height: 180px; overflow-y: auto;
-        border: 1px solid rgba(0,0,0,0.08);
+        font-family: "Courier New", monospace;
+        font-size: 10px;
+        line-height: 1.7;
+        color: rgba(0, 0, 0, 0.65);
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 10px;
+        white-space: pre;
+        overflow-x: auto;
+        max-height: 180px;
+        overflow-y: auto;
+        border: 1px solid rgba(0, 0, 0, 0.08);
       }
-      .ov-exp-row { display: flex; gap: 7px; }
+      .ov-exp-row {
+        display: flex;
+        gap: 7px;
+      }
       .ov-exp-btn {
-        flex: 1; height: 30px; border-radius: 8px;
-        border: 1px solid rgba(0,0,0,0.10);
-        background: rgba(255,255,255,0.35);
-        color: rgba(0,0,0,0.6); font-size: 11px;
-        font-weight: 600; cursor: pointer;
-        display: flex; align-items: center; justify-content: center; gap: 5px;
+        flex: 1;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.35);
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
         transition: background 0.15s;
       }
-      .ov-exp-btn:hover { background: rgba(255,255,255,0.6); }
-      .ov-exp-btn.copy-ok { background: rgba(80,180,100,0.2); color: #2d7a3c; border-color: #3ca050; }
+      .ov-exp-btn:hover {
+        background: rgba(255, 255, 255, 0.6);
+      }
+      .ov-exp-btn.copy-ok {
+        background: rgba(80, 180, 100, 0.2);
+        color: #2d7a3c;
+        border-color: #3ca050;
+      }
       #ov-hint {
-        font-size: 10px; color: rgba(0,0,0,0.35);
-        line-height: 1.5; text-align: center;
+        font-size: 10px;
+        color: rgba(0, 0, 0, 0.35);
+        line-height: 1.5;
+        text-align: center;
       }
 
       /* ── Top bar ── */
@@ -1518,19 +1776,24 @@
         border-radius: 10px;
         background: transparent;
         border: none;
-        color: rgba(0,0,0,0.75);
+        color: rgba(0, 0, 0, 0.75);
         font-size: 13px;
         font-weight: 500;
         text-decoration: none;
         transition: background 0.18s;
         white-space: nowrap;
       }
-      #top-back:hover { background: rgba(255,255,255,0.08); }
-      #top-back svg { opacity: 0.75; flex-shrink: 0; }
+      #top-back:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      #top-back svg {
+        opacity: 0.75;
+        flex-shrink: 0;
+      }
       .top-sep {
         width: 1px;
         height: 20px;
-        background: rgba(255,255,255,0.14);
+        background: rgba(255, 255, 255, 0.14);
         flex-shrink: 0;
         margin: 0 2px;
       }
@@ -1540,12 +1803,17 @@
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: rgba(0,0,0,0.45);
+        color: rgba(0, 0, 0, 0.45);
         white-space: nowrap;
         flex-shrink: 0;
       }
-      #top-building span { color: #8a7352; margin: 0 4px; }
-      .top-sep { background: rgba(0,0,0,0.12); }
+      #top-building span {
+        color: #8a7352;
+        margin: 0 4px;
+      }
+      .top-sep {
+        background: rgba(0, 0, 0, 0.12);
+      }
       #filter-toggle {
         position: relative;
         width: 36px;
@@ -1553,7 +1821,7 @@
         border-radius: 10px;
         background: transparent;
         border: none;
-        color: rgba(0,0,0,0.55);
+        color: rgba(0, 0, 0, 0.55);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1561,17 +1829,27 @@
         transition: background 0.18s;
         flex-shrink: 0;
       }
-      #filter-toggle:hover { background: rgba(0,0,0,0.06); }
-      #filter-toggle svg { width: 17px; height: 17px; pointer-events: none; }
+      #filter-toggle:hover {
+        background: rgba(0, 0, 0, 0.06);
+      }
+      #filter-toggle svg {
+        width: 17px;
+        height: 17px;
+        pointer-events: none;
+      }
       #filter-toggle .fi-dot {
         position: absolute;
-        top: 6px; right: 6px;
-        width: 6px; height: 6px;
+        top: 6px;
+        right: 6px;
+        width: 6px;
+        height: 6px;
         border-radius: 50%;
         background: #8a7352;
         display: none;
       }
-      #filter-toggle.has-active .fi-dot { display: block; }
+      #filter-toggle.has-active .fi-dot {
+        display: block;
+      }
 
       /* ── Filter panel ── */
       #filter-panel {
@@ -1594,7 +1872,9 @@
         pointer-events: none;
         transform: translateY(-8px) scale(0.97);
         transform-origin: top left;
-        transition: opacity 0.22s ease, transform 0.22s ease;
+        transition:
+          opacity 0.22s ease,
+          transform 0.22s ease;
       }
       #filter-panel.open {
         opacity: 1;
@@ -1605,74 +1885,875 @@
         font-size: 13px;
         font-weight: 700;
         letter-spacing: 0.04em;
-        color: rgba(0,0,0,0.75);
+        color: rgba(0, 0, 0, 0.75);
       }
-      .fi-group { display: flex; flex-direction: column; gap: 8px; }
+      .fi-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
       .fi-group-label {
         font-size: 10px;
         font-weight: 600;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: rgba(0,0,0,0.35);
+        color: rgba(0, 0, 0, 0.35);
       }
-      .fi-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+      .fi-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
       .fi-chip {
         height: 30px;
         padding: 0 12px;
         border-radius: 999px;
-        border: 1px solid rgba(0,0,0,0.14);
-        background: rgba(255,255,255,0.35);
-        color: rgba(0,0,0,0.6);
+        border: 1px solid rgba(0, 0, 0, 0.14);
+        background: rgba(255, 255, 255, 0.35);
+        color: rgba(0, 0, 0, 0.6);
         font-size: 12px;
         font-weight: 500;
         cursor: pointer;
-        transition: background 0.15s, border-color 0.15s, color 0.15s;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          color 0.15s;
         white-space: nowrap;
       }
-      .fi-chip:hover { background: rgba(255,255,255,0.55); color: rgba(0,0,0,0.85); }
-      .fi-chip.active { background: rgba(138,115,82,0.18); border-color: #8a7352; color: #6b5a3e; }
-      .fi-chip.avail-disponivel.active { background: rgba(60,160,80,0.15); border-color: #3ca050; color: #2d7a3c; }
-      .fi-chip.avail-reservado.active  { background: rgba(180,130,20,0.15); border-color: #b48214; color: #8a6410; }
-      .fi-chip.avail-vendido.active    { background: rgba(180,50,50,0.15);  border-color: #b43232; color: #8c2828; }
+      .fi-chip:hover {
+        background: rgba(255, 255, 255, 0.55);
+        color: rgba(0, 0, 0, 0.85);
+      }
+      .fi-chip.active {
+        background: rgba(138, 115, 82, 0.18);
+        border-color: #8a7352;
+        color: #6b5a3e;
+      }
+      .fi-chip.avail-disponivel.active {
+        background: rgba(60, 160, 80, 0.15);
+        border-color: #3ca050;
+        color: #2d7a3c;
+      }
+      .fi-chip.avail-reservado.active {
+        background: rgba(180, 130, 20, 0.15);
+        border-color: #b48214;
+        color: #8a6410;
+      }
+      .fi-chip.avail-vendido.active {
+        background: rgba(180, 50, 50, 0.15);
+        border-color: #b43232;
+        color: #8c2828;
+      }
 
-      .fi-range-wrap { display: flex; flex-direction: column; gap: 6px; }
-      .fi-range-vals { display: flex; justify-content: space-between; font-size: 10px; color: rgba(0,0,0,0.4); }
-      .fi-range-vals span { font-weight: 500; }
-      input[type=range].fi-slider {
-        -webkit-appearance: none; appearance: none;
-        width: 100%; height: 3px; border-radius: 2px;
-        background: rgba(0,0,0,0.15); outline: none; cursor: pointer;
+      .fi-range-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       }
-      input[type=range].fi-slider::-webkit-slider-thumb {
-        -webkit-appearance: none; width: 16px; height: 16px;
-        border-radius: 50%; background: #8a7352; border: 2px solid #fff; cursor: pointer;
+      .fi-range-vals {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: rgba(0, 0, 0, 0.4);
       }
-      input[type=range].fi-slider::-moz-range-thumb {
-        width: 14px; height: 14px; border-radius: 50%;
-        background: #8a7352; border: 2px solid #fff; cursor: pointer;
+      .fi-range-vals span {
+        font-weight: 500;
+      }
+      input[type="range"].fi-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 3px;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.15);
+        outline: none;
+        cursor: pointer;
+      }
+      input[type="range"].fi-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #8a7352;
+        border: 2px solid #fff;
+        cursor: pointer;
+      }
+      input[type="range"].fi-slider::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #8a7352;
+        border: 2px solid #fff;
+        cursor: pointer;
       }
 
       .fi-clear {
-        height: 32px; border-radius: 8px;
-        border: 1px solid rgba(0,0,0,0.1);
-        background: transparent; color: rgba(0,0,0,0.38);
-        font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
-        text-transform: uppercase; cursor: pointer;
-        transition: background 0.15s, color 0.15s; margin-top: 2px;
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: transparent;
+        color: rgba(0, 0, 0, 0.38);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          color 0.15s;
+        margin-top: 2px;
       }
-      .fi-clear:hover { background: rgba(0,0,0,0.06); color: rgba(0,0,0,0.65); }
+      .fi-clear:hover {
+        background: rgba(0, 0, 0, 0.06);
+        color: rgba(0, 0, 0, 0.65);
+      }
 
       @media (max-width: 600px) {
-        #top-building { display: none; }
-        #top-bar .top-sep:nth-child(3) { display: none; }
-        #filter-panel { left: 10px; top: 62px; width: calc(100vw - 20px); }
+        #top-building {
+          display: none;
+        }
+        #top-bar .top-sep:nth-child(3) {
+          display: none;
+        }
+        #filter-panel {
+          left: 10px;
+          top: 62px;
+          width: calc(100vw - 20px);
+        }
+      }
+
+      /* ── Botão Visita no dock (mesmo padrão colapsado dos vizinhos) ── */
+      #cta-visit {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      #cta-visit span {
+        display: inline-block;
+        overflow: hidden;
+        max-width: 0;
+        opacity: 0;
+        white-space: nowrap;
+        transition:
+          max-width 0.35s cubic-bezier(0.34, 1.4, 0.64, 1),
+          opacity 0.2s ease;
+      }
+      #cta-visit.active span,
+      #cta-visit:hover span {
+        max-width: 100px;
+        opacity: 1;
+      }
+      #cta-visit.active,
+      #cta-visit:hover {
+        gap: 8px;
+        padding: 0 16px;
+      }
+
+      /* ── CTA WhatsApp no painel de andar ── */
+      #floor-panel-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .fp-panel-btn--wa {
+        background: rgba(60, 160, 80, 0.12);
+        border-color: rgba(60, 160, 80, 0.35);
+        color: #2d7a3c;
+      }
+      .fp-panel-btn--wa:hover {
+        background: rgba(60, 160, 80, 0.22);
+      }
+
+      /* ── Andares esmaecidos pelos filtros ── */
+      .floor-poly.fi-dim {
+        opacity: 0.12;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+
+      /* ── Contador de resultados nos filtros ── */
+      #fi-count {
+        font-size: 11px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.4);
+        margin-top: -6px;
+      }
+      #fi-count.none {
+        color: #8c2828;
+      }
+
+      /* ── Select de tipologia no lead form ── */
+      .lead-select {
+        width: 100%;
+        height: 44px;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.14);
+        background: rgba(255, 255, 255, 0.6);
+        color: rgba(20, 20, 20, 0.75);
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        padding: 0 12px;
+        cursor: pointer;
+        outline: none;
+      }
+      .lead-select:focus {
+        border-color: #b89c6e;
+      }
+
+      /* ── Botão de menu na top-bar (mesmo padrão do filter-toggle) ── */
+      #menu-toggle {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: transparent;
+        border: none;
+        color: rgba(0, 0, 0, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.18s;
+        flex-shrink: 0;
+      }
+      #menu-toggle:hover {
+        background: rgba(0, 0, 0, 0.06);
+      }
+      #menu-toggle svg {
+        width: 17px;
+        height: 17px;
+        pointer-events: none;
+      }
+
+      /* ── Painel Projeto Lemme ── */
+      #lemme-panel-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 540;
+        background: rgba(0, 0, 0, 0.28);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+      #lemme-panel-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #lemme-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 550;
+        width: 480px;
+        max-width: 94vw;
+        display: flex;
+        flex-direction: column;
+        background: rgba(250, 249, 247, 0.97);
+        backdrop-filter: blur(30px) saturate(1.6);
+        -webkit-backdrop-filter: blur(30px) saturate(1.6);
+        border-right: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 0 24px 24px 0;
+        transform: translateX(-102%);
+        transition: transform 0.34s cubic-bezier(0.32, 0.9, 0.35, 1);
+        font-family: "DM Sans", sans-serif;
+      }
+      #lemme-panel.open {
+        transform: translateX(0);
+      }
+      #lemme-panel-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 26px 26px 14px;
+        flex-shrink: 0;
+      }
+      #lemme-panel-tag {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #8a7352;
+        margin-bottom: 4px;
+      }
+      #lemme-panel-title {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: rgba(0, 0, 0, 0.85);
+      }
+      #lemme-panel-close {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: transparent;
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 14px;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background 0.15s;
+      }
+      #lemme-panel-close:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+      #lemme-nav {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 4px 26px 12px;
+        flex-shrink: 0;
+        scrollbar-width: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+      }
+      #lemme-nav::-webkit-scrollbar {
+        display: none;
+      }
+      .lm-nav-chip {
+        height: 30px;
+        padding: 0 13px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.6);
+        color: rgba(0, 0, 0, 0.55);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition:
+          background 0.15s,
+          color 0.15s,
+          border-color 0.15s;
+        font-family: "DM Sans", sans-serif;
+      }
+      .lm-nav-chip:hover {
+        background: rgba(255, 255, 255, 0.95);
+        color: rgba(0, 0, 0, 0.8);
+      }
+      .lm-nav-chip.active {
+        background: rgba(138, 115, 82, 0.16);
+        border-color: #8a7352;
+        color: #6b5a3e;
+      }
+      #lemme-content {
+        flex: 1;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 8px 26px 20px;
+      }
+      .lm-section {
+        padding: 22px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        scroll-margin-top: 8px;
+      }
+      .lm-section:last-child {
+        border-bottom: none;
+      }
+      .lm-kicker {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #8a7352;
+        margin-bottom: 6px;
+      }
+      .lm-h2 {
+        font-size: 19px;
+        font-weight: 600;
+        line-height: 1.3;
+        color: rgba(0, 0, 0, 0.85);
+        margin: 0 0 12px;
+      }
+      .lm-p {
+        font-size: 13px;
+        line-height: 1.7;
+        color: rgba(0, 0, 0, 0.55);
+        margin: 0 0 12px;
+      }
+      .lm-p strong {
+        color: rgba(0, 0, 0, 0.75);
+      }
+      .lm-img {
+        width: 100%;
+        border-radius: 14px;
+        display: block;
+        cursor: zoom-in;
+        background: rgba(0, 0, 0, 0.05);
+      }
+      .lm-img-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .lm-fig {
+        margin: 0;
+      }
+      .lm-fig figcaption {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.35);
+        margin-top: 6px;
+      }
+      .lm-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .lm-stat {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        border-radius: 14px;
+        padding: 14px;
+      }
+      .lm-stat-val {
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.8);
+      }
+      .lm-stat-lbl {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.38);
+        margin-top: 3px;
+      }
+      .lm-award {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        color: #6b5a3e;
+        background: rgba(138, 115, 82, 0.1);
+        border: 1px solid rgba(138, 115, 82, 0.3);
+        border-radius: 12px;
+        padding: 12px 14px;
+        text-decoration: none;
+        transition: background 0.15s;
+      }
+      .lm-award:hover {
+        background: rgba(138, 115, 82, 0.18);
+      }
+      .lm-tipo-group {
+        margin-bottom: 14px;
+      }
+      .lm-tipo-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.75);
+        margin-bottom: 8px;
+      }
+      .lm-tipo-faixa {
+        font-size: 11px;
+        font-weight: 500;
+        color: #8a7352;
+      }
+      .lm-tipo-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .lm-tipo-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.7);
+      }
+      .lm-tipo-wa {
+        font-size: 11px;
+        font-weight: 600;
+        color: #2d7a3c;
+        text-decoration: none;
+        white-space: nowrap;
+        border: 1px solid rgba(60, 160, 80, 0.35);
+        border-radius: 999px;
+        padding: 5px 11px;
+        background: rgba(60, 160, 80, 0.08);
+        transition: background 0.15s;
+      }
+      .lm-tipo-wa:hover {
+        background: rgba(60, 160, 80, 0.18);
+      }
+      .lm-dif-cat {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #8a7352;
+        margin: 14px 0 8px;
+      }
+      .lm-dif-list {
+        margin: 0;
+        padding: 0 0 0 2px;
+        list-style: none;
+      }
+      .lm-dif-list li {
+        font-size: 13px;
+        line-height: 1.55;
+        color: rgba(0, 0, 0, 0.6);
+        padding: 5px 0 5px 20px;
+        position: relative;
+      }
+      .lm-dif-list li::before {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 12px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #b89c6e;
+      }
+      .lm-gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .lm-gal-img {
+        aspect-ratio: 4/3;
+        object-fit: cover;
+      }
+      .lm-gallery .lm-gal-img:first-child {
+        grid-column: 1 / -1;
+        aspect-ratio: 16/9;
+      }
+      .lm-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 10px;
+      }
+      .lm-card-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.8);
+      }
+      .lm-card-sub {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #8a7352;
+        margin: 2px 0 8px;
+      }
+      .lm-card .lm-p:last-child {
+        margin-bottom: 0;
+      }
+      .lm-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .lm-chip {
+        font-size: 11px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.55);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 999px;
+        padding: 5px 11px;
+        background: rgba(255, 255, 255, 0.55);
+      }
+      .lm-mob-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .lm-mob {
+        margin: 0;
+      }
+      .lm-mob-img {
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+      .lm-mob figcaption {
+        display: flex;
+        flex-direction: column;
+        margin-top: 6px;
+      }
+      .lm-mob figcaption strong {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.75);
+      }
+      .lm-mob figcaption span {
+        font-size: 11px;
+        color: rgba(0, 0, 0, 0.4);
+      }
+      .lm-btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .lm-obra-badge {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #2d7a3c;
+        background: rgba(60, 160, 80, 0.1);
+        border: 1px solid rgba(60, 160, 80, 0.35);
+        border-radius: 999px;
+        padding: 8px 16px;
+        margin-bottom: 12px;
+      }
+      .lm-social {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .lm-social a {
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.55);
+        text-decoration: none;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 999px;
+        padding: 6px 13px;
+        background: rgba(255, 255, 255, 0.55);
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .lm-social a:hover {
+        background: rgba(255, 255, 255, 0.95);
+        color: rgba(0, 0, 0, 0.8);
+      }
+      .lm-legal {
+        font-size: 10px;
+        line-height: 1.6;
+        color: rgba(0, 0, 0, 0.32);
+        margin: 0;
+      }
+      .lm-yt {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+      .lm-yt iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .lm-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 42px;
+        padding: 0 18px;
+        border-radius: 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .lm-cta--gold {
+        background: rgba(138, 115, 82, 0.14);
+        border: 1px solid #8a7352;
+        color: #6b5a3e;
+      }
+      .lm-cta--gold:hover {
+        background: rgba(138, 115, 82, 0.24);
+      }
+      .lm-cta--wa {
+        background: rgba(60, 160, 80, 0.1);
+        border: 1px solid rgba(60, 160, 80, 0.4);
+        color: #2d7a3c;
+      }
+      .lm-cta--wa:hover {
+        background: rgba(60, 160, 80, 0.2);
+      }
+      .lm-cta--ghost {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        color: rgba(0, 0, 0, 0.6);
+      }
+      .lm-cta--ghost:hover {
+        background: rgba(255, 255, 255, 0.95);
+        color: rgba(0, 0, 0, 0.8);
+      }
+      #lemme-panel-footer {
+        display: flex;
+        gap: 10px;
+        padding: 14px 26px 22px;
+        border-top: 1px solid rgba(0, 0, 0, 0.07);
+        flex-shrink: 0;
+      }
+      #lemme-panel-footer .lm-cta {
+        flex: 1;
+      }
+
+      /* Lightbox */
+      #lm-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 800;
+        background: rgba(0, 0, 0, 0.88);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease;
+        cursor: zoom-out;
+        padding: 24px;
+      }
+      #lm-lightbox.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #lm-lightbox-img {
+        max-width: 92vw;
+        max-height: 82vh;
+        border-radius: 12px;
+        object-fit: contain;
+      }
+      #lm-lightbox-cap {
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      #lm-lightbox-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      /* Endereço no lead-modal */
+      .lead-address {
+        font-size: 11px !important;
+        line-height: 1.6;
+        color: rgba(0, 0, 0, 0.4) !important;
+        margin-top: -4px;
+      }
+
+      /* ── Editor de overlays: fatiar + weld ── */
+      .ov-weld-row {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 11px;
+        color: rgba(0, 0, 0, 0.55);
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        user-select: none;
+      }
+      .ov-weld-row input {
+        accent-color: #8a7352;
+        cursor: pointer;
+      }
+      .ov-slice-row {
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+        border-radius: 10px;
+        background: rgba(138, 115, 82, 0.08);
+        border: 1px dashed rgba(138, 115, 82, 0.4);
+      }
+      .ov-slice-row.open {
+        display: flex;
+      }
+      .ov-slice-apply {
+        background: rgba(60, 160, 80, 0.12) !important;
+        border-color: #3ca050 !important;
+        color: #2d7a3c !important;
+      }
+      #ov-slice-outline {
+        fill: rgba(184, 156, 110, 0.06);
+        stroke: #b89c6e;
+        stroke-width: 2;
+        stroke-dasharray: 8 5;
+        pointer-events: none;
+      }
+      .ov-slice-line {
+        stroke: rgba(184, 156, 110, 0.75);
+        stroke-width: 1.2;
+        stroke-dasharray: 4 4;
+        pointer-events: none;
+      }
+      .ov-slice-h {
+        fill: #b89c6e;
+        stroke: #fff;
+        stroke-width: 2;
+        cursor: grab;
+      }
+      .ov-slice-h:active {
+        cursor: grabbing;
+        fill: #8a7352;
+      }
+
+      @media (max-width: 600px) {
+        #lemme-panel {
+          width: 100vw;
+          max-width: 100vw;
+          border-radius: 0;
+        }
+        #lemme-panel-header {
+          padding: 20px 18px 12px;
+        }
+        #lemme-nav {
+          padding: 4px 18px 12px;
+        }
+        #lemme-content {
+          padding: 8px 18px 16px;
+        }
+        #lemme-panel-footer {
+          padding: 12px 18px calc(16px + env(safe-area-inset-bottom, 0px));
+        }
+        .lm-stats {
+          grid-template-columns: 1fr 1fr;
+        }
       }
     </style>
   </head>
   <body>
     <div id="top-bar">
       <a href="index.html" id="top-back">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M10 3L5 8l5 5" />
         </svg>
         <span>Voltar</span>
@@ -1680,9 +2761,40 @@
       <div class="top-sep"></div>
       <div id="top-building">LEMME <span>·</span> BIDESE</div>
       <div class="top-sep"></div>
-      <button id="filter-toggle" aria-label="Filtros" onclick="toggleFilterPanel()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+      <button
+        id="menu-toggle"
+        aria-label="Sobre o projeto"
+        onclick="openLemmePanel()"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="4" y1="7" x2="20" y2="7" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="17" x2="20" y2="17" />
+        </svg>
+      </button>
+      <button
+        id="filter-toggle"
+        aria-label="Filtros"
+        onclick="toggleFilterPanel()"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="8" y1="12" x2="16" y2="12" />
+          <line x1="11" y1="18" x2="13" y2="18" />
         </svg>
         <span class="fi-dot"></span>
       </button>
@@ -1711,13 +2823,32 @@
     <!-- Filter panel -->
     <div id="filter-panel">
       <div class="fi-title">Filtros</div>
+      <div id="fi-count">Todas as unidades</div>
 
       <div class="fi-group">
         <div class="fi-group-label">Disponibilidade</div>
         <div class="fi-chips">
-          <button class="fi-chip avail-disponivel" data-filter="avail" data-val="disponivel">Disponível</button>
-          <button class="fi-chip avail-reservado"  data-filter="avail" data-val="reservado">Reservado</button>
-          <button class="fi-chip avail-vendido"    data-filter="avail" data-val="vendido">Vendido</button>
+          <button
+            class="fi-chip avail-disponivel"
+            data-filter="avail"
+            data-val="disponivel"
+          >
+            Disponível
+          </button>
+          <button
+            class="fi-chip avail-reservado"
+            data-filter="avail"
+            data-val="reservado"
+          >
+            Reservado
+          </button>
+          <button
+            class="fi-chip avail-vendido"
+            data-filter="avail"
+            data-val="vendido"
+          >
+            Vendido
+          </button>
         </div>
       </div>
 
@@ -1733,8 +2864,12 @@
       <div class="fi-group">
         <div class="fi-group-label">Banheiros</div>
         <div class="fi-chips">
-          <button class="fi-chip" data-filter="banheiros" data-val="1">1</button>
-          <button class="fi-chip" data-filter="banheiros" data-val="2">2</button>
+          <button class="fi-chip" data-filter="banheiros" data-val="1">
+            1
+          </button>
+          <button class="fi-chip" data-filter="banheiros" data-val="2">
+            2
+          </button>
         </div>
       </div>
 
@@ -1745,7 +2880,15 @@
             <span id="fi-area-min">40 m²</span>
             <span id="fi-area-max">200 m²</span>
           </div>
-          <input type="range" class="fi-slider" id="fi-area-slider" min="40" max="200" value="200" step="5">
+          <input
+            type="range"
+            class="fi-slider"
+            id="fi-area-slider"
+            min="40"
+            max="200"
+            value="200"
+            step="5"
+          />
         </div>
       </div>
 
@@ -1794,8 +2937,35 @@
         <div id="floor-panel-desc"></div>
       </div>
       <div id="floor-panel-footer">
+        <a
+          id="fl-wa-btn"
+          href="#"
+          class="fp-panel-btn fp-panel-btn--wa"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15">
+            <path
+              d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"
+            />
+          </svg>
+          Tenho interesse neste andar
+        </a>
         <a id="fl-pdf-btn" href="#" class="fp-panel-btn" download>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
           Baixar Planta PDF
         </a>
       </div>
@@ -1803,29 +2973,117 @@
 
     <!-- Overlay editor -->
     <button id="ov-edit-btn" onclick="toggleOverlayEditor()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
       </svg>
       Editar Overlays
     </button>
 
     <div id="ov-export-panel">
       <div class="ov-exp-title">Editor de Overlays</div>
-      <select id="ov-floor-select" onchange="ovSelectFloor(this.value)"></select>
+      <select
+        id="ov-floor-select"
+        onchange="ovSelectFloor(this.value)"
+      ></select>
       <div id="ov-coords-out"></div>
-      <div id="ov-hint">Arraste os ● handles para reposicionar os vértices de cada andar</div>
-      <button class="ov-exp-btn" id="ov-apply-btn" onclick="ovApply()" style="height:36px;font-size:12px;background:rgba(138,115,82,0.15);border-color:#8a7352;color:#6b5a3e;">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <label class="ov-weld-row">
+        <input type="checkbox" id="ov-weld" checked />
+        Mover vértices coincidentes juntos
+      </label>
+      <button class="ov-exp-btn" id="ov-slice-btn" onclick="ovToggleSlice()">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <rect x="4" y="3" width="16" height="18" rx="1" />
+          <line x1="4" y1="8" x2="20" y2="8" />
+          <line x1="4" y1="12.5" x2="20" y2="12.5" />
+          <line x1="4" y1="17" x2="20" y2="17" />
+        </svg>
+        Fatiar prédio em andares
+      </button>
+      <div class="ov-slice-row" id="ov-slice-row">
+        <label class="ov-weld-row" style="margin: 0">
+          <input type="checkbox" id="ov-slice-equal" />
+          Alturas iguais
+        </label>
+        <div class="ov-exp-row" style="margin: 0">
+          <button class="ov-exp-btn ov-slice-apply" onclick="ovApplySlice()">
+            ✓ Aplicar fatias
+          </button>
+          <button class="ov-exp-btn" onclick="ovCancelSlice()">Cancelar</button>
+        </div>
+      </div>
+      <div id="ov-hint">
+        Arraste os ● handles para reposicionar os vértices de cada andar
+      </div>
+      <button
+        class="ov-exp-btn"
+        id="ov-apply-btn"
+        onclick="ovApply()"
+        style="
+          height: 36px;
+          font-size: 12px;
+          background: rgba(138, 115, 82, 0.15);
+          border-color: #8a7352;
+          color: #6b5a3e;
+        "
+      >
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
         Aplicar posições
       </button>
       <div class="ov-exp-row">
         <button class="ov-exp-btn" onclick="ovCopyAll()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
           Copiar tudo
         </button>
         <button class="ov-exp-btn" onclick="ovResetFloor()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          >
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
           Reset andar
         </button>
       </div>
@@ -1833,8 +3091,16 @@
 
     <!-- Floorplan toggle -->
     <button id="fp-toggle" onclick="toggleFpPanel()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M3 9h18M9 21V9" />
       </svg>
       Planta
     </button>
@@ -1851,10 +3117,18 @@
 
       <div class="fp-img-wrap">
         <div class="fp-img-placeholder" id="fp-img-placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="1" />
+            <path d="M3 9h18M9 21V9" />
+          </svg>
           Planta Baixa
         </div>
-        <img id="fp-img" src="" alt="Planta baixa" style="display:none">
+        <img id="fp-img" src="" alt="Planta baixa" style="display: none" />
       </div>
 
       <div class="fp-info">
@@ -1874,7 +3148,18 @@
 
       <div class="fp-actions">
         <a id="fp-pdf-btn" href="#" class="fp-btn primary" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
           Baixar Planta PDF
         </a>
       </div>
@@ -1916,6 +3201,23 @@
           <line x1="15" y1="6" x2="15" y2="21" />
         </svg>
         <span>Entorno</span>
+      </button>
+      <button id="cta-visit" title="Agendar visita">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+          <path d="M9 15l2 2 4-4" />
+        </svg>
+        <span>Visita</span>
       </button>
       <button id="cta-bot">
         <svg
@@ -2085,7 +3387,14 @@
       <div class="bot-tail"></div>
       <div class="bot-header">
         <div class="bot-avatar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <rect x="4" y="8" width="16" height="12" rx="4" />
             <circle cx="9" cy="13" r="1.2" fill="currentColor" stroke="none" />
             <circle cx="15" cy="13" r="1.2" fill="currentColor" stroke="none" />
@@ -2096,18 +3405,88 @@
         </div>
         <span class="bot-name">Assistente</span>
         <button class="bot-close" aria-label="Fechar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
       </div>
       <p class="bot-msg">Quer tirar dúvidas sobre o Edifício Lemme?</p>
       <a id="bot-wa" class="bot-wa-btn" href="#" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-          <path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/>
+          <path
+            d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"
+          />
         </svg>
         Conversar agora
       </a>
+    </div>
+
+    <!-- ── Painel "Projeto Lemme" (conteúdo institucional do cliente) ── -->
+    <div id="lemme-panel-backdrop" onclick="closeLemmePanel()"></div>
+    <aside id="lemme-panel" aria-hidden="true">
+      <div id="lemme-panel-header">
+        <div>
+          <div id="lemme-panel-tag">Edifício Lemme · Água Verde</div>
+          <div id="lemme-panel-title">Tudo, menos o comum.</div>
+        </div>
+        <button
+          id="lemme-panel-close"
+          onclick="closeLemmePanel()"
+          aria-label="Fechar"
+        >
+          ✕
+        </button>
+      </div>
+      <nav id="lemme-nav" aria-label="Seções do projeto"></nav>
+      <div id="lemme-content"></div>
+      <div id="lemme-panel-footer">
+        <button class="lm-cta lm-cta--gold" onclick="lmAgendar()">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            width="15"
+            height="15"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          Agendar visita
+        </button>
+        <a
+          class="lm-cta lm-cta--wa"
+          id="lm-wa-footer"
+          href="#"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15">
+            <path
+              d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"
+            />
+          </svg>
+          WhatsApp
+        </a>
+      </div>
+    </aside>
+
+    <!-- Lightbox de imagens do painel -->
+    <div id="lm-lightbox" aria-hidden="true" onclick="lmCloseLightbox()">
+      <img id="lm-lightbox-img" src="" alt="" />
+      <div id="lm-lightbox-cap"></div>
+      <button id="lm-lightbox-close" aria-label="Fechar">✕</button>
     </div>
 
     <!-- Lead capture modal -->
@@ -2116,10 +3495,26 @@
         <button id="lead-close" aria-label="Fechar">&times;</button>
         <h3>Agendar visita</h3>
         <p>Deixe seus dados e um consultor entrará em contato.</p>
+        <p class="lead-address">
+          Apartamento decorado: Rua Prof. Assis Gonçalves, 798 — Água Verde<br />Seg.
+          a sex. 09h30–17h · Sáb., dom. e feriados 10h–17h
+        </p>
         <form id="lead-form">
           <input name="nome" type="text" placeholder="Nome" required />
           <input name="email" type="email" placeholder="E-mail" required />
           <input name="fone" type="tel" placeholder="WhatsApp" required />
+          <select
+            name="interesse"
+            class="lead-select"
+            aria-label="Tipologia de interesse"
+          >
+            <option value="">Tipologia de interesse (opcional)</option>
+            <option value="Apto 134 m²">Apto 134 m²</option>
+            <option value="Apto 162 m²">Apto 162 m²</option>
+            <option value="Apto 189 m²">Apto 189 m²</option>
+            <option value="Penthouse 229 m²">Penthouse 229 m²</option>
+            <option value="Garden 335 m²">Garden 335 m²</option>
+          </select>
           <button type="submit">Agendar visita</button>
         </form>
         <p id="lead-ok" hidden>
@@ -2183,6 +3578,21 @@
           time: "22 min de carro",
           x: 74,
           y: 74,
+        },
+        // POIs reais do Água Verde (conteúdo bidese.com.br/lemme)
+        {
+          cat: "lazer",
+          name: "Feira noturna — Av. Rep. Argentina",
+          time: "7 min a pé",
+          x: 42,
+          y: 22,
+        },
+        {
+          cat: "lazer",
+          name: "Bares e restaurantes do Água Verde",
+          time: "5 min a pé",
+          x: 60,
+          y: 55,
         },
       ];
 
@@ -2342,6 +3752,7 @@
       var _panoDragging = false,
         _panoPX = 0,
         _panoPY = 0;
+      var _panoOnResize = null;
 
       function openPanoModal(src, title) {
         var modal = document.getElementById("pano-modal");
@@ -2356,6 +3767,17 @@
         if (panoFrame) {
           cancelAnimationFrame(panoFrame);
           panoFrame = null;
+        }
+        if (_panoMesh) {
+          if (_panoMesh.material) {
+            if (_panoMesh.material.map) _panoMesh.material.map.dispose();
+            _panoMesh.material.dispose();
+          }
+          if (_panoMesh.geometry) _panoMesh.geometry.dispose();
+        }
+        if (_panoOnResize) {
+          window.removeEventListener("resize", _panoOnResize);
+          _panoOnResize = null;
         }
         if (panoRenderer) {
           panoRenderer.dispose();
@@ -2409,6 +3831,11 @@
             _panoCamera.aspect = W / H;
             _panoCamera.updateProjectionMatrix();
           }
+          // Guardado globalmente para ser removido no closePanoModal()
+          // (antes vazava um listener a cada abertura do modal)
+          if (_panoOnResize)
+            window.removeEventListener("resize", _panoOnResize);
+          _panoOnResize = onPanoResize;
           window.addEventListener("resize", onPanoResize);
 
           var scene = new THREE.Scene();
@@ -2564,6 +3991,18 @@
           cancelAnimationFrame(panoFrame);
           panoFrame = null;
         }
+        // Libera recursos GPU: textura, material e geometria da esfera
+        if (_panoMesh) {
+          if (_panoMesh.material) {
+            if (_panoMesh.material.map) _panoMesh.material.map.dispose();
+            _panoMesh.material.dispose();
+          }
+          if (_panoMesh.geometry) _panoMesh.geometry.dispose();
+        }
+        if (_panoOnResize) {
+          window.removeEventListener("resize", _panoOnResize);
+          _panoOnResize = null;
+        }
         if (panoRenderer) {
           panoRenderer.dispose();
           panoRenderer = null;
@@ -2590,234 +4029,368 @@
       // Cobertura é mais estreita; andares 7°–3° são os mais largos
       var FLOOR_DATA = [
         {
-          id: 'cobertura',
-          label: 'Cobertura',
-          tipo: 'Penthouse Garden',
-          area: '229 – 312 m²',
-          vagas: '3 vagas',
-          suites: '3–4 suítes',
-          status: 'Entregue',
-          desc: 'Unidades exclusivas no topo com terraço privativo e vistas panorâmicas 360° de Curitiba.',
-          pdf: '',
+          id: "cobertura",
+          label: "Cobertura",
+          tipo: "Penthouse Garden",
+          area: "229 – 312 m²",
+          vagas: "3 vagas",
+          suites: "3–4 suítes",
+          status: "Entregue",
+          desc: "Unidades exclusivas no topo com terraço privativo e vistas panorâmicas 360° de Curitiba.",
+          pdf: "",
+          avail: "disponivel",
+          quartos: 3,
+          banheiros: 2,
+          areaNum: 229,
           //  topo estreito — apenas o volume da cobertura
-          poly: [[0.4562,0.4052],[0.5047,0.3914],[0.5039,0.4504],[0.4570,0.4670]],
+          poly: [
+            [0.4562, 0.4052],
+            [0.5051, 0.3927],
+            [0.5043, 0.4521],
+            [0.4566, 0.4674],
+          ],
         },
         {
-          id: 'andar6',
-          label: '6° Andar',
-          tipo: 'Apartamento 162 m²',
-          area: '162 m²',
-          vagas: '2 vagas',
-          suites: '2 suítes',
-          status: 'Entregue',
-          desc: 'Terraço integrado à sala de estar com vista para o Água Verde.',
-          pdf: '',
-          poly: [[0.4570,0.4670],[0.5039,0.4504],[0.5031,0.4781],[0.4570,0.4962]],
+          id: "andar6",
+          label: "6° Andar",
+          tipo: "Apartamento 162 m²",
+          area: "162 m²",
+          vagas: "2 vagas",
+          suites: "2 suítes",
+          status: "Entregue",
+          desc: "Terraço integrado à sala de estar com vista para o Água Verde.",
+          pdf: "",
+          avail: "reservado",
+          quartos: 3,
+          banheiros: 2,
+          areaNum: 162,
+          poly: [
+            [0.4566, 0.4674],
+            [0.5043, 0.4521],
+            [0.5039, 0.4791],
+            [0.4568, 0.4956],
+          ],
         },
         {
-          id: 'andar5',
-          label: '5° Andar',
-          tipo: 'Apartamento 134 m²',
-          area: '134 m²',
-          vagas: '2 vagas',
-          suites: '1 suíte',
-          status: 'Entregue',
-          desc: 'Andar intermediário com iluminação Expolux e som ambiente Sonos integrado.',
-          pdf: '',
-          poly: [[0.4570,0.4962],[0.5031,0.4781],[0.5031,0.5038],[0.4570,0.5205]],
+          id: "andar5",
+          label: "5° Andar",
+          tipo: "Apartamento 134 m²",
+          area: "134 m²",
+          vagas: "2 vagas",
+          suites: "1 suíte",
+          status: "Entregue",
+          desc: "Andar intermediário com iluminação Expolux e som ambiente Sonos integrado.",
+          pdf: "",
+          avail: "disponivel",
+          quartos: 2,
+          banheiros: 2,
+          areaNum: 134,
+          poly: [
+            [0.4568, 0.4956],
+            [0.5039, 0.4791],
+            [0.5036, 0.5034],
+            [0.4569, 0.5211],
+          ],
         },
         {
-          id: 'andar4',
-          label: '4° Andar',
-          tipo: 'Apartamento 134 m²',
-          area: '134 m²',
-          vagas: '2 vagas',
-          suites: '1 suíte',
-          status: 'Entregue',
-          desc: 'Acesso por elevador privativo com acabamento em laca PU e louças Kohler.',
-          pdf: '',
-          poly: [[0.4570,0.5205],[0.5031,0.5038],[0.5035,0.5302],[0.4570,0.5503]],
+          id: "andar4",
+          label: "4° Andar",
+          tipo: "Apartamento 134 m²",
+          area: "134 m²",
+          vagas: "2 vagas",
+          suites: "1 suíte",
+          status: "Entregue",
+          desc: "Acesso por elevador privativo com acabamento em laca PU e louças Kohler.",
+          pdf: "",
+          avail: "disponivel",
+          quartos: 2,
+          banheiros: 2,
+          areaNum: 134,
+          poly: [
+            [0.4569, 0.5211],
+            [0.5036, 0.5034],
+            [0.5032, 0.5307],
+            [0.4571, 0.5497],
+          ],
         },
         {
-          id: 'andar3',
-          label: '3° Andar',
-          tipo: 'Apartamento 134 m²',
-          area: '134 m²',
-          vagas: '2 vagas',
-          suites: '1 suíte',
-          status: 'Entregue',
-          desc: 'Garden view com privacidade garantida pelo paisagismo exuberante.',
-          pdf: '',
-          poly: [[0.4570,0.5503],[0.5035,0.5302],[0.5027,0.5559],[0.4574,0.5753]],
+          id: "andar3",
+          label: "3° Andar",
+          tipo: "Apartamento 134 m²",
+          area: "134 m²",
+          vagas: "2 vagas",
+          suites: "1 suíte",
+          status: "Entregue",
+          desc: "Garden view com privacidade garantida pelo paisagismo exuberante.",
+          pdf: "",
+          avail: "vendido",
+          quartos: 2,
+          banheiros: 1,
+          areaNum: 134,
+          poly: [
+            [0.4571, 0.5497],
+            [0.5032, 0.5307],
+            [0.5028, 0.5553],
+            [0.4572, 0.5755],
+          ],
         },
         {
-          id: 'andar2',
-          label: '2° Andar',
-          tipo: 'Apartamento 134 m²',
-          area: '134 m²',
-          vagas: '2 vagas',
-          suites: '1 suíte',
-          status: 'Entregue',
-          desc: 'Acesso direto ao garden e à piscina aquecida com SPA privativo.',
-          pdf: '',
-          poly: [[0.4574,0.5753],[0.5027,0.5559],[0.5023,0.5760],[0.4574,0.5989]],
+          id: "andar2",
+          label: "2° Andar",
+          tipo: "Apartamento 134 m²",
+          area: "134 m²",
+          vagas: "2 vagas",
+          suites: "1 suíte",
+          status: "Entregue",
+          desc: "Acesso direto ao garden e à piscina aquecida com SPA privativo.",
+          pdf: "",
+          avail: "disponivel",
+          quartos: 2,
+          banheiros: 2,
+          areaNum: 134,
+          poly: [
+            [0.4572, 0.5755],
+            [0.5028, 0.5553],
+            [0.5025, 0.5766],
+            [0.4574, 0.5977],
+          ],
         },
         {
-          id: 'andar1',
-          label: '1° Andar',
-          tipo: 'Garden Duplex 335 m²',
-          area: '335 – 435 m²',
-          vagas: '3 vagas',
-          suites: '4 suítes',
-          status: 'Entregue',
-          desc: 'Garden duplex exclusivo com jardim privativo e acesso direto à área de lazer.',
-          pdf: '',
-          poly: [[0.4574,0.5989],[0.5023,0.5760],[0.5020,0.6038],[0.4578,0.6281]],
+          id: "andar1",
+          label: "1° Andar",
+          tipo: "Garden Duplex 335 m²",
+          area: "335 – 435 m²",
+          vagas: "3 vagas",
+          suites: "4 suítes",
+          status: "Entregue",
+          desc: "Garden duplex exclusivo com jardim privativo e acesso direto à área de lazer.",
+          pdf: "",
+          avail: "vendido",
+          quartos: 3,
+          banheiros: 2,
+          areaNum: 335,
+          poly: [
+            [0.4574, 0.5977],
+            [0.5025, 0.5766],
+            [0.5022, 0.6043],
+            [0.4576, 0.6267],
+          ],
         },
         {
-          id: 'terreo',
-          label: 'Térreo / Lobby',
-          tipo: 'Área comum',
-          area: '—',
-          vagas: '—',
-          suites: '—',
-          status: 'Entregue',
-          desc: 'Lobby 24h com guarita blindada, central de entregas e acesso biométrico sem chaves.',
-          pdf: '',
-          poly: [[0.4578,0.6281],[0.5020,0.6038],[0.5016,0.6447],[0.4574,0.6704]],
+          id: "terreo",
+          label: "Térreo / Lobby",
+          tipo: "Área comum",
+          area: "—",
+          vagas: "—",
+          suites: "—",
+          status: "Entregue",
+          desc: "Lobby 24h com guarita blindada, central de entregas e acesso biométrico sem chaves.",
+          pdf: "",
+          poly: [
+            [0.4576, 0.6267],
+            [0.5022, 0.6043],
+            [0.5016, 0.6447],
+            [0.4578, 0.669],
+          ],
         },
       ];
 
       function imgToScreen(fx, fy) {
-        var iw = FLOOR_IMG_W, ih = FLOOR_IMG_H;
-        var cw = innerWidth,  ch = innerHeight;
+        var iw = FLOOR_IMG_W,
+          ih = FLOOR_IMG_H;
+        var cw = innerWidth,
+          ch = innerHeight;
         var scale = Math.max(cw / iw, ch / ih);
-        var dw = iw * scale, dh = ih * scale;
-        var dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+        var dw = iw * scale,
+          dh = ih * scale;
+        var dx = (cw - dw) / 2,
+          dy = (ch - dh) / 2;
         return { x: dx + fx * dw, y: dy + fy * dh };
       }
 
       function buildFloorSVG() {
-        var svg = document.getElementById('floor-svg');
-        svg.innerHTML = '';
-        var ns = 'http://www.w3.org/2000/svg';
-        FLOOR_DATA.forEach(function(fl) {
-          var pts = fl.poly.map(function(p) {
-            var s = imgToScreen(p[0], p[1]);
-            return s.x.toFixed(1) + ',' + s.y.toFixed(1);
-          }).join(' ');
-          var poly = document.createElementNS(ns, 'polygon');
-          poly.setAttribute('points', pts);
-          poly.setAttribute('class', 'floor-poly');
-          poly.setAttribute('data-id', fl.id);
-          poly.addEventListener('click', function() { openFloorPanel(fl.id); });
+        var svg = document.getElementById("floor-svg");
+        svg.innerHTML = "";
+        _ovSnapIndicator = null; // o clear acima remove o nó; evita referência órfã
+        var ns = "http://www.w3.org/2000/svg";
+        FLOOR_DATA.forEach(function (fl) {
+          var pts = fl.poly
+            .map(function (p) {
+              var s = imgToScreen(p[0], p[1]);
+              return s.x.toFixed(1) + "," + s.y.toFixed(1);
+            })
+            .join(" ");
+          var poly = document.createElementNS(ns, "polygon");
+          poly.setAttribute("points", pts);
+          poly.setAttribute("class", "floor-poly");
+          poly.setAttribute("data-id", fl.id);
+          poly.addEventListener("click", function () {
+            openFloorPanel(fl.id);
+          });
           svg.appendChild(poly);
 
           // label centrado no polígono
-          var cx = fl.poly.reduce(function(s,p){ return s+p[0]; },0)/fl.poly.length;
-          var cy = fl.poly.reduce(function(s,p){ return s+p[1]; },0)/fl.poly.length;
+          var cx =
+            fl.poly.reduce(function (s, p) {
+              return s + p[0];
+            }, 0) / fl.poly.length;
+          var cy =
+            fl.poly.reduce(function (s, p) {
+              return s + p[1];
+            }, 0) / fl.poly.length;
           var lp = imgToScreen(cx, cy);
-          var txt = document.createElementNS(ns, 'text');
-          txt.setAttribute('x', lp.x.toFixed(1));
-          txt.setAttribute('y', (lp.y + 4).toFixed(1));
-          txt.setAttribute('text-anchor', 'middle');
-          txt.setAttribute('class', 'floor-label-text');
+          var txt = document.createElementNS(ns, "text");
+          txt.setAttribute("x", lp.x.toFixed(1));
+          txt.setAttribute("y", (lp.y + 4).toFixed(1));
+          txt.setAttribute("text-anchor", "middle");
+          txt.setAttribute("class", "floor-label-text");
           txt.textContent = fl.label;
           svg.appendChild(txt);
         });
+        // Integração filtros ↔ overlay: aplica estado atual dos filtros aos polígonos
+        if (typeof applyFloorFilters === "function") applyFloorFilters();
+        // Se o modo fatiar estiver ativo (ex: rebuild por resize), redesenha os cantos
+        if (typeof _ovSlicing !== "undefined" && _ovSlicing) ovDrawSlice();
       }
 
       function openFloorPanel(id) {
-        var fl = FLOOR_DATA.find(function(f){ return f.id === id; });
+        var fl = FLOOR_DATA.find(function (f) {
+          return f.id === id;
+        });
         if (!fl) return;
         // deselect all, select clicked
-        document.querySelectorAll('.floor-poly').forEach(function(p){ p.classList.remove('selected'); });
+        document.querySelectorAll(".floor-poly").forEach(function (p) {
+          p.classList.remove("selected");
+        });
         var poly = document.querySelector('.floor-poly[data-id="' + id + '"]');
-        if (poly) poly.classList.add('selected');
+        if (poly) poly.classList.add("selected");
         // populate panel
-        document.getElementById('floor-panel-name').textContent = fl.label;
-        document.getElementById('fl-tipo').textContent   = fl.tipo;
-        document.getElementById('fl-area').textContent   = fl.area;
-        document.getElementById('fl-vagas').textContent  = fl.vagas;
-        document.getElementById('fl-suites').textContent = fl.suites;
-        document.getElementById('fl-status').textContent = fl.status;
-        document.getElementById('floor-panel-desc').textContent = fl.desc;
-        var pdfBtn = document.getElementById('fl-pdf-btn');
-        pdfBtn.href = fl.pdf || '#';
-        if (!fl.pdf) pdfBtn.removeAttribute('download');
-        else pdfBtn.setAttribute('download', '');
-        document.getElementById('floor-panel').classList.add('open');
-        document.getElementById('floor-panel-backdrop').classList.add('open');
+        document.getElementById("floor-panel-name").textContent = fl.label;
+        document.getElementById("fl-tipo").textContent = fl.tipo;
+        document.getElementById("fl-area").textContent = fl.area;
+        document.getElementById("fl-vagas").textContent = fl.vagas;
+        document.getElementById("fl-suites").textContent = fl.suites;
+        document.getElementById("fl-status").textContent = fl.status;
+        document.getElementById("floor-panel-desc").textContent = fl.desc;
+        var pdfBtn = document.getElementById("fl-pdf-btn");
+        pdfBtn.href = fl.pdf || "#";
+        if (!fl.pdf) pdfBtn.removeAttribute("download");
+        else pdfBtn.setAttribute("download", "");
+        // CTA de interesse: WhatsApp com mensagem pré-preenchida do andar
+        var waBtn = document.getElementById("fl-wa-btn");
+        if (waBtn && typeof LEAD !== "undefined") {
+          waBtn.href =
+            "https://wa.me/" +
+            LEAD.whatsapp +
+            "?text=" +
+            encodeURIComponent(
+              "Olá! Tenho interesse no " +
+                fl.label +
+                " (" +
+                fl.tipo +
+                ") do " +
+                LEAD.project +
+                ". Pode me passar mais informações?",
+            );
+          waBtn.onclick = function () {
+            if (typeof track === "function")
+              track("floor_interest_whatsapp", { floor: fl.id });
+          };
+        }
+        document.getElementById("floor-panel").classList.add("open");
+        document.getElementById("floor-panel-backdrop").classList.add("open");
         // hide fp-panel if open (avoid overlap)
-        document.getElementById('fp-panel').classList.remove('open');
+        document.getElementById("fp-panel").classList.remove("open");
       }
 
       function closeFloorPanel() {
-        document.getElementById('floor-panel').classList.remove('open');
-        document.getElementById('floor-panel-backdrop').classList.remove('open');
-        document.querySelectorAll('.floor-poly').forEach(function(p){ p.classList.remove('selected'); });
+        document.getElementById("floor-panel").classList.remove("open");
+        document
+          .getElementById("floor-panel-backdrop")
+          .classList.remove("open");
+        document.querySelectorAll(".floor-poly").forEach(function (p) {
+          p.classList.remove("selected");
+        });
       }
 
       function setFloorOverlayVisible(visible) {
-        var svg = document.getElementById('floor-svg');
+        var svg = document.getElementById("floor-svg");
         if (visible) {
           buildFloorSVG();
           if (_ovEditing) ovAddHandles();
-          svg.classList.add('visible');
+          svg.classList.add("visible");
         } else {
-          svg.classList.remove('visible');
+          svg.classList.remove("visible");
           closeFloorPanel();
         }
         setFloorEditorBtnVisible(visible);
       }
 
       // Rebuild on resize
-      window.addEventListener('resize', function() {
-        if (document.getElementById('floor-svg').classList.contains('visible')) buildFloorSVG();
+      window.addEventListener("resize", function () {
+        if (document.getElementById("floor-svg").classList.contains("visible"))
+          buildFloorSVG();
       });
 
       // ── Overlay editor ────────────────────────────────────────────
-      var _ovEditing    = false;
-      var _ovDrag       = null;   // { floorIdx, ptIdx, startX, startY }
-      var _ovOrigData   = null;   // deep-copy original para reset
+      var _ovEditing = false;
+      var _ovDrag = null; // { floorIdx, ptIdx, startX, startY }
+      var _ovOrigData = null; // deep-copy original para reset
       var _ovActiveFloor = 0;
 
       function screenToImg(sx, sy) {
-        var iw = FLOOR_IMG_W, ih = FLOOR_IMG_H;
-        var cw = innerWidth,  ch = innerHeight;
+        var iw = FLOOR_IMG_W,
+          ih = FLOOR_IMG_H;
+        var cw = innerWidth,
+          ch = innerHeight;
         var scale = Math.max(cw / iw, ch / ih);
-        var dw = iw * scale, dh = ih * scale;
-        var dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+        var dw = iw * scale,
+          dh = ih * scale;
+        var dx = (cw - dw) / 2,
+          dy = (ch - dh) / 2;
         return { x: (sx - dx) / dw, y: (sy - dy) / dh };
       }
 
       function toggleOverlayEditor() {
         _ovEditing = !_ovEditing;
-        var btn = document.getElementById('ov-edit-btn');
-        var panel = document.getElementById('ov-export-panel');
-        btn.classList.toggle('active', _ovEditing);
+        var btn = document.getElementById("ov-edit-btn");
+        var panel = document.getElementById("ov-export-panel");
+        btn.classList.toggle("active", _ovEditing);
         if (_ovEditing) {
-          _ovOrigData = JSON.parse(JSON.stringify(FLOOR_DATA.map(function(f){ return f.poly; })));
+          _ovOrigData = JSON.parse(
+            JSON.stringify(
+              FLOOR_DATA.map(function (f) {
+                return f.poly;
+              }),
+            ),
+          );
           ovBuildSelect();
-          panel.classList.add('open');
-          setTimeout(function(){ panel.style.display = 'flex'; panel.style.opacity = 1; }, 10);
+          panel.classList.add("open");
+          setTimeout(function () {
+            panel.style.display = "flex";
+            panel.style.opacity = 1;
+          }, 10);
           buildFloorSVG();
           ovAddHandles();
           ovUpdateCoordsOut();
         } else {
-          panel.classList.remove('open');
+          if (_ovSlicing) ovCancelSlice();
+          panel.classList.remove("open");
           panel.style.opacity = 0;
-          setTimeout(function(){ panel.style.display = ''; }, 200);
+          setTimeout(function () {
+            panel.style.display = "";
+          }, 200);
           buildFloorSVG(); // rebuild sem handles
         }
       }
 
       function ovBuildSelect() {
-        var sel = document.getElementById('ov-floor-select');
-        sel.innerHTML = '';
-        FLOOR_DATA.forEach(function(fl, i) {
-          var opt = document.createElement('option');
-          opt.value = i; opt.textContent = fl.label;
+        var sel = document.getElementById("ov-floor-select");
+        sel.innerHTML = "";
+        FLOOR_DATA.forEach(function (fl, i) {
+          var opt = document.createElement("option");
+          opt.value = i;
+          opt.textContent = fl.label;
           sel.appendChild(opt);
         });
         sel.value = _ovActiveFloor;
@@ -2827,62 +4400,107 @@
         _ovActiveFloor = parseInt(idx);
         ovUpdateCoordsOut();
         // highlight selected polygon
-        document.querySelectorAll('.floor-poly').forEach(function(p, i){
-          p.style.strokeWidth = i === _ovActiveFloor ? '2' : '1';
-          p.style.stroke = i === _ovActiveFloor ? '#b89c6e' : 'rgba(184,156,110,0.55)';
+        document.querySelectorAll(".floor-poly").forEach(function (p, i) {
+          p.style.strokeWidth = i === _ovActiveFloor ? "2" : "1";
+          p.style.stroke =
+            i === _ovActiveFloor ? "#b89c6e" : "rgba(184,156,110,0.55)";
         });
         // pulse handles do andar ativo
-        document.querySelectorAll('.ov-handle').forEach(function(h){
+        document.querySelectorAll(".ov-handle").forEach(function (h) {
           var fi = parseInt(h.dataset.fi);
-          h.setAttribute('fill', fi === _ovActiveFloor ? '#b89c6e' : 'rgba(184,156,110,0.5)');
-          h.setAttribute('r', fi === _ovActiveFloor ? '7' : '5');
+          h.setAttribute(
+            "fill",
+            fi === _ovActiveFloor ? "#b89c6e" : "rgba(184,156,110,0.5)",
+          );
+          h.setAttribute("r", fi === _ovActiveFloor ? "7" : "5");
         });
       }
 
       function ovAddHandles() {
-        var svg = document.getElementById('floor-svg');
-        var ns = 'http://www.w3.org/2000/svg';
-        FLOOR_DATA.forEach(function(fl, fi) {
-          fl.poly.forEach(function(pt, pi) {
+        var svg = document.getElementById("floor-svg");
+        var ns = "http://www.w3.org/2000/svg";
+        FLOOR_DATA.forEach(function (fl, fi) {
+          fl.poly.forEach(function (pt, pi) {
             var sp = imgToScreen(pt[0], pt[1]);
             // anel externo
-            var ring = document.createElementNS(ns, 'circle');
-            ring.setAttribute('cx', sp.x.toFixed(1));
-            ring.setAttribute('cy', sp.y.toFixed(1));
-            ring.setAttribute('r', '11');
-            ring.setAttribute('fill', 'none');
-            ring.setAttribute('stroke', fi === _ovActiveFloor ? 'rgba(184,156,110,0.4)' : 'rgba(255,255,255,0.2)');
-            ring.setAttribute('stroke-width', '1');
-            ring.classList.add('ov-handle-ring');
-            ring.dataset.fi = fi; ring.dataset.pi = pi;
+            var ring = document.createElementNS(ns, "circle");
+            ring.setAttribute("cx", sp.x.toFixed(1));
+            ring.setAttribute("cy", sp.y.toFixed(1));
+            ring.setAttribute("r", "11");
+            ring.setAttribute("fill", "none");
+            ring.setAttribute(
+              "stroke",
+              fi === _ovActiveFloor
+                ? "rgba(184,156,110,0.4)"
+                : "rgba(255,255,255,0.2)",
+            );
+            ring.setAttribute("stroke-width", "1");
+            ring.classList.add("ov-handle-ring");
+            ring.dataset.fi = fi;
+            ring.dataset.pi = pi;
             svg.appendChild(ring);
             // ponto central arrastável
-            var c = document.createElementNS(ns, 'circle');
-            c.setAttribute('cx', sp.x.toFixed(1));
-            c.setAttribute('cy', sp.y.toFixed(1));
-            c.setAttribute('r', fi === _ovActiveFloor ? '7' : '5');
-            c.setAttribute('fill', fi === _ovActiveFloor ? '#b89c6e' : 'rgba(184,156,110,0.5)');
-            c.setAttribute('stroke', '#fff');
-            c.setAttribute('stroke-width', '1.5');
-            c.classList.add('ov-handle');
-            c.dataset.fi = fi; c.dataset.pi = pi;
-            c.addEventListener('mousedown', ovHandleMouseDown);
-            c.addEventListener('touchstart', ovHandleTouchStart, { passive: false });
+            var c = document.createElementNS(ns, "circle");
+            c.setAttribute("cx", sp.x.toFixed(1));
+            c.setAttribute("cy", sp.y.toFixed(1));
+            c.setAttribute("r", fi === _ovActiveFloor ? "7" : "5");
+            c.setAttribute(
+              "fill",
+              fi === _ovActiveFloor ? "#b89c6e" : "rgba(184,156,110,0.5)",
+            );
+            c.setAttribute("stroke", "#fff");
+            c.setAttribute("stroke-width", "1.5");
+            c.classList.add("ov-handle");
+            c.dataset.fi = fi;
+            c.dataset.pi = pi;
+            c.addEventListener("mousedown", ovHandleMouseDown);
+            c.addEventListener("touchstart", ovHandleTouchStart, {
+              passive: false,
+            });
             svg.appendChild(c);
           });
         });
       }
 
+      // Encontra todos os vértices de outros andares com as MESMAS coordenadas
+      // do vértice arrastado (arestas compartilhadas entre andares vizinhos)
+      function ovFindLinked(fi, pi) {
+        var p = FLOOR_DATA[fi].poly[pi];
+        var linked = [];
+        FLOOR_DATA.forEach(function (fl, fj) {
+          fl.poly.forEach(function (q, pj) {
+            if (fj === fi && pj === pi) return;
+            if (
+              Math.abs(q[0] - p[0]) < 0.0006 &&
+              Math.abs(q[1] - p[1]) < 0.0006
+            ) {
+              linked.push([fj, pj]);
+            }
+          });
+        });
+        return linked;
+      }
+
+      function ovWeldOn() {
+        var cb = document.getElementById("ov-weld");
+        return cb ? cb.checked : true;
+      }
+
       function ovHandleMouseDown(e) {
-        e.preventDefault(); e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
         var fi = parseInt(e.target.dataset.fi);
         var pi = parseInt(e.target.dataset.pi);
         _ovActiveFloor = fi;
-        document.getElementById('ov-floor-select').value = fi;
+        document.getElementById("ov-floor-select").value = fi;
         ovSelectFloor(fi);
-        _ovDrag = { fi: fi, pi: pi };
-        document.addEventListener('mousemove', ovHandleMouseMove);
-        document.addEventListener('mouseup', ovHandleMouseUp);
+        _ovDrag = {
+          fi: fi,
+          pi: pi,
+          linked: ovWeldOn() ? ovFindLinked(fi, pi) : [],
+        };
+        document.addEventListener("mousemove", ovHandleMouseMove);
+        document.addEventListener("mouseup", ovHandleMouseUp);
       }
 
       function ovHandleMouseMove(e) {
@@ -2893,21 +4511,28 @@
       function ovHandleMouseUp() {
         _ovDrag = null;
         ovHideSnapIndicator();
-        document.removeEventListener('mousemove', ovHandleMouseMove);
-        document.removeEventListener('mouseup', ovHandleMouseUp);
+        document.removeEventListener("mousemove", ovHandleMouseMove);
+        document.removeEventListener("mouseup", ovHandleMouseUp);
         ovUpdateCoordsOut();
       }
 
       function ovHandleTouchStart(e) {
-        e.preventDefault(); e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
         var fi = parseInt(e.target.dataset.fi);
         var pi = parseInt(e.target.dataset.pi);
         _ovActiveFloor = fi;
-        document.getElementById('ov-floor-select').value = fi;
+        document.getElementById("ov-floor-select").value = fi;
         ovSelectFloor(fi);
-        _ovDrag = { fi: fi, pi: pi };
-        document.addEventListener('touchmove', ovHandleTouchMove, { passive: false });
-        document.addEventListener('touchend', ovHandleTouchEnd);
+        _ovDrag = {
+          fi: fi,
+          pi: pi,
+          linked: ovWeldOn() ? ovFindLinked(fi, pi) : [],
+        };
+        document.addEventListener("touchmove", ovHandleTouchMove, {
+          passive: false,
+        });
+        document.addEventListener("touchend", ovHandleTouchEnd);
       }
 
       function ovHandleTouchMove(e) {
@@ -2919,58 +4544,119 @@
       function ovHandleTouchEnd() {
         _ovDrag = null;
         ovHideSnapIndicator();
-        document.removeEventListener('touchmove', ovHandleTouchMove);
-        document.removeEventListener('touchend', ovHandleTouchEnd);
+        document.removeEventListener("touchmove", ovHandleTouchMove);
+        document.removeEventListener("touchend", ovHandleTouchEnd);
         ovUpdateCoordsOut();
       }
 
       var _ovSnapThreshold = 0.012; // image-fraction units (~12px @ typical scale)
-      var _ovSnapIndicator = null;  // circle element showing snap target
+      var _ovSnapIndicator = null; // circle element showing snap target
 
-      function ovSnapToNearby(fx, fy, excludeFi, excludePi) {
-        var best = null, bestDist = _ovSnapThreshold;
-        FLOOR_DATA.forEach(function(fl, fi) {
-          fl.poly.forEach(function(p, pi) {
+      function ovSnapToNearby(fx, fy, excludeFi, excludePi, excludeList) {
+        var best = null,
+          bestDist = _ovSnapThreshold;
+        FLOOR_DATA.forEach(function (fl, fi) {
+          fl.poly.forEach(function (p, pi) {
             if (fi === excludeFi && pi === excludePi) return;
-            var dx = p[0] - fx, dy = p[1] - fy;
-            var dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < bestDist) { bestDist = dist; best = p; }
+            // Vértices soldados ao arrastado também não são alvo de snap
+            if (
+              excludeList &&
+              excludeList.some(function (l) {
+                return l[0] === fi && l[1] === pi;
+              })
+            )
+              return;
+            var dx = p[0] - fx,
+              dy = p[1] - fy;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < bestDist) {
+              bestDist = dist;
+              best = p;
+            }
           });
         });
         return best; // null = no snap
       }
 
       function ovShowSnapIndicator(fx, fy) {
-        var svg = document.getElementById('floor-svg');
+        var svg = document.getElementById("floor-svg");
         if (!_ovSnapIndicator) {
-          _ovSnapIndicator = document.createElementNS('http://www.w3.org/2000/svg','circle');
-          _ovSnapIndicator.setAttribute('r', '9');
-          _ovSnapIndicator.setAttribute('fill', 'none');
-          _ovSnapIndicator.setAttribute('stroke', '#b89c6e');
-          _ovSnapIndicator.setAttribute('stroke-width', '2');
-          _ovSnapIndicator.setAttribute('pointer-events', 'none');
-          _ovSnapIndicator.id = 'ov-snap-ring';
+          _ovSnapIndicator = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle",
+          );
+          _ovSnapIndicator.setAttribute("r", "9");
+          _ovSnapIndicator.setAttribute("fill", "none");
+          _ovSnapIndicator.setAttribute("stroke", "#b89c6e");
+          _ovSnapIndicator.setAttribute("stroke-width", "2");
+          _ovSnapIndicator.setAttribute("pointer-events", "none");
+          _ovSnapIndicator.id = "ov-snap-ring";
           svg.appendChild(_ovSnapIndicator);
         }
         var sp = imgToScreen(fx, fy);
-        _ovSnapIndicator.setAttribute('cx', sp.x.toFixed(1));
-        _ovSnapIndicator.setAttribute('cy', sp.y.toFixed(1));
-        _ovSnapIndicator.style.display = '';
+        _ovSnapIndicator.setAttribute("cx", sp.x.toFixed(1));
+        _ovSnapIndicator.setAttribute("cy", sp.y.toFixed(1));
+        _ovSnapIndicator.style.display = "";
       }
 
       function ovHideSnapIndicator() {
-        if (_ovSnapIndicator) _ovSnapIndicator.style.display = 'none';
+        if (_ovSnapIndicator) _ovSnapIndicator.style.display = "none";
+      }
+
+      // Sincroniza o <polygon> e o label de um andar com FLOOR_DATA
+      function ovSyncFloorShape(fi) {
+        var poly = document.querySelector(
+          '.floor-poly[data-id="' + FLOOR_DATA[fi].id + '"]',
+        );
+        if (poly) {
+          var pts = FLOOR_DATA[fi].poly
+            .map(function (p) {
+              var s = imgToScreen(p[0], p[1]);
+              return s.x.toFixed(1) + "," + s.y.toFixed(1);
+            })
+            .join(" ");
+          poly.setAttribute("points", pts);
+        }
+        var allTxt = document.querySelectorAll(".floor-label-text");
+        if (allTxt[fi]) {
+          var cx =
+            FLOOR_DATA[fi].poly.reduce(function (s, p) {
+              return s + p[0];
+            }, 0) / FLOOR_DATA[fi].poly.length;
+          var cy =
+            FLOOR_DATA[fi].poly.reduce(function (s, p) {
+              return s + p[1];
+            }, 0) / FLOOR_DATA[fi].poly.length;
+          var lp = imgToScreen(cx, cy);
+          allTxt[fi].setAttribute("x", lp.x.toFixed(1));
+          allTxt[fi].setAttribute("y", (lp.y + 4).toFixed(1));
+        }
+      }
+
+      // Sincroniza o handle (e anel) de um vértice específico
+      function ovSyncVertexHandle(fi, pi) {
+        var p = FLOOR_DATA[fi].poly[pi];
+        var sp = imgToScreen(p[0], p[1]);
+        var sel = '[data-fi="' + fi + '"][data-pi="' + pi + '"]';
+        document
+          .querySelectorAll(".ov-handle" + sel + ", .ov-handle-ring" + sel)
+          .forEach(function (el) {
+            el.setAttribute("cx", sp.x.toFixed(1));
+            el.setAttribute("cy", sp.y.toFixed(1));
+          });
       }
 
       function ovMovePt(sx, sy) {
         if (!_ovDrag) return;
-        var fi = _ovDrag.fi, pi = _ovDrag.pi;
+        var fi = _ovDrag.fi,
+          pi = _ovDrag.pi;
+        var linked = _ovDrag.linked || [];
         var imgPt = screenToImg(sx, sy);
         // clamp 0–1
         imgPt.x = Math.max(0, Math.min(1, imgPt.x));
         imgPt.y = Math.max(0, Math.min(1, imgPt.y));
-        // snap to nearby vertex
-        var snap = ovSnapToNearby(imgPt.x, imgPt.y, fi, pi);
+        // snap to nearby vertex (ignorando o próprio e os soldados a ele)
+        var snap = ovSnapToNearby(imgPt.x, imgPt.y, fi, pi, linked);
         if (snap) {
           imgPt.x = snap[0];
           imgPt.y = snap[1];
@@ -2978,63 +4664,295 @@
         } else {
           ovHideSnapIndicator();
         }
-        FLOOR_DATA[fi].poly[pi] = [
+        var np = [
           parseFloat(imgPt.x.toFixed(4)),
-          parseFloat(imgPt.y.toFixed(4))
+          parseFloat(imgPt.y.toFixed(4)),
         ];
-        // atualiza polygon SVG
-        var poly = document.querySelector('.floor-poly[data-id="' + FLOOR_DATA[fi].id + '"]');
-        if (poly) {
-          var pts = FLOOR_DATA[fi].poly.map(function(p){
-            var s = imgToScreen(p[0], p[1]);
-            return s.x.toFixed(1) + ',' + s.y.toFixed(1);
-          }).join(' ');
-          poly.setAttribute('points', pts);
-        }
-        // atualiza label texto
-        var allTxt = document.querySelectorAll('.floor-label-text');
-        if (allTxt[fi]) {
-          var cx = FLOOR_DATA[fi].poly.reduce(function(s,p){ return s+p[0]; },0)/FLOOR_DATA[fi].poly.length;
-          var cy = FLOOR_DATA[fi].poly.reduce(function(s,p){ return s+p[1]; },0)/FLOOR_DATA[fi].poly.length;
-          var lp = imgToScreen(cx, cy);
-          allTxt[fi].setAttribute('x', lp.x.toFixed(1));
-          allTxt[fi].setAttribute('y', (lp.y+4).toFixed(1));
-        }
-        // atualiza handle e anel
-        var sp = imgToScreen(imgPt.x, imgPt.y);
-        var handles = document.querySelectorAll('.ov-handle[data-fi="' + fi + '"][data-pi="' + pi + '"]');
-        var rings   = document.querySelectorAll('.ov-handle-ring[data-fi="' + fi + '"][data-pi="' + pi + '"]');
-        handles.forEach(function(h){ h.setAttribute('cx', sp.x.toFixed(1)); h.setAttribute('cy', sp.y.toFixed(1)); });
-        rings.forEach(function(r){ r.setAttribute('cx', sp.x.toFixed(1)); r.setAttribute('cy', sp.y.toFixed(1)); });
+        // move o vértice arrastado + todos os coincidentes (arestas soldadas)
+        FLOOR_DATA[fi].poly[pi] = np;
+        linked.forEach(function (l) {
+          FLOOR_DATA[l[0]].poly[l[1]] = [np[0], np[1]];
+        });
+        // sincroniza visuais de todos os andares afetados
+        var floors = {};
+        floors[fi] = true;
+        linked.forEach(function (l) {
+          floors[l[0]] = true;
+        });
+        Object.keys(floors).forEach(function (k) {
+          ovSyncFloorShape(parseInt(k));
+        });
+        ovSyncVertexHandle(fi, pi);
+        linked.forEach(function (l) {
+          ovSyncVertexHandle(l[0], l[1]);
+        });
       }
+
+      // ── Fatiar prédio: 4 cantos → N andares alinhados ─────────────
+      //
+      // Em vez de arrastar 32 vértices, o usuário posiciona apenas os 4
+      // cantos do volume do prédio (topo da cobertura + base do térreo).
+      // Os limites de cada andar são interpolados ao longo das arestas
+      // esquerda e direita, preservando as proporções de altura atuais
+      // (ou alturas iguais, se marcado). Resultado: andares perfeitamente
+      // colados, com arestas laterais retas.
+      //
+      var _ovSlicing = false;
+      var _ovSlice = null; // { tl:[x,y], tr:[x,y], br:[x,y], bl:[x,y] }
+      var _ovSliceDrag = null; // 'tl' | 'tr' | 'br' | 'bl'
+
+      function ovToggleSlice() {
+        if (_ovSlicing) {
+          ovCancelSlice();
+          return;
+        }
+        _ovSlicing = true;
+        // Cantos iniciais: topo do primeiro andar (cobertura) e base do último (térreo)
+        var first = FLOOR_DATA[0].poly,
+          last = FLOOR_DATA[FLOOR_DATA.length - 1].poly;
+        _ovSlice = {
+          tl: first[0].slice(),
+          tr: first[1].slice(),
+          br: last[2].slice(),
+          bl: last[3].slice(),
+        };
+        document.getElementById("ov-slice-btn").classList.add("copy-ok");
+        document.getElementById("ov-slice-row").classList.add("open");
+        document.getElementById("ov-hint").textContent =
+          "Posicione os 4 ◆ cantos no volume do prédio (topo da cobertura e base do térreo) e clique em Aplicar fatias";
+        ovDrawSlice();
+      }
+
+      function ovCancelSlice() {
+        _ovSlicing = false;
+        _ovSliceDrag = null;
+        _ovSlice = null;
+        document.getElementById("ov-slice-btn").classList.remove("copy-ok");
+        document.getElementById("ov-slice-row").classList.remove("open");
+        document.getElementById("ov-hint").textContent =
+          "Arraste os ● handles para reposicionar os vértices de cada andar";
+        // redesenha sem os elementos de fatia
+        buildFloorSVG();
+        if (_ovEditing) ovAddHandles();
+      }
+
+      function ovDrawSlice() {
+        var svg = document.getElementById("floor-svg");
+        var ns = "http://www.w3.org/2000/svg";
+        // remove desenho anterior
+        svg
+          .querySelectorAll("#ov-slice-outline, .ov-slice-h, .ov-slice-line")
+          .forEach(function (el) {
+            el.remove();
+          });
+        if (!_ovSlicing || !_ovSlice) return;
+
+        var order = ["tl", "tr", "br", "bl"];
+        var scr = {};
+        order.forEach(function (c) {
+          scr[c] = imgToScreen(_ovSlice[c][0], _ovSlice[c][1]);
+        });
+
+        // contorno do volume
+        var outline = document.createElementNS(ns, "polygon");
+        outline.id = "ov-slice-outline";
+        outline.setAttribute(
+          "points",
+          order
+            .map(function (c) {
+              return scr[c].x.toFixed(1) + "," + scr[c].y.toFixed(1);
+            })
+            .join(" "),
+        );
+        svg.appendChild(outline);
+
+        // linhas de pré-visualização das fatias
+        var ts = ovSliceTs();
+        for (var i = 1; i < ts.length - 1; i++) {
+          var L = ovLerpPt(_ovSlice.tl, _ovSlice.bl, ts[i]);
+          var R = ovLerpPt(_ovSlice.tr, _ovSlice.br, ts[i]);
+          var sl = imgToScreen(L[0], L[1]),
+            sr = imgToScreen(R[0], R[1]);
+          var line = document.createElementNS(ns, "line");
+          line.setAttribute("x1", sl.x.toFixed(1));
+          line.setAttribute("y1", sl.y.toFixed(1));
+          line.setAttribute("x2", sr.x.toFixed(1));
+          line.setAttribute("y2", sr.y.toFixed(1));
+          line.classList.add("ov-slice-line");
+          svg.appendChild(line);
+        }
+
+        // 4 handles de canto (losangos)
+        order.forEach(function (c) {
+          var h = document.createElementNS(ns, "rect");
+          h.setAttribute("x", (scr[c].x - 7).toFixed(1));
+          h.setAttribute("y", (scr[c].y - 7).toFixed(1));
+          h.setAttribute("width", "14");
+          h.setAttribute("height", "14");
+          h.setAttribute(
+            "transform",
+            "rotate(45 " +
+              scr[c].x.toFixed(1) +
+              " " +
+              scr[c].y.toFixed(1) +
+              ")",
+          );
+          h.classList.add("ov-slice-h");
+          h.dataset.corner = c;
+          h.addEventListener("mousedown", ovSliceDown);
+          h.addEventListener("touchstart", ovSliceTouchDown, {
+            passive: false,
+          });
+          svg.appendChild(h);
+        });
+      }
+
+      function ovLerpPt(a, b, t) {
+        return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+      }
+
+      // Frações acumuladas [0..1] dos limites entre andares
+      function ovSliceTs() {
+        var equal = document.getElementById("ov-slice-equal").checked;
+        var n = FLOOR_DATA.length;
+        var weights = FLOOR_DATA.map(function (fl) {
+          if (equal) return 1;
+          // altura visual atual do andar = média dos spans verticais das arestas
+          var hL = Math.abs(fl.poly[3][1] - fl.poly[0][1]);
+          var hR = Math.abs(fl.poly[2][1] - fl.poly[1][1]);
+          var h = (hL + hR) / 2;
+          return h > 0.0001 ? h : 1 / n;
+        });
+        var total = weights.reduce(function (s, w) {
+          return s + w;
+        }, 0);
+        var ts = [0],
+          acc = 0;
+        weights.forEach(function (w) {
+          acc += w / total;
+          ts.push(acc);
+        });
+        ts[ts.length - 1] = 1;
+        return ts;
+      }
+
+      function ovApplySlice() {
+        if (!_ovSlice) return;
+        var ts = ovSliceTs();
+        FLOOR_DATA.forEach(function (fl, i) {
+          var L0 = ovLerpPt(_ovSlice.tl, _ovSlice.bl, ts[i]);
+          var R0 = ovLerpPt(_ovSlice.tr, _ovSlice.br, ts[i]);
+          var R1 = ovLerpPt(_ovSlice.tr, _ovSlice.br, ts[i + 1]);
+          var L1 = ovLerpPt(_ovSlice.tl, _ovSlice.bl, ts[i + 1]);
+          fl.poly = [L0, R0, R1, L1].map(function (p) {
+            return [parseFloat(p[0].toFixed(4)), parseFloat(p[1].toFixed(4))];
+          });
+        });
+        ovCancelSlice(); // sai do modo e redesenha tudo já alinhado
+        ovSelectFloor(_ovActiveFloor);
+        ovUpdateCoordsOut();
+      }
+
+      function ovSliceDown(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        _ovSliceDrag = e.target.dataset.corner;
+        document.addEventListener("mousemove", ovSliceMove);
+        document.addEventListener("mouseup", ovSliceUp);
+      }
+      function ovSliceMove(e) {
+        if (!_ovSliceDrag) return;
+        var p = screenToImg(e.clientX, e.clientY);
+        _ovSlice[_ovSliceDrag] = [
+          Math.max(0, Math.min(1, p.x)),
+          Math.max(0, Math.min(1, p.y)),
+        ];
+        ovDrawSlice();
+      }
+      function ovSliceUp() {
+        _ovSliceDrag = null;
+        document.removeEventListener("mousemove", ovSliceMove);
+        document.removeEventListener("mouseup", ovSliceUp);
+      }
+      function ovSliceTouchDown(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        _ovSliceDrag = e.target.dataset.corner;
+        document.addEventListener("touchmove", ovSliceTouchMove, {
+          passive: false,
+        });
+        document.addEventListener("touchend", ovSliceTouchUp);
+      }
+      function ovSliceTouchMove(e) {
+        e.preventDefault();
+        if (!_ovSliceDrag || !e.touches[0]) return;
+        var p = screenToImg(e.touches[0].clientX, e.touches[0].clientY);
+        _ovSlice[_ovSliceDrag] = [
+          Math.max(0, Math.min(1, p.x)),
+          Math.max(0, Math.min(1, p.y)),
+        ];
+        ovDrawSlice();
+      }
+      function ovSliceTouchUp() {
+        _ovSliceDrag = null;
+        document.removeEventListener("touchmove", ovSliceTouchMove);
+        document.removeEventListener("touchend", ovSliceTouchUp);
+      }
+
+      // "Alturas iguais" atualiza a pré-visualização em tempo real
+      document
+        .getElementById("ov-slice-equal")
+        .addEventListener("change", function () {
+          if (_ovSlicing) ovDrawSlice();
+        });
 
       function ovUpdateCoordsOut() {
         var fl = FLOOR_DATA[_ovActiveFloor];
-        var lines = fl.poly.map(function(p, i){
-          return '  [' + p[0].toFixed(4) + ', ' + p[1].toFixed(4) + ']' + (i < fl.poly.length-1 ? ',' : '');
+        var lines = fl.poly.map(function (p, i) {
+          return (
+            "  [" +
+            p[0].toFixed(4) +
+            ", " +
+            p[1].toFixed(4) +
+            "]" +
+            (i < fl.poly.length - 1 ? "," : "")
+          );
         });
-        document.getElementById('ov-coords-out').textContent =
-          '// ' + fl.label + '\npoly: [\n' + lines.join('\n') + '\n]';
+        document.getElementById("ov-coords-out").textContent =
+          "// " + fl.label + "\npoly: [\n" + lines.join("\n") + "\n]";
       }
 
       function ovCopyAll() {
-        var out = 'var FLOOR_DATA = [\n';
-        FLOOR_DATA.forEach(function(fl) {
-          var pts = fl.poly.map(function(p){ return '['+p[0].toFixed(4)+','+p[1].toFixed(4)+']'; }).join(',');
-          out += '  { id:"'+fl.id+'", poly:['+pts+'] },\n';
+        // Formato pronto pra colar: substitua a linha "poly:" de cada andar
+        // dentro de FLOOR_DATA pela linha correspondente abaixo
+        var out =
+          "// ── Polígonos atualizados (colar em FLOOR_DATA, andar por andar) ──\n";
+        FLOOR_DATA.forEach(function (fl) {
+          var pts = fl.poly
+            .map(function (p) {
+              return "[" + p[0].toFixed(4) + "," + p[1].toFixed(4) + "]";
+            })
+            .join(",");
+          out += "// " + fl.label + "\n";
+          out += "poly: [" + pts + "],   // id: " + fl.id + "\n";
         });
-        out += '];';
-        navigator.clipboard.writeText(out).then(function() {
-          var btn = document.querySelector('.ov-exp-btn');
-          btn.classList.add('copy-ok');
-          btn.textContent = '✓ Copiado!';
-          setTimeout(function(){ btn.classList.remove('copy-ok'); btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar tudo'; }, 2000);
+        navigator.clipboard.writeText(out).then(function () {
+          var btn = document.querySelector(".ov-exp-btn");
+          btn.classList.add("copy-ok");
+          btn.textContent = "✓ Copiado!";
+          setTimeout(function () {
+            btn.classList.remove("copy-ok");
+            btn.innerHTML =
+              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar tudo';
+          }, 2000);
         });
       }
 
       function ovResetFloor() {
         if (!_ovOrigData) return;
-        FLOOR_DATA[_ovActiveFloor].poly = JSON.parse(JSON.stringify(_ovOrigData[_ovActiveFloor]));
+        FLOOR_DATA[_ovActiveFloor].poly = JSON.parse(
+          JSON.stringify(_ovOrigData[_ovActiveFloor]),
+        );
         buildFloorSVG();
         ovAddHandles();
         ovSelectFloor(_ovActiveFloor);
@@ -3042,150 +4960,877 @@
       }
 
       function ovApply() {
-        var saved = FLOOR_DATA.map(function(fl) {
+        var saved = FLOOR_DATA.map(function (fl) {
           return { id: fl.id, poly: JSON.parse(JSON.stringify(fl.poly)) };
         });
         try {
-          localStorage.setItem('lemme_overlay_polys', JSON.stringify(saved));
-        } catch(e) {}
-        var btn = document.getElementById('ov-apply-btn');
-        btn.style.background = 'rgba(80,180,100,0.2)';
-        btn.style.borderColor = '#3ca050';
-        btn.style.color = '#2d7a3c';
-        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Posições salvas!';
-        setTimeout(function() {
-          btn.style.background = 'rgba(138,115,82,0.15)';
-          btn.style.borderColor = '#8a7352';
-          btn.style.color = '#6b5a3e';
-          btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Aplicar posições';
+          localStorage.setItem("lemme_overlay_polys", JSON.stringify(saved));
+        } catch (e) {}
+        var btn = document.getElementById("ov-apply-btn");
+        btn.style.background = "rgba(80,180,100,0.2)";
+        btn.style.borderColor = "#3ca050";
+        btn.style.color = "#2d7a3c";
+        btn.innerHTML =
+          '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Posições salvas!';
+        setTimeout(function () {
+          btn.style.background = "rgba(138,115,82,0.15)";
+          btn.style.borderColor = "#8a7352";
+          btn.style.color = "#6b5a3e";
+          btn.innerHTML =
+            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Aplicar posições';
         }, 2500);
       }
 
       // carrega posições salvas do localStorage (se existirem)
       (function ovLoadSaved() {
         try {
-          var raw = localStorage.getItem('lemme_overlay_polys');
+          var raw = localStorage.getItem("lemme_overlay_polys");
           if (!raw) return;
           var saved = JSON.parse(raw);
-          saved.forEach(function(s) {
-            var fl = FLOOR_DATA.find(function(f){ return f.id === s.id; });
-            if (fl && s.poly && s.poly.length === fl.poly.length) fl.poly = s.poly;
+          saved.forEach(function (s) {
+            var fl = FLOOR_DATA.find(function (f) {
+              return f.id === s.id;
+            });
+            if (fl && s.poly && s.poly.length === fl.poly.length)
+              fl.poly = s.poly;
           });
-        } catch(e) {}
+        } catch (e) {}
       })();
 
       // mostra botão de edição apenas quando overlay visível
       function setFloorEditorBtnVisible(v) {
-        document.getElementById('ov-edit-btn').classList.toggle('visible', v);
+        document.getElementById("ov-edit-btn").classList.toggle("visible", v);
         if (!v && _ovEditing) toggleOverlayEditor();
       }
 
       // ── Floorplan panel ───────────────────────────────────────────
       var FP_DATA = {
-        tipo1: { label: 'Apto 134 m²',  area: '134 m²', vagas: '2 vagas', suite: '1 suíte', img: '', pdf: '' },
-        tipo2: { label: 'Apto 162 m²',  area: '162 m²', vagas: '2 vagas', suite: '2 suítes', img: '', pdf: '' },
-        tipo3: { label: 'Apto 189 m²',  area: '189 m²', vagas: '3 vagas', suite: '3 suítes', img: '', pdf: '' },
-        tipo4: { label: 'Penthouse 229 m²', area: '229 m²', vagas: '3 vagas', suite: '3 suítes', img: '', pdf: '' },
-        tipo5: { label: 'Garden 335 m²', area: '335 m²', vagas: '3 vagas', suite: '4 suítes', img: '', pdf: '' },
+        tipo1: {
+          label: "Apto 134 m²",
+          area: "134 m²",
+          vagas: "2 vagas",
+          suite: "1 suíte",
+          img: "",
+          pdf: "",
+        },
+        tipo2: {
+          label: "Apto 162 m²",
+          area: "162 m²",
+          vagas: "2 vagas",
+          suite: "2 suítes",
+          img: "",
+          pdf: "",
+        },
+        tipo3: {
+          label: "Apto 189 m²",
+          area: "189 m²",
+          vagas: "3 vagas",
+          suite: "3 suítes",
+          img: "",
+          pdf: "",
+        },
+        tipo4: {
+          label: "Penthouse 229 m²",
+          area: "229 m²",
+          vagas: "3 vagas",
+          suite: "3 suítes",
+          img: "",
+          pdf: "",
+        },
+        tipo5: {
+          label: "Garden 335 m²",
+          area: "335 m²",
+          vagas: "3 vagas",
+          suite: "4 suítes",
+          img: "",
+          pdf: "",
+        },
       };
-      var _currentFp = 'tipo1';
+      var _currentFp = "tipo1";
 
       function toggleFpPanel() {
-        var panel = document.getElementById('fp-panel');
-        panel.classList.toggle('open');
-        if (panel.classList.contains('open')) loadFpData(_currentFp);
+        var panel = document.getElementById("fp-panel");
+        panel.classList.toggle("open");
+        if (panel.classList.contains("open")) loadFpData(_currentFp);
       }
 
       function loadFpData(tipo) {
         _currentFp = tipo;
         var d = FP_DATA[tipo];
-        document.getElementById('fp-area').textContent  = d.area;
-        document.getElementById('fp-vagas').textContent = d.vagas;
-        document.getElementById('fp-suite').textContent = d.suite;
-        var img = document.getElementById('fp-img');
-        var ph  = document.getElementById('fp-img-placeholder');
+        document.getElementById("fp-area").textContent = d.area;
+        document.getElementById("fp-vagas").textContent = d.vagas;
+        document.getElementById("fp-suite").textContent = d.suite;
+        var img = document.getElementById("fp-img");
+        var ph = document.getElementById("fp-img-placeholder");
         if (d.img) {
-          img.src = d.img; img.style.display = ''; ph.style.display = 'none';
+          img.src = d.img;
+          img.style.display = "";
+          ph.style.display = "none";
         } else {
-          img.style.display = 'none'; ph.style.display = '';
+          img.style.display = "none";
+          ph.style.display = "";
         }
-        var pdfBtn = document.getElementById('fp-pdf-btn');
-        pdfBtn.href = d.pdf || '#';
-        if (!d.pdf) pdfBtn.removeAttribute('download');
-        else pdfBtn.setAttribute('download', '');
+        var pdfBtn = document.getElementById("fp-pdf-btn");
+        pdfBtn.href = d.pdf || "#";
+        if (!d.pdf) pdfBtn.removeAttribute("download");
+        else pdfBtn.setAttribute("download", "");
       }
 
-      document.querySelectorAll('.fp-type-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          document.querySelectorAll('.fp-type-btn').forEach(function(b) { b.classList.remove('active'); });
-          btn.classList.add('active');
+      document.querySelectorAll(".fp-type-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.querySelectorAll(".fp-type-btn").forEach(function (b) {
+            b.classList.remove("active");
+          });
+          btn.classList.add("active");
           loadFpData(btn.dataset.fp);
         });
       });
 
-      document.addEventListener('click', function(e) {
-        var panel = document.getElementById('fp-panel');
-        var toggle = document.getElementById('fp-toggle');
-        if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== toggle && !toggle.contains(e.target)) {
-          panel.classList.remove('open');
+      document.addEventListener("click", function (e) {
+        var panel = document.getElementById("fp-panel");
+        var toggle = document.getElementById("fp-toggle");
+        if (
+          panel.classList.contains("open") &&
+          !panel.contains(e.target) &&
+          e.target !== toggle &&
+          !toggle.contains(e.target)
+        ) {
+          panel.classList.remove("open");
         }
       });
 
       // ── Filter panel ──────────────────────────────────────────────
-      var _filterState = { avail: [], quartos: [], banheiros: [], areaMax: 200 };
+      var _filterState = {
+        avail: [],
+        quartos: [],
+        banheiros: [],
+        areaMax: 200,
+      };
 
       function toggleFilterPanel() {
-        var panel = document.getElementById('filter-panel');
-        panel.classList.toggle('open');
+        var panel = document.getElementById("filter-panel");
+        panel.classList.toggle("open");
       }
 
       function updateFilterDot() {
-        var hasActive = _filterState.avail.length || _filterState.quartos.length ||
-                        _filterState.banheiros.length || _filterState.areaMax < 200;
-        document.getElementById('filter-toggle').classList.toggle('has-active', !!hasActive);
+        var hasActive =
+          _filterState.avail.length ||
+          _filterState.quartos.length ||
+          _filterState.banheiros.length ||
+          _filterState.areaMax < 200;
+        document
+          .getElementById("filter-toggle")
+          .classList.toggle("has-active", !!hasActive);
+        applyFloorFilters();
       }
 
-      document.querySelectorAll('.fi-chip').forEach(function(chip) {
-        chip.addEventListener('click', function() {
-          var f = chip.dataset.filter, v = chip.dataset.val;
+      // ── Integração filtros ↔ overlays de andar ────────────────────
+      // Andares que não casam com os filtros ativos ficam esmaecidos no
+      // overlay aéreo. Áreas comuns (sem "avail") são neutras: nunca dimam.
+      function floorMatchesFilters(fl) {
+        if (!fl.avail) return true; // área comum (térreo/lobby) — neutro
+        if (
+          _filterState.avail.length &&
+          _filterState.avail.indexOf(fl.avail) === -1
+        )
+          return false;
+        if (_filterState.quartos.length) {
+          // chip "3" significa "3 ou mais"
+          var okQ = _filterState.quartos.some(function (v) {
+            var n = parseInt(v);
+            return n >= 3 ? fl.quartos >= 3 : fl.quartos === n;
+          });
+          if (!okQ) return false;
+        }
+        if (_filterState.banheiros.length) {
+          // chip "2" significa "2 ou mais"
+          var okB = _filterState.banheiros.some(function (v) {
+            var n = parseInt(v);
+            return n >= 2 ? fl.banheiros >= 2 : fl.banheiros === n;
+          });
+          if (!okB) return false;
+        }
+        if (_filterState.areaMax < 200 && fl.areaNum > _filterState.areaMax)
+          return false;
+        return true;
+      }
+
+      function applyFloorFilters() {
+        var hasActive =
+          _filterState.avail.length ||
+          _filterState.quartos.length ||
+          _filterState.banheiros.length ||
+          _filterState.areaMax < 200;
+        var matches = 0,
+          total = 0;
+        FLOOR_DATA.forEach(function (fl) {
+          if (!fl.avail) return; // não conta áreas comuns
+          total++;
+          var ok = !hasActive || floorMatchesFilters(fl);
+          if (ok) matches++;
+          var poly = document.querySelector(
+            '.floor-poly[data-id="' + fl.id + '"]',
+          );
+          if (poly) poly.classList.toggle("fi-dim", hasActive && !ok);
+        });
+        var count = document.getElementById("fi-count");
+        if (count) {
+          count.textContent = !hasActive
+            ? "Todas as unidades"
+            : matches === 0
+              ? "Nenhuma unidade corresponde"
+              : matches + " de " + total + " unidades correspondem";
+          count.classList.toggle("none", hasActive && matches === 0);
+        }
+      }
+
+      document.querySelectorAll(".fi-chip").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          var f = chip.dataset.filter,
+            v = chip.dataset.val;
           var arr = _filterState[f];
           var idx = arr.indexOf(v);
-          if (idx === -1) { arr.push(v); chip.classList.add('active'); }
-          else { arr.splice(idx, 1); chip.classList.remove('active'); }
+          if (idx === -1) {
+            arr.push(v);
+            chip.classList.add("active");
+          } else {
+            arr.splice(idx, 1);
+            chip.classList.remove("active");
+          }
           updateFilterDot();
         });
       });
 
-      var areaSlider = document.getElementById('fi-area-slider');
-      var areaMax    = document.getElementById('fi-area-max');
-      areaSlider.addEventListener('input', function() {
+      var areaSlider = document.getElementById("fi-area-slider");
+      var areaMax = document.getElementById("fi-area-max");
+      areaSlider.addEventListener("input", function () {
         _filterState.areaMax = parseInt(areaSlider.value);
-        areaMax.textContent = areaSlider.value + ' m²';
+        areaMax.textContent = areaSlider.value + " m²";
         updateFilterDot();
       });
 
       function clearFilters() {
         _filterState = { avail: [], quartos: [], banheiros: [], areaMax: 200 };
-        document.querySelectorAll('.fi-chip').forEach(function(c) { c.classList.remove('active'); });
+        document.querySelectorAll(".fi-chip").forEach(function (c) {
+          c.classList.remove("active");
+        });
         areaSlider.value = 200;
-        areaMax.textContent = '200 m²';
+        areaMax.textContent = "200 m²";
         updateFilterDot();
       }
 
       // fecha painel ao clicar fora
-      document.addEventListener('click', function(e) {
-        var panel = document.getElementById('filter-panel');
-        var toggle = document.getElementById('filter-toggle');
-        if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== toggle && !toggle.contains(e.target)) {
-          panel.classList.remove('open');
+      document.addEventListener("click", function (e) {
+        var panel = document.getElementById("filter-panel");
+        var toggle = document.getElementById("filter-toggle");
+        if (
+          panel.classList.contains("open") &&
+          !panel.contains(e.target) &&
+          e.target !== toggle &&
+          !toggle.contains(e.target)
+        ) {
+          panel.classList.remove("open");
         }
       });
       document.addEventListener("keydown", function (e) {
-        if (
-          e.key === "Escape" &&
-          document.getElementById("pano-modal").classList.contains("open")
-        )
+        if (e.key !== "Escape") return;
+        if (document.getElementById("pano-modal").classList.contains("open"))
           closePanoModal();
+        // Escape também fecha painéis flutuantes abertos
+        var fip = document.getElementById("filter-panel");
+        if (fip && fip.classList.contains("open")) fip.classList.remove("open");
+        var fpp = document.getElementById("fp-panel");
+        if (fpp && fpp.classList.contains("open")) fpp.classList.remove("open");
+      });
+    </script>
+    <!-- ── Painel Projeto Lemme: conteúdo de bidese.com.br/lemme ── -->
+    <script>
+      // Base de imagens do site oficial do cliente
+      var LM_IMG = "https://bidese.com.br/lemme/";
+
+      var LEMME_SECTIONS = [
+        { id: "conceito", label: "Conceito" },
+        { id: "numeros", label: "Números" },
+        { id: "tipologias", label: "Tipologias" },
+        { id: "diferenciais", label: "Diferenciais" },
+        { id: "decorado", label: "Decorado" },
+        { id: "projetistas", label: "Projetistas" },
+        { id: "mobiliario", label: "Mobiliário" },
+        { id: "bairro", label: "Bairro" },
+        { id: "certificacoes", label: "Certificações" },
+        { id: "obra", label: "Obra" },
+        { id: "contato", label: "Contato" },
+      ];
+
+      // Diferenciais do site oficial, organizados por categoria (o site lista corrido)
+      var LM_DIFERENCIAIS = [
+        {
+          cat: "Lazer & Bem-estar",
+          items: [
+            "SPA com piscina interna aquecida",
+            "Sauna seca",
+            "Academia",
+            "Sport cave",
+            "Espaço Zen com área para yoga",
+            "Beauty space e sala de massagem",
+            'Cinema com projetor Samsung de 120" e sistema de som Sonos',
+            "Espaço Pet",
+          ],
+        },
+        {
+          cat: "Trabalho & Conveniência",
+          items: [
+            "Coworking e espaços para reuniões",
+            "Central de entregas",
+            "Espaço para Market4you",
+            "Wi-fi nas áreas comuns internas",
+            "Duas bicicletas elétricas de uso compartilhado",
+          ],
+        },
+        {
+          cat: "Segurança",
+          items: [
+            "Guarita de vidro blindado",
+            "Projeto de segurança da Haganá, referência no setor",
+            "Áreas comuns com acesso digital, sem necessidade de chaves",
+            "Elevadores com entrada direta em todos os apartamentos (exceto Garden 02)",
+          ],
+        },
+        {
+          cat: "Design & Acabamentos",
+          items: [
+            "Design singular do edifício",
+            "Projetistas com reconhecimento nacional e internacional",
+            "Mobiliário assinado por grandes designers brasileiros",
+            "Garagem Arte com projeto do premiado escritório Nitsche Arquitetos",
+            "Fachada com revestimento em brise e ACM",
+            "Esquadrias piso ao teto",
+            "Portas dos apartamentos com pintura em laca PU",
+            "Louças e metais da marca americana Kohler",
+            "Iluminação interna e externa da marca europeia Expolux",
+          ],
+        },
+        {
+          cat: "Tecnologia",
+          items: [
+            "Automação de iluminação Lutron, com curadoria do Espaço Interativo",
+            "Ambientes comuns com automação de iluminação e som",
+            "Som ambiente na garagem e áreas comuns",
+            "Vagas com infraestrutura para carros elétricos",
+          ],
+        },
+        {
+          cat: "Sustentabilidade",
+          items: [
+            "Placas solares para suprir parte do consumo das áreas comuns",
+            "Floreiras com sistema de irrigação automática",
+            "Certificações GBC Condomínio e GBC Life",
+          ],
+        },
+      ];
+
+      // Tipologias reais do empreendimento (site oficial)
+      var LM_TIPOLOGIAS = [
+        {
+          grupo: "Apartamentos",
+          faixa: "134 a 189 m²",
+          tipos: [
+            "Tipo 01 — 150 m²",
+            "Tipo 02 — 140 m²",
+            "Tipo 03 — 189 m²",
+            "Tipo 04 — 134 m²",
+            "Tipo 05 — 167 m²",
+            "Tipo 06 — 187 m²",
+          ],
+        },
+        {
+          grupo: "Penthouses",
+          faixa: "229 a 312 m²",
+          tipos: [
+            "Tipo 01 — 267 m²",
+            "Tipo 02 — 229 m²",
+            "Tipo 03 — 307 m²",
+            "Tipo 04 — 246 m²",
+            "Tipo 05 — 270 m²",
+            "Tipo 06 — 312 m²",
+          ],
+        },
+        {
+          grupo: "Gardens duplex",
+          faixa: "335 a 435 m²",
+          tipos: ["Tipo 01 — 335 m²", "Tipo 02 — 399 m²", "Tipo 03 — 426 m²"],
+        },
+      ];
+
+      var LM_MOBILIARIO = [
+        {
+          nome: "Sofá June",
+          designer: "Jader Almeida",
+          img: "uploads/1666726004_49c5e7ddf0c23b4771c0.jpg",
+        },
+        {
+          nome: "Poltrona June",
+          designer: "Jader Almeida",
+          img: "uploads/1666726019_9a9640f5279213585c36.jpg",
+        },
+        {
+          nome: "Poltrona Moon",
+          designer: "Jader Almeida",
+          img: "uploads/1666726032_28defed7e27b17ee6f9a.jpg",
+        },
+        {
+          nome: "Caldeira Anna",
+          designer: "Jader Almeida",
+          img: "uploads/1666726045_6b74001b5ccee6a2ceb0.jpg",
+        },
+        {
+          nome: "Colunas Asti",
+          designer: "Jader Almeida",
+          img: "uploads/1666726173_123adeb164bd4f76e855.jpg",
+        },
+        {
+          nome: "Arandela Duomo",
+          designer: "Jader Almeida",
+          img: "uploads/1666726220_77906ae185d1f39a9c42.jpg",
+        },
+        {
+          nome: "Luminária Pinn",
+          designer: "Jader Almeida",
+          img: "uploads/1666726263_3761ef0446b3079032b2.jpg",
+        },
+        {
+          nome: "Poltronas H",
+          designer: "Zanine Caldas",
+          img: "uploads/1666726577_c908db11a1e62a2d59dc.jpg",
+        },
+        {
+          nome: "Banquetas Gravatá",
+          designer: "Wentz",
+          img: "uploads/1667856142_97986f2cb5882e73d810.jpg",
+        },
+        {
+          nome: "Poltrona Baixa",
+          designer: "Wentz",
+          img: "uploads/1667856172_adc9607915a430a31d79.jpg",
+        },
+        {
+          nome: "Mesa de Centro Litoral",
+          designer: "Jacqueline Terpins",
+          img: "uploads/1666727147_936d6e11a9428770af7f.jpg",
+        },
+        {
+          nome: "Mesa de Jantar Concrete",
+          designer: "estudiobola",
+          img: "uploads/1666727253_8fe2168ab9aa800ff5f1.jpg",
+        },
+        {
+          nome: "Cadeiras Luisa",
+          designer: "estudiobola",
+          img: "uploads/1666727318_b15c82caaf7b8a715776.jpg",
+        },
+        {
+          nome: "Poltronas Helga",
+          designer: "estudiobola",
+          img: "uploads/1666727381_263995c31c0ae4d48659.jpg",
+        },
+      ];
+
+      var LM_DECORADO_FOTOS = [
+        "uploads/1753806745_4894ceb60ef29dbc0464.jpg",
+        "uploads/1753806765_3695ab799f68658d9850.jpg",
+        "uploads/1753806790_6ad7051a45cd0fe2ed14.jpg",
+        "uploads/1753806888_b8b0b87b681424d70da3.jpg",
+        "uploads/1753806905_ab8eb52ce3fca16168b9.jpg",
+      ];
+
+      var LM_PROJETOS = [
+        "Projeto Arquitetônico",
+        "Projeto de Interiores",
+        "Projeto de Paisagismo",
+        "Comunicação Visual",
+        "Light Design",
+        "Construção Sustentável",
+      ];
+
+      function lmEsc(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+      }
+      function lmImgTag(rel, alt, cls) {
+        return (
+          '<img class="' +
+          (cls || "lm-img") +
+          '" src="' +
+          LM_IMG +
+          rel +
+          '" alt="' +
+          lmEsc(alt || "") +
+          '" loading="lazy" decoding="async" ' +
+          'onclick="lmOpenLightbox(this.src, this.alt)">'
+        );
+      }
+
+      function lmWaHref(msg) {
+        var num =
+          typeof LEAD !== "undefined" && LEAD.whatsapp
+            ? LEAD.whatsapp
+            : "5541988163938";
+        return "https://wa.me/" + num + "?text=" + encodeURIComponent(msg);
+      }
+
+      var _lmBuilt = false;
+
+      function buildLemmePanel() {
+        if (_lmBuilt) return;
+        _lmBuilt = true;
+
+        // Nav de seções
+        var nav = document.getElementById("lemme-nav");
+        nav.innerHTML = LEMME_SECTIONS.map(function (s) {
+          return (
+            '<button class="lm-nav-chip" data-target="lm-' +
+            s.id +
+            '" onclick="lmGoTo(\'' +
+            s.id +
+            "')\">" +
+            s.label +
+            "</button>"
+          );
+        }).join("");
+
+        var h = "";
+
+        // ── Conceito ──
+        h += '<section class="lm-section" id="lm-conceito">';
+        h += '<div class="lm-kicker">o edifício</div>';
+        h += '<h2 class="lm-h2">Tudo, menos o comum.</h2>';
+        h +=
+          '<p class="lm-p">Sofisticado, elegante, singular. O Lemme nasce do movimento e do navegar, das ondas e do mar, das dunas, da inspiração dos traços soltos de desenhos livres. Contemporâneo, atemporal, aconchegante — tanto o nome como o design.</p>';
+        h +=
+          '<p class="lm-p">Você sente cada detalhe dessa inspiração quando olha para o Lemme: as curvas marcantes, a sutileza dos movimentos. Tudo aqui foi planejado para você viver sua vida intensamente.</p>';
+        h += '<div class="lm-img-row">';
+        h +=
+          '<figure class="lm-fig">' +
+          lmImgTag(
+            "site/img/Vista-lateral-Lemme.jpg",
+            "Vista lateral do Edifício Lemme",
+          ) +
+          "<figcaption>Vista lateral</figcaption></figure>";
+        h +=
+          '<figure class="lm-fig">' +
+          lmImgTag(
+            "site/img/Vista-jardim-Lemme.jpg",
+            "Vista jardim do Edifício Lemme",
+          ) +
+          "<figcaption>Vista jardim</figcaption></figure>";
+        h += "</div>";
+        h +=
+          '<button class="lm-cta lm-cta--ghost" onclick="lmExplorar3D()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="15" height="15"><polygon points="5 3 19 12 5 21 5 3"/></svg> Explorar o edifício em 3D</button>';
+        h += "</section>";
+
+        // ── Números ──
+        h += '<section class="lm-section" id="lm-numeros">';
+        h += '<h2 class="lm-h2">O Lemme em números</h2>';
+        h += '<div class="lm-stats">';
+        h +=
+          '<div class="lm-stat"><div class="lm-stat-val">134–189 m²</div><div class="lm-stat-lbl">Apartamentos</div></div>';
+        h +=
+          '<div class="lm-stat"><div class="lm-stat-val">229–312 m²</div><div class="lm-stat-lbl">Penthouses</div></div>';
+        h +=
+          '<div class="lm-stat"><div class="lm-stat-val">335–435 m²</div><div class="lm-stat-lbl">Gardens duplex</div></div>';
+        h +=
+          '<div class="lm-stat"><div class="lm-stat-val">2–3</div><div class="lm-stat-lbl">Vagas de garagem</div></div>';
+        h +=
+          '<div class="lm-stat"><div class="lm-stat-val">Privativos</div><div class="lm-stat-lbl">Elevadores</div></div>';
+        h +=
+          '<div class="lm-stat"><div class="lm-stat-val">Jun 2026</div><div class="lm-stat-lbl">Obra entregue</div></div>';
+        h += "</div>";
+        h +=
+          '<a class="lm-award" href="https://ifdesign.com/en/winner-ranking/project/lemme-building-residential-common-areas/626978" target="_blank" rel="noopener">🏆 iF Design Award 2024 — áreas comuns residenciais</a>';
+        h += "</section>";
+
+        // ── Tipologias ──
+        h += '<section class="lm-section" id="lm-tipologias">';
+        h += '<h2 class="lm-h2">Plantas do Lemme</h2>';
+        h +=
+          '<p class="lm-p">Sutil nas curvas, eficiente nos espaços e revolucionário na visão. Nenhuma família é igual — então nossas plantas também não podem ser.</p>';
+        LM_TIPOLOGIAS.forEach(function (g) {
+          h += '<div class="lm-tipo-group">';
+          h +=
+            '<div class="lm-tipo-head"><span>' +
+            g.grupo +
+            '</span><span class="lm-tipo-faixa">' +
+            g.faixa +
+            "</span></div>";
+          h += '<div class="lm-tipo-list">';
+          g.tipos.forEach(function (t) {
+            var msg =
+              "Olá! Tenho interesse na planta " +
+              t +
+              " (" +
+              g.grupo +
+              ") do Edifício Lemme. Pode me enviar mais informações?";
+            h +=
+              '<div class="lm-tipo-item"><span>' +
+              t +
+              "</span>" +
+              '<a href="' +
+              lmWaHref(msg) +
+              '" target="_blank" rel="noopener" class="lm-tipo-wa" ' +
+              "onclick=\"if(typeof track==='function')track('tipologia_interest',{tipo:'" +
+              lmEsc(t) +
+              "'})\">Tenho interesse</a></div>";
+          });
+          h += "</div></div>";
+        });
+        h += "</section>";
+
+        // ── Diferenciais ──
+        h += '<section class="lm-section" id="lm-diferenciais">';
+        h += '<h2 class="lm-h2">Diferenciais Lemme</h2>';
+        LM_DIFERENCIAIS.forEach(function (g) {
+          h +=
+            '<div class="lm-dif-cat">' +
+            g.cat +
+            '</div><ul class="lm-dif-list">';
+          g.items.forEach(function (it) {
+            h += "<li>" + it + "</li>";
+          });
+          h += "</ul>";
+        });
+        h += "</section>";
+
+        // ── Decorado ──
+        h += '<section class="lm-section" id="lm-decorado">';
+        h += '<h2 class="lm-h2">Apartamento decorado</h2>';
+        h +=
+          '<p class="lm-p"><strong>Rua Prof. Assis Gonçalves, 798 — Água Verde</strong><br>Segunda a sexta: 09h30 às 17h<br>Sábado, domingo e feriados: 10h às 17h</p>';
+        h += '<div class="lm-gallery">';
+        LM_DECORADO_FOTOS.forEach(function (f, i) {
+          h += lmImgTag(
+            f,
+            "Apartamento decorado Lemme — foto " + (i + 1),
+            "lm-img lm-gal-img",
+          );
+        });
+        h += "</div>";
+        h +=
+          '<button class="lm-cta lm-cta--gold" onclick="lmAgendar()">Agendar visita ao decorado</button>';
+        h += "</section>";
+
+        // ── Projetistas ──
+        h += '<section class="lm-section" id="lm-projetistas">';
+        h += '<h2 class="lm-h2">Projetistas que são tudo, menos comuns</h2>';
+        h +=
+          '<p class="lm-p">A ideia do Lemme nasceu de mentes tão inquietas quanto o mar.</p>';
+        h += '<div class="lm-card">';
+        h += '<div class="lm-card-title">EMA Arquitetura</div>';
+        h += '<div class="lm-card-sub">Projeto Arquitetônico</div>';
+        h +=
+          '<p class="lm-p">A união entre arquitetura, design e modernidade forma o Escritório Metropolitano de Arquitetura (EMA). Felipe Bezerra, Léo Maia e Saskya Carvalho idealizam projetos em forma de arte, com formas dinâmicas desenhadas a partir da perspectiva de cada detalhe.</p>';
+        h += "</div>";
+        h += '<div class="lm-chips">';
+        LM_PROJETOS.forEach(function (p) {
+          h += '<span class="lm-chip">' + p + "</span>";
+        });
+        h += "</div>";
+        h +=
+          '<button class="lm-cta lm-cta--ghost" onclick="lmYt(this, \'fiSnsIQBW-I\')">▶ Assistir vídeo dos projetistas</button>';
+        h += "</section>";
+
+        // ── Mobiliário ──
+        h += '<section class="lm-section" id="lm-mobiliario">';
+        h += '<h2 class="lm-h2">Curadoria de mobiliário</h2>';
+        h +=
+          '<p class="lm-p">Peças assinadas por grandes designers brasileiros, reconhecidos no Brasil e no exterior.</p>';
+        h += '<div class="lm-mob-grid">';
+        LM_MOBILIARIO.forEach(function (m) {
+          h +=
+            '<figure class="lm-mob">' +
+            lmImgTag(m.img, m.nome + " — " + m.designer, "lm-img lm-mob-img") +
+            "<figcaption><strong>" +
+            m.nome +
+            "</strong><span>" +
+            m.designer +
+            "</span></figcaption></figure>";
+        });
+        h += "</div></section>";
+
+        // ── Bairro ──
+        h += '<section class="lm-section" id="lm-bairro">';
+        h += '<h2 class="lm-h2">Um bairro onde o comum é o excepcional</h2>';
+        h +=
+          '<p class="lm-p">Tudo que você precisa em um bairro, você encontra no Água Verde. Cortado pelas principais avenidas de Curitiba, fica a poucos instantes de mercados, hospitais, praças, shoppings e escolas.</p>';
+        h +=
+          '<p class="lm-p">O bairro é conhecido por seus ótimos bares e restaurantes de chefs aclamados como Henrique Fogaça e Beto Madalosso — sem contar a sagrada feirinha noturna de toda quinta na Av. República Argentina.</p>';
+        h += '<div class="lm-btn-row">';
+        h +=
+          '<button class="lm-cta lm-cta--ghost" onclick="closeLemmePanel(); openMapModal();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="15" height="15"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg> Explorar o entorno</button>';
+        h +=
+          '<a class="lm-cta lm-cta--ghost" href="https://www.google.com/maps/place/R.+Prof.+Assis+Gon%C3%A7alves,+798+-+%C3%81gua+Verde,+Curitiba+-+PR" target="_blank" rel="noopener">Ver no Google Maps</a>';
+        h += "</div>";
+        h +=
+          '<button class="lm-cta lm-cta--ghost" onclick="lmYt(this, \'hybaUvp14ZM\')">▶ Assistir vídeo do bairro</button>';
+        h += "</section>";
+
+        // ── Certificações ──
+        h += '<section class="lm-section" id="lm-certificacoes">';
+        h += '<h2 class="lm-h2">Certificações</h2>';
+        h +=
+          '<div class="lm-card"><div class="lm-card-title">GBC Condomínio</div>';
+        h +=
+          '<p class="lm-p">Desenvolvida para projetar, construir e operar condomínios residenciais com alto desempenho e práticas sustentáveis, com transformações aplicadas já durante a obra.</p></div>';
+        h += '<div class="lm-card"><div class="lm-card-title">GBC Life</div>';
+        h +=
+          '<p class="lm-p">Avalia iluminação, termoacústica e qualidade do ar, promovendo ambientes confortáveis e seguros, com desempenho acima das normas técnicas.</p></div>';
+        h += "</section>";
+
+        // ── Obra ──
+        h += '<section class="lm-section" id="lm-obra">';
+        h += '<h2 class="lm-h2">Andamento de obra</h2>';
+        h += '<div class="lm-obra-badge">✓ Obra entregue — Junho 2026</div>';
+        h +=
+          '<p class="lm-p">Estrutura, esquadrias, revestimentos, instalações, automação, mobiliário e decoração: <strong>100% concluídos</strong>.</p>';
+        h +=
+          '<a class="lm-cta lm-cta--ghost" href="https://bidese.com.br/lemme/acompanhamento-de-obra" target="_blank" rel="noopener">Ver fotos da obra</a>';
+        h += "</section>";
+
+        // ── Contato ──
+        h += '<section class="lm-section" id="lm-contato">';
+        h +=
+          '<h2 class="lm-h2">Se a vida é feita de escolhas, viver aqui é a melhor que você pode fazer.</h2>';
+        h +=
+          '<p class="lm-p"><strong>Apartamento decorado</strong><br>Rua Prof. Assis Gonçalves, 798 — Água Verde</p>';
+        h +=
+          '<p class="lm-p"><strong>Comercial:</strong> +55 (41) 98816-3938<br><strong>Assistência técnica:</strong> +55 (41) 99613-0490</p>';
+        h +=
+          '<p class="lm-p"><strong>Bidese Construtora</strong><br>Av. Sete de Setembro, 6679, Batel — Curitiba/PR · (41) 3024-0798</p>';
+        h += '<div class="lm-social">';
+        h +=
+          '<a href="https://www.instagram.com/bideseconstrutora/" target="_blank" rel="noopener">Instagram</a>';
+        h +=
+          '<a href="https://www.facebook.com/bideseconstrutora" target="_blank" rel="noopener">Facebook</a>';
+        h +=
+          '<a href="https://www.linkedin.com/company/construtorabidese" target="_blank" rel="noopener">LinkedIn</a>';
+        h +=
+          '<a href="https://www.youtube.com/channel/UC1yjF2iCGN7HSfCrcWLkiuQ/videos" target="_blank" rel="noopener">YouTube</a>';
+        h += "</div>";
+        h +=
+          '<p class="lm-legal">Imagens e perspectivas meramente ilustrativas. Especificações sujeitas a alteração. Incorporação registrada na matrícula nº 85.284 do 5º Registro de Imóveis. BIDESE © 2026.</p>';
+        h += "</section>";
+
+        document.getElementById("lemme-content").innerHTML = h;
+
+        // WhatsApp do footer do painel
+        var wa = document.getElementById("lm-wa-footer");
+        if (wa)
+          wa.href = lmWaHref(
+            "Olá! Acessei o tour virtual e me interessei pelo Edifício Lemme. Gostaria de falar com um atendente.",
+          );
+
+        // Scrollspy: destaca a seção visível no nav
+        var content = document.getElementById("lemme-content");
+        var chips = nav.querySelectorAll(".lm-nav-chip");
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (en) {
+                if (!en.isIntersecting) return;
+                var id = en.target.id.replace("lm-", "");
+                chips.forEach(function (c) {
+                  var on = c.dataset.target === en.target.id;
+                  c.classList.toggle("active", on);
+                  if (on)
+                    c.scrollIntoView({
+                      block: "nearest",
+                      inline: "center",
+                      behavior: "smooth",
+                    });
+                });
+              });
+            },
+            { root: content, rootMargin: "-30% 0px -60% 0px" },
+          );
+          content.querySelectorAll(".lm-section").forEach(function (s) {
+            io.observe(s);
+          });
+        }
+      }
+
+      function openLemmePanel() {
+        buildLemmePanel();
+        document.getElementById("lemme-panel").classList.add("open");
+        document
+          .getElementById("lemme-panel")
+          .setAttribute("aria-hidden", "false");
+        document.getElementById("lemme-panel-backdrop").classList.add("open");
+        if (typeof track === "function") track("lemme_panel_open", {});
+      }
+
+      function closeLemmePanel() {
+        document.getElementById("lemme-panel").classList.remove("open");
+        document
+          .getElementById("lemme-panel")
+          .setAttribute("aria-hidden", "true");
+        document
+          .getElementById("lemme-panel-backdrop")
+          .classList.remove("open");
+      }
+
+      function lmGoTo(id) {
+        var el = document.getElementById("lm-" + id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (typeof track === "function")
+          track("lemme_section", { section: id });
+      }
+
+      // Integrações com a experiência existente
+      function lmAgendar() {
+        closeLemmePanel();
+        var btn = document.getElementById("cta-visit");
+        if (btn) btn.click(); // abre o lead-modal via initCTA existente
+      }
+
+      function lmExplorar3D() {
+        closeLemmePanel();
+        if (typeof startTour === "function") startTour();
+      }
+
+      // Embed lazy do YouTube: troca o botão pelo iframe apenas no clique
+      function lmYt(btn, videoId) {
+        var wrap = document.createElement("div");
+        wrap.className = "lm-yt";
+        wrap.innerHTML =
+          '<iframe src="https://www.youtube.com/embed/' +
+          videoId +
+          '?autoplay=1&rel=0" title="Vídeo Edifício Lemme" frameborder="0" ' +
+          'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        btn.replaceWith(wrap);
+      }
+
+      // Lightbox
+      function lmOpenLightbox(src, cap) {
+        var lb = document.getElementById("lm-lightbox");
+        document.getElementById("lm-lightbox-img").src = src;
+        document.getElementById("lm-lightbox-cap").textContent = cap || "";
+        lb.classList.add("open");
+        lb.setAttribute("aria-hidden", "false");
+      }
+      function lmCloseLightbox() {
+        var lb = document.getElementById("lm-lightbox");
+        lb.classList.remove("open");
+        lb.setAttribute("aria-hidden", "true");
+      }
+
+      // Escape: fecha lightbox primeiro, depois o painel
+      document.addEventListener("keydown", function (e) {
+        if (e.key !== "Escape") return;
+        var lb = document.getElementById("lm-lightbox");
+        if (lb.classList.contains("open")) {
+          lmCloseLightbox();
+          return;
+        }
+        var p = document.getElementById("lemme-panel");
+        if (p.classList.contains("open")) closeLemmePanel();
       });
     </script>
   </body>

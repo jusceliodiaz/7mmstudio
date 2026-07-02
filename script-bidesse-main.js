@@ -22,8 +22,6 @@ const LEAD = {
   endpoint:      "/api/leads",
 };
 
-const TOUR_ROUTE = ["aerial", "pool", "garden", "living", "kitchen", "room6", "room7"];
-
 let currentScene = 'aerial';
 let busy         = false;
 let navGen       = 0;
@@ -296,11 +294,8 @@ function rememberSeq(seqId, promise) {
 function preload(seqId) {
   if (cache.has(seqId)) return cache.get(seqId);
 
-  const seqBase = CONFIG.sequences[seqId];
-  // Mobile: use the half-resolution folder to reduce network load
-  const seq = MOBILE
-    ? { ...seqBase, folder: seqBase.folder.replace('images/seq_arch/', 'images/seq_arch_m/') }
-    : seqBase;
+  // Mobile resolution is handled per-frame below via seq.folder_m
+  const seq = CONFIG.sequences[seqId];
 
   const step    = MOBILE ? 2 : 1; // skip every other frame on mobile
   const indices = [];
@@ -459,7 +454,6 @@ function showPoiCard(poi, dotEl) {
   poiCardEl.style.top    = top + 'px';
   poiCardEl.style.width  = cardW + 'px';
 
-  requestAnimationFrame(() => poiCardEl.id = 'poi-card');
   requestAnimationFrame(() => poiCardEl.classList.add('open'));
 }
 
@@ -563,6 +557,12 @@ function setActive(id) {
   const idx = ids.indexOf(id);
   const label = document.getElementById('track-label');
   if (label) label.textContent = `SHOT ${idx + 1} OF ${ids.length}`;
+  // Scene tag: mostra o label da cena atual (elemento já existente no HTML)
+  const tag = document.getElementById('scene-tag');
+  if (tag) {
+    const item = CONFIG.timeline[idx];
+    tag.textContent = item ? item.label : '';
+  }
   const prev = document.getElementById('t-prev');
   const next = document.getElementById('t-next');
   if (prev) prev.disabled = idx === 0;
@@ -622,6 +622,26 @@ function stopTour() {
   document.addEventListener(ev, () => { if (touring) stopTour(); }, { passive: true })
 );
 
+// ─── Keyboard navigation (← →) ───────────────────────────────────────────────
+
+function anyOverlayOpen() {
+  const openCls = id => document.getElementById(id)?.classList.contains('open');
+  const leadOpen = (() => { const m = document.getElementById('lead-modal'); return m && !m.hidden; })();
+  return openCls('map-modal') || openCls('pano-modal') || openCls('floor-panel') || openCls('lemme-panel') || leadOpen;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  // Não interfere com campos de texto nem com modais abertos
+  const t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+  if (anyOverlayOpen()) return;
+  const ids = CONFIG.timeline.map(x => x.id);
+  const idx = ids.indexOf(currentScene);
+  if (e.key === 'ArrowLeft'  && idx > 0)              navigateTo(ids[idx - 1]);
+  if (e.key === 'ArrowRight' && idx < ids.length - 1) navigateTo(ids[idx + 1]);
+});
+
 // ─── CTA + Lead modal ─────────────────────────────────────────────────────────
 
 function initCTA() {
@@ -645,6 +665,7 @@ function initCTA() {
   if (closeBtn) closeBtn.addEventListener('click', close);
 
   modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) close(); });
 
   const form = document.getElementById('lead-form');
   if (form) {
@@ -727,9 +748,10 @@ function initBotPopup() {
 
   let hideTimer, scheduleTimer;
 
+  // Guard ampliado: bot não deve aparecer sobre NENHUM modal/drawer aberto
+  // (mapa, panorama 360°, formulário de lead ou painel de andar)
   function isMapOpen() {
-    const m = document.getElementById('map-modal');
-    return m && m.classList.contains('open');
+    return anyOverlayOpen();
   }
 
   function show() {
