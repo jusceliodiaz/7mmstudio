@@ -1,3 +1,4 @@
+const stage       = document.getElementById('stage');
 const mainVideo   = document.getElementById('main-video');
 const seqCanvas   = document.getElementById('seq-canvas');
 const poiLayer    = document.getElementById('poi-layer');
@@ -31,6 +32,75 @@ let touring      = false;
 let mode         = "day"; // reserved for day/night toggle
 const cache      = new Map();
 const videoBlobs = new Map();
+
+// ─── Micro-parallax + drag-swipe (mesma sensação de 3D real do carconfigurator) ──
+
+const PARALLAX_X     = 12;    // amplitude do parallax de mouse (px)
+const PARALLAX_Y     = 7;
+const DRIFT_X        = 4;     // drift idle (px) — vida na cena parada
+const DRIFT_Y        = 2.5;
+const PARALLAX_SCALE = MOBILE ? 1.03 : 1.045; // esconde as bordas reveladas pelo parallax
+const DAMP           = 0.06;  // suavização do parallax (0–1)
+const SWIPE_MIN_PX   = 32;    // distância mínima de arrasto para trocar de cena
+const DRAG_DIR       = -1;    // 1 | -1 → sentido do swipe
+
+let targetPX = 0, targetPY = 0, parX = 0, parY = 0;
+
+if (!MOBILE) {
+  window.addEventListener('mousemove', e => {
+    targetPX = (0.5 - e.clientX / innerWidth) * 2 * PARALLAX_X;
+    targetPY = (0.5 - e.clientY / innerHeight) * 2 * PARALLAX_Y;
+  });
+}
+
+function parallaxTick(now) {
+  parX += (targetPX - parX) * DAMP;
+  parY += (targetPY - parY) * DAMP;
+  const dx = parX + Math.sin(now * 0.00023) * DRIFT_X;
+  const dy = parY + Math.cos(now * 0.00017) * DRIFT_Y;
+  const t  = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) scale(${PARALLAX_SCALE})`;
+  seqCanvas.style.transform = t;
+  mainVideo.style.transform = t;
+  requestAnimationFrame(parallaxTick);
+}
+requestAnimationFrame(parallaxTick);
+
+let swiping = false, swipeStartX = 0, swipeFired = false;
+
+function trySwipeNav(clientX) {
+  if (swipeFired || busy) return;
+  const dx = (clientX - swipeStartX) * DRAG_DIR;
+  if (Math.abs(dx) < SWIPE_MIN_PX) return;
+  const ids = CONFIG.timeline.map(t => t.id);
+  const idx = ids.indexOf(currentScene);
+  const nextIdx = dx < 0 ? idx + 1 : idx - 1;
+  if (nextIdx < 0 || nextIdx >= ids.length) return;
+  swipeFired = true;
+  navigateTo(ids[nextIdx]);
+}
+
+stage.addEventListener('pointerdown', e => {
+  if (e.target.closest('.poi')) return;
+  swiping = true;
+  swipeFired = false;
+  swipeStartX = e.clientX;
+  stage.setPointerCapture(e.pointerId);
+  stage.classList.add('dragging');
+});
+
+stage.addEventListener('pointermove', e => {
+  if (!swiping) return;
+  trySwipeNav(e.clientX);
+});
+
+const endSwipe = e => {
+  if (!swiping) return;
+  swiping = false;
+  stage.classList.remove('dragging');
+  trySwipeNav(e.clientX);
+};
+stage.addEventListener('pointerup', endSwipe);
+stage.addEventListener('pointercancel', endSwipe);
 
 // ─── Analytics ───────────────────────────────────────────────────────────────
 
@@ -67,7 +137,6 @@ window.addEventListener('pagehide', () => markDwell(dwellScene));
 
 window.addEventListener('load', () => {
   resizeCanvas();
-  if (!MOBILE) initCursor();
   buildTrack();
   const initial = sceneFromHash();
   startScene(initial);
@@ -567,9 +636,9 @@ function setActive(id) {
   const next = document.getElementById('t-next');
   if (prev) prev.disabled = idx === 0;
   if (next) next.disabled = idx === ids.length - 1;
-  // floor overlay: visible apenas na cena aerial (botão 1)
+  // floor overlay: desativado
   if (typeof setFloorOverlayVisible === 'function') {
-    setFloorOverlayVisible(id === 'aerial');
+    setFloorOverlayVisible(false);
   }
 }
 
@@ -642,6 +711,86 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' && idx < ids.length - 1) navigateTo(ids[idx + 1]);
 });
 
+// ─── Drag livre + tilt 3D reutilizável (modais que abrem centralizados) ───────
+// Desktop only — mobile fica simples (sem drag/tilt). Retorna reset(), que
+// zera posição/rotação e reinicia a entrada (fade + scale); chamar a cada open().
+
+function initDragTiltCard(card, handle) {
+  if (!card || MOBILE) return () => {};
+
+  const TILT_MAX  = 2.5;  // amplitude do tilt (deg)
+  const TILT_DAMP = 0.07; // suavização do tilt
+  const INTRO_MS  = 260;  // duração da entrada (fade + scale)
+
+  let posX = 0, posY = 0, dragBaseX = 0, dragBaseY = 0;
+  let dragging = false, dragStartX = 0, dragStartY = 0;
+  let targetRX = 0, targetRY = 0, curRX = 0, curRY = 0;
+  let introT0 = 0;
+
+  const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+  function apply() {
+    const introT = Math.min(1, (performance.now() - introT0) / INTRO_MS);
+    const eased  = easeOutCubic(introT);
+    const scale  = 0.97 + 0.03 * eased;
+    card.style.opacity = eased.toFixed(3);
+    card.style.transform =
+      `translate3d(${posX}px, ${posY}px, 0) perspective(700px) rotateX(${curRX.toFixed(2)}deg) rotateY(${curRY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+  }
+
+  function tick() {
+    curRX += (targetRX - curRX) * TILT_DAMP;
+    curRY += (targetRY - curRY) * TILT_DAMP;
+    apply();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  card.addEventListener('pointermove', e => {
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    targetRY = (px - 0.5) * 2 * TILT_MAX;
+    targetRX = -(py - 0.5) * 2 * TILT_MAX;
+    if (!dragging) return;
+    posX = dragBaseX + (e.clientX - dragStartX);
+    posY = dragBaseY + (e.clientY - dragStartY);
+  });
+  card.addEventListener('pointerleave', () => {
+    if (dragging) return;
+    targetRX = 0;
+    targetRY = 0;
+  });
+  (handle || card).addEventListener('pointerdown', e => {
+    if (e.target.closest('input, select, textarea, button, a')) return;
+    dragging = true;
+    dragBaseX = posX;
+    dragBaseY = posY;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    card.classList.add('dragging');
+    card.setPointerCapture(e.pointerId);
+  });
+  const endDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    card.classList.remove('dragging');
+  };
+  card.addEventListener('pointerup', endDrag);
+  card.addEventListener('pointercancel', endDrag);
+
+  return () => {
+    posX = 0; posY = 0; curRX = 0; curRY = 0; targetRX = 0; targetRY = 0;
+    introT0 = performance.now();
+    apply();
+  };
+}
+
+window.resetMapModalCard = initDragTiltCard(
+  document.getElementById('map-modal-box'),
+  document.getElementById('map-modal-header'),
+);
+
 // ─── CTA + Lead modal ─────────────────────────────────────────────────────────
 
 function initCTA() {
@@ -655,10 +804,20 @@ function initCTA() {
   const modal = document.getElementById('lead-modal');
   if (!modal) return;
 
-  const open  = () => { modal.hidden = false; track('lead_open', { scene: currentScene }); };
-  const close = () => { modal.hidden = true; };
-
+  const resetLeadCard = initDragTiltCard(document.getElementById('lead-card'));
   const visitBtn = document.getElementById('cta-visit');
+
+  const open  = () => {
+    modal.hidden = false;
+    resetLeadCard();
+    if (visitBtn) visitBtn.classList.add('active');
+    track('lead_open', { scene: currentScene });
+  };
+  const close = () => {
+    modal.hidden = true;
+    if (visitBtn) visitBtn.classList.remove('active');
+  };
+
   if (visitBtn) visitBtn.addEventListener('click', open);
 
   const closeBtn = document.getElementById('lead-close');
@@ -687,31 +846,6 @@ function initCTA() {
       if (ok) ok.hidden = false;
     });
   }
-}
-
-// ─── Custom cursor (desktop only) ─────────────────────────────────────────────
-
-function initCursor() {
-  const cursor = document.getElementById('cursor');
-  const ring   = document.getElementById('ring');
-  if (!cursor) return;
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-  (function loop() {
-    cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
-    const dx = (mx - rx) * 0.12;
-    const dy = (my - ry) * 0.12;
-    rx += dx; ry += dy;
-    if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-    }
-    requestAnimationFrame(loop);
-  })();
-  document.addEventListener('mouseover', e => {
-    cursor.classList.toggle('on', !!e.target.closest('button,.t-pt,.poi'));
-  });
 }
 
 // ─── Debug mode (press D) ─────────────────────────────────────────────────────

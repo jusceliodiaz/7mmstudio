@@ -119,6 +119,143 @@
     /></noscript>
     <link rel="stylesheet" href="styles.css" />
     <style>
+      /* ── Cursor nativo: sem bolinha customizada, grab no stage, seta nos menus ── */
+      #ring,
+      #cursor {
+        display: none !important;
+      }
+      html,
+      body {
+        cursor: auto !important;
+      }
+      #stage {
+        cursor: grab;
+      }
+      #stage.dragging {
+        cursor: grabbing;
+      }
+      .poi-btn {
+        cursor: pointer;
+      }
+
+      /* ── Lead modal ("Agendar visita"): visual do Entorno, sem blur, arrastável, tilt 3D ── */
+      #lead-modal {
+        background: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      #lead-card {
+        background: #f8f7f5;
+        color: #1a1a1a;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+        box-shadow: 0 8px 48px rgba(0, 0, 0, 0.22);
+        cursor: grab;
+        will-change: transform;
+      }
+      #lead-card.dragging {
+        cursor: grabbing;
+      }
+      @media (hover: none) {
+        #lead-card {
+          cursor: auto;
+          animation: leadCardInMobile 0.25s ease both;
+        }
+        @keyframes leadCardInMobile {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      }
+      #lead-card h3 {
+        color: #1a1a1a;
+      }
+      #lead-card > p {
+        color: rgba(0, 0, 0, 0.55);
+      }
+      #lead-close {
+        top: 18px;
+        right: 18px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        transition: background 0.2s;
+      }
+      #lead-close:hover {
+        background: rgba(0, 0, 0, 0.11);
+      }
+      #lead-form input {
+        border: 1px solid rgba(0, 0, 0, 0.14);
+        background: rgba(0, 0, 0, 0.03);
+        color: #1a1a1a;
+      }
+      #lead-form input::placeholder {
+        color: rgba(0, 0, 0, 0.35);
+      }
+      #lead-ok {
+        color: #7a6438;
+      }
+
+      /* ── Hint "arraste para navegar" ── */
+      #track {
+        display: none !important;
+      }
+      .drag-hint {
+        position: absolute;
+        left: 50%;
+        bottom: 32px;
+        transform: translateX(-50%);
+        z-index: 15;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #fff;
+        padding: 9px 16px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        pointer-events: none;
+        animation: dragHintPulse 2.4s ease-in-out infinite;
+      }
+      .drag-hint svg {
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+      }
+      @keyframes dragHintPulse {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-5px);
+        }
+      }
+      @media (max-width: 600px) {
+        .drag-hint {
+          bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 24px));
+          font-size: 11px;
+          padding: 8px 14px;
+        }
+      }
+
       /* ── Botão Voltar ── */
       .back-btn {
         background: rgba(14, 14, 14, 0.92);
@@ -141,13 +278,13 @@
         transform: translateX(-50%);
         flex-direction: row;
         align-items: center;
-        background: var(--glass);
-        backdrop-filter: blur(40px) saturate(1.8);
-        -webkit-backdrop-filter: blur(40px) saturate(1.8);
-        border: 1px solid var(--glass-border);
+        background: #fff;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 1px solid rgba(0, 0, 0, 0.08);
         border-radius: 20px;
         padding: 10px 12px;
-        box-shadow: var(--shadow);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
         gap: 6px;
       }
       #cta-dock svg {
@@ -162,10 +299,10 @@
       #cta-tour,
       #cta-bot,
       #cta-surround {
-        background: rgba(255, 255, 255, 0.22);
-        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 14px;
-        color: rgba(20, 20, 20, 0.8);
+        color: #1a1a1a;
         box-shadow: none;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
@@ -174,9 +311,19 @@
         gap: 0;
         transition:
           background 0.18s,
+          color 0.18s,
           border-color 0.18s,
           gap 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
           padding 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
+      }
+      #cta-whats.active,
+      #cta-visit.active,
+      #cta-tour.active,
+      #cta-bot.active,
+      #cta-surround.active {
+        background: #141414;
+        border-color: #141414;
+        color: #fff;
       }
       #cta-bot,
       #cta-surround {
@@ -217,9 +364,17 @@
       #cta-tour:hover,
       #cta-bot:hover,
       #cta-surround:hover {
-        background: rgba(255, 255, 255, 0.45);
+        background: rgba(0, 0, 0, 0.05);
         border-color: rgba(0, 0, 0, 0.15);
-        color: rgba(20, 20, 20, 0.9);
+        color: #1a1a1a;
+      }
+      #cta-whats.active:hover,
+      #cta-visit.active:hover,
+      #cta-tour.active:hover,
+      #cta-bot.active:hover,
+      #cta-surround.active:hover {
+        background: #141414;
+        color: #fff;
       }
 
       /* ── Track arrow-nav ── */
@@ -790,12 +945,11 @@
       /* ── Surroundings modal ── */
       #map-modal {
         position: fixed;
-        top: 20px;
-        right: 20px;
+        inset: 0;
         z-index: 80;
         display: flex;
-        align-items: flex-start;
-        justify-content: flex-end;
+        align-items: center;
+        justify-content: center;
         background: none;
         opacity: 0;
         pointer-events: none;
@@ -815,16 +969,15 @@
         display: flex;
         flex-direction: column;
         box-shadow: 0 8px 48px rgba(0, 0, 0, 0.22);
-        animation: mapBoxIn 0.32s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+        cursor: grab;
+        will-change: transform;
       }
-      @keyframes mapBoxIn {
-        from {
-          transform: translateX(16px) scale(0.97);
-          opacity: 0;
-        }
-        to {
-          transform: none;
-          opacity: 1;
+      #map-modal-box.dragging {
+        cursor: grabbing;
+      }
+      @media (hover: none) {
+        #map-modal-box {
+          cursor: auto;
         }
       }
       #map-modal-header {
@@ -1758,61 +1911,14 @@
         display: flex;
         align-items: center;
         gap: 0;
-        background: var(--glass);
-        backdrop-filter: blur(40px) saturate(1.8);
-        -webkit-backdrop-filter: blur(40px) saturate(1.8);
-        border: 1px solid var(--glass-border);
+        background: #fff;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 1px solid rgba(0, 0, 0, 0.08);
         border-radius: 14px;
         padding: 4px;
         height: 44px;
-        box-shadow: var(--shadow);
-      }
-      #top-back {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        height: 36px;
-        padding: 0 10px 0 8px;
-        border-radius: 10px;
-        background: transparent;
-        border: none;
-        color: rgba(0, 0, 0, 0.75);
-        font-size: 13px;
-        font-weight: 500;
-        text-decoration: none;
-        transition: background 0.18s;
-        white-space: nowrap;
-      }
-      #top-back:hover {
-        background: rgba(255, 255, 255, 0.08);
-      }
-      #top-back svg {
-        opacity: 0.75;
-        flex-shrink: 0;
-      }
-      .top-sep {
-        width: 1px;
-        height: 20px;
-        background: rgba(255, 255, 255, 0.14);
-        flex-shrink: 0;
-        margin: 0 2px;
-      }
-      #top-building {
-        padding: 0 12px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: rgba(0, 0, 0, 0.45);
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-      #top-building span {
-        color: #8a7352;
-        margin: 0 4px;
-      }
-      .top-sep {
-        background: rgba(0, 0, 0, 0.12);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
       }
       #filter-toggle {
         position: relative;
@@ -2009,12 +2115,6 @@
       }
 
       @media (max-width: 600px) {
-        #top-building {
-          display: none;
-        }
-        #top-bar .top-sep:nth-child(3) {
-          display: none;
-        }
         #filter-panel {
           left: 10px;
           top: 62px;
@@ -2110,16 +2210,23 @@
         border-radius: 10px;
         background: transparent;
         border: none;
-        color: rgba(0, 0, 0, 0.55);
+        color: #1a1a1a;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: background 0.18s;
+        transition: background 0.18s, color 0.18s;
         flex-shrink: 0;
       }
       #menu-toggle:hover {
         background: rgba(0, 0, 0, 0.06);
+      }
+      #menu-toggle.active {
+        background: #141414;
+        color: #fff;
+      }
+      #menu-toggle.active:hover {
+        background: #141414;
       }
       #menu-toggle svg {
         width: 17px;
@@ -2739,28 +2846,16 @@
           grid-template-columns: 1fr 1fr;
         }
       }
+
+      /* ── Micro-parallax + drag-swipe ── */
+      #seq-canvas,
+      #main-video {
+        will-change: transform;
+      }
     </style>
   </head>
   <body>
     <div id="top-bar">
-      <a href="index.html" id="top-back">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M10 3L5 8l5 5" />
-        </svg>
-        <span>Voltar</span>
-      </a>
-      <div class="top-sep"></div>
-      <div id="top-building">LEMME <span>·</span> BIDESE</div>
-      <div class="top-sep"></div>
       <button
         id="menu-toggle"
         aria-label="Sobre o projeto"
@@ -2779,25 +2874,6 @@
           <line x1="4" y1="17" x2="20" y2="17" />
         </svg>
       </button>
-      <button
-        id="filter-toggle"
-        aria-label="Filtros"
-        onclick="toggleFilterPanel()"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="4" y1="6" x2="20" y2="6" />
-          <line x1="8" y1="12" x2="16" y2="12" />
-          <line x1="11" y1="18" x2="13" y2="18" />
-        </svg>
-        <span class="fi-dot"></span>
-      </button>
     </div>
 
     <div id="cursor"></div>
@@ -2808,6 +2884,22 @@
       <video id="main-video" muted loop playsinline preload="auto"></video>
       <canvas id="seq-canvas"></canvas>
       <div id="poi-layer"></div>
+      <div id="drag-hint" class="drag-hint">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M8 3 4 7l4 4" />
+          <path d="M4 7h16" />
+          <path d="m16 21 4-4-4-4" />
+          <path d="M20 17H4" />
+        </svg>
+        <span>Arraste para navegar</span>
+      </div>
     </div>
 
     <div id="scene-tag"></div>
@@ -2971,22 +3063,6 @@
       </div>
     </div>
 
-    <!-- Overlay editor -->
-    <button id="ov-edit-btn" onclick="toggleOverlayEditor()">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-      </svg>
-      Editar Overlays
-    </button>
-
     <div id="ov-export-panel">
       <div class="ov-exp-title">Editor de Overlays</div>
       <select
@@ -3089,22 +3165,6 @@
       </div>
     </div>
 
-    <!-- Floorplan toggle -->
-    <button id="fp-toggle" onclick="toggleFpPanel()">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <rect x="3" y="3" width="18" height="18" rx="2" />
-        <path d="M3 9h18M9 21V9" />
-      </svg>
-      Planta
-    </button>
-
     <!-- Floorplan panel -->
     <div id="fp-panel">
       <div class="fp-types">
@@ -3174,19 +3234,6 @@
 
     <!-- Floating CTA -->
     <div id="cta-dock">
-      <button id="cta-tour" onclick="startTour()">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <polygon points="5 3 19 12 5 21 5 3" />
-        </svg>
-        <span>Tour</span>
-      </button>
       <button id="cta-surround" onclick="openMapModal()">
         <svg
           viewBox="0 0 24 24"
@@ -3665,6 +3712,8 @@
         var modal = document.getElementById("map-modal");
         modal.classList.add("open");
         modal.setAttribute("aria-hidden", "false");
+        if (typeof window.resetMapModalCard === "function")
+          window.resetMapModalCard();
         document.querySelectorAll(".map-filter").forEach(function (b) {
           b.classList.toggle("active", b.dataset.cat === "all");
         });
@@ -4999,7 +5048,8 @@
 
       // mostra botão de edição apenas quando overlay visível
       function setFloorEditorBtnVisible(v) {
-        document.getElementById("ov-edit-btn").classList.toggle("visible", v);
+        var btn = document.getElementById("ov-edit-btn");
+        if (btn) btn.classList.toggle("visible", v);
         if (!v && _ovEditing) toggleOverlayEditor();
       }
 
@@ -5093,7 +5143,7 @@
           panel.classList.contains("open") &&
           !panel.contains(e.target) &&
           e.target !== toggle &&
-          !toggle.contains(e.target)
+          !(toggle && toggle.contains(e.target))
         ) {
           panel.classList.remove("open");
         }
@@ -5118,9 +5168,8 @@
           _filterState.quartos.length ||
           _filterState.banheiros.length ||
           _filterState.areaMax < 200;
-        document
-          .getElementById("filter-toggle")
-          .classList.toggle("has-active", !!hasActive);
+        var toggle = document.getElementById("filter-toggle");
+        if (toggle) toggle.classList.toggle("has-active", !!hasActive);
         applyFloorFilters();
       }
 
@@ -5227,7 +5276,7 @@
           panel.classList.contains("open") &&
           !panel.contains(e.target) &&
           e.target !== toggle &&
-          !toggle.contains(e.target)
+          !(toggle && toggle.contains(e.target))
         ) {
           panel.classList.remove("open");
         }
@@ -5763,6 +5812,8 @@
           .getElementById("lemme-panel")
           .setAttribute("aria-hidden", "false");
         document.getElementById("lemme-panel-backdrop").classList.add("open");
+        var btn = document.getElementById("menu-toggle");
+        if (btn) btn.classList.add("active");
         if (typeof track === "function") track("lemme_panel_open", {});
       }
 
@@ -5774,6 +5825,8 @@
         document
           .getElementById("lemme-panel-backdrop")
           .classList.remove("open");
+        var btn = document.getElementById("menu-toggle");
+        if (btn) btn.classList.remove("active");
       }
 
       function lmGoTo(id) {
