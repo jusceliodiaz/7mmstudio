@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/bidese",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/bidese.html",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
