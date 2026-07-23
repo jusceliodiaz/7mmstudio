@@ -395,6 +395,7 @@
       #cta-visit,
       #cta-tour,
       #cta-bot,
+      #cta-overlay,
       #cta-surround {
         background: #fff;
         border: 1px solid rgba(0, 0, 0, 0.1);
@@ -423,6 +424,7 @@
         color: #fff;
       }
       #cta-bot,
+      #cta-overlay,
       #cta-surround {
         display: inline-flex;
         align-items: center;
@@ -455,6 +457,35 @@
       #cta-bot.active {
         gap: 8px;
         padding: 0 16px;
+      }
+      /* Botão de overlay: LIGADO = dourado com rótulo; DESLIGADO = branco só ícone */
+      #cta-overlay span {
+        display: inline-block;
+        overflow: hidden;
+        max-width: 100px;
+        opacity: 1;
+        white-space: nowrap;
+        transition:
+          max-width 0.35s cubic-bezier(0.34, 1.4, 0.64, 1),
+          opacity 0.2s ease;
+      }
+      #cta-overlay {
+        gap: 8px;
+        padding: 0 16px;
+        background: rgba(184, 156, 110, 0.18);
+        border-color: #b89c6e;
+        color: #6b5a3e;
+      }
+      #cta-overlay.ov-off {
+        gap: 0;
+        padding: 0 14px;
+        background: #fff;
+        border-color: rgba(0, 0, 0, 0.1);
+        color: #1a1a1a;
+      }
+      #cta-overlay.ov-off span {
+        max-width: 0;
+        opacity: 0;
       }
       #cta-whats:hover,
       #cta-visit:hover,
@@ -562,6 +593,7 @@
         #cta-visit,
         #cta-tour,
         #cta-bot,
+        #cta-overlay,
         #cta-surround {
           flex: 1;
           justify-content: center;
@@ -577,6 +609,18 @@
         #cta-surround span {
           max-width: 100px;
           opacity: 1;
+        }
+        /* No mobile o botão de andares fica só ícone pra caber os 4 no dock */
+        #cta-overlay,
+        #cta-overlay.ov-off {
+          flex: 0 0 auto;
+          gap: 0;
+          padding: 0 12px;
+        }
+        #cta-overlay span {
+          max-width: 0;
+          opacity: 0;
+          margin: 0;
         }
       }
 
@@ -1758,20 +1802,47 @@
         transform: translateX(0);
         pointer-events: auto;
       }
-      #floor-panel-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        padding: 28px 28px 0;
+      /* ── Hero com foto ── */
+      #floor-panel-hero {
+        position: relative;
+        height: 240px;
         flex-shrink: 0;
+        overflow: hidden;
+      }
+      #fl-hero-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.05);
+        transition: transform 6s ease;
+      }
+      #floor-panel.open #fl-hero-img {
+        transform: scale(1);
+      }
+      #fl-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(15, 13, 10, 0.92) 0%,
+          rgba(15, 13, 10, 0.35) 45%,
+          rgba(15, 13, 10, 0.1) 100%
+        );
       }
       #floor-panel-close {
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        background: rgba(0, 0, 0, 0.06);
-        color: rgba(0, 0, 0, 0.45);
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        z-index: 2;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: #fff;
         font-size: 15px;
         line-height: 1;
         cursor: pointer;
@@ -1779,46 +1850,99 @@
         align-items: center;
         justify-content: center;
         transition: background 0.15s;
-        flex-shrink: 0;
       }
       #floor-panel-close:hover {
-        background: rgba(0, 0, 0, 0.12);
+        background: rgba(0, 0, 0, 0.6);
+      }
+      .fl-badge {
+        position: absolute;
+        top: 20px;
+        left: 24px;
+        z-index: 2;
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+      .fl-badge.avail-disponivel {
+        background: rgba(60, 160, 80, 0.85);
+        color: #fff;
+      }
+      .fl-badge.avail-reservado {
+        background: rgba(200, 150, 30, 0.9);
+        color: #fff;
+      }
+      .fl-badge.avail-vendido {
+        background: rgba(190, 60, 60, 0.9);
+        color: #fff;
+      }
+      #fl-hero-text {
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        bottom: 20px;
+        z-index: 2;
       }
       #floor-panel-tag {
         font-size: 9px;
         font-weight: 700;
         letter-spacing: 0.16em;
         text-transform: uppercase;
-        color: #8a7352;
+        color: #d4b98a;
         margin-bottom: 6px;
       }
       #floor-panel-name {
-        font-size: 26px;
+        font-size: 30px;
         font-weight: 700;
-        color: rgba(0, 0, 0, 0.82);
-        line-height: 1.1;
+        color: #fff;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+      }
+      #fl-hero-tipo {
+        margin-top: 4px;
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.7);
       }
       #floor-panel-body {
         flex: 1;
         overflow-y: auto;
-        padding: 24px 28px 32px;
+        padding: 22px 26px 28px;
         display: flex;
         flex-direction: column;
-        gap: 22px;
+        gap: 24px;
         scrollbar-width: none;
       }
       #floor-panel-body::-webkit-scrollbar {
         display: none;
       }
-      .fp-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-      }
-      .fp-stat {
+      /* ── Preço ── */
+      #fl-price-row {
         display: flex;
-        flex-direction: column;
-        gap: 3px;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      #fl-price {
+        font-size: 24px;
+        font-weight: 700;
+        color: #6b5a3e;
+        line-height: 1.1;
+        margin-top: 2px;
+      }
+      #fl-area-badge {
+        flex-shrink: 0;
+        padding: 8px 14px;
+        border-radius: 12px;
+        background: rgba(138, 115, 82, 0.12);
+        border: 1px solid rgba(138, 115, 82, 0.3);
+        color: #6b5a3e;
+        font-size: 14px;
+        font-weight: 700;
       }
       .fp-stat-label {
         font-size: 9px;
@@ -1827,26 +1951,84 @@
         text-transform: uppercase;
         color: rgba(0, 0, 0, 0.3);
       }
-      .fp-stat-val {
-        font-size: 15px;
+      /* ── Métricas (grid de ícones) ── */
+      .fp-metrics {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .fp-metric {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: 14px 6px;
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.035);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .fp-metric svg {
+        width: 22px;
+        height: 22px;
+        color: #8a7352;
+      }
+      .fp-metric-val {
+        font-size: 17px;
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.8);
+        line-height: 1;
+      }
+      .fp-metric-lbl {
+        font-size: 9px;
         font-weight: 600;
-        color: rgba(0, 0, 0, 0.78);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.35);
       }
-      .fp-stat.full {
-        grid-column: 1 / -1;
+      /* ── Blocos ── */
+      .fp-block-title {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.32);
+        margin-bottom: 10px;
       }
-      .fp-divider {
-        height: 1px;
-        background: rgba(0, 0, 0, 0.08);
+      .fp-destaques {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .fp-destaques li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.66);
+      }
+      .fp-destaques li::before {
+        content: "";
+        flex-shrink: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: rgba(138, 115, 82, 0.15)
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a7352' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
+          center / 10px no-repeat;
       }
       #floor-panel-desc {
         font-size: 13px;
         line-height: 1.65;
-        color: rgba(0, 0, 0, 0.45);
+        color: rgba(0, 0, 0, 0.5);
       }
       #floor-panel-footer {
-        padding: 0 28px 28px;
+        padding: 0 26px 26px;
         flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
       .fp-panel-btn {
         height: 46px;
@@ -1872,20 +2054,28 @@
 
       @media (max-width: 600px) {
         #floor-panel {
-          width: 92vw;
-          border-radius: 24px 0 0 24px;
+          width: 100vw;
+          max-width: 100vw;
+          border-radius: 0;
         }
-        #floor-panel-header {
-          padding: 22px 20px 0;
+        #floor-panel-hero {
+          height: 200px;
         }
         #floor-panel-body {
           padding: 20px 20px 24px;
+          gap: 20px;
         }
         #floor-panel-footer {
-          padding: 0 20px 24px;
+          padding: 0 20px calc(20px + env(safe-area-inset-bottom, 0px));
         }
         #floor-panel-name {
-          font-size: 20px;
+          font-size: 25px;
+        }
+        #fl-price {
+          font-size: 21px;
+        }
+        .fp-metric {
+          padding: 12px 4px;
         }
       }
 
@@ -3299,38 +3489,58 @@
 
     <!-- Floor info panel drawer -->
     <div id="floor-panel">
-      <div id="floor-panel-header">
-        <div>
+      <div id="floor-panel-hero">
+        <img id="fl-hero-img" src="" alt="" />
+        <div id="fl-hero-overlay"></div>
+        <button id="floor-panel-close" onclick="closeFloorPanel()">✕</button>
+        <span id="fl-avail-badge" class="fl-badge">—</span>
+        <div id="fl-hero-text">
           <div id="floor-panel-tag">Edifício Lemme</div>
           <div id="floor-panel-name">—</div>
+          <div id="fl-hero-tipo">—</div>
         </div>
-        <button id="floor-panel-close" onclick="closeFloorPanel()">✕</button>
       </div>
       <div id="floor-panel-body">
-        <div class="fp-row">
-          <div class="fp-stat full">
-            <div class="fp-stat-label">Tipologia</div>
-            <div class="fp-stat-val" id="fl-tipo">—</div>
+        <div id="fl-price-row">
+          <div>
+            <div class="fp-stat-label">A partir de</div>
+            <div id="fl-price">—</div>
           </div>
-          <div class="fp-stat">
-            <div class="fp-stat-label">Área útil</div>
-            <div class="fp-stat-val" id="fl-area">—</div>
+          <div id="fl-area-badge">—</div>
+        </div>
+
+        <div class="fp-metrics">
+          <div class="fp-metric">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V7l8-4 8 4v14M9 21v-6h6v6"/></svg>
+            <div class="fp-metric-val" id="fl-quartos">—</div>
+            <div class="fp-metric-lbl">Quartos</div>
           </div>
-          <div class="fp-stat">
-            <div class="fp-stat-label">Garagem</div>
-            <div class="fp-stat-val" id="fl-vagas">—</div>
+          <div class="fp-metric">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v4a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-4ZM6 12V6a2 2 0 0 1 2-2h1M6 19l-1 2M18 19l1 2"/></svg>
+            <div class="fp-metric-val" id="fl-banheiros">—</div>
+            <div class="fp-metric-lbl">Banheiros</div>
           </div>
-          <div class="fp-stat">
-            <div class="fp-stat-label">Suítes</div>
-            <div class="fp-stat-val" id="fl-suites">—</div>
+          <div class="fp-metric">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14v-4l-2-5H7l-2 5v4ZM7 17v2M17 17v2M9 13h6"/></svg>
+            <div class="fp-metric-val" id="fl-vagas">—</div>
+            <div class="fp-metric-lbl">Vagas</div>
           </div>
-          <div class="fp-stat">
-            <div class="fp-stat-label">Status</div>
-            <div class="fp-stat-val" id="fl-status">—</div>
+          <div class="fp-metric">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM4 12h16M12 4v16"/></svg>
+            <div class="fp-metric-val" id="fl-suites">—</div>
+            <div class="fp-metric-lbl">Suítes</div>
           </div>
         </div>
-        <div class="fp-divider"></div>
-        <div id="floor-panel-desc"></div>
+
+        <div class="fp-block">
+          <div class="fp-block-title">Destaques</div>
+          <ul id="fl-destaques" class="fp-destaques"></ul>
+        </div>
+
+        <div class="fp-block">
+          <div class="fp-block-title">Sobre o andar</div>
+          <div id="floor-panel-desc"></div>
+        </div>
       </div>
       <div id="floor-panel-footer">
         <a
@@ -3576,6 +3786,25 @@
 
     <!-- Floating CTA -->
     <div id="cta-dock">
+      <button
+        id="cta-overlay"
+        onclick="toggleFloorOverlay()"
+        title="Mostrar/ocultar andares"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 2 2 7l10 5 10-5-10-5Z" />
+          <path d="m2 12 10 5 10-5" />
+          <path d="m2 17 10 5 10-5" />
+        </svg>
+        <span>Andares</span>
+      </button>
       <button id="cta-surround" onclick="openMapModal()">
         <svg
           viewBox="0 0 24 24"
@@ -4434,33 +4663,52 @@
           quartos: 3,
           banheiros: 2,
           areaNum: 229,
+          preco: "Sob consulta",
+          img: "images/bidesse/COVER_B6.jpg",
+          destaques: ["Terraço privativo 360°", "Piscina privativa", "Elevador exclusivo"],
           //  topo estreito — apenas o volume da cobertura
           poly: [
-            [0.4641, 0.4107],
-            [0.5046, 0.3984],
-            [0.5159, 0.3984],
-            [0.5153, 0.4422],
-            [0.5045, 0.4417],
-            [0.4651, 0.4551],
-            [0.4436, 0.4585],
-            [0.4435, 0.4131],
+            [0.5609, 0.4058],
+            [0.5743, 0.4038],
+            [0.6145, 0.3837],
+            [0.6134, 0.424],
+            [0.576, 0.4473],
+            [0.561, 0.451],
+            [0.5081, 0.441],
+            [0.5044, 0.4412],
+            [0.4538, 0.4595],
+            [0.4525, 0.4138],
+            [0.5024, 0.399],
+            [0.5089, 0.397],
           ],
           curves: {
+            0: [
+              [0.5654, 0.4058],
+              [0.5701, 0.4056],
+            ],
             1: [
-              [0.5087, 0.397],
-              [0.5123, 0.3975],
+              [0.5812, 0.3996],
+              [0.5971, 0.3921],
             ],
             3: [
-              [0.5118, 0.4415],
-              [0.5083, 0.4411],
+              [0.6056, 0.4321],
+              [0.5857, 0.4439],
+            ],
+            4: [
+              [0.5706, 0.4504],
+              [0.5658, 0.4511],
             ],
             5: [
-              [0.457, 0.4583],
-              [0.4502, 0.4607],
+              [0.5501, 0.4479],
+              [0.5283, 0.4435],
             ],
-            7: [
-              [0.4499, 0.4145],
-              [0.4568, 0.4131],
+            9: [
+              [0.4688, 0.4094],
+              [0.4858, 0.4039],
+            ],
+            11: [
+              [0.5249, 0.4005],
+              [0.5448, 0.4033],
             ],
           },
         },
@@ -4478,12 +4726,45 @@
           quartos: 3,
           banheiros: 2,
           areaNum: 162,
+          preco: "R$ 1.890.000",
+          img: "images/bidesse/COVER_B5.jpg",
+          destaques: ["Terraço integrado", "Vista Água Verde", "2 suítes"],
           poly: [
-            [0.456, 0.4726],
-            [0.4991, 0.461],
-            [0.5031, 0.4781],
-            [0.457, 0.4962],
+            [0.511, 0.4566],
+            [0.576, 0.464],
+            [0.5908, 0.4606],
+            [0.6236, 0.4361],
+            [0.6214, 0.4555],
+            [0.59, 0.4813],
+            [0.5764, 0.4841],
+            [0.511, 0.4771],
+            [0.4924, 0.4789],
+            [0.4551, 0.4936],
+            [0.4545, 0.4731],
+            [0.4921, 0.4595],
           ],
+          curves: {
+            1: [
+              [0.5806, 0.4631],
+              [0.5857, 0.4631],
+            ],
+            3: [
+              [0.6234, 0.443],
+              [0.6257, 0.4492],
+            ],
+            5: [
+              [0.5855, 0.4834],
+              [0.5806, 0.4841],
+            ],
+            7: [
+              [0.5046, 0.4767],
+              [0.4986, 0.4779],
+            ],
+            11: [
+              [0.4988, 0.4567],
+              [0.5046, 0.4563],
+            ],
+          },
         },
         {
           id: "andar5",
@@ -4499,12 +4780,49 @@
           quartos: 2,
           banheiros: 2,
           areaNum: 134,
+          preco: "R$ 1.420.000",
+          img: "images/bidesse/COVER_B4.jpg",
+          destaques: ["Iluminação Expolux", "Som Sonos", "Andar intermediário"],
           poly: [
-            [0.457, 0.4962],
-            [0.5031, 0.4781],
-            [0.5031, 0.5038],
-            [0.457, 0.5205],
+            [0.5112, 0.4829],
+            [0.5765, 0.4898],
+            [0.5907, 0.4863],
+            [0.6227, 0.4606],
+            [0.6216, 0.4787],
+            [0.5902, 0.5058],
+            [0.5748, 0.5086],
+            [0.5108, 0.5024],
+            [0.4929, 0.505],
+            [0.4557, 0.5198],
+            [0.4555, 0.4998],
+            [0.4924, 0.485],
           ],
+          curves: {
+            1: [
+              [0.5814, 0.4892],
+              [0.5857, 0.4886],
+            ],
+            3: [
+              [0.6232, 0.4664],
+              [0.6245, 0.4729],
+            ],
+            4: [
+              [0.6111, 0.4877],
+              [0.6, 0.4998],
+            ],
+            5: [
+              [0.5849, 0.5076],
+              [0.5803, 0.5087],
+            ],
+            7: [
+              [0.5047, 0.5014],
+              [0.4993, 0.5026],
+            ],
+            11: [
+              [0.4985, 0.4821],
+              [0.5047, 0.4819],
+            ],
+          },
         },
         {
           id: "andar4",
@@ -4520,12 +4838,45 @@
           quartos: 2,
           banheiros: 2,
           areaNum: 134,
+          preco: "R$ 1.380.000",
+          img: "images/bidesse/COVER_B4.jpg",
+          destaques: ["Elevador privativo", "Acabamento laca PU", "Louças Kohler"],
           poly: [
-            [0.457, 0.5205],
-            [0.5031, 0.5038],
-            [0.5035, 0.5302],
-            [0.457, 0.5503],
+            [0.511, 0.5078],
+            [0.5749, 0.5149],
+            [0.59, 0.5118],
+            [0.6221, 0.486],
+            [0.621, 0.5031],
+            [0.5893, 0.5325],
+            [0.5748, 0.5353],
+            [0.5106, 0.5275],
+            [0.4929, 0.53],
+            [0.4562, 0.5457],
+            [0.4562, 0.5264],
+            [0.4928, 0.5102],
           ],
+          curves: {
+            1: [
+              [0.58, 0.5152],
+              [0.5849, 0.5147],
+            ],
+            3: [
+              [0.6229, 0.4917],
+              [0.6233, 0.4968],
+            ],
+            5: [
+              [0.5844, 0.5346],
+              [0.5799, 0.5362],
+            ],
+            7: [
+              [0.5045, 0.527],
+              [0.499, 0.5282],
+            ],
+            11: [
+              [0.4991, 0.5074],
+              [0.5049, 0.507],
+            ],
+          },
         },
         {
           id: "andar3",
@@ -4541,12 +4892,49 @@
           quartos: 2,
           banheiros: 1,
           areaNum: 134,
+          preco: "Vendido",
+          img: "images/bidesse/COVER_B3.jpg",
+          destaques: ["Garden view", "Paisagismo exuberante", "Privacidade total"],
           poly: [
-            [0.457, 0.5503],
-            [0.5035, 0.5302],
-            [0.5027, 0.5559],
-            [0.4574, 0.5753],
+            [0.5105, 0.5331],
+            [0.5746, 0.5413],
+            [0.5894, 0.5375],
+            [0.6223, 0.5094],
+            [0.6201, 0.529],
+            [0.5889, 0.557],
+            [0.5744, 0.5608],
+            [0.5101, 0.5541],
+            [0.4928, 0.5557],
+            [0.4564, 0.5713],
+            [0.4561, 0.5519],
+            [0.4924, 0.5361],
           ],
+          curves: {
+            1: [
+              [0.5796, 0.5413],
+              [0.5844, 0.5395],
+            ],
+            2: [
+              [0.5993, 0.5335],
+              [0.6101, 0.5183],
+            ],
+            3: [
+              [0.6217, 0.5157],
+              [0.6221, 0.5216],
+            ],
+            5: [
+              [0.5842, 0.5601],
+              [0.5796, 0.5614],
+            ],
+            7: [
+              [0.5033, 0.5529],
+              [0.4991, 0.5535],
+            ],
+            11: [
+              [0.4985, 0.5327],
+              [0.5045, 0.5327],
+            ],
+          },
         },
         {
           id: "andar2",
@@ -4562,12 +4950,45 @@
           quartos: 2,
           banheiros: 2,
           areaNum: 134,
+          preco: "R$ 1.350.000",
+          img: "images/bidesse/COVER_B3.jpg",
+          destaques: ["Acesso ao garden", "Piscina aquecida", "SPA privativo"],
           poly: [
-            [0.4574, 0.5753],
-            [0.5027, 0.5559],
-            [0.5023, 0.576],
-            [0.4574, 0.5989],
+            [0.5105, 0.5583],
+            [0.5754, 0.5664],
+            [0.5893, 0.563],
+            [0.6204, 0.5341],
+            [0.6188, 0.5516],
+            [0.5887, 0.5824],
+            [0.5746, 0.5862],
+            [0.5102, 0.5769],
+            [0.4933, 0.5792],
+            [0.457, 0.5964],
+            [0.4566, 0.5776],
+            [0.493, 0.5609],
           ],
+          curves: {
+            1: [
+              [0.5799, 0.5664],
+              [0.5845, 0.5648],
+            ],
+            3: [
+              [0.621, 0.5395],
+              [0.6213, 0.5458],
+            ],
+            5: [
+              [0.5834, 0.5847],
+              [0.5791, 0.586],
+            ],
+            7: [
+              [0.5045, 0.5767],
+              [0.4991, 0.5769],
+            ],
+            11: [
+              [0.4992, 0.5579],
+              [0.5047, 0.5567],
+            ],
+          },
         },
         {
           id: "andar1",
@@ -4583,12 +5004,53 @@
           quartos: 3,
           banheiros: 2,
           areaNum: 335,
+          preco: "Vendido",
+          img: "images/bidesse/COVER_B2.jpg",
+          destaques: ["Garden duplex", "Jardim privativo", "Acesso ao lazer"],
           poly: [
-            [0.4574, 0.5989],
-            [0.5023, 0.576],
-            [0.502, 0.6038],
-            [0.4578, 0.6281],
+            [0.51, 0.582],
+            [0.5742, 0.5915],
+            [0.5885, 0.5878],
+            [0.6206, 0.5568],
+            [0.6195, 0.5718],
+            [0.5887, 0.6054],
+            [0.5748, 0.6104],
+            [0.5095, 0.6006],
+            [0.4938, 0.6032],
+            [0.4575, 0.621],
+            [0.457, 0.6036],
+            [0.4933, 0.5852],
           ],
+          curves: {
+            1: [
+              [0.5791, 0.5909],
+              [0.5835, 0.5905],
+            ],
+            2: [
+              [0.5995, 0.5807],
+              [0.6098, 0.5677],
+            ],
+            3: [
+              [0.6206, 0.5621],
+              [0.6206, 0.5677],
+            ],
+            4: [
+              [0.6103, 0.586],
+              [0.5995, 0.5963],
+            ],
+            5: [
+              [0.584, 0.6102],
+              [0.5796, 0.6106],
+            ],
+            7: [
+              [0.5043, 0.6],
+              [0.4993, 0.6008],
+            ],
+            11: [
+              [0.499, 0.5824],
+              [0.5044, 0.5816],
+            ],
+          },
         },
         {
           id: "terreo",
@@ -4600,12 +5062,41 @@
           status: "Entregue",
           desc: "Lobby 24h com guarita blindada, central de entregas e acesso biométrico sem chaves.",
           pdf: "",
+          preco: "",
+          img: "images/bidesse/COVER_B1.jpg",
+          destaques: ["Lobby 24h", "Guarita blindada", "Acesso biométrico"],
           poly: [
-            [0.4578, 0.6281],
-            [0.502, 0.6038],
-            [0.5016, 0.6447],
-            [0.4574, 0.6704],
+            [0.5096, 0.6061],
+            [0.5748, 0.6164],
+            [0.5884, 0.6124],
+            [0.6228, 0.5774],
+            [0.6218, 0.6142],
+            [0.5871, 0.6468],
+            [0.5737, 0.655],
+            [0.5096, 0.6428],
+            [0.4944, 0.6461],
+            [0.4581, 0.6704],
+            [0.458, 0.6276],
+            [0.4935, 0.6099],
           ],
+          curves: {
+            1: [
+              [0.5791, 0.6158],
+              [0.5842, 0.6149],
+            ],
+            5: [
+              [0.5832, 0.6522],
+              [0.5783, 0.6549],
+            ],
+            7: [
+              [0.5034, 0.6432],
+              [0.4997, 0.6439],
+            ],
+            11: [
+              [0.4995, 0.6069],
+              [0.5046, 0.606],
+            ],
+          },
         },
       ];
 
@@ -4759,14 +5250,67 @@
         });
         var poly = document.querySelector('.floor-poly[data-id="' + id + '"]');
         if (poly) poly.classList.add("selected");
-        // populate panel
-        document.getElementById("floor-panel-name").textContent = fl.label;
-        document.getElementById("fl-tipo").textContent = fl.tipo;
-        document.getElementById("fl-area").textContent = fl.area;
-        document.getElementById("fl-vagas").textContent = fl.vagas;
-        document.getElementById("fl-suites").textContent = fl.suites;
-        document.getElementById("fl-status").textContent = fl.status;
-        document.getElementById("floor-panel-desc").textContent = fl.desc;
+
+        var $ = function (i) {
+          return document.getElementById(i);
+        };
+        var availLabels = {
+          disponivel: "Disponível",
+          reservado: "Reservado",
+          vendido: "Vendido",
+        };
+
+        // hero
+        var heroImg = $("fl-hero-img");
+        if (fl.img) {
+          heroImg.src = fl.img;
+          heroImg.style.display = "";
+        } else {
+          heroImg.style.display = "none";
+        }
+        $("floor-panel-name").textContent = fl.label;
+        $("fl-hero-tipo").textContent = fl.tipo || "";
+
+        var badge = $("fl-avail-badge");
+        badge.className =
+          "fl-badge" + (fl.avail ? " avail-" + fl.avail : "");
+        badge.textContent = fl.avail
+          ? availLabels[fl.avail] || fl.status || ""
+          : fl.status || "";
+        badge.style.display = badge.textContent ? "" : "none";
+
+        // preço
+        $("fl-price").textContent = fl.preco || "Sob consulta";
+        $("fl-area-badge").textContent = fl.area || "—";
+
+        // métricas
+        $("fl-quartos").textContent =
+          fl.quartos != null ? fl.quartos : "—";
+        $("fl-banheiros").textContent =
+          fl.banheiros != null ? fl.banheiros : "—";
+        $("fl-vagas").textContent = (fl.vagas || "—").replace(
+          /\s*vagas?/i,
+          "",
+        );
+        $("fl-suites").textContent = (fl.suites || "—").replace(
+          /\s*su[ií]tes?/i,
+          "",
+        );
+
+        // destaques
+        var ul = $("fl-destaques");
+        ul.innerHTML = "";
+        (fl.destaques || []).forEach(function (d) {
+          var li = document.createElement("li");
+          li.textContent = d;
+          ul.appendChild(li);
+        });
+        $("fl-destaques").parentElement.style.display = (fl.destaques || [])
+          .length
+          ? ""
+          : "none";
+
+        $("floor-panel-desc").textContent = fl.desc || "";
         var pdfBtn = document.getElementById("fl-pdf-btn");
         pdfBtn.href = fl.pdf || "#";
         if (!fl.pdf) pdfBtn.removeAttribute("download");
@@ -4822,6 +5366,26 @@
           closeFloorPanel();
         }
         setFloorEditorBtnVisible(visible);
+      }
+
+      // Preferência do usuário (botão do dock) — liga/desliga os overlays
+      // dos andares. Só tem efeito visual na Vista 1, onde os overlays existem.
+      var _floorOverlayOn = true;
+      function floorOverlayAllowed() {
+        return _floorOverlayOn;
+      }
+      function toggleFloorOverlay() {
+        _floorOverlayOn = !_floorOverlayOn;
+        var btn = document.getElementById("cta-overlay");
+        if (btn) {
+          btn.classList.toggle("ov-off", !_floorOverlayOn);
+          var lbl = btn.querySelector("span");
+          if (lbl) lbl.textContent = _floorOverlayOn ? "Andares" : "Andares";
+        }
+        // aplica na hora se estivermos na Vista 1 (onde há overlay)
+        if (typeof currentScene !== "undefined" && currentScene === "aerial") {
+          setFloorOverlayVisible(_floorOverlayOn);
+        }
       }
 
       // Rebuild on resize

@@ -30,8 +30,8 @@ const CONFIG = {
         {
           type: "card-complex",
           label: "LOBBY",
-          x: 50.9,
-          y: 64.4,
+          x: 51.1,
+          y: 70.0,
           category: "ACCESS",
           subcategory: "ENTRANCE",
           title: "Lobby",

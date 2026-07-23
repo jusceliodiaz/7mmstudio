@@ -469,7 +469,8 @@ function setDayNightVisible(visible) {
 function dnSyncFloorOverlay() {
   if (typeof setFloorOverlayVisible !== 'function') return;
   const svg = document.getElementById('floor-svg');
-  const shouldShow = dnT === 0;
+  const allow = typeof floorOverlayAllowed === 'function' ? floorOverlayAllowed() : true;
+  const shouldShow = dnT === 0 && allow;
   const isShown = !!(svg && svg.classList.contains('visible'));
   if (shouldShow !== isShown) setFloorOverlayVisible(shouldShow);
 }
@@ -734,9 +735,11 @@ function setActive(id) {
   const next = document.getElementById('t-next');
   if (prev) prev.disabled = idx === 0;
   if (next) next.disabled = idx === ids.length - 1;
-  // floor overlay: ativo apenas na Vista 1 (aerial / COVER_B1)
+  // floor overlay: ativo apenas na Vista 1 (aerial / COVER_B1) e se o
+  // usuário não desligou pelo botão do dock
   if (typeof setFloorOverlayVisible === 'function') {
-    setFloorOverlayVisible(id === 'aerial');
+    const allow = typeof floorOverlayAllowed === 'function' ? floorOverlayAllowed() : true;
+    setFloorOverlayVisible(id === 'aerial' && allow);
   }
   setDayNightVisible(id === 'aerial');
 }
