@@ -214,7 +214,7 @@
       .drag-hint {
         position: absolute;
         left: 50%;
-        bottom: 32px;
+        top: 76px;
         transform: translateX(-50%);
         z-index: 15;
         display: flex;
@@ -225,7 +225,7 @@
         font-weight: 600;
         letter-spacing: 0.04em;
         color: #fff;
-        padding: 9px 16px;
+        padding: 8px 16px;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.16);
@@ -250,9 +250,106 @@
       }
       @media (max-width: 600px) {
         .drag-hint {
-          bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 24px));
-          font-size: 11px;
-          padding: 8px 14px;
+          top: 66px;
+          font-size: 10px;
+          padding: 6px 12px;
+        }
+      }
+
+      /* ── Barra dia/noite (Vista 1) ── */
+      #dn-slider {
+        position: absolute;
+        left: 50%;
+        top: max(16px, env(safe-area-inset-top, 16px));
+        transform: translateX(-50%);
+        z-index: 14;
+        display: none;
+        align-items: center;
+        gap: 10px;
+        height: 44px;
+        padding: 0 14px 0 16px;
+        border-radius: 999px;
+        background: rgba(120, 130, 140, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        touch-action: none;
+        cursor: pointer;
+        user-select: none;
+      }
+      #dn-slider.show {
+        display: flex;
+      }
+      #dn-sun {
+        width: 17px;
+        height: 17px;
+        flex-shrink: 0;
+        color: #fff;
+        opacity: 0.9;
+        pointer-events: none;
+      }
+      #dn-track {
+        position: relative;
+        width: 160px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.35);
+        overflow: visible;
+      }
+      #dn-track::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: var(--dn-t, 0%);
+        border-radius: 999px;
+        background: rgba(10, 10, 15, 0.85);
+        pointer-events: none;
+      }
+      #dn-handle {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        will-change: left;
+      }
+      #dn-moon {
+        width: 26px;
+        height: 26px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: rgba(10, 10, 15, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+      #dn-moon svg {
+        width: 14px;
+        height: 14px;
+        color: #fff;
+      }
+      @media (max-width: 600px) {
+        #dn-slider {
+          top: max(14px, env(safe-area-inset-top, 14px));
+          height: 38px;
+          gap: 8px;
+          padding: 0 10px 0 12px;
+        }
+        #dn-track {
+          width: 110px;
+        }
+        #dn-handle,
+        #dn-moon {
+          width: 22px;
+          height: 22px;
         }
       }
 
@@ -271,8 +368,8 @@
 
       /* ── CTA dock superior ── */
       #cta-dock {
-        top: 20px;
-        bottom: auto;
+        top: auto;
+        bottom: max(44px, env(safe-area-inset-bottom, 44px));
         right: auto;
         left: 50%;
         transform: translateX(-50%);
@@ -449,23 +546,37 @@
       /* ── Responsivo mobile ── */
       @media (max-width: 600px) {
         #cta-dock {
-          top: max(12px, env(safe-area-inset-top, 12px));
-          padding: 4px;
-          gap: 3px;
-          border-radius: 14px;
+          top: auto;
+          bottom: max(36px, env(safe-area-inset-bottom, 36px));
+          width: 80%;
+          justify-content: space-between;
+          padding: 6px;
+          gap: 4px;
+          border-radius: 18px;
         }
         #cta-dock svg {
-          width: 17px;
-          height: 17px;
+          width: 20px;
+          height: 20px;
         }
         #cta-whats,
         #cta-visit,
         #cta-tour,
         #cta-bot,
         #cta-surround {
-          height: 34px;
+          flex: 1;
+          justify-content: center;
+          height: 44px;
           padding: 0 10px;
-          border-radius: 10px;
+          gap: 6px;
+          border-radius: 13px;
+          font-size: 12px;
+        }
+        #cta-tour span,
+        #cta-visit span,
+        #cta-bot span,
+        #cta-surround span {
+          max-width: 100px;
+          opacity: 1;
         }
       }
 
@@ -473,61 +584,63 @@
       @keyframes botBounce {
         0% {
           opacity: 0;
-          transform: translateX(-50%) translateY(-10px) scale(0.95);
+          transform: scale(0.95);
         }
         100% {
           opacity: 1;
-          transform: translateX(-50%) translateY(0) scale(1);
+          transform: scale(1);
         }
       }
       #bot-popup {
         position: fixed;
-        top: 98px;
-        left: 50%;
-        transform: translateX(-50%);
+        inset: 0;
         z-index: 200;
-        width: 272px;
-        background: rgba(14, 14, 14, 0.94);
-        backdrop-filter: blur(40px) saturate(1.6);
-        -webkit-backdrop-filter: blur(40px) saturate(1.6);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 14px;
         display: none;
-        flex-direction: column;
-        gap: 12px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        background: none;
       }
       #bot-popup.bot-show {
         display: flex;
-        animation: botBounce 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
       }
-      .bot-tail {
-        position: absolute;
-        top: -6px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 12px;
-        height: 6px;
-        background: rgba(14, 14, 14, 0.94);
-        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      #bot-popup-box {
+        width: 320px;
+        background: #f8f7f5;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        box-shadow: 0 8px 48px rgba(0, 0, 0, 0.22);
+        cursor: grab;
+        will-change: transform;
+      }
+      #bot-popup-box.dragging {
+        cursor: grabbing;
+      }
+      @media (hover: none) {
+        #bot-popup-box {
+          cursor: auto;
+          animation: botBounce 0.25s ease both;
+        }
       }
       .bot-header {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
       }
       .bot-avatar {
         flex-shrink: 0;
         width: 28px;
         height: 28px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(0, 0, 0, 0.5);
       }
       .bot-avatar svg {
         width: 16px;
@@ -535,29 +648,30 @@
       }
       .bot-name {
         flex: 1;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.35);
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        text-transform: none;
+        font-family: "DM Sans", sans-serif;
+        color: #1a1a1a;
       }
       .bot-close {
         flex-shrink: 0;
-        width: 24px;
-        height: 24px;
-        border-radius: 4px;
-        background: transparent;
-        border: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.1);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(255, 255, 255, 0.25);
+        color: rgba(0, 0, 0, 0.45);
         padding: 0;
-        transition: color 0.2s;
+        transition: background 0.2s;
       }
       .bot-close:hover {
-        color: rgba(255, 255, 255, 0.65);
+        background: rgba(0, 0, 0, 0.11);
       }
       .bot-close svg {
         width: 12px;
@@ -568,7 +682,7 @@
         font-size: 13px;
         font-weight: 400;
         line-height: 1.55;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(0, 0, 0, 0.55);
         margin: 0;
       }
       .bot-wa-btn {
@@ -576,24 +690,22 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        height: 38px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        color: #fff;
+        height: 42px;
+        border-radius: 12px;
+        background: rgba(60, 160, 80, 0.1);
+        border: 1px solid rgba(60, 160, 80, 0.4);
+        color: #2d7a3c;
         font-size: 13px;
         font-weight: 600;
+        font-family: "DM Sans", sans-serif;
         text-decoration: none;
-        transition:
-          background 0.2s,
-          border-color 0.2s;
+        transition: background 0.2s;
       }
       .bot-wa-btn:hover {
-        background: rgba(255, 255, 255, 0.17);
-        border-color: rgba(255, 255, 255, 0.28);
+        background: rgba(60, 160, 80, 0.2);
       }
       @media (max-width: 360px) {
-        #bot-popup {
+        #bot-popup-box {
           width: calc(100vw - 32px);
         }
       }
@@ -1546,13 +1658,15 @@
         z-index: 5;
         pointer-events: none;
         opacity: 0;
-        transition: opacity 0.4s ease;
       }
       #floor-svg.visible {
         opacity: 1;
-        pointer-events: auto;
       }
+      /* pointer-events fica none no <svg> raiz (não bloqueia o swipe entre
+         cenas nas áreas vazias); só os elementos realmente clicáveis abaixo
+         reativam pointer-events: auto individualmente */
       .floor-poly {
+        pointer-events: auto;
         fill: rgba(184, 156, 110, 0.08);
         stroke: rgba(184, 156, 110, 0.55);
         stroke-width: 1;
@@ -1566,6 +1680,32 @@
         fill: rgba(184, 156, 110, 0.28);
         stroke: #b89c6e;
         stroke-width: 1.5;
+      }
+      .floor-poly.avail-disponivel {
+        fill: rgba(60, 160, 80, 0.32);
+        stroke: #3ca050;
+      }
+      .floor-poly.avail-disponivel:hover {
+        fill: rgba(60, 160, 80, 0.45);
+      }
+      .floor-poly.avail-reservado {
+        fill: rgba(180, 130, 20, 0.32);
+        stroke: #b48214;
+      }
+      .floor-poly.avail-reservado:hover {
+        fill: rgba(180, 130, 20, 0.45);
+      }
+      .floor-poly.avail-vendido {
+        fill: rgba(180, 50, 50, 0.32);
+        stroke: #b43232;
+      }
+      .floor-poly.avail-vendido:hover {
+        fill: rgba(180, 50, 50, 0.45);
+      }
+      .floor-poly.avail-disponivel.selected,
+      .floor-poly.avail-reservado.selected,
+      .floor-poly.avail-vendido.selected {
+        stroke-width: 2;
       }
       .floor-label-text {
         fill: rgba(255, 255, 255, 0.7);
@@ -1789,6 +1929,7 @@
 
       /* handles dos vértices */
       .ov-handle {
+        pointer-events: auto;
         cursor: grab;
         transition: r 0.1s;
       }
@@ -1800,6 +1941,47 @@
       }
       .ov-handle-ring {
         pointer-events: none;
+      }
+      .ov-curve-handle {
+        pointer-events: auto;
+        cursor: grab;
+      }
+      .ov-curve-handle:active {
+        cursor: grabbing;
+      }
+      .ov-add-handle {
+        pointer-events: auto;
+        cursor: pointer;
+        fill: rgba(60, 160, 80, 0.85);
+        stroke: #fff;
+        stroke-width: 1.5;
+        transition: r 0.1s;
+      }
+      .ov-add-handle:hover {
+        r: 8;
+      }
+      .ov-add-handle-plus {
+        pointer-events: none;
+        stroke: #fff;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+      }
+      .ov-edge-toggle {
+        pointer-events: auto;
+        cursor: pointer;
+        stroke-width: 1.5;
+        transition: r 0.1s;
+      }
+      .ov-edge-toggle:hover {
+        r: 7;
+      }
+      .ov-edge-toggle.curved {
+        fill: rgba(122, 74, 217, 0.85);
+        stroke: #fff;
+      }
+      .ov-edge-toggle.straight {
+        fill: rgba(255, 255, 255, 0.5);
+        stroke: rgba(122, 74, 217, 0.85);
       }
 
       /* painel de export */
@@ -1894,6 +2076,89 @@
         background: rgba(80, 180, 100, 0.2);
         color: #2d7a3c;
         border-color: #3ca050;
+      }
+      #ov-curve-hint {
+        font-size: 10px;
+        color: #4a90d9;
+        line-height: 1.6;
+      }
+      #ov-zoom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 10px;
+        color: rgba(0, 0, 0, 0.45);
+      }
+      #ov-zoom-label {
+        font-weight: 700;
+        color: #6b5a3e;
+      }
+      .ov-io-block {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px;
+        border-radius: 10px;
+        background: rgba(74, 144, 217, 0.07);
+        border: 1px dashed rgba(74, 144, 217, 0.45);
+      }
+      .ov-io-title {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #2e5f8f;
+      }
+      #ov-import-json {
+        width: 100%;
+        min-height: 70px;
+        resize: vertical;
+        font-family: "Courier New", monospace;
+        font-size: 10px;
+        line-height: 1.5;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.75);
+        outline: none;
+      }
+      #ov-import-status {
+        font-size: 10px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+      }
+      #ov-import-status.ov-ok {
+        color: #2d7a3c;
+      }
+      #ov-import-status.ov-err {
+        color: #b43232;
+      }
+      .ov-io-note {
+        font-size: 9px;
+        line-height: 1.5;
+        color: rgba(0, 0, 0, 0.35);
+      }
+      #ov-zoom-reset-btn {
+        flex-shrink: 0;
+        height: 22px;
+        padding: 0 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 0, 0, 0.14);
+        background: rgba(255, 255, 255, 0.5);
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #ov-zoom-reset-btn:hover {
+        background: rgba(255, 255, 255, 0.9);
+      }
+      #floor-svg.pannable {
+        cursor: grab;
+      }
+      #floor-svg.pannable:active {
+        cursor: grabbing;
       }
       #ov-hint {
         font-size: 10px;
@@ -2150,6 +2415,12 @@
       #cta-visit:hover {
         gap: 8px;
         padding: 0 16px;
+      }
+      @media (max-width: 600px) {
+        #cta-visit span {
+          max-width: 100px;
+          opacity: 1;
+        }
       }
 
       /* ── CTA WhatsApp no painel de andar ── */
@@ -2814,6 +3085,7 @@
         pointer-events: none;
       }
       .ov-slice-h {
+        pointer-events: auto;
         fill: #b89c6e;
         stroke: #fff;
         stroke-width: 2;
@@ -2822,6 +3094,13 @@
       .ov-slice-h:active {
         cursor: grabbing;
         fill: #8a7352;
+      }
+
+      /* zoom do editor de overlay (scroll do mouse) — origem 0,0 pro cálculo
+         de translate+scale em ovApplyZoomTransform() bater certinho */
+      #seq-canvas,
+      #main-video {
+        transform-origin: 0 0;
       }
 
       @media (max-width: 600px) {
@@ -2847,11 +3126,6 @@
         }
       }
 
-      /* ── Micro-parallax + drag-swipe ── */
-      #seq-canvas,
-      #main-video {
-        will-change: transform;
-      }
     </style>
   </head>
   <body>
@@ -2899,6 +3173,36 @@
           <path d="M20 17H4" />
         </svg>
         <span>Arraste para navegar</span>
+      </div>
+    </div>
+
+    <!-- Barra dia/noite — só na Vista 1 (aerial) -->
+    <div id="dn-slider">
+      <svg
+        id="dn-sun"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+        />
+      </svg>
+      <div id="dn-track">
+        <div id="dn-handle"></div>
+      </div>
+      <div id="dn-moon">
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          stroke="none"
+        >
+          <path d="M20.7 15.9A9 9 0 1 1 8.1 3.3a7 7 0 0 0 12.6 12.6Z" />
+        </svg>
       </div>
     </div>
 
@@ -3063,6 +3367,22 @@
       </div>
     </div>
 
+    <button id="ov-edit-btn" onclick="toggleOverlayEditor()">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"
+        />
+      </svg>
+      Editar andares
+    </button>
+
     <div id="ov-export-panel">
       <div class="ov-exp-title">Editor de Overlays</div>
       <select
@@ -3071,9 +3391,19 @@
       ></select>
       <div id="ov-coords-out"></div>
       <label class="ov-weld-row">
-        <input type="checkbox" id="ov-weld" checked />
-        Mover vértices coincidentes juntos
+        <input type="checkbox" id="ov-weld" />
+        Mover vértices coincidentes juntos (afeta andares vizinhos)
       </label>
+      <div id="ov-curve-hint">
+        <b>+</b> verde: adiciona um ponto reto na aresta &nbsp;·&nbsp;
+        <b>~</b> roxo: curva/retifica a aresta &nbsp;·&nbsp;
+        arraste os ◆ azuis pra moldar a curva
+      </div>
+      <div id="ov-zoom-row">
+        <span id="ov-zoom-label">Zoom: 100%</span>
+        <span>scroll ajusta · arraste a imagem pra navegar</span>
+        <button id="ov-zoom-reset-btn" onclick="ovResetZoomBtn()">Resetar</button>
+      </div>
       <button class="ov-exp-btn" id="ov-slice-btn" onclick="ovToggleSlice()">
         <svg
           width="12"
@@ -3108,8 +3438,8 @@
       </div>
       <button
         class="ov-exp-btn"
-        id="ov-apply-btn"
-        onclick="ovApply()"
+        id="ov-copy-btn"
+        onclick="ovCopyAll()"
         style="
           height: 36px;
           font-size: 12px;
@@ -3125,44 +3455,56 @@
           fill="none"
           stroke="currentColor"
           stroke-width="2.2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
         >
-          <polyline points="20 6 9 17 4 12" />
+          <rect x="9" y="9" width="13" height="13" rx="2" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
         </svg>
-        Aplicar posições
+        Copiar JSON (todos os andares)
       </button>
-      <div class="ov-exp-row">
-        <button class="ov-exp-btn" onclick="ovCopyAll()">
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.2"
-          >
-            <rect x="9" y="9" width="13" height="13" rx="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-          </svg>
-          Copiar tudo
-        </button>
-        <button class="ov-exp-btn" onclick="ovResetFloor()">
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.2"
-            stroke-linecap="round"
-          >
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-            <path d="M3 3v5h5" />
-          </svg>
-          Reset andar
+
+      <div class="ov-io-block">
+        <div class="ov-io-title">Importar JSON</div>
+        <textarea
+          id="ov-import-json"
+          placeholder='Cole aqui o JSON de "Copiar JSON" e clique em Aplicar'
+        ></textarea>
+        <div id="ov-import-status"></div>
+        <button class="ov-exp-btn" onclick="ovImportJSON()">
+          ✓ Aplicar JSON na tela
         </button>
       </div>
+
+      <div class="ov-exp-row">
+        <button class="ov-exp-btn" id="ov-apply-btn" onclick="ovApply()">
+          Salvar rascunho
+        </button>
+        <button class="ov-exp-btn" id="ov-restore-btn" onclick="ovRestoreDraft()">
+          Restaurar
+        </button>
+        <button class="ov-exp-btn" id="ov-cleardraft-btn" onclick="ovClearDraft()">
+          Limpar
+        </button>
+      </div>
+      <div class="ov-io-note">
+        O arquivo é a fonte de verdade — o rascunho fica só neste navegador e
+        nunca é carregado sozinho.
+      </div>
+
+      <button class="ov-exp-btn" onclick="ovResetFloor()">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+        >
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+          <path d="M3 3v5h5" />
+        </svg>
+        Reset andar
+      </button>
     </div>
 
     <!-- Floorplan panel -->
@@ -3431,7 +3773,7 @@
 
     <!-- Bot popup -->
     <div id="bot-popup">
-      <div class="bot-tail"></div>
+     <div id="bot-popup-box">
       <div class="bot-header">
         <div class="bot-avatar">
           <svg
@@ -3473,6 +3815,7 @@
         </svg>
         Conversar agora
       </a>
+     </div>
     </div>
 
     <!-- ── Painel "Projeto Lemme" (conteúdo institucional do cliente) ── -->
@@ -4093,11 +4436,33 @@
           areaNum: 229,
           //  topo estreito — apenas o volume da cobertura
           poly: [
-            [0.4562, 0.4052],
-            [0.5051, 0.3927],
-            [0.5043, 0.4521],
-            [0.4566, 0.4674],
+            [0.4641, 0.4107],
+            [0.5046, 0.3984],
+            [0.5159, 0.3984],
+            [0.5153, 0.4422],
+            [0.5045, 0.4417],
+            [0.4651, 0.4551],
+            [0.4436, 0.4585],
+            [0.4435, 0.4131],
           ],
+          curves: {
+            1: [
+              [0.5087, 0.397],
+              [0.5123, 0.3975],
+            ],
+            3: [
+              [0.5118, 0.4415],
+              [0.5083, 0.4411],
+            ],
+            5: [
+              [0.457, 0.4583],
+              [0.4502, 0.4607],
+            ],
+            7: [
+              [0.4499, 0.4145],
+              [0.4568, 0.4131],
+            ],
+          },
         },
         {
           id: "andar6",
@@ -4114,10 +4479,10 @@
           banheiros: 2,
           areaNum: 162,
           poly: [
-            [0.4566, 0.4674],
-            [0.5043, 0.4521],
-            [0.5039, 0.4791],
-            [0.4568, 0.4956],
+            [0.456, 0.4726],
+            [0.4991, 0.461],
+            [0.5031, 0.4781],
+            [0.457, 0.4962],
           ],
         },
         {
@@ -4135,10 +4500,10 @@
           banheiros: 2,
           areaNum: 134,
           poly: [
-            [0.4568, 0.4956],
-            [0.5039, 0.4791],
-            [0.5036, 0.5034],
-            [0.4569, 0.5211],
+            [0.457, 0.4962],
+            [0.5031, 0.4781],
+            [0.5031, 0.5038],
+            [0.457, 0.5205],
           ],
         },
         {
@@ -4156,10 +4521,10 @@
           banheiros: 2,
           areaNum: 134,
           poly: [
-            [0.4569, 0.5211],
-            [0.5036, 0.5034],
-            [0.5032, 0.5307],
-            [0.4571, 0.5497],
+            [0.457, 0.5205],
+            [0.5031, 0.5038],
+            [0.5035, 0.5302],
+            [0.457, 0.5503],
           ],
         },
         {
@@ -4177,10 +4542,10 @@
           banheiros: 1,
           areaNum: 134,
           poly: [
-            [0.4571, 0.5497],
-            [0.5032, 0.5307],
-            [0.5028, 0.5553],
-            [0.4572, 0.5755],
+            [0.457, 0.5503],
+            [0.5035, 0.5302],
+            [0.5027, 0.5559],
+            [0.4574, 0.5753],
           ],
         },
         {
@@ -4198,10 +4563,10 @@
           banheiros: 2,
           areaNum: 134,
           poly: [
-            [0.4572, 0.5755],
-            [0.5028, 0.5553],
-            [0.5025, 0.5766],
-            [0.4574, 0.5977],
+            [0.4574, 0.5753],
+            [0.5027, 0.5559],
+            [0.5023, 0.576],
+            [0.4574, 0.5989],
           ],
         },
         {
@@ -4219,10 +4584,10 @@
           banheiros: 2,
           areaNum: 335,
           poly: [
-            [0.4574, 0.5977],
-            [0.5025, 0.5766],
-            [0.5022, 0.6043],
-            [0.4576, 0.6267],
+            [0.4574, 0.5989],
+            [0.5023, 0.576],
+            [0.502, 0.6038],
+            [0.4578, 0.6281],
           ],
         },
         {
@@ -4236,15 +4601,16 @@
           desc: "Lobby 24h com guarita blindada, central de entregas e acesso biométrico sem chaves.",
           pdf: "",
           poly: [
-            [0.4576, 0.6267],
-            [0.5022, 0.6043],
+            [0.4578, 0.6281],
+            [0.502, 0.6038],
             [0.5016, 0.6447],
-            [0.4578, 0.669],
+            [0.4574, 0.6704],
           ],
         },
       ];
 
-      function imgToScreen(fx, fy) {
+      // Cover-fit "base" (zoom 1, sem pan) — mesma matemática de sempre.
+      function ovBaseCoverFit() {
         var iw = FLOOR_IMG_W,
           ih = FLOOR_IMG_H;
         var cw = innerWidth,
@@ -4252,28 +4618,108 @@
         var scale = Math.max(cw / iw, ch / ih);
         var dw = iw * scale,
           dh = ih * scale;
-        var dx = (cw - dw) / 2,
-          dy = (ch - dh) / 2;
-        return { x: dx + fx * dw, y: dy + fy * dh };
+        return { dw: dw, dh: dh, dx: (cw - dw) / 2, dy: (ch - dh) / 2 };
+      }
+
+      // Zoom/pan do editor (scroll do mouse) — só ativo com _ovEditing.
+      // Fora do modo edição, o overlay renderiza exatamente como sempre
+      // (zoom 1, centralizado), pra não afetar a experiência do visitante.
+      var _ovZoom = 1;
+      var _ovOX = 0,
+        _ovOY = 0; // offset de tela (px) equivalente a dx/dy com zoom aplicado
+
+      function imgToScreen(fx, fy) {
+        var b = ovBaseCoverFit();
+        // Sem zoom aplicado (nem fora do editor, nem dentro dele com zoom
+        // em 100%), usa sempre o cover-fit atual "ao vivo" — nunca o offset
+        // salvo (_ovOX/_ovOY), que fica desatualizado se a janela mudar de
+        // tamanho durante a edição (resize, rotação, barra do navegador
+        // mobile). Isso evita pontos arrastados saírem deslocados.
+        if (!_ovEditing || _ovZoom === 1)
+          return { x: b.dx + fx * b.dw, y: b.dy + fy * b.dh };
+        return {
+          x: _ovOX + fx * b.dw * _ovZoom,
+          y: _ovOY + fy * b.dh * _ovZoom,
+        };
+      }
+
+      // Constrói o atributo "d" do <path> de um andar. Cada aresta i (do
+      // vértice i ao vértice i+1) vira uma curva cúbica quando fl.curves[i]
+      // existe (2 pontos de controle em coords fracionadas da imagem);
+      // sem isso, cai de volta pra linha reta. fl.curves é um objeto esparso
+      // { edgeIndex: [c1, c2] } — qualquer aresta pode ser curvada.
+      function floorPathD(fl) {
+        var scr = fl.poly.map(function (pt) {
+          return imgToScreen(pt[0], pt[1]);
+        });
+        function ptStr(s) {
+          return s.x.toFixed(1) + "," + s.y.toFixed(1);
+        }
+        var n = fl.poly.length;
+        var d = "M " + ptStr(scr[0]) + " ";
+        for (var i = 0; i < n; i++) {
+          var j = (i + 1) % n;
+          var curve = fl.curves && fl.curves[i];
+          if (curve) {
+            var c1 = imgToScreen(curve[0][0], curve[0][1]);
+            var c2 = imgToScreen(curve[1][0], curve[1][1]);
+            d += "C " + ptStr(c1) + " " + ptStr(c2) + " " + ptStr(scr[j]) + " ";
+          } else {
+            d += "L " + ptStr(scr[j]) + " ";
+          }
+        }
+        d += "Z";
+        return d;
+      }
+
+      function ovLerpPt2(a, b, t) {
+        return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+      }
+
+      // Ponto médio (t=0.5) de uma aresta — reto ou curvo (De Casteljau).
+      function ovEdgeMidpoint(fl, i) {
+        var j = (i + 1) % fl.poly.length;
+        var p0 = fl.poly[i],
+          p1 = fl.poly[j];
+        var curve = fl.curves && fl.curves[i];
+        if (!curve) return ovLerpPt2(p0, p1, 0.5);
+        var a = ovLerpPt2(p0, curve[0], 0.5);
+        var b = ovLerpPt2(curve[0], curve[1], 0.5);
+        var c = ovLerpPt2(curve[1], p1, 0.5);
+        var d = ovLerpPt2(a, b, 0.5);
+        var e = ovLerpPt2(b, c, 0.5);
+        return ovLerpPt2(d, e, 0.5);
+      }
+
+      // Subdivide uma cúbica em t=0.5 (De Casteljau) — preserva a forma
+      // exata da curva ao inserir um vértice no meio dela.
+      function ovSubdivideCubic(p0, c1, c2, p1) {
+        var a = ovLerpPt2(p0, c1, 0.5);
+        var b = ovLerpPt2(c1, c2, 0.5);
+        var c = ovLerpPt2(c2, p1, 0.5);
+        var d = ovLerpPt2(a, b, 0.5);
+        var e = ovLerpPt2(b, c, 0.5);
+        var m = ovLerpPt2(d, e, 0.5);
+        return {
+          left: { c1: a, c2: d, mid: m },
+          right: { c1: e, c2: c, mid: m },
+        };
       }
 
       function buildFloorSVG() {
         var svg = document.getElementById("floor-svg");
         svg.innerHTML = "";
-        _ovSnapIndicator = null; // o clear acima remove o nó; evita referência órfã
         var ns = "http://www.w3.org/2000/svg";
         FLOOR_DATA.forEach(function (fl) {
-          var pts = fl.poly
-            .map(function (p) {
-              var s = imgToScreen(p[0], p[1]);
-              return s.x.toFixed(1) + "," + s.y.toFixed(1);
-            })
-            .join(" ");
-          var poly = document.createElementNS(ns, "polygon");
-          poly.setAttribute("points", pts);
-          poly.setAttribute("class", "floor-poly");
+          var poly = document.createElementNS(ns, "path");
+          poly.setAttribute("d", floorPathD(fl));
+          poly.setAttribute(
+            "class",
+            "floor-poly" + (fl.avail ? " avail-" + fl.avail : ""),
+          );
           poly.setAttribute("data-id", fl.id);
           poly.addEventListener("click", function () {
+            if (_ovEditing) return; // no editor, o clique no polígono é pra arrastar/pan
             openFloorPanel(fl.id);
           });
           svg.appendChild(poly);
@@ -4366,7 +4812,10 @@
         var svg = document.getElementById("floor-svg");
         if (visible) {
           buildFloorSVG();
-          if (_ovEditing) ovAddHandles();
+          if (_ovEditing) {
+            ovAddHandles();
+            ovAddEdgeControls();
+          }
           svg.classList.add("visible");
         } else {
           svg.classList.remove("visible");
@@ -4377,8 +4826,15 @@
 
       // Rebuild on resize
       window.addEventListener("resize", function () {
-        if (document.getElementById("floor-svg").classList.contains("visible"))
+        if (document.getElementById("floor-svg").classList.contains("visible")) {
+          // zoom/pan foram calculados pro tamanho de tela anterior — reseta
+          if (_ovEditing && _ovZoom !== 1) ovResetZoom();
           buildFloorSVG();
+          if (_ovEditing) {
+            ovAddHandles();
+            ovAddEdgeControls();
+          }
+        }
       });
 
       // ── Overlay editor ────────────────────────────────────────────
@@ -4388,17 +4844,132 @@
       var _ovActiveFloor = 0;
 
       function screenToImg(sx, sy) {
-        var iw = FLOOR_IMG_W,
-          ih = FLOOR_IMG_H;
-        var cw = innerWidth,
-          ch = innerHeight;
-        var scale = Math.max(cw / iw, ch / ih);
-        var dw = iw * scale,
-          dh = ih * scale;
-        var dx = (cw - dw) / 2,
-          dy = (ch - dh) / 2;
-        return { x: (sx - dx) / dw, y: (sy - dy) / dh };
+        var b = ovBaseCoverFit();
+        if (!_ovEditing || _ovZoom === 1)
+          return { x: (sx - b.dx) / b.dw, y: (sy - b.dy) / b.dh };
+        return {
+          x: (sx - _ovOX) / (b.dw * _ovZoom),
+          y: (sy - _ovOY) / (b.dh * _ovZoom),
+        };
       }
+
+      // Aplica (ou limpa) o transform visual de zoom/pan na imagem de fundo,
+      // pra acompanhar o overlay durante a edição. Fora do modo edição, ou
+      // com zoom 1, o transform é removido (imagem no cover-fit normal).
+      function ovApplyZoomTransform() {
+        var seq = document.getElementById("seq-canvas");
+        var vid = document.getElementById("main-video");
+        if (!_ovEditing || _ovZoom === 1) {
+          if (seq) seq.style.transform = "";
+          if (vid) vid.style.transform = "";
+          return;
+        }
+        var b = ovBaseCoverFit();
+        var tx = _ovOX - b.dx * _ovZoom;
+        var ty = _ovOY - b.dy * _ovZoom;
+        var t =
+          "translate(" +
+          tx.toFixed(2) +
+          "px," +
+          ty.toFixed(2) +
+          "px) scale(" +
+          _ovZoom.toFixed(4) +
+          ")";
+        if (seq) seq.style.transform = t;
+        if (vid) vid.style.transform = t;
+      }
+
+      function ovResetZoom() {
+        var b = ovBaseCoverFit();
+        _ovZoom = 1;
+        _ovOX = b.dx;
+        _ovOY = b.dy;
+        ovApplyZoomTransform();
+        var svg = document.getElementById("floor-svg");
+        if (svg) svg.classList.remove("pannable");
+      }
+
+      // Reconstrói o overlay (SVG + handles) e atualiza o label de zoom —
+      // chamado depois de qualquer mudança em _ovZoom/_ovOX/_ovOY.
+      function ovRebuildAfterZoom() {
+        ovApplyZoomTransform();
+        buildFloorSVG();
+        ovAddHandles();
+        ovAddEdgeControls();
+        var zl = document.getElementById("ov-zoom-label");
+        if (zl) zl.textContent = "Zoom: " + Math.round(_ovZoom * 100) + "%";
+        var svg = document.getElementById("floor-svg");
+        if (svg) svg.classList.toggle("pannable", _ovZoom !== 1);
+      }
+
+      function ovResetZoomBtn() {
+        if (!_ovEditing) return;
+        ovResetZoom();
+        ovRebuildAfterZoom();
+      }
+
+      // Zoom com scroll do mouse, centrado no cursor — só ativo em edição.
+      document.addEventListener(
+        "wheel",
+        function (e) {
+          if (!_ovEditing) return;
+          if (e.target.closest("#ov-export-panel")) return; // deixa o painel rolar normal
+          e.preventDefault();
+          var b = ovBaseCoverFit();
+          var factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+          var newZoom = Math.max(1, Math.min(8, _ovZoom * factor));
+          if (newZoom === _ovZoom) return;
+          var ux = (e.clientX - _ovOX) / (b.dw * _ovZoom);
+          var uy = (e.clientY - _ovOY) / (b.dh * _ovZoom);
+          _ovOX = e.clientX - ux * b.dw * newZoom;
+          _ovOY = e.clientY - uy * b.dh * newZoom;
+          _ovZoom = newZoom;
+          ovRebuildAfterZoom();
+        },
+        { passive: false },
+      );
+
+      // Arrastar (pan) a imagem com zoom aplicado — clique/toque em área
+      // vazia do overlay (fora de vértices, handles e polígonos) e arrasta.
+      // Sem isso, a única forma de "navegar" era rolar o scroll com o
+      // cursor em cima do ponto desejado — impreciso e às vezes impossível
+      // de alcançar (ex: parte de baixo da imagem).
+      var _ovPanning = false;
+      var _ovPanStartX = 0,
+        _ovPanStartY = 0;
+
+      function ovPanTargetIsBackground(target) {
+        return (
+          target &&
+          (target.id === "floor-svg" ||
+            target.classList.contains("floor-label-text") ||
+            target.classList.contains("floor-poly"))
+        );
+      }
+
+      document.getElementById("floor-svg").addEventListener("pointerdown", function (e) {
+        if (!_ovEditing || _ovZoom === 1) return;
+        if (!ovPanTargetIsBackground(e.target)) return;
+        _ovPanning = true;
+        _ovPanStartX = e.clientX;
+        _ovPanStartY = e.clientY;
+        e.target.setPointerCapture(e.pointerId);
+      });
+      document.getElementById("floor-svg").addEventListener("pointermove", function (e) {
+        if (!_ovPanning) return;
+        var dx = e.clientX - _ovPanStartX;
+        var dy = e.clientY - _ovPanStartY;
+        _ovPanStartX = e.clientX;
+        _ovPanStartY = e.clientY;
+        _ovOX += dx;
+        _ovOY += dy;
+        ovRebuildAfterZoom();
+      });
+      function ovEndPan() {
+        _ovPanning = false;
+      }
+      document.getElementById("floor-svg").addEventListener("pointerup", ovEndPan);
+      document.getElementById("floor-svg").addEventListener("pointercancel", ovEndPan);
 
       function toggleOverlayEditor() {
         _ovEditing = !_ovEditing;
@@ -4406,13 +4977,9 @@
         var panel = document.getElementById("ov-export-panel");
         btn.classList.toggle("active", _ovEditing);
         if (_ovEditing) {
-          _ovOrigData = JSON.parse(
-            JSON.stringify(
-              FLOOR_DATA.map(function (f) {
-                return f.poly;
-              }),
-            ),
-          );
+          // snapshot completo (poly + curves) pro "Resetar andar"
+          _ovOrigData = JSON.parse(JSON.stringify(ovSerialize()));
+          ovResetZoom();
           ovBuildSelect();
           panel.classList.add("open");
           setTimeout(function () {
@@ -4421,9 +4988,12 @@
           }, 10);
           buildFloorSVG();
           ovAddHandles();
+          ovAddEdgeControls();
           ovUpdateCoordsOut();
         } else {
           if (_ovSlicing) ovCancelSlice();
+          _ovZoom = 1;
+          ovApplyZoomTransform();
           panel.classList.remove("open");
           panel.style.opacity = 0;
           setTimeout(function () {
@@ -4463,6 +5033,8 @@
           );
           h.setAttribute("r", fi === _ovActiveFloor ? "7" : "5");
         });
+        // controles de aresta (+, ~, ◆) são exibidos só para o andar ativo
+        ovRebuildEdgeControls();
       }
 
       function ovAddHandles() {
@@ -4509,6 +5081,243 @@
             svg.appendChild(c);
           });
         });
+      }
+
+      // ── Arestas: adicionar ponto reto, curvar/retificar, arrastar curva ──
+      // Só o andar ativo mostra os controles de aresta, pra não poluir a tela.
+      var _ovCurveDrag = null; // { fi, edgeIdx, cIdx: 0|1 }
+
+      // Insere um vértice reto no meio da aresta `edgeIdx`. Se a aresta já é
+      // curva, subdivide a cúbica (De Casteljau) preservando a forma exata —
+      // vira duas curvas menores em vez de uma reta cortando a curva.
+      function ovInsertVertex(fi, edgeIdx) {
+        var fl = FLOOR_DATA[fi];
+        var j = (edgeIdx + 1) % fl.poly.length;
+        var p0 = fl.poly[edgeIdx],
+          p1 = fl.poly[j];
+        var curve = fl.curves && fl.curves[edgeIdx];
+        var newCurves = {};
+        Object.keys(fl.curves || {}).forEach(function (k) {
+          var ki = parseInt(k);
+          if (ki === edgeIdx) return; // tratado abaixo
+          newCurves[ki > edgeIdx ? ki + 1 : ki] = fl.curves[ki];
+        });
+        var mid;
+        if (curve) {
+          var sub = ovSubdivideCubic(p0, curve[0], curve[1], p1);
+          mid = sub.left.mid;
+          newCurves[edgeIdx] = [sub.left.c1, sub.left.c2];
+          newCurves[edgeIdx + 1] = [sub.right.c1, sub.right.c2];
+        } else {
+          mid = ovLerpPt2(p0, p1, 0.5);
+        }
+        fl.poly.splice(edgeIdx + 1, 0, mid);
+        fl.curves = newCurves;
+      }
+
+      // Curva ou retifica a aresta `edgeIdx` do andar ativo.
+      function ovToggleEdgeCurve(fi, edgeIdx) {
+        var fl = FLOOR_DATA[fi];
+        fl.curves = fl.curves || {};
+        if (fl.curves[edgeIdx]) {
+          delete fl.curves[edgeIdx];
+        } else {
+          var j = (edgeIdx + 1) % fl.poly.length;
+          var p0 = fl.poly[edgeIdx],
+            p1 = fl.poly[j];
+          fl.curves[edgeIdx] = [
+            ovLerpPt2(p0, p1, 1 / 3),
+            ovLerpPt2(p0, p1, 2 / 3),
+          ];
+        }
+      }
+
+      function ovClearEdgeControls() {
+        document
+          .querySelectorAll(".ov-add-handle, .ov-add-handle-plus, .ov-edge-toggle, .ov-curve-handle")
+          .forEach(function (h) {
+            h.remove();
+          });
+      }
+
+      function ovRebuildEdgeControls() {
+        ovClearEdgeControls();
+        ovAddEdgeControls();
+      }
+
+      function ovAddEdgeControls() {
+        var fl = FLOOR_DATA[_ovActiveFloor];
+        if (!fl) return;
+        var svg = document.getElementById("floor-svg");
+        var ns = "http://www.w3.org/2000/svg";
+        var n = fl.poly.length;
+        for (var i = 0; i < n; i++) {
+          (function (edgeIdx) {
+            var curved = !!(fl.curves && fl.curves[edgeIdx]);
+            var mid = ovEdgeMidpoint(fl, edgeIdx);
+            var sp = imgToScreen(mid[0], mid[1]);
+
+            // "+" adiciona ponto reto no meio da aresta
+            var add = document.createElementNS(ns, "circle");
+            add.setAttribute("cx", sp.x.toFixed(1));
+            add.setAttribute("cy", sp.y.toFixed(1));
+            add.setAttribute("r", "6");
+            add.classList.add("ov-add-handle");
+            add.addEventListener("click", function (e) {
+              e.stopPropagation();
+              ovInsertVertex(_ovActiveFloor, edgeIdx);
+              buildFloorSVG();
+              ovAddHandles();
+              ovRebuildEdgeControls();
+              ovUpdateCoordsOut();
+            });
+            svg.appendChild(add);
+            var plus1 = document.createElementNS(ns, "line");
+            plus1.setAttribute("x1", (sp.x - 3).toFixed(1));
+            plus1.setAttribute("x2", (sp.x + 3).toFixed(1));
+            plus1.setAttribute("y1", sp.y.toFixed(1));
+            plus1.setAttribute("y2", sp.y.toFixed(1));
+            plus1.classList.add("ov-add-handle-plus");
+            svg.appendChild(plus1);
+            var plus2 = document.createElementNS(ns, "line");
+            plus2.setAttribute("x1", sp.x.toFixed(1));
+            plus2.setAttribute("x2", sp.x.toFixed(1));
+            plus2.setAttribute("y1", (sp.y - 3).toFixed(1));
+            plus2.setAttribute("y2", (sp.y + 3).toFixed(1));
+            plus2.classList.add("ov-add-handle-plus");
+            svg.appendChild(plus2);
+
+            // "~" curva/retifica a aresta — deslocado do "+" pra não sobrepor
+            var j = (edgeIdx + 1) % n;
+            var p0s = imgToScreen(fl.poly[edgeIdx][0], fl.poly[edgeIdx][1]);
+            var p1s = imgToScreen(fl.poly[j][0], fl.poly[j][1]);
+            var tx = p0s.x + (p1s.x - p0s.x) * 0.25;
+            var ty = p0s.y + (p1s.y - p0s.y) * 0.25;
+            var tog = document.createElementNS(ns, "circle");
+            tog.setAttribute("cx", tx.toFixed(1));
+            tog.setAttribute("cy", ty.toFixed(1));
+            tog.setAttribute("r", "5");
+            tog.classList.add("ov-edge-toggle", curved ? "curved" : "straight");
+            tog.addEventListener("click", function (e) {
+              e.stopPropagation();
+              ovToggleEdgeCurve(_ovActiveFloor, edgeIdx);
+              ovSyncFloorShape(_ovActiveFloor);
+              ovRebuildEdgeControls();
+              ovUpdateCoordsOut();
+            });
+            svg.appendChild(tog);
+
+            // handles ◆ azuis pra moldar a curva (só se a aresta é curva)
+            if (curved) {
+              fl.curves[edgeIdx].forEach(function (pt, cIdx) {
+                var csp = imgToScreen(pt[0], pt[1]);
+                var size = 10;
+                var h = document.createElementNS(ns, "rect");
+                h.setAttribute("x", (csp.x - size / 2).toFixed(1));
+                h.setAttribute("y", (csp.y - size / 2).toFixed(1));
+                h.setAttribute("width", size);
+                h.setAttribute("height", size);
+                h.setAttribute(
+                  "transform",
+                  "rotate(45 " + csp.x.toFixed(1) + " " + csp.y.toFixed(1) + ")",
+                );
+                h.setAttribute("fill", "#4a90d9");
+                h.setAttribute("stroke", "#fff");
+                h.setAttribute("stroke-width", "1.5");
+                h.classList.add("ov-curve-handle");
+                h.dataset.fi = _ovActiveFloor;
+                h.dataset.edgeIdx = edgeIdx;
+                h.dataset.cIdx = cIdx;
+                h.addEventListener("mousedown", ovCurveHandleMouseDown);
+                h.addEventListener("touchstart", ovCurveHandleTouchStart, {
+                  passive: false,
+                });
+                svg.appendChild(h);
+              });
+            }
+          })(i);
+        }
+      }
+
+      function ovCurveHandleMouseDown(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        _ovCurveDrag = {
+          fi: parseInt(e.target.dataset.fi),
+          edgeIdx: parseInt(e.target.dataset.edgeIdx),
+          cIdx: parseInt(e.target.dataset.cIdx),
+        };
+        document.addEventListener("mousemove", ovCurveHandleMouseMove);
+        document.addEventListener("mouseup", ovCurveHandleMouseUp);
+      }
+
+      function ovCurveHandleMouseMove(e) {
+        ovMoveCurvePt(e.clientX, e.clientY);
+      }
+
+      function ovCurveHandleMouseUp() {
+        _ovCurveDrag = null;
+        document.removeEventListener("mousemove", ovCurveHandleMouseMove);
+        document.removeEventListener("mouseup", ovCurveHandleMouseUp);
+        ovUpdateCoordsOut();
+      }
+
+      function ovCurveHandleTouchStart(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        _ovCurveDrag = {
+          fi: parseInt(e.target.dataset.fi),
+          edgeIdx: parseInt(e.target.dataset.edgeIdx),
+          cIdx: parseInt(e.target.dataset.cIdx),
+        };
+        document.addEventListener("touchmove", ovCurveHandleTouchMove, {
+          passive: false,
+        });
+        document.addEventListener("touchend", ovCurveHandleTouchEnd);
+      }
+
+      function ovCurveHandleTouchMove(e) {
+        e.preventDefault();
+        if (!_ovCurveDrag || !e.touches[0]) return;
+        ovMoveCurvePt(e.touches[0].clientX, e.touches[0].clientY);
+      }
+
+      function ovCurveHandleTouchEnd() {
+        _ovCurveDrag = null;
+        document.removeEventListener("touchmove", ovCurveHandleTouchMove);
+        document.removeEventListener("touchend", ovCurveHandleTouchEnd);
+        ovUpdateCoordsOut();
+      }
+
+      function ovMoveCurvePt(sx, sy) {
+        if (!_ovCurveDrag) return;
+        var fi = _ovCurveDrag.fi,
+          edgeIdx = _ovCurveDrag.edgeIdx,
+          cIdx = _ovCurveDrag.cIdx;
+        var imgPt = screenToImg(sx, sy);
+        imgPt.x = Math.max(0, Math.min(1, imgPt.x));
+        imgPt.y = Math.max(0, Math.min(1, imgPt.y));
+        FLOOR_DATA[fi].curves[edgeIdx][cIdx] = [imgPt.x, imgPt.y];
+        ovSyncFloorShape(fi);
+        var sp = imgToScreen(imgPt.x, imgPt.y);
+        var size = 10;
+        var el = document.querySelector(
+          '.ov-curve-handle[data-fi="' +
+            fi +
+            '"][data-edge-idx="' +
+            edgeIdx +
+            '"][data-c-idx="' +
+            cIdx +
+            '"]',
+        );
+        if (el) {
+          el.setAttribute("x", (sp.x - size / 2).toFixed(1));
+          el.setAttribute("y", (sp.y - size / 2).toFixed(1));
+          el.setAttribute(
+            "transform",
+            "rotate(45 " + sp.x.toFixed(1) + " " + sp.y.toFixed(1) + ")",
+          );
+        }
       }
 
       // Encontra todos os vértices de outros andares com as MESMAS coordenadas
@@ -4559,7 +5368,6 @@
 
       function ovHandleMouseUp() {
         _ovDrag = null;
-        ovHideSnapIndicator();
         document.removeEventListener("mousemove", ovHandleMouseMove);
         document.removeEventListener("mouseup", ovHandleMouseUp);
         ovUpdateCoordsOut();
@@ -4592,64 +5400,9 @@
 
       function ovHandleTouchEnd() {
         _ovDrag = null;
-        ovHideSnapIndicator();
         document.removeEventListener("touchmove", ovHandleTouchMove);
         document.removeEventListener("touchend", ovHandleTouchEnd);
         ovUpdateCoordsOut();
-      }
-
-      var _ovSnapThreshold = 0.012; // image-fraction units (~12px @ typical scale)
-      var _ovSnapIndicator = null; // circle element showing snap target
-
-      function ovSnapToNearby(fx, fy, excludeFi, excludePi, excludeList) {
-        var best = null,
-          bestDist = _ovSnapThreshold;
-        FLOOR_DATA.forEach(function (fl, fi) {
-          fl.poly.forEach(function (p, pi) {
-            if (fi === excludeFi && pi === excludePi) return;
-            // Vértices soldados ao arrastado também não são alvo de snap
-            if (
-              excludeList &&
-              excludeList.some(function (l) {
-                return l[0] === fi && l[1] === pi;
-              })
-            )
-              return;
-            var dx = p[0] - fx,
-              dy = p[1] - fy;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < bestDist) {
-              bestDist = dist;
-              best = p;
-            }
-          });
-        });
-        return best; // null = no snap
-      }
-
-      function ovShowSnapIndicator(fx, fy) {
-        var svg = document.getElementById("floor-svg");
-        if (!_ovSnapIndicator) {
-          _ovSnapIndicator = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "circle",
-          );
-          _ovSnapIndicator.setAttribute("r", "9");
-          _ovSnapIndicator.setAttribute("fill", "none");
-          _ovSnapIndicator.setAttribute("stroke", "#b89c6e");
-          _ovSnapIndicator.setAttribute("stroke-width", "2");
-          _ovSnapIndicator.setAttribute("pointer-events", "none");
-          _ovSnapIndicator.id = "ov-snap-ring";
-          svg.appendChild(_ovSnapIndicator);
-        }
-        var sp = imgToScreen(fx, fy);
-        _ovSnapIndicator.setAttribute("cx", sp.x.toFixed(1));
-        _ovSnapIndicator.setAttribute("cy", sp.y.toFixed(1));
-        _ovSnapIndicator.style.display = "";
-      }
-
-      function ovHideSnapIndicator() {
-        if (_ovSnapIndicator) _ovSnapIndicator.style.display = "none";
       }
 
       // Sincroniza o <polygon> e o label de um andar com FLOOR_DATA
@@ -4658,13 +5411,7 @@
           '.floor-poly[data-id="' + FLOOR_DATA[fi].id + '"]',
         );
         if (poly) {
-          var pts = FLOOR_DATA[fi].poly
-            .map(function (p) {
-              var s = imgToScreen(p[0], p[1]);
-              return s.x.toFixed(1) + "," + s.y.toFixed(1);
-            })
-            .join(" ");
-          poly.setAttribute("points", pts);
+          poly.setAttribute("d", floorPathD(FLOOR_DATA[fi]));
         }
         var allTxt = document.querySelectorAll(".floor-label-text");
         if (allTxt[fi]) {
@@ -4704,15 +5451,6 @@
         // clamp 0–1
         imgPt.x = Math.max(0, Math.min(1, imgPt.x));
         imgPt.y = Math.max(0, Math.min(1, imgPt.y));
-        // snap to nearby vertex (ignorando o próprio e os soldados a ele)
-        var snap = ovSnapToNearby(imgPt.x, imgPt.y, fi, pi, linked);
-        if (snap) {
-          imgPt.x = snap[0];
-          imgPt.y = snap[1];
-          ovShowSnapIndicator(imgPt.x, imgPt.y);
-        } else {
-          ovHideSnapIndicator();
-        }
         var np = [
           parseFloat(imgPt.x.toFixed(4)),
           parseFloat(imgPt.y.toFixed(4)),
@@ -4782,7 +5520,10 @@
           "Arraste os ● handles para reposicionar os vértices de cada andar";
         // redesenha sem os elementos de fatia
         buildFloorSVG();
-        if (_ovEditing) ovAddHandles();
+        if (_ovEditing) {
+          ovAddHandles();
+          ovAddEdgeControls();
+        }
       }
 
       function ovDrawSlice() {
@@ -4955,96 +5696,252 @@
           if (_ovSlicing) ovDrawSlice();
         });
 
+      // Preview do andar ativo — JSON válido, mesmo formato do "Copiar tudo",
+      // pra poder colar de volta no importador sem editar nada à mão.
       function ovUpdateCoordsOut() {
+        var el = document.getElementById("ov-coords-out");
+        if (!el) return;
         var fl = FLOOR_DATA[_ovActiveFloor];
-        var lines = fl.poly.map(function (p, i) {
-          return (
-            "  [" +
-            p[0].toFixed(4) +
-            ", " +
-            p[1].toFixed(4) +
-            "]" +
-            (i < fl.poly.length - 1 ? "," : "")
-          );
+        if (!fl) return (el.textContent = "");
+        var one = ovSerialize().find(function (s) {
+          return s.id === fl.id;
         });
-        document.getElementById("ov-coords-out").textContent =
-          "// " + fl.label + "\npoly: [\n" + lines.join("\n") + "\n]";
+        el.textContent =
+          "// " + fl.label + "\n" + JSON.stringify(one, null, 2);
       }
 
+      // ── Serialização (round-trip sem perda) ───────────────────────
+      //
+      // IMPORTANTE: o FLOOR_DATA definido NESTE ARQUIVO é a única fonte de
+      // verdade. O localStorage guarda apenas um RASCUNHO, e ele nunca é
+      // carregado automaticamente — só via "Restaurar rascunho". Antes isso
+      // era auto-carregado no boot e sobrescrevia silenciosamente as
+      // coordenadas do arquivo, fazendo edições no código não terem efeito.
+      var OV_DRAFT_KEY = "lemme_overlay_polys";
+
+      function ovRound(n) {
+        return parseFloat(Number(n).toFixed(4));
+      }
+
+      // Geometria de todos os andares em JSON puro e válido.
+      function ovSerialize() {
+        return FLOOR_DATA.map(function (fl) {
+          var o = {
+            id: fl.id,
+            poly: fl.poly.map(function (p) {
+              return [ovRound(p[0]), ovRound(p[1])];
+            }),
+          };
+          if (fl.curves && Object.keys(fl.curves).length) {
+            o.curves = {};
+            Object.keys(fl.curves)
+              .map(Number)
+              .sort(function (a, b) {
+                return a - b;
+              })
+              .forEach(function (k) {
+                var c = fl.curves[k];
+                o.curves[k] = [
+                  [ovRound(c[0][0]), ovRound(c[0][1])],
+                  [ovRound(c[1][0]), ovRound(c[1][1])],
+                ];
+              });
+          }
+          return o;
+        });
+      }
+
+      // Valida e aplica geometria vinda de JSON. Retorna string de erro ou null.
+      function ovDeserialize(list) {
+        if (!Array.isArray(list)) return "JSON precisa ser uma lista de andares.";
+        var errs = [];
+        var staged = [];
+        list.forEach(function (s, idx) {
+          var fl = FLOOR_DATA.find(function (f) {
+            return f.id === s.id;
+          });
+          if (!fl) {
+            errs.push("andar #" + idx + ': id "' + s.id + '" não existe');
+            return;
+          }
+          if (!Array.isArray(s.poly) || s.poly.length < 3) {
+            errs.push(s.id + ": poly precisa de ao menos 3 pontos");
+            return;
+          }
+          var badPt = s.poly.some(function (p) {
+            return (
+              !Array.isArray(p) ||
+              p.length !== 2 ||
+              typeof p[0] !== "number" ||
+              typeof p[1] !== "number"
+            );
+          });
+          if (badPt) {
+            errs.push(s.id + ": todo ponto precisa ser [x, y] numérico");
+            return;
+          }
+          var curves = null;
+          if (s.curves) {
+            curves = {};
+            var bad = null;
+            Object.keys(s.curves).forEach(function (k) {
+              var i = Number(k);
+              // Índice de aresta precisa existir no poly recebido — se sobrar
+              // uma curva órfã (ex: pontos removidos à mão) o path quebra.
+              if (!Number.isInteger(i) || i < 0 || i >= s.poly.length) {
+                bad = 'curva na aresta "' + k + '" não existe (poly tem ' + s.poly.length + " arestas)";
+                return;
+              }
+              var c = s.curves[k];
+              if (!Array.isArray(c) || c.length !== 2) {
+                bad = "curva " + k + " precisa de 2 pontos de controle";
+                return;
+              }
+              curves[i] = [
+                [Number(c[0][0]), Number(c[0][1])],
+                [Number(c[1][0]), Number(c[1][1])],
+              ];
+            });
+            if (bad) {
+              errs.push(s.id + ": " + bad);
+              return;
+            }
+          }
+          staged.push({ fl: fl, poly: s.poly, curves: curves });
+        });
+        if (errs.length) return errs.join("\n");
+        // só aplica se TUDO validou — evita estado meio-aplicado
+        staged.forEach(function (it) {
+          it.fl.poly = it.poly;
+          if (it.curves && Object.keys(it.curves).length) it.fl.curves = it.curves;
+          else delete it.fl.curves;
+        });
+        return null;
+      }
+
+      function ovRefreshAll() {
+        buildFloorSVG();
+        if (_ovEditing) {
+          ovAddHandles();
+          ovRebuildEdgeControls();
+        }
+        ovUpdateCoordsOut();
+      }
+
+      function ovFlashBtn(btn, txt, ok) {
+        if (!btn) return;
+        var prev = btn.innerHTML;
+        btn.classList.toggle("copy-ok", ok !== false);
+        btn.textContent = txt;
+        setTimeout(function () {
+          btn.classList.remove("copy-ok");
+          btn.innerHTML = prev;
+        }, 1800);
+      }
+
+      // Copia a geometria COMPLETA como JSON válido — cole de volta no campo
+      // "Importar JSON" ou no FLOOR_DATA (campos poly/curves de cada andar).
       function ovCopyAll() {
-        // Formato pronto pra colar: substitua a linha "poly:" de cada andar
-        // dentro de FLOOR_DATA pela linha correspondente abaixo
-        var out =
-          "// ── Polígonos atualizados (colar em FLOOR_DATA, andar por andar) ──\n";
-        FLOOR_DATA.forEach(function (fl) {
-          var pts = fl.poly
-            .map(function (p) {
-              return "[" + p[0].toFixed(4) + "," + p[1].toFixed(4) + "]";
-            })
-            .join(",");
-          out += "// " + fl.label + "\n";
-          out += "poly: [" + pts + "],   // id: " + fl.id + "\n";
-        });
-        navigator.clipboard.writeText(out).then(function () {
-          var btn = document.querySelector(".ov-exp-btn");
-          btn.classList.add("copy-ok");
-          btn.textContent = "✓ Copiado!";
-          setTimeout(function () {
-            btn.classList.remove("copy-ok");
-            btn.innerHTML =
-              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar tudo';
-          }, 2000);
-        });
+        var out = JSON.stringify(ovSerialize(), null, 2);
+        var btn = document.getElementById("ov-copy-btn");
+        navigator.clipboard.writeText(out).then(
+          function () {
+            ovFlashBtn(btn, "✓ JSON copiado!");
+          },
+          function () {
+            // fallback: mostra no campo de import pra copiar manualmente
+            var ta = document.getElementById("ov-import-json");
+            if (ta) ta.value = out;
+            ovFlashBtn(btn, "Copie do campo abaixo", false);
+          },
+        );
+      }
+
+      function ovImportJSON() {
+        var ta = document.getElementById("ov-import-json");
+        var status = document.getElementById("ov-import-status");
+        if (!ta) return;
+        var raw = ta.value.trim();
+        if (!raw) {
+          if (status) {
+            status.textContent = "Cole o JSON no campo acima.";
+            status.className = "ov-err";
+          }
+          return;
+        }
+        var parsed;
+        try {
+          parsed = JSON.parse(raw);
+        } catch (e) {
+          if (status) {
+            status.textContent = "JSON inválido: " + e.message;
+            status.className = "ov-err";
+          }
+          return;
+        }
+        var err = ovDeserialize(parsed);
+        if (err) {
+          if (status) {
+            status.textContent = err;
+            status.className = "ov-err";
+          }
+          return;
+        }
+        ovRefreshAll();
+        ovSelectFloor(_ovActiveFloor);
+        if (status) {
+          status.textContent = "✓ Geometria aplicada.";
+          status.className = "ov-ok";
+        }
       }
 
       function ovResetFloor() {
         if (!_ovOrigData) return;
-        FLOOR_DATA[_ovActiveFloor].poly = JSON.parse(
-          JSON.stringify(_ovOrigData[_ovActiveFloor]),
-        );
-        buildFloorSVG();
-        ovAddHandles();
+        var orig = _ovOrigData[_ovActiveFloor];
+        if (!orig) return;
+        FLOOR_DATA[_ovActiveFloor].poly = JSON.parse(JSON.stringify(orig.poly));
+        if (orig.curves)
+          FLOOR_DATA[_ovActiveFloor].curves = JSON.parse(
+            JSON.stringify(orig.curves),
+          );
+        else delete FLOOR_DATA[_ovActiveFloor].curves;
+        ovRefreshAll();
         ovSelectFloor(_ovActiveFloor);
-        ovUpdateCoordsOut();
       }
 
+      // Salva RASCUNHO local (não afeta o arquivo; precisa "Restaurar" pra voltar)
       function ovApply() {
-        var saved = FLOOR_DATA.map(function (fl) {
-          return { id: fl.id, poly: JSON.parse(JSON.stringify(fl.poly)) };
-        });
         try {
-          localStorage.setItem("lemme_overlay_polys", JSON.stringify(saved));
+          localStorage.setItem(OV_DRAFT_KEY, JSON.stringify(ovSerialize()));
         } catch (e) {}
-        var btn = document.getElementById("ov-apply-btn");
-        btn.style.background = "rgba(80,180,100,0.2)";
-        btn.style.borderColor = "#3ca050";
-        btn.style.color = "#2d7a3c";
-        btn.innerHTML =
-          '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Posições salvas!';
-        setTimeout(function () {
-          btn.style.background = "rgba(138,115,82,0.15)";
-          btn.style.borderColor = "#8a7352";
-          btn.style.color = "#6b5a3e";
-          btn.innerHTML =
-            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Aplicar posições';
-        }, 2500);
+        ovFlashBtn(document.getElementById("ov-apply-btn"), "✓ Rascunho salvo");
       }
 
-      // carrega posições salvas do localStorage (se existirem)
-      (function ovLoadSaved() {
+      function ovRestoreDraft() {
+        var btn = document.getElementById("ov-restore-btn");
+        var raw = null;
         try {
-          var raw = localStorage.getItem("lemme_overlay_polys");
-          if (!raw) return;
-          var saved = JSON.parse(raw);
-          saved.forEach(function (s) {
-            var fl = FLOOR_DATA.find(function (f) {
-              return f.id === s.id;
-            });
-            if (fl && s.poly && s.poly.length === fl.poly.length)
-              fl.poly = s.poly;
-          });
+          raw = localStorage.getItem(OV_DRAFT_KEY);
         } catch (e) {}
-      })();
+        if (!raw) return ovFlashBtn(btn, "Nenhum rascunho", false);
+        var err;
+        try {
+          err = ovDeserialize(JSON.parse(raw));
+        } catch (e) {
+          err = e.message;
+        }
+        if (err) return ovFlashBtn(btn, "Rascunho inválido", false);
+        ovRefreshAll();
+        ovSelectFloor(_ovActiveFloor);
+        ovFlashBtn(btn, "✓ Restaurado");
+      }
+
+      function ovClearDraft() {
+        try {
+          localStorage.removeItem(OV_DRAFT_KEY);
+        } catch (e) {}
+        ovFlashBtn(document.getElementById("ov-cleardraft-btn"), "✓ Limpo");
+      }
 
       // mostra botão de edição apenas quando overlay visível
       function setFloorEditorBtnVisible(v) {

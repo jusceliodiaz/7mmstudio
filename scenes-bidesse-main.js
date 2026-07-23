@@ -15,23 +15,23 @@ const CONFIG = {
       pois: [
         {
           type: "card-simple",
-          label: "PARKING",
-          x: 68,
-          y: 62,
+          label: "PADARIA",
+          x: 51.0,
+          y: 26.1,
           accent: "#b89c6e",
           category: "INFRASTRUCTURE",
           subcategory: "BASEMENT",
-          title: "Parking",
+          title: "PADARIA",
           description:
-            "Covered underground parking with spaces for residents and visitors, with automatic gate and license plate recognition.",
+            "Padaria com produtos frescos e atendimento personalizado.",
           car: 2,
           walk: 3,
         },
         {
           type: "card-complex",
           label: "LOBBY",
-          x: 35,
-          y: 48,
+          x: 50.9,
+          y: 64.4,
           category: "ACCESS",
           subcategory: "ENTRANCE",
           title: "Lobby",
@@ -70,6 +70,17 @@ const CONFIG = {
   },
 
   sequences: {
+    // Barra de iluminação (dia/noite) da Vista 1 — arraste escrubbing, não
+    // autoplay. t=0 sempre mostra COVER_B1.jpg (dia); a sequência
+    // noite_00.jpg…noite_47.jpg cobre a transição até a noite fechada.
+    "aerial-daynight": {
+      folder: "images/bidesse/",
+      prefix: "noite_",
+      from: 0,
+      to: 47,
+      pad: 2,
+      ext: "jpg",
+    },
     "aerial-to-pool": {
       folder: "images/bidesse/",
       folder_m: "images/bidesse/seq_arch_m/",

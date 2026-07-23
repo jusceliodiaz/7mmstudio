@@ -33,37 +33,12 @@ let mode         = "day"; // reserved for day/night toggle
 const cache      = new Map();
 const videoBlobs = new Map();
 
-// ─── Micro-parallax + drag-swipe (mesma sensação de 3D real do carconfigurator) ──
+// ─── Drag-swipe (navegação por arrasto entre cenas) ──────────────────────────
+// Parallax de mouse removido: desalinhava o overlay de andares (imgToScreen()
+// assume o canvas/vídeo renderizados sem transform).
 
-const PARALLAX_X     = 12;    // amplitude do parallax de mouse (px)
-const PARALLAX_Y     = 7;
-const DRIFT_X        = 4;     // drift idle (px) — vida na cena parada
-const DRIFT_Y        = 2.5;
-const PARALLAX_SCALE = MOBILE ? 1.03 : 1.045; // esconde as bordas reveladas pelo parallax
-const DAMP           = 0.06;  // suavização do parallax (0–1)
 const SWIPE_MIN_PX   = 32;    // distância mínima de arrasto para trocar de cena
 const DRAG_DIR       = -1;    // 1 | -1 → sentido do swipe
-
-let targetPX = 0, targetPY = 0, parX = 0, parY = 0;
-
-if (!MOBILE) {
-  window.addEventListener('mousemove', e => {
-    targetPX = (0.5 - e.clientX / innerWidth) * 2 * PARALLAX_X;
-    targetPY = (0.5 - e.clientY / innerHeight) * 2 * PARALLAX_Y;
-  });
-}
-
-function parallaxTick(now) {
-  parX += (targetPX - parX) * DAMP;
-  parY += (targetPY - parY) * DAMP;
-  const dx = parX + Math.sin(now * 0.00023) * DRIFT_X;
-  const dy = parY + Math.cos(now * 0.00017) * DRIFT_Y;
-  const t  = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) scale(${PARALLAX_SCALE})`;
-  seqCanvas.style.transform = t;
-  mainVideo.style.transform = t;
-  requestAnimationFrame(parallaxTick);
-}
-requestAnimationFrame(parallaxTick);
 
 let swiping = false, swipeStartX = 0, swipeFired = false;
 
@@ -148,6 +123,7 @@ window.addEventListener('load', () => {
   initCTA();
   initPoiCard();
   initBotPopup();
+  initDayNight();
 });
 
 // Smart resize: ignores address-bar height jitter on mobile (< 120px height delta)
@@ -314,9 +290,13 @@ async function navigateTo(targetId) {
 
   busy = true;
   const gen = ++navGen;
-  hidePOIs();
 
   try {
+    hidePOIs();
+    // Overlays da Vista 1 (andares + barra dia/noite) somem na hora ao sair
+    // dela, sem esperar a sequência de transição terminar
+    if (typeof setFloorOverlayVisible === 'function') setFloorOverlayVisible(false);
+    setDayNightVisible(false);
     for (let i = 0; i < path.length - 1; i++) {
       const seqId = CONFIG.transitions?.[path[i]]?.[path[i + 1]];
       if (!seqId) { startScene(path[i + 1]); continue; }
@@ -447,6 +427,124 @@ function drawCover(img) {
   ctx.clearRect(0, 0, cw, ch);
   ctx.drawImage(img, dx, dy, dw, dh);
   lastFrame = img;
+}
+
+// ─── Barra dia/noite (Vista 1) ──────────────────────────────────────────────
+// Escrubbing: arrasta o handle e o frame correspondente da sequência
+// "aerial-daynight" é desenhado direto, sem autoplay por fps.
+
+let dnFrames = null;
+let dnLoading = null;
+let dnDragging = false;
+let dnT = 0; // 0 = dia (COVER_B1), 1 = noite
+let dnDayFrame = null; // COVER_B1 pré-carregado — t=0 sempre mostra ele, não noite_00
+
+(function preloadDnDayFrame() {
+  const img = new Image();
+  img.onload = () => { dnDayFrame = img; };
+  img.src = 'images/bidesse/COVER_B1.jpg';
+})();
+
+function setDayNightVisible(visible) {
+  const el = document.getElementById('dn-slider');
+  if (!el) return;
+  el.classList.toggle('show', visible);
+  if (visible) {
+    dnEnsureFrames(); // preload em background pra já estar pronto no 1º arrasto
+  } else if (dnT !== 0) {
+    // volta pro dia ao sair da Vista 1, pra não "vazar" a noite pras outras cenas.
+    // Só reseta o estado visual do handle — NÃO chama dnRender()/drawCover()
+    // aqui: estamos saindo da cena, quem chamou isso (navigateTo) já cuida
+    // de esconder o overlay e desenhar a cena seguinte.
+    dnT = 0;
+    const handle = document.getElementById('dn-handle');
+    const track  = document.getElementById('dn-track');
+    if (handle) handle.style.left = '0%';
+    if (track) track.style.setProperty('--dn-t', '0%');
+  }
+}
+
+// Overlay dos andares só faz sentido em cima do cover de dia (t=0) — some
+// na hora ao mexer no slider, volta na hora ao soltar exatamente no dia.
+function dnSyncFloorOverlay() {
+  if (typeof setFloorOverlayVisible !== 'function') return;
+  const svg = document.getElementById('floor-svg');
+  const shouldShow = dnT === 0;
+  const isShown = !!(svg && svg.classList.contains('visible'));
+  if (shouldShow !== isShown) setFloorOverlayVisible(shouldShow);
+}
+
+function dnRender() {
+  const handle = document.getElementById('dn-handle');
+  const track  = document.getElementById('dn-track');
+  if (handle) handle.style.left = (dnT * 100).toFixed(2) + '%';
+  if (track) track.style.setProperty('--dn-t', (dnT * 100).toFixed(2) + '%');
+  dnSyncFloorOverlay();
+  if (dnT === 0) {
+    if (dnDayFrame || lastFrame) drawCover(dnDayFrame || lastFrame);
+    return;
+  }
+  if (dnFrames && dnFrames.length) {
+    const idx = Math.round(dnT * (dnFrames.length - 1));
+    if (dnFrames[idx]) drawCover(dnFrames[idx]);
+  }
+}
+
+function dnEnsureFrames() {
+  if (dnFrames || dnLoading) return dnLoading;
+  dnLoading = preload('aerial-daynight').then(frames => {
+    dnFrames = frames;
+    dnRender();
+  }).catch(() => {});
+  return dnLoading;
+}
+
+// dnSetFromClientX só agenda o cálculo pro próximo frame (rAF) — evita
+// recalcular/redesenhar o canvas a cada pointermove (dispara dezenas de
+// vezes por segundo e travava o arraste).
+let dnPendingClientX = null;
+let dnRafPending = false;
+
+function dnSetFromClientX(clientX) {
+  dnPendingClientX = clientX;
+  if (dnRafPending) return;
+  dnRafPending = true;
+  requestAnimationFrame(dnFlush);
+}
+
+function dnFlush() {
+  dnRafPending = false;
+  if (dnPendingClientX == null) return;
+  const track = document.getElementById('dn-track');
+  if (!track) return;
+  const r = track.getBoundingClientRect();
+  dnT = Math.max(0, Math.min(1, (dnPendingClientX - r.left) / r.width));
+  dnRender();
+}
+
+function initDayNight() {
+  const el = document.getElementById('dn-slider');
+  if (!el) return;
+
+  el.addEventListener('pointerdown', e => {
+    e.stopPropagation();
+    dnDragging = true;
+    el.setPointerCapture(e.pointerId);
+    dnEnsureFrames();
+    dnSetFromClientX(e.clientX);
+  });
+  el.addEventListener('pointermove', e => {
+    if (!dnDragging) return;
+    e.stopPropagation();
+    dnSetFromClientX(e.clientX);
+  });
+  const endDrag = e => {
+    if (!dnDragging) return;
+    dnDragging = false;
+    e.stopPropagation();
+  };
+  el.addEventListener('pointerup', endDrag);
+  el.addEventListener('pointercancel', endDrag);
 }
 
 // ─── POIs ─────────────────────────────────────────────────────────────────────
@@ -636,10 +734,11 @@ function setActive(id) {
   const next = document.getElementById('t-next');
   if (prev) prev.disabled = idx === 0;
   if (next) next.disabled = idx === ids.length - 1;
-  // floor overlay: desativado
+  // floor overlay: ativo apenas na Vista 1 (aerial / COVER_B1)
   if (typeof setFloorOverlayVisible === 'function') {
-    setFloorOverlayVisible(false);
+    setFloorOverlayVisible(id === 'aerial');
   }
+  setDayNightVisible(id === 'aerial');
 }
 
 // ─── Auto-tour ────────────────────────────────────────────────────────────────
@@ -871,6 +970,7 @@ document.addEventListener('click', e => {
 
 function initBotPopup() {
   const popup = document.getElementById('bot-popup');
+  const box = document.getElementById('bot-popup-box');
   const waBtn = document.getElementById('bot-wa');
   const closeBtn = popup?.querySelector('.bot-close');
   if (!popup) return;
@@ -880,7 +980,9 @@ function initBotPopup() {
       encodeURIComponent(`Olá! Vi o tour do ${LEAD.project} e gostaria de falar com um corretor.`);
   }
 
-  let hideTimer, scheduleTimer;
+  const resetBotCard = initDragTiltCard(box, box?.querySelector('.bot-header'));
+
+  let hideTimer;
 
   // Guard ampliado: bot não deve aparecer sobre NENHUM modal/drawer aberto
   // (mapa, panorama 360°, formulário de lead ou painel de andar)
@@ -891,9 +993,10 @@ function initBotPopup() {
   function show() {
     if (isMapOpen()) return;
     popup.classList.add('bot-show');
+    resetBotCard();
     track('bot_popup_show', { scene: currentScene });
     clearTimeout(hideTimer);
-    hideTimer = setTimeout(hide, 15000);
+    hideTimer = setTimeout(hide, 30000);
     const b = document.getElementById('cta-bot');
     if (b) b.classList.add('active');
   }
@@ -909,30 +1012,16 @@ function initBotPopup() {
   if (closeBtn) closeBtn.addEventListener('click', () => { hide(); track('bot_popup_close', {}); });
   if (waBtn)    waBtn.addEventListener('click', () => { hide(); track('bot_whatsapp', { scene: currentScene }); });
 
+  // Clique manual no botão do dock sempre pode abrir o popup
   const ctaBot = document.getElementById('cta-bot');
   if (ctaBot) ctaBot.addEventListener('click', e => {
     e.stopPropagation();
     show();
     clearTimeout(hideTimer);
-    hideTimer = setTimeout(hide, 15000);
+    hideTimer = setTimeout(hide, 30000);
   });
 
-  // Qualquer clique no dock (exceto cta-bot) reseta o timer automático
-  const dock = document.getElementById('cta-dock');
-  if (dock) dock.addEventListener('click', e => {
-    if (e.target.closest('#cta-bot')) return;
-    clearTimeout(scheduleTimer);
-    scheduleTimer = setTimeout(schedule, 60000);
-  });
-
-  function schedule() {
-    clearTimeout(scheduleTimer);
-    scheduleTimer = setTimeout(() => {
-      show();
-      scheduleTimer = setTimeout(schedule, 15000);
-    }, 60000);
-  }
-
-  // Aparece 6s após load, depois repete a cada 60s
-  scheduleTimer = setTimeout(() => { show(); scheduleTimer = setTimeout(schedule, 15000); }, 6000);
+  // Aparece 1x, 6s após o carregamento da sessão — sem ciclo automático
+  // depois disso; só reabre se o visitante clicar no botão do dock.
+  setTimeout(show, 6000);
 }
