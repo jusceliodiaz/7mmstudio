@@ -424,7 +424,9 @@ function drawCover(img) {
   const dh    = Math.round(img.naturalHeight * scale);
   const dx    = Math.round((cw - dw) / 2);
   const dy    = Math.round((ch - dh) / 2);
-  ctx.clearRect(0, 0, cw, ch);
+  // Sem clearRect: o cover-fit acima sempre preenche o canvas inteiro, e o
+  // clear+draw em sequência causa flicker de double-buffering no Chrome
+  // (o compositor chega a apresentar o frame limpo por um instante).
   ctx.drawImage(img, dx, dy, dw, dh);
   lastFrame = img;
 }
