@@ -235,17 +235,6 @@
         letter-spacing: -0.01em;
       }
 
-      .wordmark .mark {
-        width: 28px;
-        height: 28px;
-        border: 1.5px solid var(--ink);
-        display: grid;
-        place-items: center;
-        font-size: 0.62rem;
-        font-family: "IBM Plex Mono";
-        font-weight: 500;
-      }
-
       .wordmark-logo {
         height: 31px;
         width: auto;
@@ -257,10 +246,6 @@
         flex-direction: column;
         gap: 2px;
         line-height: 1.2;
-      }
-
-      .wordmark .name {
-        white-space: nowrap;
       }
 
       .wordmark .sub {
@@ -375,12 +360,6 @@
       .lang-btn:hover:not(.active) {
         color: var(--ink);
         background: var(--paper-2);
-      }
-
-      .lang-sep {
-        color: var(--line);
-        font-size: 0.9rem;
-        user-select: none;
       }
 
       .nav-toggle {
@@ -585,26 +564,6 @@
         color: rgba(244, 242, 237, 0.55);
       }
 
-      .avail {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-      }
-      .avail::before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #22c55e;
-        animation: blink 1.8s infinite;
-      }
-
-      @keyframes blink {
-        50% {
-          opacity: 0.25;
-        }
-      }
       @keyframes fade {
         to {
           opacity: 1;
@@ -862,12 +821,6 @@
       .sec-head .idx b {
         color: var(--gold);
         font-weight: 500;
-      }
-
-      .sec-head-right {
-        display: flex;
-        align-items: center;
-        gap: 18px;
       }
 
       .sec-toggle {
@@ -1146,53 +1099,6 @@
         filter: saturate(1.1);
       }
 
-      /* ── Showreel ──────────────────────────────────────────────────── */
-      .reel {
-        padding-bottom: clamp(56px, 9vh, 110px);
-      }
-
-      .reel-frame {
-        position: relative;
-        border: 1px solid var(--line-strong);
-        aspect-ratio: 16/9;
-        background: var(--ink);
-      }
-
-      .reel-frame iframe {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-      }
-      .reel-cap {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        padding-top: 14px;
-        flex-wrap: wrap;
-      }
-
-      .static-boxes {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--pad);
-        margin-top: clamp(28px, 4vh, 44px);
-      }
-
-      .static-box {
-        border: 1px solid var(--line-strong);
-        aspect-ratio: 4/3;
-        overflow: hidden;
-      }
-
-      .static-box img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
       /* ── Leistungen ────────────────────────────────────────────────── */
       .skills {
         display: grid;
@@ -1442,10 +1348,6 @@
         }
         .btn-wa span:not(.btn-wa-icon) {
           display: none;
-        }
-
-        .static-boxes {
-          grid-template-columns: 1fr;
         }
 
         .hero-meta {
