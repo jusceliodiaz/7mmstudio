@@ -1649,6 +1649,171 @@
           animation-duration: 0.01ms !important;
           transition-duration: 0.01ms !important;
         }
+        #cursorDot,
+        #cursorRing {
+          display: none !important;
+        }
+        .sec-head h2 {
+          clip-path: none !important;
+        }
+      }
+
+      /* ══════════════════════════════════════════════════════════════════
+   INTERAÇÕES — camada de micro-interação
+   Cursor customizado, botão magnético, glow de luz nos cards, reveal
+   por wipe e decode de headline. Tudo vanilla, sem libs.
+   ══════════════════════════════════════════════════════════════════ */
+
+      /* ── Barra de progresso de scroll ─────────────────────────────── */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 0%;
+        background: var(--gold);
+        z-index: 200;
+        pointer-events: none;
+      }
+
+      /* ── Cursor customizado ────────────────────────────────────────── */
+      #cursorDot,
+      #cursorRing {
+        position: fixed;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 999;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.25s var(--ease);
+      }
+      #cursorDot {
+        width: 6px;
+        height: 6px;
+        background: var(--ink);
+      }
+      #cursorRing {
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 0.25s var(--ease),
+          width 0.3s var(--ease),
+          height 0.3s var(--ease),
+          border-color 0.3s var(--ease),
+          background 0.3s var(--ease);
+      }
+      body.cursor-ready #cursorDot,
+      body.cursor-ready #cursorRing {
+        opacity: 1;
+      }
+      #cursorRing span {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.56rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--paper);
+        background: var(--gold);
+        padding: 3px 8px;
+        border-radius: 980px;
+        opacity: 0;
+        transform: translateY(4px);
+        transition:
+          opacity 0.2s var(--ease),
+          transform 0.2s var(--ease);
+        white-space: nowrap;
+      }
+      #cursorRing.is-active {
+        width: 68px;
+        height: 68px;
+        border-color: var(--gold);
+        background: color-mix(in srgb, var(--paper) 60%, transparent);
+      }
+      #cursorRing.is-active.has-label span {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      body.cursor-ready,
+      body.cursor-ready a,
+      body.cursor-ready button {
+        cursor: none;
+      }
+
+      /* ── Glow de luz nos cards ─────────────────────────────────────── */
+      .proj,
+      .skill,
+      .gal figure {
+        position: relative;
+      }
+      .card-glow {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          circle at var(--mx, 50%) var(--my, 50%),
+          rgba(184, 156, 110, 0.22),
+          transparent 60%
+        );
+        transition: opacity 0.35s var(--ease);
+        mix-blend-mode: overlay;
+      }
+      .skill .card-glow,
+      .gal figure .card-glow {
+        mix-blend-mode: normal;
+        z-index: 0;
+      }
+      .proj:hover .card-glow,
+      .skill:hover .card-glow,
+      .gal figure:hover .card-glow {
+        opacity: 1;
+      }
+      .proj-top,
+      .proj-bottom {
+        z-index: 2;
+      }
+      .skill-top,
+      .skill .mono,
+      .skill h3,
+      .skill ul {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ── Sublinhado do nav ─────────────────────────────────────────── */
+      nav a {
+        position: relative;
+      }
+      nav a::after {
+        content: "";
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: 8px;
+        height: 1.5px;
+        background: var(--gold);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s var(--ease);
+      }
+      nav a:hover::after,
+      nav a:focus-visible::after {
+        transform: scaleX(1);
+      }
+
+      /* ── Reveal por wipe nos títulos de seção ─────────────────────── */
+      .sec-head h2 {
+        clip-path: inset(0 100% 0 0);
+        transition: clip-path 0.9s var(--ease);
+      }
+      .sec-head.in h2 {
+        clip-path: inset(0 0 0 0);
       }
     </style>
   </head>
@@ -1656,6 +1821,9 @@
     <a href="#galerie" class="skip-link" data-en="Skip to content" data-pt="Pular para o conteúdo"
       >Pular para o conteúdo</a
     >
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <div id="cursorDot" aria-hidden="true"></div>
+    <div id="cursorRing" aria-hidden="true"><span></span></div>
     <svg style="display: none" aria-hidden="true">
       <symbol id="icon-wa" viewBox="0 0 24 24">
         <path
@@ -2880,6 +3048,182 @@
         { threshold: 0.12 },
       );
       document.querySelectorAll(".rv").forEach((el) => io.observe(el));
+
+      // ════════════════════════════════════════════════════════════════
+      // INTERAÇÕES — cursor, magnético, glow, decode
+      // ════════════════════════════════════════════════════════════════
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const hasFinePointer = window.matchMedia(
+        "(hover: hover) and (pointer: fine)",
+      ).matches;
+      const canDoRichInteractions = !prefersReducedMotion && hasFinePointer;
+
+      // ── Barra de progresso de scroll ──────────────────────────────
+      const scrollProgress = document.getElementById("scrollProgress");
+      if (scrollProgress) {
+        let progressTicking = false;
+        const updateProgress = () => {
+          const h = document.documentElement;
+          const scrollable = h.scrollHeight - h.clientHeight;
+          const pct = scrollable > 0 ? (h.scrollTop / scrollable) * 100 : 0;
+          scrollProgress.style.width = pct + "%";
+          progressTicking = false;
+        };
+        updateProgress();
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!progressTicking) {
+              requestAnimationFrame(updateProgress);
+              progressTicking = true;
+            }
+          },
+          { passive: true },
+        );
+        window.addEventListener("resize", updateProgress);
+      }
+
+      // ── Cursor customizado ─────────────────────────────────────────
+      if (canDoRichInteractions) {
+        const cursorDot = document.getElementById("cursorDot");
+        const cursorRing = document.getElementById("cursorRing");
+        const cursorLabel = cursorRing?.querySelector("span");
+
+        if (cursorDot && cursorRing) {
+          let cx = 0,
+            cy = 0,
+            rx = 0,
+            ry = 0;
+          const RING_EASE = 0.18;
+
+          window.addEventListener(
+            "pointermove",
+            (e) => {
+              cx = e.clientX;
+              cy = e.clientY;
+              document.body.classList.add("cursor-ready");
+              cursorDot.style.left = cx + "px";
+              cursorDot.style.top = cy + "px";
+            },
+            { passive: true },
+          );
+
+          const tickRing = () => {
+            rx += (cx - rx) * RING_EASE;
+            ry += (cy - ry) * RING_EASE;
+            cursorRing.style.left = rx + "px";
+            cursorRing.style.top = ry + "px";
+            requestAnimationFrame(tickRing);
+          };
+          requestAnimationFrame(tickRing);
+
+          const CURSOR_TARGETS = [
+            { sel: ".btn-wa", label: "WhatsApp" },
+            { sel: ".proj", label: "Ver" },
+            { sel: ".gal figure", label: "" },
+            { sel: "nav a", label: "" },
+            { sel: ".sec-toggle", label: "" },
+            { sel: "a[href^='mailto']", label: "" },
+          ];
+
+          CURSOR_TARGETS.forEach(({ sel, label }) => {
+            document.querySelectorAll(sel).forEach((el) => {
+              el.addEventListener("mouseenter", () => {
+                cursorRing.classList.add("is-active");
+                cursorRing.classList.toggle("has-label", Boolean(label));
+                if (cursorLabel) cursorLabel.textContent = label;
+              });
+              el.addEventListener("mouseleave", () => {
+                cursorRing.classList.remove("is-active", "has-label");
+              });
+            });
+          });
+
+          document.addEventListener("mouseleave", () => {
+            document.body.classList.remove("cursor-ready");
+          });
+        }
+
+        // ── Botão magnético (apenas o CTA do header) ──────────────────
+        const magneticEl = document.querySelector(".dock-cta.btn-wa");
+        if (magneticEl) {
+          magneticEl.style.transition = "transform 0.3s var(--ease)";
+          magneticEl.addEventListener("pointermove", (e) => {
+            const r = magneticEl.getBoundingClientRect();
+            const px = (e.clientX - r.left - r.width / 2) * 0.3;
+            const py = (e.clientY - r.top - r.height / 2) * 0.3;
+            magneticEl.style.transform = `translate(${px}px, ${py}px)`;
+          });
+          magneticEl.addEventListener("pointerleave", () => {
+            magneticEl.style.transform = "translate(0, 0)";
+          });
+        }
+
+        // ── Glow de luz nos cards ──────────────────────────────────────
+        document.querySelectorAll(".proj, .skill, .gal figure").forEach((card) => {
+          const glow = document.createElement("div");
+          glow.className = "card-glow";
+          glow.setAttribute("aria-hidden", "true");
+          card.appendChild(glow);
+          card.addEventListener("pointermove", (e) => {
+            const r = card.getBoundingClientRect();
+            card.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
+            card.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+          });
+        });
+      }
+
+      // ── Reveal por wipe nos títulos de seção ──────────────────────
+      // (já cobertos pelo IntersectionObserver de `.rv` acima — `.sec-head`
+      // sempre carrega a classe `rv`, então ganham `.in` junto com o fade)
+
+      // ── Decode do headline do prêmio ────────────────────────────────
+      const decodeTarget = document.querySelector("#auszeichnung h2");
+      if (decodeTarget && !prefersReducedMotion) {
+        const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const runDecode = (el) => {
+          const spans = Array.from(el.querySelectorAll("span")).filter(
+            (s) => s.textContent.trim().length,
+          );
+          spans.forEach((span) => {
+            const finalText = span.textContent;
+            const letters = finalText.split("");
+            let frame = 0;
+            const totalFrames = 14;
+            const settleAt = letters.map(() =>
+              Math.floor(Math.random() * totalFrames * 0.6 + totalFrames * 0.3),
+            );
+            const timer = setInterval(() => {
+              span.textContent = letters
+                .map((ch, i) => {
+                  if (ch === " " || /[.,—]/.test(ch)) return ch;
+                  if (frame >= settleAt[i]) return ch;
+                  return CHARS[Math.floor(Math.random() * CHARS.length)];
+                })
+                .join("");
+              frame++;
+              if (frame > totalFrames) {
+                span.textContent = finalText;
+                clearInterval(timer);
+              }
+            }, 35);
+          });
+        };
+        const decodeIo = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                runDecode(e.target);
+                decodeIo.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.3 },
+        );
+        decodeIo.observe(decodeTarget);
+      }
     </script>
   </body>
 </html>
