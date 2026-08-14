@@ -1,318 +1,411 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <!-- Google tag (gtag.js) — lazy-loaded after page load -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-3K51DFTX3J");
-      window.addEventListener("load", function () {
-        var s = document.createElement("script");
-        s.async = true;
-        s.src = "https://www.googletagmanager.com/gtag/js?id=G-3K51DFTX3J";
-        document.head.appendChild(s);
-      });
-    </script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- SEO Primary -->
-    <title>Factory Studio | Archviz Interativo e Experiências Digitais para Imobiliário</title>
+      gtag("config", "G-3K51DFTX3J");
+    </script>
+
+    <title>
+      Factory Studio — Archviz & Experiências Digitais em Curitiba, PR
+    </title>
+
     <meta
       name="description"
-      content="Factory Studio — studio criativo especializado em archviz interativo, launching pages imobiliárias, tours virtuais e experiências digitais premium para arquitetos e incorporadoras."
+      content="Factory Studio — archviz e experiências digitais em tempo real para arquitetura e mercado imobiliário. Estúdio em Curitiba, Paraná, atendendo incorporadoras em todo o Brasil com Unreal Engine e visualização interativa."
     />
     <meta
       name="keywords"
-      content="Factory Studio, factory studio curitiba, archviz interativo curitiba, launching page imobiliária curitiba, tour virtual curitiba, experiência digital imobiliário curitiba, lançamento imobiliário curitiba PR, visualização 3D curitiba, studio digital paraná, archviz paraná, mercado imobiliário curitiba, weare.factory"
+      content="Factory Studio, archviz Curitiba, archviz Paraná, visualização arquitetônica Curitiba, Unreal Engine Brasil, realtime archviz, experiências digitais imobiliárias, produção virtual Curitiba, 3D Curitiba PR"
     />
-    <meta name="author" content="Factory Studio" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#080808" />
-    <meta name="copyright" content="Factory Studio" />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="geo.region" content="BR-PR" />
-    <meta name="geo.placename" content="Curitiba, Paraná" />
-    <meta name="geo.position" content="-25.4284;-49.2733" />
-    <meta name="ICBM" content="-25.4284, -49.2733" />
+    <meta name="theme-color" content="#f4f2ed" />
     <link rel="canonical" href="https://www.factorystudio.works/" />
-    <link rel="alternate" hreflang="pt-BR" href="https://www.factorystudio.works/" />
-    <link rel="alternate" hreflang="x-default" href="https://www.factorystudio.works/" />
+    <link rel="icon" type="image/png" href="images/fav-icon.png" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.factorystudio.works/" />
+    <meta property="og:site_name" content="Factory Studio" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta
       property="og:title"
-      content="Factory Studio | Archviz Interativo e Experiências Digitais Premium"
+      content="Factory Studio — Archviz & Experiências Digitais em Curitiba, PR"
     />
     <meta
       property="og:description"
-      content="Factory Studio — Launching Page, FirstPerson Experience e City Explorer. Experiências digitais interativas para arquitetura e mercado imobiliário premium."
+      content="Estúdio de archviz e experiências digitais para arquitetura e mercado imobiliário. Curitiba, Paraná — Unreal Engine, visualização em tempo real e produção virtual."
     />
     <meta
       property="og:image"
-      content="https://www.factorystudio.works/images/og_firstperson.jpg"
+      content="https://www.factorystudio.works/images/og_launching.jpg"
     />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta property="og:site_name" content="Factory Studio" />
 
-    <!-- Twitter Card -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.factorystudio.works/" />
     <meta
       name="twitter:title"
-      content="Factory Studio | Archviz Interativo e Experiências Digitais Premium"
+      content="Factory Studio — Archviz & Experiências Digitais em Curitiba, PR"
     />
     <meta
       name="twitter:description"
-      content="Factory Studio — Launching Page, FirstPerson Experience e City Explorer. Experiências digitais interativas para arquitetura e mercado imobiliário premium."
+      content="Estúdio de archviz e experiências digitais para arquitetura e mercado imobiliário. Curitiba, Paraná — Unreal Engine, visualização em tempo real e produção virtual."
     />
-    <meta name="twitter:site" content="@weare.factory" />
     <meta
       name="twitter:image"
-      content="https://www.factorystudio.works/images/og_firstperson.jpg"
+      content="https://www.factorystudio.works/images/og_launching.jpg"
     />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/fav-icon.png" />
-
-    <!-- Fonts: non-blocking load -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      onload="
-        this.onload = null;
-        this.rel = 'stylesheet';
-      "
-    />
-    <noscript
-      ><link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-    /></noscript>
-
-    <!-- Preload critical assets -->
-    <link
-      rel="preload"
-      as="image"
-      href="images/hero/h1.webp"
-      fetchpriority="high"
-      type="image/webp"
-    />
-    <link rel="preload" as="image" href="images/logo_site2.png" />
-    <link rel="preload" as="image" href="images/seq_arch/seq_teste_000.webp" />
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-
-    <!-- JSON-LD Schema -->
+    <!-- JSON-LD: ProfessionalService, focado em Curitiba/Paraná e Brasil -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": ["LocalBusiness", "ProfessionalService"],
+        "@type": "ProfessionalService",
         "name": "Factory Studio",
-        "alternateName": "Factory Creative Studio",
-        "description": "Factory Studio — studio criativo especializado em archviz interativo, launching pages imobiliárias, tours virtuais 3D e experiências digitais premium para arquitetos, incorporadoras e empreendimentos de alto padrão. Baseado em Curitiba, PR.",
-        "url": "https://www.factorystudio.works",
-        "telephone": "+5541992272317",
-        "email": "escrevaparajd@gmail.com",
+        "description": "Estúdio de archviz e experiências digitais em tempo real para arquitetura e mercado imobiliário.",
+        "url": "https://www.factorystudio.works/",
+        "image": "https://www.factorystudio.works/images/og_launching.jpg",
+        "email": "mailto:escrevaparajd@gmail.com",
+        "priceRange": "$$",
+        "knowsLanguage": ["pt", "en"],
+        "knowsAbout": [
+          "Archviz",
+          "Unreal Engine",
+          "Realtime Rendering",
+          "Visualização Arquitetônica",
+          "Produção Virtual"
+        ],
+        "areaServed": ["Curitiba", "Paraná", "Brasil"],
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Curitiba",
           "addressRegion": "PR",
           "addressCountry": "BR"
         },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": -25.4284,
-          "longitude": -49.2733
-        },
-        "image": "https://www.factorystudio.works/images/og_firstperson.jpg",
-        "logo": "https://www.factorystudio.works/images/logo_site2.png",
-        "priceRange": "$$",
-        "knowsAbout": [
-          "Archviz interativo",
-          "Visualização 3D em tempo real",
-          "Launching page imobiliária",
-          "Tour virtual 3D",
-          "Experiências digitais para arquitetura",
-          "Mercado imobiliário curitiba"
-        ],
-        "areaServed": [
-          { "@type": "City", "name": "Curitiba" },
-          { "@type": "AdministrativeArea", "name": "Região Metropolitana de Curitiba" },
-          { "@type": "State", "name": "Paraná" },
-          { "@type": "Country", "name": "Brasil" }
-        ],
-        "sameAs": [
-          "https://www.instagram.com/weare.factory"
-        ]
+        "sameAs": ["https://www.instagram.com/weare.factory"]
       }
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-      *,
-      *::before,
-      *::after {
+      /* ══════════════════════════════════════════════════════════════════
+   GESTALTUNG — Präzision. Klarheit. Zurückhaltung.
+   Inspiriert von deutscher Industriegestaltung: Rams, Bauhaus, DIN.
+   ══════════════════════════════════════════════════════════════════ */
+      :root {
+        --paper: #f4f2ed;
+        --paper-2: #edeae2;
+        --ink: #141412;
+        --ink-soft: #4a4944;
+        --ink-faint: #8b897f;
+        --line: #d8d5cb;
+        --line-strong: #141412;
+        --signal: #d92b1c;
+        --gold: #b89c6e;
+        --gold-d: #a08860;
+        --maxw: 1360px;
+        --pad: clamp(20px, 4vw, 56px);
+        --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+        --font-display:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter",
+          system-ui, sans-serif;
+        --font-body:
+          -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui,
+          sans-serif;
+      }
+
+      * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-      *,
-      *:focus,
-      *:focus-visible {
-        outline: none !important;
-        -webkit-tap-highlight-color: transparent;
-      }
-      :root {
-        --gold: #b89c6e;
-        --gold-d: #a08860;
-        --bg: #080808;
-        --bg-alt: #1e1e1e;
-        --text: #f5f5f5;
-        --muted: rgba(255, 255, 255, 0.45);
-        --border: rgba(255, 255, 255, 0.08);
-        --pad: 10%;
-        --radius: 24px;
-        --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      ::selection {
+        background: var(--ink);
+        color: var(--paper);
       }
       html {
         scroll-behavior: smooth;
       }
+
       body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Inter", sans-serif;
-        overflow-x: hidden;
+        font-family: var(--font-body);
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.47;
+        letter-spacing: -0.016em;
+        background: var(--paper);
+        color: var(--ink);
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
       }
-      img {
-        display: block;
-        max-width: 100%;
-        -webkit-user-drag: none;
-        user-select: none;
+
+      /* feines Papierkorn */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        pointer-events: none;
+        opacity: 0.35;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
       }
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-display);
+        font-weight: 600;
+      }
+      .mono {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
       }
       a {
-        text-decoration: none;
         color: inherit;
       }
-      section {
-        padding: 120px var(--pad);
-        border-bottom: 1px solid var(--border);
+
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding-left: var(--pad);
+        padding-right: var(--pad);
       }
-      .section-label {
-        font-size: 0.72rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: #666;
-        margin-bottom: 20px;
-      }
-      h1 {
-        font-size: clamp(2.16rem, 5.04vw, 5.04rem);
-        line-height: 0.92;
-        letter-spacing: -0.05em;
-        max-width: 1100px;
-        margin-bottom: 28px;
-        font-weight: 800;
-      }
-      h2 {
-        font-size: clamp(2rem, 5vw, 4.5rem);
-        line-height: 1;
-        letter-spacing: -0.04em;
-        margin-bottom: 28px;
-        max-width: 900px;
-      }
-      .reveal {
-        opacity: 0;
-        transform: translateY(28px);
-        transition:
-          opacity 0.75s var(--ease),
-          transform 0.75s var(--ease);
-      }
-      .reveal.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      .reveal-delay-1 {
-        transition-delay: 0.1s;
-      }
-      .reveal-delay-2 {
-        transition-delay: 0.22s;
-      }
-      .reveal-delay-3 {
-        transition-delay: 0.34s;
-      }
-      .btn-wa {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 24px 10px 10px;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        border-radius: 16px;
-        color: #fff;
-        font-family: inherit;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        width: fit-content;
+
+      /* ── Kopfzeile ─────────────────────────────────────────────────── */
+      header {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 60;
+        width: max-content;
+        max-width: calc(100% - var(--pad) * 2);
+        border: 1px solid var(--line);
+        border-radius: 980px;
+        background: color-mix(in srgb, var(--paper) 88%, transparent);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 8px 30px rgba(20, 20, 18, 0.1);
         transition:
           background 0.3s,
-          border-color 0.3s,
-          transform 0.3s;
+          border-color 0.3s;
       }
-      .btn-wa:hover {
-        background: rgba(255, 255, 255, 0.18);
-        border-color: rgba(255, 255, 255, 0.4);
-        transform: translateY(-3px);
+
+      .head-in {
+        margin: 0 auto;
+        padding: 0 8px 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
       }
-      .btn-wa-icon {
+
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-decoration: none;
+        font-family: "Archivo";
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: -0.01em;
+      }
+
+      .wordmark .mark {
+        width: 28px;
+        height: 28px;
+        border: 1.5px solid var(--ink);
+        display: grid;
+        place-items: center;
+        font-size: 0.62rem;
+        font-family: "IBM Plex Mono";
+        font-weight: 500;
+      }
+
+      .wordmark-logo {
+        height: 31px;
+        width: auto;
+        display: block;
+      }
+
+      .wordmark-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        line-height: 1.2;
+      }
+
+      .wordmark .name {
+        white-space: nowrap;
+      }
+
+      .wordmark .sub {
+        font-family: "IBM Plex Mono";
+        font-weight: 400;
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+
+      /* Rechter Bereich: Nav + Sprachschalter */
+      .head-right {
+        display: flex;
+        align-items: stretch;
+      }
+
+      nav {
+        display: flex;
+      }
+
+      nav a {
+        display: flex;
+        align-items: center;
+        padding: 0 22px;
+        text-decoration: none;
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: -0.018em;
+        border-left: 1px solid var(--line);
+        transition: background 0.25s var(--ease);
+      }
+
+      nav a span.n {
+        font-family: "IBM Plex Mono";
+        font-size: 0.62rem;
+        color: var(--ink-faint);
+        margin-right: 8px;
+        transition: color 0.25s;
+      }
+
+      nav a:hover {
+        background: var(--paper-2);
+      }
+      nav a:hover span.n {
+        color: var(--gold);
+      }
+      nav a.cta {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      nav a.cta:hover {
+        background: var(--gold);
+      }
+      nav a.cta span.n {
+        color: color-mix(in srgb, var(--paper) 60%, transparent);
+      }
+      nav a.cta:hover span.n {
+        color: var(--paper);
+      }
+
+      /* Instagram */
+      .ig-link {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 48px;
-        height: 48px;
-        background: var(--gold);
-        border-radius: 10px;
-        color: #000;
-        flex-shrink: 0;
+        width: 52px;
+        border-left: 1px solid var(--line);
+        color: var(--ink-faint);
         transition:
-          transform 0.35s var(--ease),
-          background 0.3s;
+          color 0.2s,
+          background 0.2s;
       }
-      .btn-wa:hover .btn-wa-icon {
-        transform: rotate(12deg) scale(1.12);
-        background: var(--gold-d);
+      .ig-link:hover {
+        color: var(--gold);
+        background: var(--paper-2);
       }
+
+      /* Sprachschalter */
+      .lang-sw {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        border-left: 1px solid var(--line);
+      }
+
+      .lang-btn {
+        height: 100%;
+        padding: 0 14px;
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.66rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        transition:
+          color 0.2s,
+          border-color 0.2s,
+          background 0.2s;
+      }
+
+      .lang-btn.active {
+        color: var(--ink);
+        border-bottom-color: var(--gold);
+      }
+      .lang-btn:hover:not(.active) {
+        color: var(--ink);
+        background: var(--paper-2);
+      }
+
+      .lang-sep {
+        color: var(--line);
+        font-size: 0.9rem;
+        user-select: none;
+      }
+
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        border-left: 1px solid var(--line);
+        width: 64px;
+        cursor: pointer;
+        font-size: 1.3rem;
+        color: var(--ink);
+      }
+
+      /* ── Hero ──────────────────────────────────────────────────────── */
       .hero {
-        height: 100vh;
+        padding-top: 104px;
+        min-height: 100svh;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        padding: 0 var(--pad) 168px;
+        border-bottom: 1px solid var(--line-strong);
         position: relative;
         overflow: hidden;
+        color: var(--paper);
       }
+
       .hero-bg {
         position: absolute;
         inset: 0;
@@ -343,971 +436,1097 @@
         object-fit: cover;
         object-position: center;
       }
-      .svc-bg picture {
-        display: contents;
-      }
       .hero-overlay {
         position: absolute;
         inset: 0;
         background: linear-gradient(
           to top,
-          rgba(0, 0, 0, 0.92),
-          rgba(0, 0, 0, 0.32)
+          rgba(8, 8, 8, 0.88),
+          rgba(8, 8, 8, 0.32)
         );
         z-index: -1;
       }
-      .hero-logo {
-        height: 56px;
-        width: auto;
-        align-self: flex-start;
-        margin-bottom: 28px;
-        opacity: 0;
-        transform: translateY(14px);
-        animation: heroFadeUp 0.8s var(--ease) 0.25s forwards;
-      }
-      .hero-nav {
-        position: absolute;
-        bottom: 36px;
-        right: var(--pad);
-        display: flex;
-        gap: 6px;
-        z-index: 2;
-        width: min(300px, 30vw);
-      }
-      .hero-nav-block {
-        flex: 1;
-        display: flex;
+
+      /* WhatsApp — pill CTA no header */
+      .btn-wa {
+        display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 11px 10px;
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        padding: 6px 18px 6px 6px;
+        margin-left: 10px;
+        background: var(--gold);
+        border: none;
+        border-radius: 980px;
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: -0.018em;
         text-decoration: none;
-        color: #fff;
-        position: relative;
-        overflow: hidden;
         cursor: pointer;
-        transition:
-          background 0.3s,
-          border-color 0.3s,
-          transform 0.3s;
-      }
-      .hero-nav-block:hover {
-        background: rgba(255, 255, 255, 0.18);
-        border-color: rgba(255, 255, 255, 0.4);
-        transform: translateY(-3px);
-      }
-      .hero-nav-block.active {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.22);
-      }
-      .hero-nav-icon {
-        width: 30px;
-        height: 30px;
-        border-radius: 7px;
-        background: var(--gold);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        white-space: nowrap;
         flex-shrink: 0;
-        color: #000;
         transition:
-          transform 0.35s var(--ease),
-          background 0.3s;
+          background 0.25s,
+          transform 0.25s;
       }
-      .hero-nav-block:hover .hero-nav-icon {
-        transform: rotate(12deg) scale(1.12);
-        background: var(--gold-d);
-      }
-      .hero-nav-text {
-        flex: 1;
-        min-width: 0;
-      }
-      .hero-nav-title {
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        color: #fff;
-        white-space: nowrap;
-      }
-      .hero-nav-sub {
-        font-size: 10px;
-        font-weight: 400;
-        color: rgba(255, 255, 255, 0.5);
-        margin-top: 3px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-height: 0;
-        opacity: 0;
-        transition:
-          max-height 0.35s ease,
-          opacity 0.35s ease,
-          margin 0.35s ease;
-      }
-      .hero-nav-block.active .hero-nav-sub {
-        max-height: 20px;
-        opacity: 1;
-        margin-top: 4px;
-      }
-      .hero-nav-num {
-        position: absolute;
-        bottom: 10px;
-        right: 11px;
-        font-size: 9px;
-        font-weight: 600;
-        letter-spacing: 0.18em;
-        color: rgba(255, 255, 255, 0.3);
-      }
-      .hero-nav-bar {
-        display: none;
-      }
-      @media (max-width: 860px) {
-        .hero-nav {
-          width: auto;
-          right: 20px;
-          gap: 6px;
-        }
-        .hero-nav-sub {
-          display: none;
-        }
-        .hero-nav-block {
-          padding: 14px 14px;
-          gap: 10px;
-        }
-        .hero-nav-icon {
-          width: 34px;
-          height: 34px;
-        }
-        .hero-nav-title {
-          font-size: 13px;
-        }
-      }
-      @media (max-width: 540px) {
-        .hero-nav {
-          display: none;
-        }
-        .hero {
-          padding-bottom: 80px;
-        }
-      }
-      .hero h1 {
-        opacity: 0;
-        transform: translateY(22px);
-        animation: heroFadeUp 0.9s var(--ease) 0.45s forwards;
-      }
-      .hero p {
-        max-width: 680px;
-        font-size: 0.95rem;
-        font-weight: 400;
-        line-height: 1.85;
-        color: rgba(255, 255, 255, 0.65);
-        margin-bottom: 40px;
-        opacity: 0;
-        transform: translateY(18px);
-        animation: heroFadeUp 0.9s var(--ease) 0.65s forwards;
-      }
-      .hero .btn-wa {
-        opacity: 0;
-        animation: heroFadeUp 0.8s var(--ease) 0.85s forwards;
-      }
-      @keyframes heroFadeUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes heroFadeDown {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .web-statement {
-        padding: 120px var(--pad);
-        background: var(--bg-alt);
-      }
-      .ws-text {
-        font-size: clamp(2rem, 3.6vw, 3.2rem);
-        font-weight: 700;
-        line-height: 1.25;
-        letter-spacing: -0.025em;
-        color: var(--text);
-        max-width: 1100px;
-        margin: 0 auto;
-        text-align: center;
-      }
-      .ws-text em {
-        font-style: normal;
-        color: #c9a84c;
-      }
-      .ws-cursor {
-        display: inline-block;
-        margin-left: 3px;
-        color: var(--gold);
-        font-weight: 300;
-        transition: opacity 0.075s;
-      }
-      .ws-cursor.blink-off {
-        opacity: 0;
-      }
-      .ws-sub {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        margin-top: 64px;
-        padding-top: 48px;
-        border-top: 1px solid var(--border);
-        max-width: 1100px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .ws-sub-item {
-        display: flex;
-        gap: 16px;
-        align-items: flex-start;
-      }
-      .ws-sub-icon {
-        width: 38px;
-        height: 38px;
-        background: var(--gold);
-        border-radius: 10px;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #111;
-      }
-      .ws-sub-icon svg {
-        width: 18px;
-        height: 18px;
-      }
-      .ws-sub-p {
-        font-size: 0.95rem;
-        color: var(--muted);
-        line-height: 1.7;
-        font-weight: 400;
-      }
-      .section-services {
-        background: #000;
-        padding: 0;
-        border: none;
-      }
-      .services-bento {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: 480px;
-        gap: 0;
-        overflow: hidden;
-        transform: translateZ(0);
-      }
-      .svc-card {
-        margin: -0.5px;
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-      }
-      .svc-card-link {
-        position: absolute;
-        inset: 0;
-        z-index: 10;
-      }
-      .svc-includes {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 14px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .svc-includes li {
-        font-size: 0.68rem;
-        font-weight: 600;
-        letter-spacing: 0.1em;
-        color: var(--gold);
-        background: rgba(184, 156, 110, 0.12);
-        border: 1px solid rgba(184, 156, 110, 0.28);
-        padding: 3px 10px;
-        border-radius: 100px;
-      }
-      .svc-card-btn {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        overflow: hidden;
-        padding: 10px 16px;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        border-radius: 12px;
-        color: #fff;
-        font-family: inherit;
-        font-weight: 600;
-        font-size: 0.88rem;
-        white-space: nowrap;
-        pointer-events: none;
-        transition: background 0.3s, border-color 0.3s;
-      }
-      .svc-card:hover .svc-card-btn {
-        background: rgba(255, 255, 255, 0.15);
-        border-color: rgba(255, 255, 255, 0.35);
-      }
-      .svc-card-btn-text {
-        margin-right: 32px;
-        transition: opacity 0.5s;
-      }
-      .svc-card:hover .svc-card-btn-text {
-        opacity: 0;
-      }
-      .svc-card-btn-chevron {
-        position: absolute;
-        right: 4px;
-        top: 4px;
-        bottom: 4px;
-        width: 26%;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.14);
-        display: grid;
-        place-items: center;
-        transition: width 0.5s var(--ease);
-      }
-      .svc-card:hover .svc-card-btn-chevron {
-        width: calc(100% - 8px);
-      }
-      .svc-bg {
-        position: absolute;
-        inset: 0;
-      }
-      .svc-bg img,
-      .svc-bg video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.9s var(--ease);
-      }
-      .svc-card:hover .svc-bg img {
-        transform: scale(1.07);
-      }
-      .svc-content {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.9) 0%,
-          rgba(0, 0, 0, 0.28) 45%,
-          transparent 72%
-        );
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 32px 36px;
-        transition: background 0.45s;
-      }
-      .svc-card:hover .svc-content {
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.96) 0%,
-          rgba(0, 0, 0, 0.4) 50%,
-          transparent 78%
-        );
-      }
-      .svc-num {
-        font-size: 0.68rem;
-        letter-spacing: 0.22em;
-        color: var(--gold);
-        opacity: 0.72;
-        font-weight: 500;
-      }
-      .svc-bottom {
-        transform: translateY(10px);
-        transition: transform 0.45s var(--ease);
-      }
-      .svc-card:hover .svc-bottom {
-        transform: translateY(0);
-      }
-      .svc-card h3 {
-        font-size: clamp(1.1rem, 1.8vw, 1.7rem);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 10px;
-        line-height: 1.15;
-      }
-      .svc-card p {
-        font-size: 0.95rem;
-        font-weight: 400;
-        color: rgba(255, 255, 255, 0.58);
-        line-height: 1.8;
-        margin-bottom: 16px;
-        max-width: 340px;
-      }
-      .svc-card--special {
-        background: var(--gold);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 32px 36px;
-        color: #1a1200;
-        transition: background 0.3s;
-      }
-      .svc-card--special:hover {
-        background: var(--gold-d);
-      }
-      .svc-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(0, 0, 0, 0.14);
-        color: rgba(26, 18, 0, 0.72);
-        font-size: 0.58rem;
-        font-weight: 700;
-        letter-spacing: 0.26em;
-        padding: 5px 12px;
-        border-radius: 100px;
-        width: fit-content;
-      }
-      .svc-card--special h3 {
-        font-size: clamp(1.1rem, 1.6vw, 1.5rem);
-        color: #1a1200;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 10px;
-        line-height: 1.15;
-      }
-      .svc-card--special p {
-        font-size: 0.95rem;
-        font-weight: 400;
-        color: rgba(26, 18, 0, 0.62);
-        line-height: 1.8;
-        margin-bottom: 0;
-      }
-      .section-portfolio {
-        padding: 0;
-        border-bottom: none;
-      }
-      .portfolio-fw-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 60vh 60vh;
-        gap: 3px;
-      }
-      .portfolio-fw-card {
-        position: relative;
-        overflow: hidden;
-        background: #111;
-      }
-      .portfolio-fw-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.85s var(--ease);
-      }
-      .portfolio-fw-card:hover img {
-        transform: scale(1.05);
-      }
-      .portfolio-fw-info {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.82) 0%,
-          transparent 52%
-        );
-        display: flex;
-        align-items: flex-end;
-        padding: 36px 40px;
-        transition: background 0.4s;
-      }
-      .portfolio-fw-card:hover .portfolio-fw-info {
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.92) 0%,
-          transparent 58%
-        );
-      }
-      .portfolio-fw-info > div {
-        transform: translateY(8px);
-        transition: transform 0.45s var(--ease);
-      }
-      .portfolio-fw-card:hover .portfolio-fw-info > div {
-        transform: translateY(0);
-      }
-      .portfolio-fw-label {
-        font-size: 0.58rem;
-        letter-spacing: 0.22em;
-        color: rgba(255, 255, 255, 0.4);
-        margin-bottom: 8px;
-        text-transform: uppercase;
-      }
-      .portfolio-fw-info h3 {
-        font-size: clamp(1.3rem, 2vw, 2rem);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 6px;
-        line-height: 1;
-      }
-      .portfolio-fw-info span {
-        font-size: 0.78rem;
-        color: rgba(255, 255, 255, 0.46);
-        letter-spacing: 0.04em;
-      }
-      .cta {
-        text-align: center;
-        background: var(--bg-alt);
-      }
-      .cta h2 {
-        margin: 0 auto 24px;
-      }
-      .cta p {
-        max-width: 580px;
-        margin: 0 auto 40px;
-        color: rgba(255, 255, 255, 0.6);
-        line-height: 1.9;
-        font-size: 0.95rem;
-        font-weight: 400;
-      }
-      .cta .btn-wa {
-        margin: 0 auto;
-      }
-      .cf-wrap {
-        margin-top: 52px;
-        width: 100%;
-        max-width: 640px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: left;
-      }
-      .cf-divider {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-bottom: 36px;
-        color: var(--muted);
-        font-size: 0.82rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-      .cf-divider::before,
-      .cf-divider::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: var(--border);
-      }
-      .cf label {
-        display: block;
-        font-size: 0.78rem;
-        font-weight: 500;
-        color: var(--muted);
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        margin-bottom: 8px;
-      }
-      .cf input,
-      .cf textarea {
-        width: 100%;
-        background: #121212;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 14px 16px;
-        color: var(--text);
-        font-family: inherit;
-        font-size: 0.95rem;
-        outline: none;
-        transition: border-color 0.2s var(--ease);
-        box-sizing: border-box;
-      }
-      .cf input:focus,
-      .cf textarea:focus {
-        border-color: var(--gold);
-      }
-      .cf input::placeholder,
-      .cf textarea::placeholder {
-        color: rgba(255, 255, 255, 0.2);
-      }
-      .cf textarea {
-        resize: vertical;
-        min-height: 120px;
-      }
-      .cf .cf-row {
-        display: flex;
-        gap: 16px;
-      }
-      .cf .cf-row > div {
-        flex: 1;
-      }
-      .cf > div,
-      .cf .cf-row {
-        margin-bottom: 20px;
-      }
-      .sub-btn {
-        width: 100%;
-        padding: 16px;
-        background: var(--gold);
-        color: #1a1200;
-        font-family: inherit;
-        font-size: 0.95rem;
-        font-weight: 700;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        transition:
-          background 0.2s var(--ease),
-          transform 0.2s var(--ease);
-        letter-spacing: 0.04em;
-        margin-top: 4px;
-      }
-      .sub-btn:hover:not(:disabled) {
+      .btn-wa:hover {
         background: var(--gold-d);
         transform: translateY(-2px);
       }
-      .sub-btn:disabled {
-        opacity: 0.65;
-        cursor: not-allowed;
-      }
-      footer {
-        padding: 40px var(--pad);
+      .btn-wa-icon {
         display: flex;
+        align-items: center;
         justify-content: center;
-        color: var(--muted);
-        font-size: 0.82rem;
-        border-top: 1px solid var(--border);
-        letter-spacing: 0.03em;
+        width: 30px;
+        height: 30px;
+        background: var(--paper);
+        border-radius: 50%;
+        color: var(--ink);
+        flex-shrink: 0;
+        transition: transform 0.35s var(--ease);
       }
-      @media (hover: none) {
-        .svc-bottom {
-          transform: none !important;
-        }
-        .portfolio-fw-info > div {
-          transform: none !important;
-        }
-        .ph-slide:hover img {
-          transform: none;
-        }
-        .ph-slide:hover .ph-arrow {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.28);
-          color: #fff;
-        }
+      .btn-wa:hover .btn-wa-icon {
+        transform: rotate(12deg) scale(1.1);
       }
-      @media (min-width: 1921px) {
-        :root {
-          --pad: 15%;
-        }
-        .hero-logo {
-          height: 127px;
-        }
-        .services-bento {
-          grid-template-rows: 560px;
-        }
+
+      .hero .mono {
+        color: rgba(244, 242, 237, 0.65);
       }
-      @media (min-width: 769px) and (max-width: 1024px) {
-        :root {
-          --pad: 8%;
-        }
-        .hero-logo {
-          height: 87px;
-        }
-        .services-bento {
-          grid-template-columns: repeat(3, 1fr);
-          grid-template-rows: 380px;
-        }
-        .ph-slide-text {
-          width: 52vw !important;
-        }
-        .ph-slide {
-          width: 60vw;
-        }
-        .ph-slide-end {
-          width: 60vw !important;
-        }
+
+      .hero-top {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr;
+        align-content: end;
+        padding-top: clamp(60px, 10vh, 120px);
       }
-      @media (max-width: 768px) {
-        :root {
-          --pad: 7%;
-        }
-        section {
-          padding: 80px var(--pad);
-        }
-        .hero-logo {
-          height: 70px;
-        }
-        .services-bento {
-          grid-template-columns: 1fr;
-          grid-template-rows: repeat(3, 300px);
-        }
-        .svc-content,
-        .svc-card--special {
-          padding: 24px;
-        }
-        .svc-card p,
-        .svc-card--special p,
-        .hero p,
-        .ws-sub-p,
-        .cta p {
-          font-size: 0.86rem;
-        }
-        .portfolio-fw-grid {
-          grid-template-columns: 1fr;
-          grid-template-rows: repeat(4, 50vh);
-        }
-        .side-nav {
-          display: none;
+
+      .hero h1 {
+        font-size: 102px;
+        font-weight: 700;
+        letter-spacing: -0.011em;
+        line-height: 1.07;
+      }
+
+      .hero h1 .row {
+        display: block;
+        overflow: hidden;
+      }
+      .hero h1 .row > span {
+        display: block;
+        transform: translateY(110%);
+        animation: rise 1s var(--ease) forwards;
+      }
+      .hero h1 .row:nth-child(2) > span {
+        animation-delay: 0.08s;
+      }
+      .hero h1 .row:nth-child(3) > span {
+        animation-delay: 0.16s;
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: var(--gold);
+      }
+
+      @keyframes rise {
+        to {
+          transform: translateY(0);
         }
       }
-      @media (max-width: 430px) {
-        :root {
-          --pad: 6%;
-        }
-        section {
-          padding: 64px var(--pad);
-        }
-        .hero-logo {
-          height: 55px;
-        }
-        .hero p {
-          font-size: 0.86rem;
-        }
-        .btn-wa {
-          font-size: 0.88rem;
-          padding: 8px 18px 8px 8px;
-        }
-        .btn-wa-icon {
-          width: 40px;
-          height: 40px;
-        }
-        .services-bento {
-          grid-template-rows: repeat(3, 260px);
-        }
-        .svc-content,
-        .svc-card--special {
-          padding: 18px;
-        }
-        .ph-slide-text {
-          width: 88vw !important;
-        }
-        .ph-slide {
-          width: 86vw;
-        }
-        .ph-slide-end {
-          width: 86vw !important;
-        }
+
+      .hero-meta {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 24px;
+        border-top: 1px solid rgba(244, 242, 237, 0.3);
+        margin-top: clamp(28px, 4vh, 52px);
+        padding-top: 26px;
+        padding-bottom: clamp(28px, 5vh, 56px);
       }
-      .side-nav {
-        position: fixed;
-        right: 28px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 500;
+
+      .hero-meta .lede {
+        grid-column: span 6;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.47;
+        letter-spacing: -0.016em;
+        color: rgba(244, 242, 237, 0.85);
+        max-width: 56ch;
+        opacity: 0;
+        animation: fade 1s 0.35s var(--ease) forwards;
+      }
+
+      .hero-meta .facts {
+        grid-column: 8 / -1;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        transition: opacity 0.4s ease;
+        gap: 12px;
+        opacity: 0;
+        animation: fade 1s 0.5s var(--ease) forwards;
       }
-      .side-nav ul {
+
+      .fact {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        border-bottom: 1px solid rgba(244, 242, 237, 0.25);
+        padding-bottom: 10px;
+        font-size: 14px;
+        line-height: 1.29;
+        letter-spacing: -0.018em;
+      }
+
+      .fact b {
+        font-weight: 600;
+        color: var(--paper);
+      }
+      .fact .k {
+        color: rgba(244, 242, 237, 0.55);
+      }
+
+      .avail {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+      }
+      .avail::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #22c55e;
+        animation: blink 1.8s infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0.25;
+        }
+      }
+      @keyframes fade {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* ── Auszeichnung ──────────────────────────────────────────────── */
+      .award {
+        background: var(--ink);
+        color: var(--paper);
+        border-top: 3px solid var(--gold);
+        border-bottom: 1px solid var(--line-strong);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .award::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.06;
+        background-image:
+          linear-gradient(rgba(244, 242, 237, 0.5) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(244, 242, 237, 0.5) 1px, transparent 1px);
+        background-size: 72px 72px;
+      }
+
+      .award-in {
+        position: relative;
+        z-index: 1;
+        padding: clamp(56px, 9vh, 110px) 0;
+      }
+      .award-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: clamp(26px, 4vh, 44px);
+      }
+      .award .mono {
+        color: color-mix(in srgb, var(--paper) 55%, transparent);
+      }
+
+      .award .sec-toggle {
+        color: var(--paper);
+        border-color: color-mix(in srgb, var(--paper) 30%, transparent);
+      }
+      .award .sec-toggle:hover {
+        background: var(--gold);
+        color: var(--ink);
+        border-color: var(--gold);
+      }
+
+      .award-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "IBM Plex Mono";
+        font-size: 0.68rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        border: 1px solid var(--gold);
+        color: var(--paper);
+        padding: 8px 16px;
+      }
+
+      .award-badge::before {
+        content: "✦";
+        color: var(--gold);
+      }
+
+      .award h2 {
+        font-size: 56px;
+        font-weight: 600;
+        letter-spacing: -0.011em;
+        line-height: 1.07;
+        margin-bottom: clamp(28px, 4vh, 44px);
+      }
+
+      .award h2 .thin {
+        color: transparent;
+        -webkit-text-stroke: 1.2px var(--paper);
+      }
+      .award h2 .red {
+        color: var(--gold);
+      }
+
+      .award-grid {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: clamp(28px, 4vw, 64px);
+        align-items: start;
+      }
+      .award-text p {
+        color: color-mix(in srgb, var(--paper) 78%, transparent);
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.47;
+        letter-spacing: -0.016em;
+        margin-bottom: 18px;
+        max-width: 62ch;
+      }
+      .award-text p b {
+        color: var(--paper);
+        font-weight: 600;
+      }
+      .award-facts {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border-top: 1px solid color-mix(in srgb, var(--paper) 25%, transparent);
+        padding-top: 4px;
+      }
+      .award-facts .fact {
+        border-bottom-color: color-mix(in srgb, var(--paper) 18%, transparent);
+        font-size: 0.86rem;
+        padding-top: 12px;
+      }
+      .award-facts .fact .k {
+        color: color-mix(in srgb, var(--paper) 45%, transparent);
+      }
+      .award-facts .fact b {
+        color: var(--paper);
+      }
+
+      .award-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        margin-top: clamp(28px, 4vh, 40px);
+        border: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+      }
+
+      .award-links a {
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 16px 24px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--paper);
+        border-right: 1px solid
+          color-mix(in srgb, var(--paper) 30%, transparent);
+        transition:
+          background 0.25s var(--ease),
+          color 0.25s;
+      }
+
+      .award-links a:last-child {
+        border-right: none;
+      }
+      .award-links a:hover {
+        background: var(--gold);
+        color: var(--paper);
+      }
+      .award-links a small {
+        font-family: "IBM Plex Mono";
+        font-weight: 400;
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: color-mix(in srgb, var(--paper) 50%, transparent);
+      }
+      .award-links a:hover small {
+        color: color-mix(in srgb, var(--paper) 75%, transparent);
+      }
+
+      .award-photos {
+        position: relative;
+        margin-top: clamp(28px, 4vh, 40px);
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+      }
+      .award-photo-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.6s var(--ease);
+      }
+      .award-photo-img.active {
+        opacity: 1;
+      }
+      .award-photo-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: color-mix(in srgb, var(--ink) 60%, transparent);
+        border: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+        color: var(--paper);
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background 0.25s var(--ease);
+      }
+      .award-photo-nav:hover {
+        background: var(--gold);
+      }
+      .award-photo-nav.prev {
+        left: 16px;
+      }
+      .award-photo-nav.next {
+        right: 16px;
+      }
+
+      .award-video {
+        position: relative;
+        margin-top: clamp(20px, 3vh, 28px);
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+      }
+      .award-video iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ── Abschnittsköpfe ───────────────────────────────────────────── */
+      section {
+        border-bottom: 1px solid var(--line-strong);
+      }
+
+      .sec-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 20px;
+        padding: clamp(48px, 8vh, 90px) 0 clamp(28px, 4vh, 44px);
+      }
+
+      .sec-head h2 {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.011em;
+      }
+      .sec-head .idx {
+        font-family: "IBM Plex Mono";
+        font-size: 0.78rem;
+        color: var(--ink-faint);
+      }
+      .sec-head .idx b {
+        color: var(--gold);
+        font-weight: 500;
+      }
+
+      .sec-head-right {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .sec-toggle {
+        font-family: "IBM Plex Mono";
+        font-size: 0.74rem;
+        letter-spacing: 0.02em;
+        background: none;
+        border: 1px solid var(--line-strong);
+        color: var(--ink);
+        padding: 9px 16px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .sec-toggle:hover {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      section.collapsed .sec-body {
+        display: none;
+      }
+
+      /* ── Projekte ──────────────────────────────────────────────────── */
+      .proj-list {
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .proj {
+        display: grid;
+        grid-template-columns: 80px 1.1fr 380px 1fr;
+        align-items: stretch;
+        border-bottom: 1px solid var(--line-strong);
+        text-decoration: none;
+        transition: background 0.3s var(--ease);
+      }
+
+      .proj:hover {
+        background: var(--paper-2);
+      }
+
+      .proj .no {
+        order: 1;
+        font-family: "IBM Plex Mono";
+        font-size: 0.78rem;
+        color: var(--ink-faint);
+        padding: 30px 0;
+        border-right: 1px solid var(--line);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+      }
+
+      .proj:hover .no {
+        color: var(--gold);
+      }
+
+      .proj .body {
+        order: 2;
+        padding: 28px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .proj h3 {
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 1.47;
+        letter-spacing: -0.011em;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .proj h3 .arrow {
+        font-family: "IBM Plex Mono";
+        font-size: 1rem;
+        color: var(--ink-faint);
+        transition:
+          transform 0.3s var(--ease),
+          color 0.3s;
+      }
+
+      .proj:hover h3 .arrow {
+        transform: translate(6px, -2px);
+        color: var(--gold);
+      }
+
+      .proj .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .proj .tags span {
+        font-family: "IBM Plex Mono";
+        font-size: 0.64rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: 1px solid var(--line);
+        padding: 4px 10px;
+        color: var(--ink-soft);
+      }
+
+      .proj .desc {
+        order: 4;
+        padding: 28px 32px;
+        color: var(--ink-soft);
+        font-size: 14px;
+        line-height: 1.29;
+        letter-spacing: -0.018em;
+        border-left: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+      }
+
+      .proj .visual {
+        order: 3;
+        position: relative;
+        overflow: hidden;
+        border-left: 1px solid var(--line-strong);
+        min-height: 220px;
+        background: var(--paper-2);
+      }
+
+      .proj .visual img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(0.9);
+        transition:
+          transform 0.9s var(--ease),
+          filter 0.4s;
+      }
+
+      .proj:hover .visual img {
+        transform: scale(1.06);
+        filter: saturate(1.08);
+      }
+
+      .proj .visual .lbl {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background: var(--ink);
+        color: var(--paper);
+        font-family: "IBM Plex Mono";
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 6px 12px;
+      }
+
+      /* ── Galerie ───────────────────────────────────────────────────── */
+      .gal-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 0 0 clamp(20px, 3vh, 32px);
+      }
+
+      .gal-filters button {
+        font-family: "IBM Plex Mono";
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: 1px solid var(--line-strong);
+        background: transparent;
+        color: var(--ink-soft);
+        padding: 8px 16px;
+        cursor: pointer;
+        transition:
+          background 0.3s var(--ease),
+          color 0.3s var(--ease),
+          border-color 0.3s var(--ease);
+      }
+
+      .gal-filters button:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+
+      .gal-filters button.active {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: var(--paper);
+      }
+
+      .gal-pass-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--paper) 35%, transparent);
+        backdrop-filter: blur(10px) saturate(160%);
+        -webkit-backdrop-filter: blur(10px) saturate(160%);
+        border: 1px solid color-mix(in srgb, var(--paper) 40%, transparent);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+
+      .gal-pass-badge svg {
+        width: 12px;
+        height: 12px;
+        flex: none;
+        stroke: var(--ink-soft);
+        fill: none;
+        stroke-width: 1.6;
+      }
+
+      .gal-pass-badge span {
+        font-family: "IBM Plex Mono";
+        font-size: 0.62rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        white-space: nowrap;
+      }
+
+      .gal figure:hover .gal-pass-badge {
+        opacity: 0;
+      }
+
+      .gal {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .gal figure.gal-hidden {
+        display: none;
+      }
+
+      .gal figure {
+        position: relative;
+        overflow: hidden;
+        border-right: 1px solid var(--line-strong);
+        border-bottom: 1px solid var(--line-strong);
+        background: var(--paper-2);
+        aspect-ratio: 4/3;
+      }
+
+      .gal figure:nth-child(3n) {
+        border-right: none;
+      }
+
+      .gal img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        filter: saturate(0.9);
+        transition:
+          transform 0.8s var(--ease),
+          filter 0.4s;
+      }
+
+      .gal figure:hover img {
+        transform: scale(1.06);
+        filter: saturate(1.1);
+      }
+
+      /* ── Showreel ──────────────────────────────────────────────────── */
+      .reel {
+        padding-bottom: clamp(56px, 9vh, 110px);
+      }
+
+      .reel-frame {
+        position: relative;
+        border: 1px solid var(--line-strong);
+        aspect-ratio: 16/9;
+        background: var(--ink);
+      }
+
+      .reel-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .reel-cap {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding-top: 14px;
+        flex-wrap: wrap;
+      }
+
+      .static-boxes {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--pad);
+        margin-top: clamp(28px, 4vh, 44px);
+      }
+
+      .static-box {
+        border: 1px solid var(--line-strong);
+        aspect-ratio: 4/3;
+        overflow: hidden;
+      }
+
+      .static-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* ── Leistungen ────────────────────────────────────────────────── */
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .skill {
+        border-right: 1px solid var(--line-strong);
+        padding: clamp(28px, 3.5vw, 48px);
+      }
+
+      .skill:last-child {
+        border-right: none;
+      }
+      .skill .mono {
+        display: block;
+        margin-bottom: 18px;
+      }
+      .skill h3 {
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 1.47;
+        margin-bottom: 14px;
+        letter-spacing: -0.011em;
+      }
+      .skill ul {
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 22px;
-        align-items: flex-start;
-        background: rgba(20, 20, 20, 0.55);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 20px;
-        padding: 16px 14px;
+        gap: 8px;
       }
-      .side-nav li {
-        display: flex;
-        align-items: center;
-      }
-      .side-dot {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        text-decoration: none;
+
+      .skill li {
+        font-size: 14px;
+        line-height: 1.29;
+        letter-spacing: -0.018em;
+        color: var(--ink-soft);
+        padding-left: 18px;
         position: relative;
       }
-      .side-dot-label {
+
+      .skill li::before {
+        content: "—";
         position: absolute;
-        right: calc(100% + 20px);
-        top: 50%;
-        font-size: 0.62rem;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.38);
-        white-space: nowrap;
-        opacity: 0;
-        transform: translateY(-50%) translateX(6px);
-        transition:
-          opacity 0.25s var(--ease),
-          transform 0.25s var(--ease),
-          color 0.25s;
-        pointer-events: none;
+        left: 0;
+        color: var(--ink-faint);
       }
-      .side-nav:hover .side-dot-label {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
+
+      /* ── Kontakt ───────────────────────────────────────────────────── */
+      .contact {
+        border-bottom: none;
       }
-      .side-dot.active .side-dot-label,
-      .side-dot:hover .side-dot-label {
-        color: rgba(255, 255, 255, 0.75);
+      .contact-in {
+        padding: clamp(64px, 12vh, 140px) 0 clamp(56px, 9vh, 110px);
       }
-      .side-dot.active .side-dot-label {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-        color: var(--gold);
+      .contact .mono {
+        display: block;
+        margin-bottom: 22px;
       }
-      .side-dot-pip {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        transition:
-          background 0.3s,
-          transform 0.3s var(--ease),
-          border-color 0.3s;
-        flex-shrink: 0;
+
+      .contact h2 {
+        font-size: 56px;
+        font-weight: 600;
+        letter-spacing: -0.011em;
+        line-height: 1.07;
+        margin-bottom: 34px;
       }
-      .side-dot.active .side-dot-pip {
+
+      .contact h2 a {
+        text-decoration: none;
+        position: relative;
+        display: inline-block;
+      }
+
+      .contact h2 a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 6px;
+        width: 100%;
+        height: 3px;
         background: var(--gold);
-        border-color: var(--gold);
-        transform: scale(1.55);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s var(--ease);
       }
-      .side-dot:hover .side-dot-pip {
-        background: rgba(255, 255, 255, 0.55);
-        border-color: rgba(255, 255, 255, 0.55);
+
+      .contact h2 a:hover::after {
+        transform: scaleX(1);
       }
-      .hero-tl {
-        position: absolute;
-        top: 28px;
-        left: var(--pad);
+      .contact p {
+        max-width: 52ch;
+        color: var(--ink-soft);
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.47;
+        letter-spacing: -0.016em;
+        margin-bottom: 44px;
+      }
+
+      .links {
         display: flex;
-        align-items: center;
-        z-index: 10;
+        flex-wrap: wrap;
+        border-top: 1px solid var(--line-strong);
+        border-left: 1px solid var(--line-strong);
       }
-      .hero-tl img {
-        height: 48px;
-        width: auto;
-      }
-      .hero-tr {
-        position: absolute;
-        top: 28px;
-        right: var(--pad);
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        z-index: 10;
-      }
-      .btn-demo {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        overflow: hidden;
-        padding: 13px 20px;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        border-radius: 14px;
-        color: #fff;
-        font-family: inherit;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        white-space: nowrap;
-        transition:
-          background 0.3s,
-          border-color 0.3s,
-          transform 0.15s;
-      }
-      .btn-demo:hover {
-        background: rgba(255, 255, 255, 0.15);
-        border-color: rgba(255, 255, 255, 0.35);
-      }
-      .btn-demo:active {
-        transform: scale(0.96);
-      }
-      .btn-demo-text {
-        margin-right: 36px;
-        transition: opacity 0.5s;
-      }
-      .btn-demo:hover .btn-demo-text {
-        opacity: 0;
-      }
-      .btn-demo-chevron {
-        position: absolute;
-        right: 4px;
-        top: 4px;
-        bottom: 4px;
-        width: 26%;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.14);
-        display: grid;
-        place-items: center;
-        transition: width 0.5s var(--ease);
-        z-index: 10;
-      }
-      .btn-demo:hover .btn-demo-chevron {
-        width: calc(100% - 8px);
-      }
-      .ig-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        color: rgba(255, 255, 255, 0.75);
+
+      .links a {
+        flex: 1;
+        min-width: 180px;
         text-decoration: none;
-        transition:
-          color 0.25s,
-          border-color 0.25s,
-          transform 0.25s;
-        flex-shrink: 0;
-      }
-      .ig-link:hover {
-        color: #fff;
-        border-color: rgba(255, 255, 255, 0.45);
-        transform: scale(1.08);
-      }
-      .lang-switcher {
+        padding: 20px 26px;
+        border-right: 1px solid var(--line-strong);
+        border-bottom: 1px solid var(--line-strong);
         display: flex;
-        gap: 16px;
-      }
-      .lang-btn {
-        background: none;
-        border: none;
-        border-bottom: 2px solid transparent;
-        cursor: pointer;
-        padding: 2px 0 4px;
-        line-height: 1;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        color: rgba(255, 255, 255, 0.35);
-        transition:
-          color 0.2s ease,
-          border-color 0.2s ease;
-        display: flex;
+        justify-content: space-between;
         align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1.29;
+        letter-spacing: -0.018em;
+        transition:
+          background 0.25s var(--ease),
+          color 0.25s;
       }
-      .lang-btn.active {
-        color: #fff;
-        border-bottom-color: var(--gold);
+
+      .links a small {
+        font-family: "IBM Plex Mono";
+        font-weight: 400;
+        font-size: 0.62rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
       }
-      .lang-btn:hover:not(.active) {
-        color: rgba(255, 255, 255, 0.65);
+
+      .links a:hover {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .links a:hover small {
+        color: color-mix(in srgb, var(--paper) 55%, transparent);
+      }
+
+      /* ── Footer ────────────────────────────────────────────────────── */
+      footer {
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .foot-in {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 18px var(--pad);
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+        font-family: "IBM Plex Mono";
+        font-size: 0.66rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+
+      /* ── Scroll-Reveal ─────────────────────────────────────────────── */
+      .rv {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.8s var(--ease),
+          transform 0.8s var(--ease);
+      }
+      .rv.in {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ── Responsiv ─────────────────────────────────────────────────── */
+      @media (max-width: 1080px) {
+        .proj {
+          grid-template-columns: 60px 1fr 300px;
+        }
+        .proj .desc {
+          display: none;
+        }
+        .award-grid {
+          grid-template-columns: 1fr;
+        }
+        .award-links {
+          flex-direction: column;
+        }
+        .award-links a {
+          border-right: none;
+          border-bottom: 1px solid
+            color-mix(in srgb, var(--paper) 30%, transparent);
+        }
+        .award-links a:last-child {
+          border-bottom: none;
+        }
+        .skills {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .skill:nth-child(2n) {
+          border-right: none;
+        }
+        .skill:nth-child(-n + 2) {
+          border-bottom: 1px solid var(--line-strong);
+        }
+      }
+
+      @media (max-width: 820px) {
+        nav {
+          position: fixed;
+          top: 88px;
+          right: 0;
+          left: 0;
+          flex-direction: column;
+          background: var(--paper);
+          border-bottom: 1px solid var(--line-strong);
+          transform: translateY(-130%);
+          transition: transform 0.4s var(--ease);
+          z-index: 50;
+        }
+
+        nav.open {
+          transform: none;
+        }
+        nav a {
+          border-left: none;
+          border-top: 1px solid var(--line);
+          padding: 18px var(--pad);
+        }
+        .nav-toggle {
+          display: block;
+        }
+        .lang-sw {
+          border-left: 1px solid var(--line);
+        }
+        .lang-btn {
+          padding: 0 9px;
+          font-size: 0.6rem;
+        }
+        .btn-wa {
+          padding: 6px;
+          margin-left: 6px;
+        }
+        .btn-wa span:not(.btn-wa-icon) {
+          display: none;
+        }
+
+        .static-boxes {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-meta {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+        .hero-meta .lede,
+        .hero-meta .facts {
+          grid-column: 1 / -1;
+        }
+
+        .proj {
+          grid-template-columns: 1fr;
+        }
+        .proj .no {
+          border-right: none;
+          border-bottom: 1px solid var(--line);
+          padding: 14px 0;
+          justify-content: flex-start;
+          padding-left: 24px;
+        }
+        .proj .body {
+          padding: 22px 24px;
+        }
+        .proj .visual {
+          border-left: none;
+          border-top: 1px solid var(--line-strong);
+          min-height: 200px;
+        }
+
+        .gal {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .gal figure {
+          aspect-ratio: 4/3;
+        }
+        .gal figure:nth-child(3n) {
+          border-right: 1px solid var(--line-strong);
+        }
+        .gal figure:nth-child(even) {
+          border-right: none;
+        }
+
+        .skills {
+          grid-template-columns: 1fr;
+        }
+        .skill {
+          border-right: none;
+          border-bottom: 1px solid var(--line-strong);
+        }
+        .skill:last-child {
+          border-bottom: none;
+        }
+
+        .proj-list,
+        .gal,
+        .skills {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .ig-link {
+          display: none;
+        }
+        .wordmark .sub {
+          display: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
       }
     </style>
   </head>
-
   <body>
     <svg style="display: none" aria-hidden="true">
       <symbol id="icon-wa" viewBox="0 0 24 24">
@@ -1317,895 +1536,965 @@
       </symbol>
     </svg>
 
-    <!-- ── HERO ── -->
-    <section class="hero" id="hero" aria-label="Início">
+    <!-- ── Kopfzeile ─────────────────────────────────────────────── -->
+    <header>
+      <div class="head-in">
+        <a href="#top" class="wordmark">
+          <img
+            class="wordmark-logo"
+            src="images/logo_site2.png"
+            alt="Factory Studio"
+          />
+          <span class="wordmark-text">
+            <span class="sub">Creative Studio</span>
+          </span>
+        </a>
+        <div class="head-right">
+          <button
+            class="nav-toggle"
+            id="navToggle"
+            aria-label="Menü"
+            aria-expanded="false"
+            aria-controls="mainNav"
+          >
+            ☰
+          </button>
+          <nav id="mainNav">
+            <a href="#galerie"
+              ><span class="n">01</span
+              ><span data-en="Work" data-pt="Trabalhos">Trabalhos</span></a
+            >
+            <a href="#leistungen"
+              ><span class="n">02</span
+              ><span data-en="Services" data-pt="Serviços">Serviços</span></a
+            >
+            <a href="#auszeichnung"
+              ><span class="n">03</span
+              ><span data-en="Award" data-pt="Prêmio">Prêmio</span></a
+            >
+            <a href="#kontakt" class="cta"
+              ><span class="n">04</span
+              ><span data-en="Contact" data-pt="Contato">Contato</span></a
+            >
+          </nav>
+          <a
+            href="https://www.instagram.com/weare.factory"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram Factory Studio"
+            class="ig-link"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle
+                cx="17.5"
+                cy="6.5"
+                r="0.5"
+                fill="currentColor"
+                stroke="none"
+              />
+            </svg>
+          </a>
+          <div class="lang-sw">
+            <button class="lang-btn active" data-lang="pt">PT</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+          </div>
+          <a
+            href="https://wa.me/5541992272317"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-wa"
+            aria-label="Falar com a Factory Studio pelo WhatsApp"
+          >
+            <span class="btn-wa-icon" aria-hidden="true">
+              <svg width="16" height="16" fill="currentColor">
+                <use href="#icon-wa" />
+              </svg>
+            </span>
+            <span data-en="WhatsApp" data-pt="WhatsApp">WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Hero ──────────────────────────────────────────────────── -->
+    <section class="hero" id="top">
       <div class="hero-bg" id="heroBg">
         <div class="hero-slide active">
-          <picture>
-            <source srcset="images/hero/h1.webp" type="image/webp" />
-            <img
-              src="images/hero/h1.jpg"
-              alt=""
-              aria-hidden="true"
-              fetchpriority="high"
-              decoding="async"
-              width="1920"
-              height="1072"
-            />
-          </picture>
+          <img
+            src="images/2.jpg"
+            alt=""
+            aria-hidden="true"
+            fetchpriority="high"
+            decoding="async"
+            width="4192"
+            height="2355"
+          />
         </div>
         <div class="hero-slide">
-          <picture>
-            <source data-srcset="images/hero/h8.webp" type="image/webp" />
-            <img
-              data-src="images/hero/h8.jpg"
-              alt=""
-              aria-hidden="true"
-              width="1920"
-              height="1072"
-            />
-          </picture>
+          <img
+            data-src="images/29.jpg"
+            alt=""
+            aria-hidden="true"
+            width="1920"
+            height="1071"
+          />
         </div>
         <div class="hero-slide">
-          <picture>
-            <source data-srcset="images/hero/h3.webp" type="image/webp" />
-            <img
-              data-src="images/hero/h3.jpg"
-              alt=""
-              aria-hidden="true"
-              width="1920"
-              height="1072"
-            />
-          </picture>
+          <img
+            data-src="images/26.jpg"
+            alt=""
+            aria-hidden="true"
+            width="1920"
+            height="1071"
+          />
         </div>
         <div class="hero-slide">
-          <picture>
-            <source data-srcset="images/hero/h4.webp" type="image/webp" />
-            <img
-              data-src="images/hero/h4.jpg"
-              alt=""
-              aria-hidden="true"
-              width="1920"
-              height="1072"
-            />
-          </picture>
+          <img
+            data-src="images/italy_1.jpg"
+            alt=""
+            aria-hidden="true"
+            width="2200"
+            height="1228"
+          />
         </div>
         <div class="hero-slide">
-          <picture>
-            <source data-srcset="images/hero/h5.webp" type="image/webp" />
-            <img
-              data-src="images/hero/h5.jpg"
-              alt=""
-              aria-hidden="true"
-              width="1920"
-              height="1072"
-            />
-          </picture>
-        </div>
-        <div class="hero-slide">
-          <picture>
-            <source data-srcset="images/hero/h6.webp" type="image/webp" />
-            <img
-              data-src="images/hero/h6.jpg"
-              alt=""
-              aria-hidden="true"
-              width="1920"
-              height="1072"
-            />
-          </picture>
-        </div>
-        <div class="hero-slide">
-          <picture>
-            <source data-srcset="images/hero/h7.webp" type="image/webp" />
-            <img
-              data-src="images/hero/h7.jpg"
-              alt=""
-              aria-hidden="true"
-              width="1920"
-              height="1072"
-            />
-          </picture>
+          <img
+            data-src="images/espanha_1.jpg"
+            alt=""
+            aria-hidden="true"
+            width="2752"
+            height="1536"
+          />
         </div>
       </div>
       <div class="hero-overlay"></div>
-
-      <div class="hero-tr">
-        <a
-          href="https://www.instagram.com/weare.factory"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram Factory Studio"
-          class="ig-link"
+      <div class="wrap hero-top">
+        <p
+          class="mono"
+          style="
+            margin-bottom: 18px;
+            opacity: 0;
+            animation: fade 1s 0.2s var(--ease) forwards;
+          "
+          data-en="Factory Studio — Archviz Studio, Curitiba/PR"
+          data-pt="Factory Studio — Estúdio de Archviz, Curitiba/PR"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="22"
-            height="22"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
+          Factory Studio — Estúdio de Archviz, Curitiba/PR
+        </p>
+        <h1>
+          <span class="row"
+            ><span data-en="Images" data-pt="imagens">imagens</span></span
           >
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-            <circle cx="12" cy="12" r="4" />
-            <circle
-              cx="17.5"
-              cy="6.5"
-              r="0.5"
-              fill="currentColor"
-              stroke="none"
-            />
-          </svg>
-        </a>
-        <div class="lang-switcher" role="group" aria-label="Selecionar idioma">
+          <span class="row"
+            ><span data-en="that Tell" data-pt="que contam"
+              >que contam</span
+            ></span
+          >
+          <span class="row"
+            ><span
+              ><span data-en="Stories" data-pt="histórias">histórias</span
+              ><em>.</em></span
+            ></span
+          >
+        </h1>
+        <div class="hero-meta">
+          <p
+            class="lede"
+            data-en="We are Factory Studio, an archviz studio based in Curitiba, Paraná. Crafting high-end real-time experiences for architecture and real estate, from interactive launching pages to browser-based 3D applications. Focused on performance, optimization and cinematic quality. Precisely planned, cleanly executed, measurably fast."
+            data-pt="Somos a Factory Studio, um estúdio de archviz sediado em Curitiba, Paraná. Criamos experiências em tempo real de alto nível para arquitetura e mercado imobiliário, de launching pages interativas a aplicações 3D direto no navegador. Foco em performance, otimização e qualidade cinematográfica. Planejado com precisão, executado com limpeza, mensuravelmente rápido."
+          >
+            Somos a Factory Studio, um estúdio de archviz sediado em Curitiba,
+            Paraná. Criamos experiências em tempo real de alto nível para
+            arquitetura e mercado imobiliário, de launching pages interativas a
+            aplicações 3D direto no navegador. Foco em performance, otimização e
+            qualidade cinematográfica. Planejado com precisão, executado com
+            limpeza, mensuravelmente rápido.
+          </p>
+          <div class="facts">
+            <div class="fact">
+              <span class="k" data-en="Location" data-pt="Localização"
+                >Localização</span
+              >
+              <b data-en="Curitiba, PR" data-pt="Curitiba, PR">Curitiba, PR</b>
+            </div>
+            <div class="fact">
+              <span class="k" data-en="Award" data-pt="Prêmio">Prêmio</span>
+              <b
+                ><a
+                  href="#auszeichnung"
+                  style="text-decoration: none; color: var(--gold)"
+                  data-en="CGconnect 3D Award 2026 ↓"
+                  data-pt="CGconnect 3D Award 2026 ↓"
+                  >CGconnect 3D Award 2026 ↓</a
+                ></b
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Galerie ───────────────────────────────────────────────── -->
+    <section id="galerie">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <h2 data-en="Recent Work" data-pt="Trabalhos Recentes">
+            Trabalhos Recentes
+          </h2>
+          <span class="idx"
+            ><b>01</b> /
+            <span data-en="Work" data-pt="Trabalhos">Trabalhos</span></span
+          >
+        </div>
+        <div class="gal-filters rv" role="group" aria-label="Filter">
           <button
-            class="lang-btn active"
-            data-lang="pt"
-            aria-label="Português (Brasil)"
-            title="Português"
+            type="button"
+            class="active"
+            data-filter="all"
+            data-en="All"
+            data-pt="Todos"
           >
-            PT
+            Todos
           </button>
           <button
-            class="lang-btn"
-            data-lang="en"
-            aria-label="English (US)"
-            title="English"
+            type="button"
+            data-filter="externas"
+            data-en="Exteriors"
+            data-pt="Externas"
           >
-            EN
+            Externas
+          </button>
+          <button
+            type="button"
+            data-filter="internas"
+            data-en="Interiors"
+            data-pt="Internas"
+          >
+            Internas
+          </button>
+          <button
+            type="button"
+            data-filter="vr-ar-web"
+            data-en="VR/AR"
+            data-pt="VR/AR"
+          >
+            VR/AR
+          </button>
+          <button
+            type="button"
+            data-filter="tour-interativo"
+            data-en="Interactive Tour"
+            data-pt="Tour Interativa"
+          >
+            Tour Interativa
+          </button>
+          <button
+            type="button"
+            data-filter="filmes"
+            data-en="Films"
+            data-pt="Filmes"
+          >
+            Filmes
           </button>
         </div>
       </div>
-
-      <img
-        src="images/logo_site2.png"
-        alt="Factory Studio"
-        class="hero-logo"
-        width="502"
-        height="102"
-      />
-
-      <h1 data-i18n="hero-h1">
-        Sites que vendem.<br />Experiências que impressionam.
-      </h1>
-
-      <p data-i18n="hero-p">
-        Para arquitetos, incorporadoras e empreendimentos premium.<br />
-        Tudo entregue como um link.
-      </p>
-
-      <a
-        href="https://wa.me/5541992272317"
-        rel="noopener noreferrer"
-        class="btn-wa"
-        aria-label="Falar com a Factory Studio pelo WhatsApp"
-      >
-        <span class="btn-wa-icon" aria-hidden="true">
-          <svg width="22" height="22" fill="currentColor">
-            <use href="#icon-wa" />
-          </svg>
-        </span>
-        Whatsapp
-      </a>
-
-      <!-- ── HERO NAV BLOCKS ── -->
-      <nav class="hero-nav" aria-label="Navegação rápida">
-        <a class="hero-nav-block active" href="#services" data-nav="0">
-          <div class="hero-nav-icon">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
-          <div class="hero-nav-text">
-            <div class="hero-nav-title">Serviços</div>
-            <div class="hero-nav-sub">O que fazemos</div>
-          </div>
-
-          <div class="hero-nav-bar"></div>
-        </a>
-
-        <a class="hero-nav-block" href="#contact" data-nav="2">
-          <div class="hero-nav-icon">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-              />
-            </svg>
-          </div>
-          <div class="hero-nav-text">
-            <div class="hero-nav-title">Contato</div>
-            <div class="hero-nav-sub">Iniciar um projeto</div>
-          </div>
-
-          <div class="hero-nav-bar"></div>
-        </a>
-      </nav>
-    </section>
-
-    <!-- ── WEB-FIRST STATEMENT ── -->
-    <section class="web-statement reveal" aria-label="Tecnologia web">
-      <p class="ws-text">
-        <span id="ws-typewriter"></span><span class="ws-cursor">|</span>
-      </p>
-    </section>
-
-    <!-- ── SERVIÇOS ── -->
-    <section
-      class="section-services"
-      id="services"
-      aria-labelledby="services-heading"
-    >
-      <h2 id="services-heading" class="sr-only">Serviços</h2>
-      <div class="services-bento">
-        <!-- Launching Page -->
-        <article class="svc-card svc-lp reveal">
-          <a href="launching-page.html" target="_blank" rel="noopener" class="svc-card-link" aria-label="Ver demo Launching Page"></a>
-          <div class="svc-bg">
-            <picture>
-              <source srcset="images/hero/h5.webp" type="image/webp" />
-              <img
-                src="images/hero/h5.jpg"
-                alt="Launching Page interativa para empreendimentos imobiliários"
-                loading="lazy"
-              />
-            </picture>
-          </div>
-          <div class="svc-content">
-            <span class="svc-num"></span>
-            <div class="svc-bottom">
-              <h3 data-i18n="svc-lp-h3">Launching Page</h3>
-              <p data-i18n="svc-lp-p">
-                Venda antes de construir. Experiência navegável com tour 360°, POIs e sequência de frames.
-              </p>
-              <ul class="svc-includes">
-                <li data-i18n="svc-lp-i1">Site responsivo</li>
-                <li data-i18n="svc-lp-i2">Conteúdo por IA</li>
-              </ul>
-              <span class="svc-card-btn">
-                <span class="svc-card-btn-text" data-i18n="svc-cta">Ver demo</span>
-                <i class="svc-card-btn-chevron" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6" />
-                  </svg>
-                </i>
-              </span>
-            </div>
-          </div>
-        </article>
-
-        <!-- FirstPerson Experience -->
-        <article class="svc-card svc-fp reveal reveal-delay-1">
-          <a href="firstperson.html" target="_blank" rel="noopener" class="svc-card-link" aria-label="Ver demo FirstPerson Experience"></a>
-          <div class="svc-bg">
-            <picture>
-              <source srcset="images/hero/h4.webp" type="image/webp" />
-              <img
-                src="images/hero/h4.jpg"
-                alt="Tour exterior interativo FirstPerson Experience"
-                loading="lazy"
-                width="1920"
-                height="1072"
-              />
-            </picture>
-          </div>
-          <div class="svc-content">
-            <span class="svc-num"></span>
-            <div class="svc-bottom">
-              <h3 data-i18n="svc-fp-h3">FirstPerson Experience</h3>
-              <p data-i18n="svc-fp-p">
-                Tour exterior interativo. O cliente navega pelo projeto como se já estivesse lá.
-              </p>
-              <ul class="svc-includes">
-                <li data-i18n="svc-fp-i1">Navegação por voz</li>
-                <li data-i18n="svc-fp-i2">Múltiplas cenas</li>
-              </ul>
-              <span class="svc-card-btn">
-                <span class="svc-card-btn-text" data-i18n="svc-cta">Ver demo</span>
-                <i class="svc-card-btn-chevron" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6" />
-                  </svg>
-                </i>
-              </span>
-            </div>
-          </div>
-        </article>
-
-        <!-- City Explorer -->
-        <article class="svc-card svc-city reveal reveal-delay-2">
-          <a href="cityexplorer.html" target="_blank" rel="noopener" class="svc-card-link" aria-label="Ver demo City Explorer"></a>
-          <div class="svc-bg">
-            <picture>
-              <source srcset="images/hero/h7.webp" type="image/webp" />
-              <img
-                src="images/hero/h7.jpg"
-                alt="City Explorer — mapa interativo com cenas 360°"
-                loading="lazy"
-              />
-            </picture>
-          </div>
-          <div class="svc-content">
-            <span class="svc-num"></span>
-            <div class="svc-bottom">
-              <h3 data-i18n="svc-city-h3">City Explorer</h3>
-              <p data-i18n="svc-city-p">
-                Mapa interativo com POIs e cenas 360° integradas. Contexto urbano do empreendimento.
-              </p>
-              <ul class="svc-includes">
-                <li data-i18n="svc-city-i1">Mapa interativo</li>
-                <li data-i18n="svc-city-i2">Tour 360°</li>
-              </ul>
-              <span class="svc-card-btn">
-                <span class="svc-card-btn-text" data-i18n="svc-cta">Ver demo</span>
-                <i class="svc-card-btn-chevron" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6" />
-                  </svg>
-                </i>
-              </span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ── CTA ── -->
-    <section class="cta reveal" id="contact" aria-labelledby="cta-heading">
-      <div class="section-label" data-i18n="cta-label">Iniciar Projeto</div>
-      <h2 id="cta-heading" data-i18n="cta-h2">
-        Tem um projeto em mente? A gente entrega.
-      </h2>
-      <p data-i18n="cta-p">
-        Arquitetura, incorporação, produto. A experiência digital certa.
-      </p>
-      <a
-        href="https://wa.me/5541992272317"
-        rel="noopener noreferrer"
-        class="btn-wa"
-        aria-label="Iniciar projeto pelo WhatsApp"
-      >
-        <span class="btn-wa-icon" aria-hidden="true">
-          <svg width="22" height="22" fill="currentColor">
-            <use href="#icon-wa" />
-          </svg>
-        </span>
-        Whatsapp
-      </a>
-
-      <div class="cf-wrap">
-        <div class="cf-divider">ou envie uma mensagem</div>
-        <form class="cf" onsubmit="submitForm(event)" novalidate>
-          <input
-            type="text"
-            name="_gotcha"
-            style="display: none"
-            tabindex="-1"
-            autocomplete="off"
+      <div class="gal">
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/2.jpg"
+            srcset="images/mobile/2.jpg 900w, images/2.jpg 2000w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung – Unreal Engine — Factory Studio, Nr. 2"
+            loading="lazy"
           />
-
-          <div class="cf-row">
-            <div>
-              <label for="f-nome" data-i18n="f-nome-label">Nome</label>
-              <input
-                type="text"
-                id="f-nome"
-                name="nome"
-                autocomplete="name"
-                placeholder="Seu nome"
-                data-i18n-placeholder="f-nome-ph"
-                required
-              />
-            </div>
-            <div>
-              <label for="f-tel" data-i18n="f-tel-label">Telefone</label>
-              <input
-                type="tel"
-                id="f-tel"
-                name="telefone"
-                autocomplete="tel"
-                placeholder="(41) 99999-9999"
-                data-i18n-placeholder="f-tel-ph"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label for="f-email" data-i18n="f-email-label">E-mail</label>
-            <input
-              type="email"
-              id="f-email"
-              name="email"
-              autocomplete="email"
-              placeholder="seu@email.com"
-              data-i18n-placeholder="f-email-ph"
-              required
-            />
-          </div>
-
-          <div>
-            <label for="f-projeto" data-i18n="f-msg-label">Mensagem</label>
-            <textarea
-              id="f-projeto"
-              name="projeto"
-              rows="5"
-              placeholder="Sua mensagem..."
-              data-i18n-placeholder="f-msg-ph"
-              required
-            ></textarea>
-          </div>
-
-          <button type="submit" class="sub-btn" data-i18n="sub-btn">
-            Enviar Mensagem
-          </button>
-        </form>
+        </figure>
+        <figure class="rv" data-cat="externas internas">
+          <img
+            src="images/29.jpg"
+            srcset="images/mobile/29.jpg 900w, images/29.jpg 1920w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung — Factory Studio, Nr. 29"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="internas">
+          <img
+            src="images/26.jpg"
+            srcset="images/mobile/26.jpg 900w, images/26.jpg 1920w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung — Factory Studio, Nr. 26"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/italy_1.jpg"
+            srcset="images/mobile/italy_1.jpg 900w, images/italy_1.jpg 2200w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Mediterraneo — Factory Studio, Nr. 1"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/espanha_1.jpg"
+            srcset="
+              images/mobile/espanha_1.jpg  900w,
+              images/espanha_1.jpg        2752w
+            "
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung — Factory Studio, Spanien"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/20.jpg"
+            srcset="images/mobile/20.jpg 900w, images/20.jpg 1366w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung – Unreal Engine — Factory Studio, Nr. 20"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/21.jpg"
+            srcset="images/mobile/21.jpg 900w, images/21.jpg 1366w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung – Unreal Engine — Factory Studio, Nr. 21"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="internas">
+          <img
+            src="images/32.jpg"
+            srcset="images/mobile/32.jpg 900w, images/32.jpg 1920w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung — Factory Studio, Nr. 32"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/24.jpg"
+            srcset="images/mobile/24.jpg 900w, images/24.jpg 1772w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung — Factory Studio, Nr. 24"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/5.jpg"
+            srcset="images/mobile/5.jpg 900w, images/5.jpg 2200w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Architekturvisualisierung — Factory Studio, Nr. 5"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/italy_3.jpg"
+            srcset="images/mobile/italy_3.jpg 900w, images/italy_3.jpg 2200w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Mediterraneo — Factory Studio, Nr. 3"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="externas">
+          <img
+            src="images/italy_4.jpg"
+            srcset="images/mobile/italy_4.jpg 900w, images/italy_4.jpg 2200w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Mediterraneo — Factory Studio, Nr. 4"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="internas">
+          <img
+            src="images/italy_5.jpg"
+            srcset="images/mobile/italy_5.jpg 900w, images/italy_5.jpg 2200w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Mediterraneo — Factory Studio, Nr. 5"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="rv" data-cat="internas">
+          <img
+            src="images/italy_9.jpg"
+            srcset="images/mobile/italy_9.jpg 900w, images/italy_9.jpg 2200w"
+            sizes="(max-width: 820px) 50vw, 33vw"
+            alt="Mediterraneo — Factory Studio, Nr. 9"
+            loading="lazy"
+          />
+        </figure>
       </div>
     </section>
 
-    <!-- ── SIDE NAV ── -->
-    <nav class="side-nav" aria-label="Navegação por seção">
-      <ul>
-        <li>
-          <a class="side-dot active" href="#hero" data-target="hero">
-            <span class="side-dot-label" data-i18n="nav-inicio">Início</span>
-            <span class="side-dot-pip"></span>
-          </a>
-        </li>
-        <li>
-          <a class="side-dot" href="#services" data-target="services">
-            <span class="side-dot-label" data-i18n="nav-servicos"
-              >Serviços</span
+    <!-- ── Leistungen ────────────────────────────────────────────── -->
+    <section id="leistungen">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <h2 data-en="Services" data-pt="Serviços">Serviços</h2>
+          <span class="idx"
+            ><b>02</b> /
+            <span data-en="Services" data-pt="Serviços">Serviços</span></span
+          >
+        </div>
+      </div>
+      <div class="skills">
+        <div class="skill rv">
+          <span class="mono" data-en="K—01 / Images" data-pt="K—01 / Imagens"
+            >K—01 / Imagens</span
+          >
+          <h3
+            data-en="Images"
+            data-pt="Imagens"
+          >
+            Imagens
+          </h3>
+          <ul>
+            <li
+              data-en="Photorealistic high-resolution renders"
+              data-pt="Renders fotorrealistas em alta resolução"
             >
-            <span class="side-dot-pip"></span>
-          </a>
-        </li>
-        <li>
-          <a class="side-dot" href="#contact" data-target="contact">
-            <span class="side-dot-label" data-i18n="nav-contato">Contato</span>
-            <span class="side-dot-pip"></span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+              Renders fotorrealistas em alta resolução
+            </li>
+            <li
+              data-en="Facade, interior &amp; aerial stills"
+              data-pt="Stills de fachada, interior e aéreo"
+            >
+              Stills de fachada, interior e aéreo
+            </li>
+            <li
+              data-en="Lighting, materials &amp; composition"
+              data-pt="Iluminação, materiais e composição"
+            >
+              Iluminação, materiais e composição
+            </li>
+            <li>Unreal Engine 5 · 3ds Max · Corona Render</li>
+            <li
+              data-en="Print &amp; web-ready delivery"
+              data-pt="Entrega otimizada para impressão e web"
+            >
+              Entrega otimizada para impressão e web
+            </li>
+          </ul>
+        </div>
+        <div class="skill rv">
+          <span class="mono" data-en="K—02 / Films" data-pt="K—02 / Filmes"
+            >K—02 / Filmes</span
+          >
+          <h3
+            data-en="Institutional Films"
+            data-pt="Filmes Institucionais"
+          >
+            Filmes Institucionais
+          </h3>
+          <ul>
+            <li
+              data-en="Cinematic walkthroughs"
+              data-pt="Walkthroughs cinematográficos"
+            >
+              Walkthroughs cinematográficos
+            </li>
+            <li
+              data-en="Script, storyboard &amp; sound design"
+              data-pt="Roteiro, storyboard e trilha sonora"
+            >
+              Roteiro, storyboard e trilha sonora
+            </li>
+            <li
+              data-en="Dynamic realtime camera work"
+              data-pt="Câmeras dinâmicas em tempo real"
+            >
+              Câmeras dinâmicas em tempo real
+            </li>
+            <li
+              data-en="Color grading &amp; post-production"
+              data-pt="Color grading &amp; pós-produção"
+            >
+              Color grading &amp; pós-produção
+            </li>
+            <li
+              data-en="Formats for social &amp; presentations"
+              data-pt="Formatos para redes sociais e apresentações"
+            >
+              Formatos para redes sociais e apresentações
+            </li>
+          </ul>
+        </div>
+        <div class="skill rv">
+          <span class="mono" data-en="K—03 / VR/AR" data-pt="K—03 / VR/AR"
+            >K—03 / VR/AR</span
+          >
+          <h3
+            data-en="Virtual &amp; Augmented Reality"
+            data-pt="Realidade Virtual &amp; Aumentada"
+          >
+            Realidade Virtual &amp; Aumentada
+          </h3>
+          <ul>
+            <li data-en="Immersive VR tours" data-pt="Tours imersivos em VR">
+              Tours imersivos em VR
+            </li>
+            <li
+              data-en="AR experiences for mobile &amp; web"
+              data-pt="Experiências AR para mobile e web"
+            >
+              Experiências AR para mobile e web
+            </li>
+            <li
+              data-en="Real scale &amp; natural navigation"
+              data-pt="Escala real e navegação natural"
+            >
+              Escala real e navegação natural
+            </li>
+            <li
+              data-en="Headset &amp; QR code integration"
+              data-pt="Integração com headsets e QR codes"
+            >
+              Integração com headsets e QR codes
+            </li>
+            <li
+              data-en="Interactive virtual showrooms"
+              data-pt="Showrooms virtuais interativos"
+            >
+              Showrooms virtuais interativos
+            </li>
+          </ul>
+        </div>
+        <div class="skill rv">
+          <span
+            class="mono"
+            data-en="K—04 / Interactive Web"
+            data-pt="K—04 / Web Interativo"
+            >K—04 / Web Interativo</span
+          >
+          <h3
+            data-en="Interactive Web Experiences"
+            data-pt="Experiências Web Interativas"
+          >
+            Experiências Web Interativas
+          </h3>
+          <ul>
+            <li
+              data-en="Browser-based 3D launching pages"
+              data-pt="Launching pages 3D no navegador"
+            >
+              Launching pages 3D no navegador
+            </li>
+            <li
+              data-en="Three.js &amp; WebGL applications"
+              data-pt="Aplicações Three.js &amp; WebGL"
+            >
+              Aplicações Three.js &amp; WebGL
+            </li>
+            <li
+              data-en="Custom UI/UX design"
+              data-pt="Design de UI/UX sob medida"
+            >
+              Design de UI/UX sob medida
+            </li>
+            <li
+              data-en="Optimized performance, no install"
+              data-pt="Performance otimizada, sem instalação"
+            >
+              Performance otimizada, sem instalação
+            </li>
+            <li
+              data-en="Deployed as a shareable link"
+              data-pt="Entrega como um link compartilhável"
+            >
+              Entrega como um link compartilhável
+            </li>
+          </ul>
+        </div>
+      </div>
 
-    <!-- ── FOOTER ── -->
+      <div class="wrap">
+        <div class="sec-head rv">
+          <h2 data-en="Selected Projects" data-pt="Projetos Selecionados">
+            Projetos Selecionados
+          </h2>
+          <span class="idx"
+            ><span data-en="Work" data-pt="Trabalho">Trabalho</span></span
+          >
+        </div>
+      </div>
+      <div class="proj-list" id="projekte">
+        <a
+          class="proj rv"
+          href="https://scrolingpage.vercel.app/"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="no">P—01</div>
+          <div class="body">
+            <h3>Launching Page <span class="arrow">↗</span></h3>
+            <div class="tags">
+              <span>Browser 3D</span>
+              <span data-en="Real Estate" data-pt="Imobiliário"
+                >Imobiliário</span
+              >
+              <span data-en="Interactive" data-pt="Interativo">Interativo</span>
+            </div>
+          </div>
+          <div
+            class="desc"
+            data-en="Interactive scroll-driven launching page for real estate developments — cinematic sequences and hotspots that sell before construction."
+            data-pt="Launching page interativa guiada por scroll para lançamentos imobiliários — sequências cinematográficas e pontos de interesse que vendem antes de construir."
+          >
+            Launching page interativa guiada por scroll para lançamentos
+            imobiliários — sequências cinematográficas e pontos de interesse
+            que vendem antes de construir.
+          </div>
+          <div class="visual">
+            <img src="images/hero/h5.jpg" alt="Launching Page" loading="lazy" />
+            <span class="lbl" data-en="Live Demo" data-pt="Demo ao Vivo"
+              >Demo ao Vivo</span
+            >
+          </div>
+        </a>
+
+        <a
+          class="proj rv"
+          href="https://archviz-poket.vercel.app/"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="no">P—02</div>
+          <div class="body">
+            <h3>City Explorer <span class="arrow">↗</span></h3>
+            <div class="tags">
+              <span>Browser 3D</span>
+              <span data-en="Real Estate" data-pt="Imobiliário"
+                >Imobiliário</span
+              >
+              <span data-en="Interactive" data-pt="Interativo">Interativo</span>
+            </div>
+          </div>
+          <div
+            class="desc"
+            data-en="Interactive browser-based architectural visualization platform — built for real estate marketing and compelling client presentations."
+            data-pt="Plataforma interativa de visualização arquitetônica direto no navegador — criada para marketing imobiliário e apresentações marcantes para clientes."
+          >
+            Plataforma interativa de visualização arquitetônica direto no
+            navegador — criada para marketing imobiliário e apresentações
+            marcantes para clientes.
+          </div>
+          <div class="visual">
+            <img src="images/h7.jpg" alt="City Explorer" loading="lazy" />
+            <span class="lbl" data-en="Live Demo" data-pt="Demo ao Vivo"
+              >Demo ao Vivo</span
+            >
+          </div>
+        </a>
+
+        <a
+          class="proj rv"
+          href="https://intexplorer.vercel.app/"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="no">P—03</div>
+          <div class="body">
+            <h3>Walkthrough <span class="arrow">↗</span></h3>
+            <div class="tags">
+              <span>Realtime Rendering</span>
+              <span>UI/UX</span>
+              <span>Storytelling</span>
+            </div>
+          </div>
+          <div
+            class="desc"
+            data-en="High-end interactive property showcase: realtime rendering, thoughtful UI/UX design and immersive storytelling combined in one experience."
+            data-pt="Showcase imobiliário interativo de alto nível: renderização em tempo real, design de UI/UX cuidadoso e storytelling imersivo reunidos em uma única experiência."
+          >
+            Showcase imobiliário interativo de alto nível: renderização em tempo
+            real, design de UI/UX cuidadoso e storytelling imersivo reunidos em
+            uma única experiência.
+          </div>
+          <div class="visual">
+            <img src="images/h4.jpg" alt="Walkthrough" loading="lazy" />
+            <span class="lbl" data-en="Live Demo" data-pt="Demo ao Vivo"
+              >Demo ao Vivo</span
+            >
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── Auszeichnung ──────────────────────────────────────────── -->
+    <section id="auszeichnung" class="award collapsed">
+      <div class="wrap award-in">
+        <div class="award-top rv">
+          <span
+            class="award-badge"
+            data-en="CGconnect 3D Awards 2026 — Winner"
+            data-pt="CGconnect 3D Awards 2026 — Vencedor"
+            >CGconnect 3D Awards 2026 — Vencedor</span
+          >
+          <span
+            class="mono"
+            data-en="03 / Award — Warsaw, Poland"
+            data-pt="03 / Prêmio — Varsóvia, Polônia"
+            >03 / Prêmio — Varsóvia, Polônia</span
+          >
+          <button
+            type="button"
+            class="sec-toggle"
+            data-target="auszeichnung"
+            aria-controls="auszeichnung-body"
+            aria-expanded="false"
+            data-show-en="Show award ↓"
+            data-hide-en="Collapse ↑"
+            data-show-pt="Ver prêmio ↓"
+            data-hide-pt="Recolher ↑"
+            data-en="Show award ↓"
+            data-pt="Ver prêmio ↓"
+            >Ver prêmio ↓</button>
+        </div>
+        <h2 class="rv">
+          <span data-en="Casa Müze —" data-pt="Casa Müze —">Casa Müze —</span
+          ><br />
+          <span class="thin" data-en="World's Best" data-pt="A Melhor do Mundo"
+            >A Melhor do Mundo</span
+          ><br />
+          <span data-en="Immersive Experience" data-pt="Experiência Imersiva"
+            >Experiência Imersiva</span
+          ><span class="red">.</span>
+        </h2>
+        <div class="sec-body" id="auszeichnung-body">
+        <div class="award-grid">
+          <div class="award-text">
+            <p
+              class="rv"
+              data-en="Casa Müze was named Winner in the Interactive VR/AR Experience category at the CGconnect 3D Awards 2026 — presented during the World Visualization Festival in Warsaw, Poland. An idea born on a beach in Brazil ended up on a stage on the other side of the world."
+              data-pt="A Casa Müze foi eleita Vencedora na categoria Interactive VR/AR Experience do CGconnect 3D Awards 2026 — apresentado durante o World Visualization Festival em Varsóvia, Polônia. Uma ideia que nasceu numa praia no Brasil chegou a um palco do outro lado do mundo."
+            >
+              A Casa Müze foi eleita Vencedora na categoria Interactive VR/AR
+              Experience do CGconnect 3D Awards 2026 — apresentado durante o
+              World Visualization Festival em Varsóvia, Polônia. Uma ideia que
+              nasceu numa praia no Brasil chegou a um palco do outro lado do
+              mundo.
+            </p>
+            <p
+              class="rv"
+              data-en="The project is built on a simple belief: the most relevant developments of the future create belonging before completion. Not a sales gallery, but a relationship platform — real-scale architecture, real-time visualization, sound, light and a cinema room that takes visitors inside the project before a single wall exists. Rounded off by a curated gastronomy experience on every visit."
+              data-pt="O projeto se apoia em uma crença simples: os empreendimentos mais relevantes do futuro criam pertencimento antes mesmo de ficarem prontos. Não é uma galeria de vendas, mas uma plataforma de relacionamento — arquitetura em escala real, visualização em tempo real, som, luz e uma sala de cinema que leva os visitantes para dentro do projeto antes de existir uma única parede. Tudo isso encerrado por uma experiência gastronômica curada em cada visita."
+            >
+              O projeto se apoia em uma crença simples: os empreendimentos mais
+              relevantes do futuro criam pertencimento antes mesmo de ficarem
+              prontos. Não é uma galeria de vendas, mas uma plataforma de
+              relacionamento — arquitetura em escala real, visualização em tempo
+              real, som, luz e uma sala de cinema que leva os visitantes para
+              dentro do projeto antes de existir uma única parede. Tudo isso
+              encerrado por uma experiência gastronômica curada em cada visita.
+            </p>
+          </div>
+          <div class="award-facts rv">
+            <div class="fact">
+              <span class="k" data-en="Award" data-pt="Prêmio">Prêmio</span>
+              <b>Best Immersive Experience</b>
+            </div>
+            <div class="fact">
+              <span class="k" data-en="Competition" data-pt="Competição"
+                >Competição</span
+              >
+              <b>CGarchitect 3D Awards 2026</b>
+            </div>
+            <div class="fact">
+              <span class="k" data-en="Presented at" data-pt="Apresentado em"
+                >Apresentado em</span
+              >
+              <b
+                data-en="World Visualization Festival, Warsaw — June 2026"
+                data-pt="World Visualization Festival, Varsóvia — Junho de 2026"
+                >World Visualization Festival, Varsóvia — Junho de 2026</b
+              >
+            </div>
+          </div>
+        </div>
+        <div class="award-photos rv">
+          <img
+            src="images/muze.jpg"
+            alt="Casa Müze"
+            loading="lazy"
+            class="award-photo-img active"
+          />
+          <img
+            src="images/muze2.jpg"
+            alt="Casa Müze"
+            loading="lazy"
+            class="award-photo-img"
+          />
+          <img
+            src="images/muze3.jpg"
+            alt="Casa Müze"
+            loading="lazy"
+            class="award-photo-img"
+          />
+          <button
+            type="button"
+            class="award-photo-nav prev"
+            aria-label="Previous photo"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            class="award-photo-nav next"
+            aria-label="Next photo"
+          >
+            →
+          </button>
+        </div>
+        <div class="award-video rv">
+          <iframe
+            src="https://www.youtube.com/embed/8n9Irv9ph9k"
+            title="Casa Müze"
+            frameborder="0"
+            allow="
+              accelerometer;
+              autoplay;
+              clipboard-write;
+              encrypted-media;
+              gyroscope;
+              picture-in-picture;
+              web-share;
+            "
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="award-links rv">
+          <a
+            href="https://cgconnect.chaos.com/insights/articles/06538776-2026-3d-awards-winners-revealed"
+            target="_blank"
+            rel="noopener"
+          >
+            <span data-en="Official announcement" data-pt="Anúncio oficial"
+              >Anúncio oficial</span
+            >
+            <small>CGconnect ↗</small>
+          </a>
+          <a
+            href="https://www.worldvizfest.com/"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>World Visualization Festival</span>
+            <small>worldvizfest.com ↗</small>
+          </a>
+          <a
+            href="https://www.linkedin.com/company/cgconnect-official/"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>CGconnect</span>
+            <small>LinkedIn ↗</small>
+          </a>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Kontakt ───────────────────────────────────────────────── -->
+    <section class="contact" id="kontakt">
+      <div class="wrap contact-in">
+        <span
+          class="mono rv"
+          data-en="04 / Contact — Let's talk"
+          data-pt="04 / Contato — Vamos conversar"
+          >04 / Contato — Vamos conversar</span
+        >
+        <h2 class="rv">
+          <span
+            data-en="Got a project in mind?"
+            data-pt="Tem um projeto em mente?"
+            >Tem um projeto em mente?</span
+          >
+          <br />
+          <a href="mailto:escrevaparajd@gmail.com">
+            <span data-en="Write to us." data-pt="Fale com a gente."
+              >Fale com a gente.</span
+            >
+          </a>
+        </h2>
+        <p
+          class="rv"
+          data-en="Open to collaborations in realtime, visualization and front-end development — based in Curitiba, PR, serving clients across Brazil and internationally, remote and reliable. Let's build something extraordinary together."
+          data-pt="Abertos a colaborações em tempo real, visualização e desenvolvimento front-end — sediados em Curitiba, PR, atendendo clientes em todo o Brasil e internacionalmente, remoto e confiável. Vamos construir algo extraordinário juntos."
+        >
+          Abertos a colaborações em tempo real, visualização e desenvolvimento
+          front-end — sediados em Curitiba, PR, atendendo clientes em todo o
+          Brasil e internacionalmente, remoto e confiável. Vamos construir algo
+          extraordinário juntos.
+        </p>
+        <div class="links rv">
+          <a href="mailto:escrevaparajd@gmail.com">
+            <span data-en="Email" data-pt="Email">Email</span>
+            <small>escrevaparajd@gmail.com</small>
+          </a>
+          <a href="cv.html" target="_blank" rel="noopener">
+            <span data-en="CV / Resume" data-pt="CV / Currículo"
+              >CV / Currículo</span
+            >
+            <small data-en="View online ↗" data-pt="Ver online ↗"
+              >Ver online ↗</small
+            >
+          </a>
+          <a
+            href="https://www.linkedin.com/in/typeforjd"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>LinkedIn</span><small>/typeforjd ↗</small>
+          </a>
+          <a
+            href="https://www.instagram.com/weare.factory"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>Instagram</span><small>@weare.factory ↗</small>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <footer>
-      <small data-i18n="footer"
-        >Factory Studio © 2026 · Todos os direitos reservados.</small
-      >
+      <div class="foot-in">
+        <span>© 2026 Factory Studio</span>
+        <span
+          data-en="Archviz &amp; Digital Experiences"
+          data-pt="Archviz &amp; Experiências Digitais"
+          >Archviz &amp; Experiências Digitais</span
+        >
+        <span data-en="Crafted with precision" data-pt="Feito com precisão"
+          >Feito com precisão</span
+        >
+      </div>
     </footer>
 
     <script>
-      (function () {
-        "use strict";
-
-        /* ── SCROLL REVEAL ── */
-        const revealObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("visible");
-                revealObserver.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0 },
-        );
-
-        document
-          .querySelectorAll(".reveal")
-          .forEach((el) => revealObserver.observe(el));
-
-        /* ── SIDE NAV ACTIVE STATE ── */
-        const sideTargets = ["hero", "services", "contact"];
-        const sideDots = document.querySelectorAll(".side-dot");
-
-        const navObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                const id = entry.target.id;
-                sideDots.forEach((d) => d.classList.remove("active"));
-                const match = document.querySelector(
-                  `.side-dot[data-target="${id}"]`,
-                );
-                if (match) match.classList.add("active");
-              }
-            });
-          },
-          { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-        );
-
-        sideTargets.forEach((id) => {
-          const el = document.getElementById(id);
-          if (el) navObserver.observe(el);
-        });
-
-        sideDots.forEach((dot) => {
-          dot.addEventListener("click", (e) => {
-            e.preventDefault();
-            const target = document.getElementById(dot.dataset.target);
-            if (target) target.scrollIntoView({ behavior: "smooth" });
-          });
-        });
-
-        const sideNav = document.querySelector(".side-nav");
-        const heroSection = document.getElementById("hero");
-        if (sideNav && heroSection) {
-          new IntersectionObserver(
-            ([entry]) => {
-              sideNav.style.opacity = entry.isIntersecting ? "0" : "";
-              sideNav.style.pointerEvents = entry.isIntersecting ? "none" : "";
-            },
-            { threshold: 0.1 },
-          ).observe(heroSection);
-        }
-
-        /* ── Proteção de conteúdo ── */
-        document.addEventListener("contextmenu", (e) => {
-          if (e.target.closest("img, canvas")) e.preventDefault();
-        });
-        document.addEventListener("dragstart", (e) => {
-          if (e.target.tagName === "IMG") e.preventDefault();
-        });
-
-        /* ── Copyright watermark ── */
-        console.log(
-          "%c Factory Studio ",
-          "background:#b89c6e;color:#1a1200;font-weight:700;font-size:14px;padding:4px 12px;border-radius:4px",
-          "\n© 2026 Factory Studio — Todos os direitos reservados.\nContato: escrevaparajd@gmail.com",
-        );
-      })();
-    </script>
-
-    <!-- ── I18N ── -->
-    <script>
-      (function () {
-        const T = {
-          pt: {
-            "hero-h1": "Sites que vendem. Experiências que impressionam.",
-            "hero-p":
-              "Para arquitetos, incorporadoras e empreendimentos premium. Tudo entregue como um link.",
-            "svc-lp-h3": "Launching Page",
-            "svc-lp-p": "Venda antes de construir. Experiência navegável com tour 360°, POIs e sequência de frames.",
-            "svc-lp-i1": "Site responsivo",
-            "svc-lp-i2": "Conteúdo por IA",
-            "svc-fp-h3": "FirstPerson Experience",
-            "svc-fp-p": "Tour exterior interativo. O cliente navega pelo projeto como se já estivesse lá.",
-            "svc-fp-i1": "Navegação por voz",
-            "svc-fp-i2": "Múltiplas cenas",
-            "svc-city-h3": "City Explorer",
-            "svc-city-p": "Mapa interativo com POIs e cenas 360° integradas. Contexto urbano do empreendimento.",
-            "svc-city-i1": "Mapa interativo",
-            "svc-city-i2": "Tour 360°",
-            "svc-cta": "Ver demo",
-            "btn-demo": "Testar Demos",
-            "ws-words":
-              "Experiências que rodam direto no navegador.|O cliente recebe um link — e já está dentro.",
-            "f-nome-label": "Nome",
-            "f-nome-ph": "Seu nome",
-            "f-tel-label": "Telefone",
-            "f-tel-ph": "(41) 99999-9999",
-            "f-email-label": "E-mail",
-            "f-email-ph": "seu@email.com",
-            "f-msg-label": "Mensagem",
-            "f-msg-ph": "Sua mensagem...",
-            "sub-btn": "Enviar Mensagem",
-            "seq-title": "Interatividade<br><em>levada a sério.</em>",
-            "seq-btn-aerial": "Aéreo",
-            "seq-btn-living": "Living",
-            "cta-label": "Iniciar Projeto",
-            "cta-h2": "Tem um projeto em mente? A gente entrega.",
-            "cta-p":
-              "Arquitetura, incorporação, produto. A experiência digital certa.",
-            "nav-inicio": "Início",
-            "nav-servicos": "Serviços",
-            "nav-interatividade": "Interatividade",
-            "nav-contato": "Contato",
-            footer:
-              "Factory Studio © 2026 · Todos os direitos reservados.",
-            "poi-aerial-0-title": "Torre Residencial",
-            "poi-aerial-0-desc":
-              "Rooftop com piscina. Vista 360° da baía e da cidade.",
-            "poi-aerial-1-title": "Baía Norte",
-            "poi-aerial-1-desc":
-              "Baía, ilhas e horizonte. A vista mais privilegiada da capital.",
-            "poi-aerial-2-title": "Ponte Hercílio Luz",
-            "poi-aerial-2-desc":
-              "Ícone de Florianópolis. A ponte que conecta a ilha ao continente.",
-            "poi-aerial-3-title": "Morro da Cruz",
-            "poi-aerial-3-desc":
-              "O ponto mais alto da ilha. Vista do oceano Atlântico e da cidade.",
-            "poi-living-0-title": "Living",
-            "poi-living-0-desc":
-              "Design italiano. Acabamento premium. Integrado à varanda.",
-            "pano-btn-360": "Ver 360°",
-            "pano-hint": "Arraste para explorar · Scroll para zoom",
-            "pano-room-quarto": "Quarto",
-            "pano-room-living": "Living",
-            "pano-room-sacada": "Sacada",
-            "pano-loading": "Carregando...",
-            "pano-rl-quarto": "Quarto",
-            "pano-rl-living": "Living",
-            "pano-rl-sacada": "Sacada",
-          },
-          en: {
-            "hero-h1": "Sites that sell. Experiences that impress.",
-            "hero-p":
-              "For architects, developers and high-end properties. All delivered as a link.",
-            "svc-lp-h3": "Launching Page",
-            "svc-lp-p": "Sell before you build. Navigable experience with frame sequences, 360° tour and interactive POIs.",
-            "svc-lp-i1": "Responsive website",
-            "svc-lp-i2": "AI-enhanced content",
-            "svc-fp-h3": "FirstPerson Experience",
-            "svc-fp-p": "Interactive exterior tour. Clients navigate the project as if they were already there.",
-            "svc-fp-i1": "Voice navigation",
-            "svc-fp-i2": "Multiple scenes",
-            "svc-city-h3": "City Explorer",
-            "svc-city-p": "Interactive map with POIs and integrated 360° scenes. Urban context for the development.",
-            "svc-city-i1": "Interactive map",
-            "svc-city-i2": "360° tour",
-            "svc-cta": "See demo",
-            "btn-demo": "Try Demos",
-            "ws-words":
-              "Experiences that run directly in the browser.|The client gets a link — and they're already inside.",
-            "f-nome-label": "Name",
-            "f-nome-ph": "Your name",
-            "f-tel-label": "Phone",
-            "f-tel-ph": "+1 (555) 000-0000",
-            "f-email-label": "Email",
-            "f-email-ph": "your@email.com",
-            "f-msg-label": "Message",
-            "f-msg-ph": "Your message...",
-            "sub-btn": "Send Message",
-            "seq-title": "Interactivity<br><em>taken seriously.</em>",
-            "seq-btn-aerial": "Aerial",
-            "seq-btn-living": "Living",
-            "cta-label": "Start a Project",
-            "cta-h2": "Have a project in mind? Let's build it.",
-            "cta-p":
-              "Architecture, real estate, product. The right digital experience.",
-            "nav-inicio": "Home",
-            "nav-servicos": "Services",
-            "nav-interatividade": "Interactivity",
-            "nav-contato": "Contact",
-            footer: "Factory Studio © 2026 · All rights reserved.",
-            "poi-aerial-0-title": "Residential Tower",
-            "poi-aerial-0-desc":
-              "Rooftop pool. 360° views of the bay and the city.",
-            "poi-aerial-1-title": "North Bay",
-            "poi-aerial-1-desc":
-              "Bay, islands and skyline. The most privileged view in the capital.",
-            "poi-aerial-2-title": "Hercílio Luz Bridge",
-            "poi-aerial-2-desc":
-              "Florianópolis landmark. The bridge connecting island to mainland.",
-            "poi-aerial-3-title": "Morro da Cruz",
-            "poi-aerial-3-desc":
-              "The island's highest point. Views of the Atlantic Ocean and the city.",
-            "poi-living-0-title": "Living",
-            "poi-living-0-desc":
-              "Italian design. Premium finishes. Fully integrated with the balcony.",
-            "pano-btn-360": "View 360°",
-            "pano-hint": "Drag to explore · Scroll to zoom",
-            "pano-room-quarto": "Bedroom",
-            "pano-room-living": "Living",
-            "pano-room-sacada": "Balcony",
-            "pano-loading": "Loading...",
-            "pano-rl-quarto": "Bedroom",
-            "pano-rl-living": "Living",
-            "pano-rl-sacada": "Balcony",
-          },
-          es: {
-            "hero-h1": "Interactividad, Diseño y Experiencias Digitales.",
-            "hero-p":
-              "Creamos interfaces, sitios web, experiencias interactivas y soluciones visuales para marcas, productos y empresas contemporáneas.",
-            "svc-lp-h3": "Launching Page",
-            "svc-lp-p": "Vende antes de construir. Experiencia navegable con secuencia de frames, tour 360° y POIs interactivos.",
-            "svc-lp-i1": "Sitio responsivo",
-            "svc-lp-i2": "Contenido potenciado por IA",
-            "svc-fp-h3": "FirstPerson Experience",
-            "svc-fp-p": "Tour exterior interactivo. El cliente navega por el proyecto como si ya estuviera ahí.",
-            "svc-fp-i1": "Navegación por voz",
-            "svc-fp-i2": "Múltiples escenas",
-            "svc-city-h3": "City Explorer",
-            "svc-city-p": "Mapa interactivo con POIs y escenas 360° integradas. Contexto urbano del desarrollo.",
-            "svc-city-i1": "Mapa interactivo",
-            "svc-city-i2": "Tour 360°",
-            "svc-cta": "Ver demo",
-            "seq-title": "Interactividad<br><em>tomada en serio.</em>",
-            "seq-btn-aerial": "Aéreo",
-            "seq-btn-living": "Living",
-            "cta-label": "Iniciar Proyecto",
-            "cta-h2":
-              "Transformamos ideas en experiencias digitales de alto impacto.",
-            "cta-p":
-              "Interfaces, soluciones interactivas y herramientas visuales desarrolladas para marcas, productos y empresas modernas.",
-            "nav-inicio": "Inicio",
-            "nav-servicos": "Servicios",
-            "nav-interatividade": "Interactividad",
-            "nav-contato": "Contacto",
-            footer:
-              "Factory Studio © 2026 · Todos los derechos reservados.",
-            "poi-aerial-0-title": "Torre Residencial",
-            "poi-aerial-0-desc":
-              "Desarrollo de alto estándar con piscina en el rooftop y vista 360° de la bahía y la ciudad.",
-            "poi-aerial-1-title": "Bahía Norte",
-            "poi-aerial-1-desc":
-              "Vista privilegiada de la bahía y las islas naturales alrededor de la capital catarinense.",
-            "poi-aerial-2-title": "Puente Hercílio Luz",
-            "poi-aerial-2-desc":
-              "Ícono histórico y postal de Florianópolis, conectando la isla con el continente.",
-            "poi-aerial-3-title": "Morro da Cruz",
-            "poi-aerial-3-desc":
-              "Punto más alto de la isla, con vista panorámica de toda la ciudad y del océano Atlántico.",
-            "poi-living-0-title": "Área de Estar",
-            "poi-living-0-desc":
-              "Sofás de diseño italiano con acabados premium e integración total con la terraza.",
-            "pano-btn-360": "Ver 360°",
-            "pano-hint": "Arrastra para explorar · Scroll para zoom",
-            "pano-room-quarto": "Habitación",
-            "pano-room-living": "Living",
-            "pano-room-sacada": "Terraza",
-            "pano-loading": "Cargando...",
-            "pano-rl-quarto": "Habitación",
-            "pano-rl-living": "Living",
-            "pano-rl-sacada": "Terraza",
-          },
-        };
-
-        const LANG_MAP = { pt: "pt-BR", en: "en-US", es: "es-ES" };
-
-        function applyLang(lang) {
-          const dict = T[lang];
-          if (!dict) return;
-
-          document.querySelectorAll("[data-i18n]").forEach(function (el) {
-            const key = el.getAttribute("data-i18n");
-            const val = dict[key];
-            if (val === undefined) return;
-            if (el.getAttribute("data-i18n-html") === "true") {
-              el.innerHTML = val;
-            } else {
-              el.textContent = val;
-            }
-          });
-
-          // Placeholders
-          document
-            .querySelectorAll("[data-i18n-placeholder]")
-            .forEach(function (el) {
-              var val = dict[el.getAttribute("data-i18n-placeholder")];
-              if (val !== undefined) el.placeholder = val;
-            });
-
-          // Typewriter words
-          if (dict["ws-words"] && typeof window._twUpdate === "function") {
-            window._twUpdate(dict["ws-words"].split("|"));
-          }
-
-          // Globals usados pelo panorama
-          window._panoLoadingText = dict["pano-loading"] || "Carregando...";
-          window._panoRoomLabels = {
-            quarto: dict["pano-rl-quarto"] || "Quarto",
-            living: dict["pano-rl-living"] || "Living",
-            sacada: dict["pano-rl-sacada"] || "Sacada",
-          };
-
-          // Re-renderiza o quarto atual se o modal estiver aberto
-          if (
-            window._panoCurrentRoom &&
-            typeof window._setRoomUI === "function"
-          ) {
-            window._setRoomUI(window._panoCurrentRoom);
-          }
-
-          document.documentElement.lang = LANG_MAP[lang] || lang;
-          localStorage.setItem("fi-lang", lang);
-        }
-
-        document.querySelectorAll(".lang-btn").forEach(function (btn) {
-          btn.addEventListener("click", function () {
-            const lang = btn.getAttribute("data-lang");
-            document.querySelectorAll(".lang-btn").forEach(function (b) {
-              b.classList.toggle("active", b === btn);
-            });
-            applyLang(lang);
-          });
-        });
-
-        // Restaura idioma salvo
-        const saved = localStorage.getItem("fi-lang");
-        if (saved && T[saved] && saved !== "pt") {
-          const btn = document.querySelector(
-            '.lang-btn[data-lang="' + saved + '"]',
-          );
-          if (btn) {
-            document.querySelectorAll(".lang-btn").forEach(function (b) {
-              b.classList.toggle("active", b === btn);
-            });
-            applyLang(saved);
-          }
-        }
-      })();
-    </script>
-    <script>
-      (function () {
-        var b = document.getElementById("btn-demo");
-        if (b)
-          b.addEventListener("click", function () {
-            window.open("fi-preview.html", "_blank");
-          });
-      })();
-    </script>
-
-    <script>
-      async function submitForm(e) {
-        e.preventDefault();
-        const form = e.target;
-        const btn = form.querySelector(".sub-btn");
-        btn.textContent = "Enviando...";
-        btn.disabled = true;
-        const data = {
-          nome: form.querySelector("[name=nome]").value.trim(),
-          telefone: form.querySelector("[name=telefone]").value.trim(),
-          email: form.querySelector("[name=email]").value.trim(),
-          projeto: form.querySelector("[name=projeto]").value.trim(),
-        };
-        try {
-          const res = await fetch("https://formspree.io/f/xeedjkjo", {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          });
-          if (res.ok) {
-            btn.textContent = "Mensagem Enviada ✓";
-            form.reset();
-            setTimeout(() => {
-              btn.textContent = "Enviar Mensagem";
-              btn.disabled = false;
-            }, 4000);
-          } else {
-            btn.textContent = "Erro ao enviar. Tente novamente.";
-            btn.disabled = false;
-          }
-        } catch {
-          btn.textContent = "Erro ao enviar. Tente novamente.";
-          btn.disabled = false;
-        }
-      }
-    </script>
-    <script>
+      // ── Hero Slideshow ────────────────────────────────────────────
       const heroSlides = document.querySelectorAll(".hero-slide");
       let curHeroSlide = 0;
       const SLIDE_DURATION = 5000;
-
-      const navBlocks = document.querySelectorAll(".hero-nav-block");
-      const navBars = document.querySelectorAll(".hero-nav-bar");
-      let activeNav = 0;
 
       function loadSlide(idx) {
         const slide = heroSlides[idx];
@@ -2221,147 +2510,160 @@
         img.removeAttribute("data-src");
       }
 
-      function activateNav(idx) {
-        navBlocks.forEach((b, i) => {
-          b.classList.toggle("active", i === idx);
-          navBars[i].style.transition = "none";
-          navBars[i].style.width = "0%";
-        });
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            navBars[idx].style.transition = `width ${SLIDE_DURATION}ms linear`;
-            navBars[idx].style.width = "100%";
-          });
-        });
-        activeNav = idx;
-      }
-
-      activateNav(0);
       window.addEventListener("load", () => loadSlide(1));
 
-      setInterval(() => {
-        heroSlides[curHeroSlide].classList.remove("active");
-        curHeroSlide = (curHeroSlide + 1) % heroSlides.length;
-        loadSlide(curHeroSlide);
-        loadSlide((curHeroSlide + 1) % heroSlides.length);
-        heroSlides[curHeroSlide].classList.add("active");
-        activateNav(curHeroSlide % navBlocks.length);
-      }, SLIDE_DURATION);
-
-      navBlocks.forEach((block, i) => {
-        block.addEventListener("click", (e) => {
-          const href = block.getAttribute("href");
-          if (href && href.startsWith("#")) {
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) target.scrollIntoView({ behavior: "smooth" });
-          }
-        });
-      });
-    </script>
-
-    <!-- ── TYPEWRITER ── -->
-    <script>
-      (function () {
-        const el = document.getElementById("ws-typewriter");
-        const cursor = document.querySelector(".ws-cursor");
-        if (!el) return;
-
-        const SPEED = 60,
-          DELETE_SPEED = 30,
-          PAUSE = 2500;
-        let words = [
-          "Experiências que rodam direto no navegador.",
-          "O cliente recebe um link — e já está dentro.",
-        ];
-        let wordIndex = 0,
-          charIndex = 0,
-          isDeleting = false,
-          timer = null;
-
-        function tick() {
-          const word = words[wordIndex];
-          if (!isDeleting) {
-            if (charIndex < word.length) {
-              el.textContent = word.substring(0, ++charIndex);
-              timer = setTimeout(tick, SPEED);
-            } else {
-              timer = setTimeout(function () {
-                isDeleting = true;
-                tick();
-              }, PAUSE);
-            }
-          } else {
-            if (charIndex > 0) {
-              el.textContent = word.substring(0, --charIndex);
-              timer = setTimeout(tick, DELETE_SPEED);
-            } else {
-              isDeleting = false;
-              wordIndex = (wordIndex + 1) % words.length;
-              timer = setTimeout(tick, 300);
-            }
-          }
-        }
-
-        window._twUpdate = function (newWords) {
-          clearTimeout(timer);
-          words = newWords;
-          wordIndex = 0;
-          charIndex = 0;
-          isDeleting = false;
-          el.textContent = "";
-          tick();
-        };
-
-        setInterval(function () {
-          cursor && cursor.classList.toggle("blink-off");
-        }, 500);
-
-        tick();
-      })();
-    </script>
-
-    <!-- ── GA Event Tracking ──────────────────────────────── -->
-    <script>
-      function track(name, params) {
-        window.gtag && gtag("event", name, params || {});
+      if (heroSlides.length) {
+        setInterval(() => {
+          heroSlides[curHeroSlide].classList.remove("active");
+          curHeroSlide = (curHeroSlide + 1) % heroSlides.length;
+          loadSlide(curHeroSlide);
+          loadSlide((curHeroSlide + 1) % heroSlides.length);
+          heroSlides[curHeroSlide].classList.add("active");
+        }, SLIDE_DURATION);
       }
 
-      // WhatsApp
-      document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
-        a.addEventListener("click", function () {
-          track("whatsapp_click", {
-            local: (a.closest("section,div") || {}).className || "",
+      // ── Sprachschalter ────────────────────────────────────────────
+      const langBtns = document.querySelectorAll(".lang-btn");
+
+      function applyLang(lang) {
+        document.querySelectorAll("[data-en]").forEach((el) => {
+          el.textContent = el.getAttribute("data-" + lang);
+        });
+        langBtns.forEach((b) =>
+          b.classList.toggle("active", b.dataset.lang === lang),
+        );
+        document.documentElement.lang = lang;
+        localStorage.setItem("cv-lang", lang);
+      }
+
+      langBtns.forEach((b) =>
+        b.addEventListener("click", () => applyLang(b.dataset.lang)),
+      );
+      applyLang(localStorage.getItem("cv-lang") || "pt");
+
+      // ── Mobiles Menü ──────────────────────────────────────────────
+      const mainNav = document.getElementById("mainNav");
+      const navToggle = document.getElementById("navToggle");
+
+      navToggle.addEventListener("click", () => {
+        const open = mainNav.classList.toggle("open");
+        navToggle.setAttribute("aria-expanded", open);
+      });
+
+      mainNav
+        .querySelectorAll("a")
+        .forEach((a) =>
+          a.addEventListener("click", () => mainNav.classList.remove("open")),
+        );
+
+      // ── Galerie-Filter ────────────────────────────────────────────
+      const galFilters = document.querySelectorAll(".gal-filters button");
+      const galFigures = document.querySelectorAll(".gal figure[data-cat]");
+
+      galFilters.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          galFilters.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const filter = btn.dataset.filter;
+          galFigures.forEach((fig) => {
+            const match =
+              filter === "all" || fig.dataset.cat.split(" ").includes(filter);
+            fig.classList.toggle("gal-hidden", !match);
           });
         });
       });
 
-      // Scroll depth
-      (function () {
-        var f = {};
-        window.addEventListener(
-          "scroll",
-          function () {
-            var d = document.documentElement;
-            var p = Math.round(
-              ((d.scrollTop || window.scrollY) /
-                (d.scrollHeight - d.clientHeight)) *
-                100,
-            );
-            if (p >= 50 && !f[50]) {
-              f[50] = 1;
-              track("scroll_50");
+      // ── Galerie-Hover-Passes ──────────────────────────────────────
+      // Reihe die Passes in data-hover-imgs kommagetrennt auf, z.B.:
+      // data-hover-imgs="images/beauty.jpg,images/clay.jpg,images/lines.jpg"
+      document
+        .querySelectorAll(".gal figure[data-hover-imgs]")
+        .forEach((fig) => {
+          const img = fig.querySelector("img");
+          const frames = fig.dataset.hoverImgs.split(",").map((s) => s.trim());
+          const original = img.getAttribute("src");
+          const originalSrcset = img.getAttribute("srcset");
+          let timer = null;
+          let step = 0;
+
+          const currentLang = document.documentElement.lang || "pt";
+          const badge = document.createElement("span");
+          badge.className = "gal-pass-badge";
+          const passLabelText = {
+            pt: "Passe o mouse para ver os passes",
+            en: "Hover to see passes",
+          };
+          badge.innerHTML =
+            '<svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" stroke-linejoin="round"/></svg>' +
+            '<span class="gal-pass-label" data-en="Hover to see passes" data-pt="Passe o mouse para ver os passes">' +
+            (passLabelText[currentLang] || passLabelText.pt) +
+            "</span>";
+          fig.appendChild(badge);
+
+          fig.addEventListener("mouseenter", () => {
+            if (originalSrcset) img.removeAttribute("srcset");
+            step = 0;
+            timer = setInterval(() => {
+              step = (step + 1) % frames.length;
+              img.setAttribute("src", frames[step]);
+            }, 700);
+          });
+
+          fig.addEventListener("mouseleave", () => {
+            clearInterval(timer);
+            if (originalSrcset) img.setAttribute("srcset", originalSrcset);
+            img.setAttribute("src", original);
+          });
+        });
+
+      // ── Auszeichnung-Fotoslider ───────────────────────────────────
+      document.querySelectorAll(".award-photos").forEach((slider) => {
+        const imgs = slider.querySelectorAll(".award-photo-img");
+        let idx = 0;
+        const show = (i) => {
+          imgs[idx].classList.remove("active");
+          idx = (i + imgs.length) % imgs.length;
+          imgs[idx].classList.add("active");
+        };
+        slider
+          .querySelector(".prev")
+          .addEventListener("click", () => show(idx - 1));
+        slider
+          .querySelector(".next")
+          .addEventListener("click", () => show(idx + 1));
+      });
+
+      // ── Seções colapsáveis ──────────────────────────────────────────
+      document.querySelectorAll(".sec-toggle").forEach((btn) => {
+        const section = document.getElementById(btn.dataset.target);
+        btn.addEventListener("click", () => {
+          const collapsed = section.classList.toggle("collapsed");
+          btn.setAttribute("aria-expanded", String(!collapsed));
+          const state = collapsed ? "show" : "hide";
+          btn.setAttribute("data-en", btn.dataset[state + "En"]);
+          btn.setAttribute("data-pt", btn.dataset[state + "Pt"]);
+          btn.textContent = btn.getAttribute(
+            "data-" + document.documentElement.lang,
+          );
+          if (!collapsed) {
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      // ── Scroll-Reveal ─────────────────────────────────────────────
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
             }
-            if (p >= 90 && !f[90]) {
-              f[90] = 1;
-              track("scroll_90");
-            }
-          },
-          { passive: true },
-        );
-      })();
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document.querySelectorAll(".rv").forEach((el) => io.observe(el));
     </script>
   </body>
 </html>
-
-
