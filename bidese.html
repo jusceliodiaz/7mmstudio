@@ -28,7 +28,7 @@
     />
     <meta
       property="og:image"
-      content="https://7mmstudio.com/images/bidesse/COVER_B1.jpg"
+      content="https://www.factorystudio.works/images/bidesse/COVER_B1.jpg"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -36,13 +36,12 @@
       property="og:image:alt"
       content="Edifício Lemme — Tour virtual 3D | Factory Studio"
     />
-    <meta property="og:url" content="https://7mmstudio.com/bidese.html" />
+    <meta property="og:url" content="https://www.factorystudio.works/bidese.html" />
     <meta property="og:site_name" content="Factory Studio" />
     <meta property="og:locale" content="pt_BR" />
-    <link rel="canonical" href="https://7mmstudio.com/bidese.html" />
+    <link rel="canonical" href="https://www.factorystudio.works/bidese.html" />
     <link rel="icon" type="image/png" href="images/fav-icon.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@7mmstudio" />
     <meta
       name="twitter:title"
       content="Edifício Lemme | Tour Virtual 3D | Factory Studio"
@@ -53,7 +52,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://7mmstudio.com/images/bidesse/COVER_B1.jpg"
+      content="https://www.factorystudio.works/images/bidesse/COVER_B1.jpg"
     />
     <!-- Google tag (gtag.js) — lazy-loaded after page load -->
     <script>
@@ -355,15 +354,46 @@
 
       /* ── Botão Voltar ── */
       .back-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        right: max(20px, env(safe-area-inset-right, 20px));
+        z-index: 100;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.85);
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        text-decoration: none;
         background: rgba(14, 14, 14, 0.92);
-        border-color: rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        border-radius: 14px;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .back-btn svg {
+        flex-shrink: 0;
+        opacity: 0.75;
       }
       .back-btn:hover {
         background: rgba(30, 30, 30, 0.95);
         border-color: rgba(255, 255, 255, 0.2);
+        transform: translateX(-2px);
+      }
+      @media (max-width: 600px) {
+        .back-btn span {
+          display: none;
+        }
+        .back-btn {
+          padding: 10px;
+        }
       }
 
       /* ── CTA dock superior ── */
@@ -3339,6 +3369,22 @@
         </svg>
       </button>
     </div>
+
+    <a href="index.html" class="back-btn">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M10 3L5 8l5 5" />
+      </svg>
+      <span>Voltar</span>
+    </a>
 
     <div id="cursor"></div>
     <div id="ring"></div>
