@@ -7,7 +7,7 @@
 ## Visão Geral
 
 **Studio:** Factory Studio — experiências digitais para arquitetura e mercado imobiliário  
-**URL:** https://7mmstudio.com  
+**URL:** https://www.factorystudio.works (domínio `7mmstudio.com` está desatualizado/404 — não usar)  
 **Stack:** HTML/CSS/JS puro, sem build tools, sem frameworks (exceto Leaflet.js e Three.js via CDN quando necessário)  
 **Google Analytics:** `G-3K51DFTX3J` (lazy-loaded via `window.addEventListener('load', ...)` em todas as páginas)
 
