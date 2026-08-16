@@ -7,7 +7,7 @@
 ## Visão Geral
 
 - **Título:** `Edifício Lemme | Tour Virtual 3D | Factory Studio`
-- **URL de produção:** `https://7mmstudio.com/bidese.html`
+- **URL de produção:** `https://www.factorystudio.works/bidese.html`
 - **SEO:** `<meta name="robots" content="noindex, nofollow">` — página de demo, não indexada
 - **Fontes:** DM Sans (300–600) + Silkscreen (usada no crédito `#track-credit`)
 - **CSS:** 100% inline em `<style>` no próprio `bidese.html` + `styles.css` (compartilhado com `firstperson.html`/`cityexplorer.html`)
