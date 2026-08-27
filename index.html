@@ -21,12 +21,12 @@
     </script>
 
     <title>
-      Factory Studio — Archviz & Experiências Digitais em Curitiba, PR
+      Factory Studio — Estúdio Criativo de Archviz & Imobiliário em Curitiba, PR
     </title>
 
     <meta
       name="description"
-      content="Factory Studio — archviz e experiências digitais em tempo real para arquitetura e mercado imobiliário. Estúdio em Curitiba, Paraná, atendendo incorporadoras em todo o Brasil com Unreal Engine e visualização interativa."
+      content="Factory Studio — estúdio criativo para arquitetura e mercado imobiliário. Imagens, filmes e experiências digitais interativas. Curitiba, Paraná, atendendo incorporadoras, escritórios e estúdios em todo o Brasil e no exterior."
     />
     <meta
       name="keywords"
@@ -45,11 +45,11 @@
     <meta property="og:locale:alternate" content="en_US" />
     <meta
       property="og:title"
-      content="Factory Studio — Archviz & Experiências Digitais em Curitiba, PR"
+      content="Factory Studio — Estúdio Criativo de Archviz & Imobiliário em Curitiba, PR"
     />
     <meta
       property="og:description"
-      content="Estúdio de archviz e experiências digitais para arquitetura e mercado imobiliário. Curitiba, Paraná — Unreal Engine, visualização em tempo real e produção virtual."
+      content="Estúdio criativo para arquitetura e mercado imobiliário — imagens, filmes e experiências digitais interativas. Curitiba, Paraná, atendendo o Brasil e o mundo. Criamos possibilidades para quem cria imagens."
     />
     <meta
       property="og:image"
@@ -61,11 +61,11 @@
     <meta name="twitter:url" content="https://www.factorystudio.works/" />
     <meta
       name="twitter:title"
-      content="Factory Studio — Archviz & Experiências Digitais em Curitiba, PR"
+      content="Factory Studio — Estúdio Criativo de Archviz & Imobiliário em Curitiba, PR"
     />
     <meta
       name="twitter:description"
-      content="Estúdio de archviz e experiências digitais para arquitetura e mercado imobiliário. Curitiba, Paraná — Unreal Engine, visualização em tempo real e produção virtual."
+      content="Estúdio criativo para arquitetura e mercado imobiliário — imagens, filmes e experiências digitais interativas. Curitiba, Paraná, atendendo o Brasil e o mundo. Criamos possibilidades para quem cria imagens."
     />
     <meta
       name="twitter:image"
@@ -78,7 +78,7 @@
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "Factory Studio",
-        "description": "Estúdio de archviz e experiências digitais em tempo real para arquitetura e mercado imobiliário.",
+        "description": "Estúdio criativo para arquitetura e mercado imobiliário — imagens, filmes e experiências digitais interativas.",
         "url": "https://www.factorystudio.works/",
         "image": "https://www.factorystudio.works/images/og_launching.jpg",
         "email": "mailto:escrevaparajd@gmail.com",
@@ -86,9 +86,11 @@
         "knowsLanguage": ["pt", "en"],
         "knowsAbout": [
           "Archviz",
+          "Visualização Arquitetônica",
+          "Filmes de Arquitetura",
+          "Experiências Digitais Interativas",
           "Unreal Engine",
           "Realtime Rendering",
-          "Visualização Arquitetônica",
           "Produção Virtual"
         ],
         "areaServed": ["Curitiba", "Paraná", "Brasil"],
@@ -479,29 +481,31 @@
         overflow: hidden;
         z-index: -2;
       }
-      .hero-slide {
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-        transform: scale(1.06);
-        transition:
-          opacity 1.5s ease,
-          transform 9s ease;
-      }
-      .hero-slide.active {
-        opacity: 1;
-        transform: scale(1);
-      }
-      .hero-slide picture {
-        display: contents;
-      }
-      .hero-slide img {
+      .hero-video {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
         object-position: center;
+        opacity: 0;
+        transform: scale(1.04);
+        transition:
+          opacity 1.6s ease,
+          transform 12s ease;
+      }
+      .hero-video.is-ready {
+        opacity: 1;
+        transform: scale(1);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-video {
+          transition: opacity 0.4s ease;
+          transform: none;
+        }
+        .hero-video.is-ready {
+          transform: none;
+        }
       }
       .hero-overlay {
         position: absolute;
@@ -581,9 +585,14 @@
       .hero h1 .row {
         display: block;
         overflow: hidden;
+        margin-bottom: -0.16em;
+      }
+      .hero h1 .row:last-child {
+        margin-bottom: 0;
       }
       .hero h1 .row > span {
         display: block;
+        padding-bottom: 0.16em;
         transform: translateY(110%);
         animation: rise 1s var(--ease) forwards;
       }
@@ -1935,53 +1944,18 @@
     <!-- ── Hero ──────────────────────────────────────────────────── -->
     <section class="hero" id="top">
       <div class="hero-bg" id="heroBg">
-        <div class="hero-slide active">
-          <img
-            src="images/2.jpg"
-            alt=""
-            aria-hidden="true"
-            fetchpriority="high"
-            decoding="async"
-            width="4192"
-            height="2355"
-          />
-        </div>
-        <div class="hero-slide">
-          <img
-            data-src="images/29.jpg"
-            alt=""
-            aria-hidden="true"
-            width="1920"
-            height="1071"
-          />
-        </div>
-        <div class="hero-slide">
-          <img
-            data-src="images/26.jpg"
-            alt=""
-            aria-hidden="true"
-            width="1920"
-            height="1071"
-          />
-        </div>
-        <div class="hero-slide">
-          <img
-            data-src="images/italy_1.jpg"
-            alt=""
-            aria-hidden="true"
-            width="2200"
-            height="1228"
-          />
-        </div>
-        <div class="hero-slide">
-          <img
-            data-src="images/espanha_1.jpg"
-            alt=""
-            aria-hidden="true"
-            width="2752"
-            height="1536"
-          />
-        </div>
+        <video
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          poster="images/2.jpg"
+          aria-hidden="true"
+        >
+          <source src="images/hero_slide.webm" type="video/webm" />
+        </video>
       </div>
       <div class="hero-overlay"></div>
       <div class="wrap hero-top">
@@ -1992,10 +1966,10 @@
             opacity: 0;
             animation: fade 1s 0.2s var(--ease) forwards;
           "
-          data-en="Factory Studio — Archviz Studio, Curitiba/PR"
-          data-pt="Factory Studio — Estúdio de Archviz, Curitiba/PR"
+          data-en="Creative studio for archviz & real estate"
+          data-pt="Estúdio criativo para archviz & real estate"
         >
-          Factory Studio — Estúdio de Archviz, Curitiba/PR
+          Estúdio criativo para archviz & real estate
         </p>
         <h1>
           <span class="row"
@@ -2016,15 +1990,15 @@
         <div class="hero-meta">
           <p
             class="lede"
-            data-en="We are Factory Studio, an archviz studio based in Curitiba, Paraná. Crafting high-end real-time experiences for architecture and real estate, from interactive launching pages to browser-based 3D applications. Focused on performance, optimization and cinematic quality. Precisely planned, cleanly executed, measurably fast."
-            data-pt="Somos a Factory Studio, um estúdio de archviz sediado em Curitiba, Paraná. Criamos experiências em tempo real de alto nível para arquitetura e mercado imobiliário, de launching pages interativas a aplicações 3D direto no navegador. Foco em performance, otimização e qualidade cinematográfica. Planejado com precisão, executado com limpeza, mensuravelmente rápido."
+            data-en="Factory Studio is a creative studio for architecture and real estate. We produce images, films and interactive digital experiences — from launching pages to browser-based 3D applications — for developers, practices and studios that need to show what hasn't been built yet. We create possibilities for the people who create images. Based in Curitiba, Brazil, working worldwide."
+            data-pt="A Factory Studio é um estúdio criativo para arquitetura e mercado imobiliário. Produzimos imagens, filmes e experiências digitais interativas — de launching pages a aplicações 3D no navegador — para incorporadoras, escritórios e estúdios que precisam mostrar o que ainda não foi construído. Criamos possibilidades para quem cria imagens. Sediados em Curitiba, PR, atendendo o Brasil e o mundo."
           >
-            Somos a Factory Studio, um estúdio de archviz sediado em Curitiba,
-            Paraná. Criamos experiências em tempo real de alto nível para
-            arquitetura e mercado imobiliário, de launching pages interativas a
-            aplicações 3D direto no navegador. Foco em performance, otimização e
-            qualidade cinematográfica. Planejado com precisão, executado com
-            limpeza, mensuravelmente rápido.
+            A Factory Studio é um estúdio criativo para arquitetura e mercado
+            imobiliário. Produzimos imagens, filmes e experiências digitais
+            interativas — de launching pages a aplicações 3D no navegador — para
+            incorporadoras, escritórios e estúdios que precisam mostrar o que
+            ainda não foi construído. Criamos possibilidades para quem cria
+            imagens. Sediados em Curitiba, PR, atendendo o Brasil e o mundo.
           </p>
           <div class="facts">
             <div class="fact">
@@ -2853,13 +2827,13 @@
         </h2>
         <p
           class="rv"
-          data-en="Open to collaborations in realtime, visualization and front-end development — based in Curitiba, PR, serving clients across Brazil and internationally, remote and reliable. Let's build something extraordinary together."
-          data-pt="Abertos a colaborações em tempo real, visualização e desenvolvimento front-end — sediados em Curitiba, PR, atendendo clientes em todo o Brasil e internacionalmente, remoto e confiável. Vamos construir algo extraordinário juntos."
+          data-en="Open to work on images, films and digital experiences for architecture and real estate — based in Curitiba, PR, serving clients across Brazil and abroad, remote and reliable. Let's create something extraordinary together."
+          data-pt="Abertos a projetos de imagens, filmes e experiências digitais para arquitetura e mercado imobiliário — sediados em Curitiba, PR, atendendo clientes em todo o Brasil e no exterior, remoto e confiável. Vamos criar algo extraordinário juntos."
         >
-          Abertos a colaborações em tempo real, visualização e desenvolvimento
-          front-end — sediados em Curitiba, PR, atendendo clientes em todo o
-          Brasil e internacionalmente, remoto e confiável. Vamos construir algo
-          extraordinário juntos.
+          Abertos a projetos de imagens, filmes e experiências digitais para
+          arquitetura e mercado imobiliário — sediados em Curitiba, PR, atendendo
+          clientes em todo o Brasil e no exterior, remoto e confiável. Vamos
+          criar algo extraordinário juntos.
         </p>
         <div class="links rv">
           <a href="mailto:escrevaparajd@gmail.com">
@@ -2888,9 +2862,9 @@
       <div class="foot-in">
         <span>© 2026 Factory Studio</span>
         <span
-          data-en="Archviz &amp; Digital Experiences"
-          data-pt="Archviz &amp; Experiências Digitais"
-          >Archviz &amp; Experiências Digitais</span
+          data-en="Images, films &amp; digital experiences"
+          data-pt="Imagens, filmes &amp; experiências digitais"
+          >Imagens, filmes &amp; experiências digitais</span
         >
         <span data-en="Crafted with precision" data-pt="Feito com precisão"
           >Feito com precisão</span
@@ -2908,35 +2882,24 @@
         window.addEventListener("scroll", updateDockScroll, { passive: true });
       }
 
-      // ── Hero Slideshow ────────────────────────────────────────────
-      const heroSlides = document.querySelectorAll(".hero-slide");
-      let curHeroSlide = 0;
-      const SLIDE_DURATION = 5000;
-
-      function loadSlide(idx) {
-        const slide = heroSlides[idx];
-        if (!slide) return;
-        const img = slide.querySelector("img[data-src]");
-        if (!img) return;
-        const source = slide.querySelector("source[data-srcset]");
-        if (source) {
-          source.srcset = source.dataset.srcset;
-          source.removeAttribute("data-srcset");
+      // ── Hero Video ────────────────────────────────────────────────
+      const heroVideo = document.querySelector(".hero-video");
+      if (heroVideo) {
+        const revealHero = () => heroVideo.classList.add("is-ready");
+        if (heroVideo.readyState >= 2) revealHero();
+        heroVideo.addEventListener("loadeddata", revealHero, { once: true });
+        // fallback: reveal even if the browser stalls the video
+        setTimeout(revealHero, 2500);
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (reduceMotion) {
+          heroVideo.removeAttribute("autoplay");
+          heroVideo.pause();
+        } else {
+          const playAttempt = heroVideo.play();
+          if (playAttempt && playAttempt.catch) playAttempt.catch(() => {});
         }
-        img.src = img.dataset.src;
-        img.removeAttribute("data-src");
-      }
-
-      window.addEventListener("load", () => loadSlide(1));
-
-      if (heroSlides.length) {
-        setInterval(() => {
-          heroSlides[curHeroSlide].classList.remove("active");
-          curHeroSlide = (curHeroSlide + 1) % heroSlides.length;
-          loadSlide(curHeroSlide);
-          loadSlide((curHeroSlide + 1) % heroSlides.length);
-          heroSlides[curHeroSlide].classList.add("active");
-        }, SLIDE_DURATION);
       }
 
       // ── Sprachschalter ────────────────────────────────────────────
